@@ -1,0 +1,28 @@
+{
+    "name": "jsyntax.js",
+    "title": "Syntax.js",
+    "description": "A lightweight, and easy-to-use, JavaScript library for code syntax highlighting!",
+    "version": "1.5.1",
+    "main": "dist/syntax.js",
+    "author": {
+      "name": "Bunoon"
+    },
+    "repository": {
+      "type": "git",
+      "url": "https://github.com/williamtroup/Syntax.js"
+    },
+    "keywords": [
+      "javascript",
+      "css",
+      "highlight",
+      "syntax-highlighting",
+      "html5",
+      "code",
+      "code-highlighter",
+      "Syntax.js"
+    ],
+    "bugs": {
+      "url": "https://github.com/williamtroup/Syntax.js/issues"
+    },
+    "license": "MIT"
+  }
