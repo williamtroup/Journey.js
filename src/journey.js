@@ -12,7 +12,9 @@
 
 
 ( function() {
-    var // Variables: Constructor Parameters
+    var _this = this,
+
+        // Variables: Constructor Parameters
         _parameter_Document = null,
         _parameter_Window = null,
 
@@ -62,12 +64,12 @@
         _element_Dialog.appendChild( buttons );
 
         _element_Dialog_Previous_Button = createElement( "button", "previous" );
-        _element_Dialog_Previous_Button.innerHTML = "Previous";
+        _element_Dialog_Previous_Button.innerHTML = _configuration.previousButtonText;
         _element_Dialog_Previous_Button.onclick = onDialogPrevious;
         buttons.appendChild( _element_Dialog_Previous_Button );
 
         _element_Dialog_Next_Button = createElement( "button", "next" );
-        _element_Dialog_Next_Button.innerHTML = "Next";
+        _element_Dialog_Next_Button.innerHTML = _configuration.nextButtonText;
         _element_Dialog_Next_Button.onclick = onDialogNext;
         buttons.appendChild( _element_Dialog_Next_Button );
     }
@@ -79,20 +81,23 @@
             _elements_Attributes_Position = _elements_Attributes_Keys.length - 1;
         }
 
-        setDialogPosition();
+        showDialogAndSetPosition();
     }
 
     function onDialogNext() {
         _elements_Attributes_Position++;
 
         if ( _elements_Attributes_Position > _elements_Attributes_Keys.length - 1 ) {
-            _elements_Attributes_Position = 0;
-        }
+            hideDialog();
 
-        setDialogPosition();
+            _elements_Attributes_Position = 0;
+
+        } else {
+            showDialogAndSetPosition();
+        }
     }
 
-    function setDialogPosition() {
+    function showDialogAndSetPosition() {
         var bindingOptions = _elements_Attributes_Json[ _elements_Attributes_Keys[ _elements_Attributes_Position ] ];
 
         if ( isDefined( bindingOptions ) && isDefined( bindingOptions.element ) ) {
@@ -101,18 +106,34 @@
                 top = ( offset.top - scrollPosition.top ) + bindingOptions.element.offsetHeight,
                 left = ( offset.left - scrollPosition.left );
 
+            _element_Dialog_Previous_Button.disabled = _elements_Attributes_Position === 0;
+            
+            if ( _elements_Attributes_Position >= _elements_Attributes_Keys.length - 1 ) {
+                _element_Dialog_Next_Button.innerHTML = _configuration.finishButtonText;
+            } else {
+                _element_Dialog_Next_Button.innerHTML = _configuration.nextButtonText;
+            }
+
             if ( isDefinedString( bindingOptions.title ) ) {
                 _element_Dialog_Title.innerHTML = bindingOptions.title;
+            } else {
+                _element_Dialog_Title.innerHTML = _string.empty;
             }
 
             if ( isDefinedString( bindingOptions.description ) ) {
                 _element_Dialog_Description.innerHTML = bindingOptions.description;
+            } else {
+                _element_Dialog_Description.innerHTML = _string.empty;
             }
 
             _element_Dialog.style.display = "block";
             _element_Dialog.style.top = top + "px";
             _element_Dialog.style.left = left + "px";
         }
+    }
+
+    function hideDialog() {
+        _element_Dialog.style.display = "none";
     }
 
     
@@ -417,6 +438,9 @@
     function buildDefaultConfiguration() {
         _configuration.safeMode = getDefaultBoolean( _configuration.safeMode, true );
         _configuration.domElementTypes = getDefaultStringOrArray( _configuration.domElementTypes, [ "*" ] );
+        _configuration.previousButtonText = getDefaultString( _configuration.previousButtonText, "Previous" );
+        _configuration.nextButtonText = getDefaultString( _configuration.nextButtonText, "Next" );
+        _configuration.finishButtonText = getDefaultString( _configuration.finishButtonText, "Finish" );
     }
 
 
@@ -434,7 +458,7 @@
      * @public
      */
     this.show = function() {
-        setDialogPosition();
+        showDialogAndSetPosition();
     };
 
     /**
@@ -445,6 +469,7 @@
      * @public
      */
     this.hide = function() {
+        hideDialog();
     };
 
 
