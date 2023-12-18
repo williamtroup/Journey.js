@@ -33,6 +33,9 @@
         _elements_Attributes_Keys = [],
         _elements_Attributes_Position = 0,
 
+        // Variables: Focus Element
+        _element_Focus_Element_PositionStyle = null,
+
         // Variables: Disabled Background
         _element_Disabled_Background = null,
 
@@ -98,7 +101,7 @@
 
     function onDialogPrevious() {
         removeFocusClassFromLastElement();
-        
+
         _elements_Attributes_Position--;
 
         if ( _elements_Attributes_Position < 0 ) {
@@ -134,7 +137,13 @@
             var offset = getOffset( bindingOptions.element ),
                 scrollPosition = getScrollPosition(),
                 top = ( offset.top - scrollPosition.top ) + bindingOptions.element.offsetHeight,
-                left = ( offset.left - scrollPosition.left );
+                left = ( offset.left - scrollPosition.left ),
+                lastPositionStyle = getStyleValueByName( bindingOptions.element, "position" );
+
+            if ( lastPositionStyle !== _string.empty && lastPositionStyle.toLowerCase() === "static" ) {
+                _element_Focus_Element_PositionStyle = lastPositionStyle;
+                bindingOptions.element.style.position = "relative";
+            }
 
             _element_Dialog_Previous_Button.disabled = _elements_Attributes_Position === 0;
             
@@ -173,6 +182,10 @@
 
         if ( isDefined( element ) ) {
             element.className = element.className.replace( _string.space + "journey-js-element-focus", _string.empty );
+
+            if ( isDefined( _element_Focus_Element_PositionStyle ) ) {
+                element.style.position = _element_Focus_Element_PositionStyle;
+            }
         }
     }
 
@@ -360,6 +373,39 @@
         };
     }
 
+    function getStyleValueByName( element, stylePropertyName ) {
+        var value = null;
+
+        if ( _parameter_Window.getComputedStyle ) {
+            value = document.defaultView.getComputedStyle( element, null ).getPropertyValue( stylePropertyName ); 
+        }  
+        else if ( element.currentStyle ) {
+            value = element.currentStyle[ stylePropertyName ];
+        }                     
+
+        return value;
+    }
+
+    function addNode( parent, node ) {
+        try {
+            if ( !parent.contains( node ) ) {
+                parent.appendChild( node );
+            }
+        } catch ( e ) {
+            console.warn( e.message );
+        }
+    }
+
+    function removeNode( parent, node ) {
+        try {
+            if ( parent.contains( node ) ) {
+                parent.removeChild( node );
+            }
+        } catch ( e ) {
+            console.warn( e.message );
+        }
+    }
+
 
     /*
      * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -447,26 +493,6 @@
             parsed: parsed,
             result: result
         };
-    }
-
-    function addNode( parent, node ) {
-        try {
-            if ( !parent.contains( node ) ) {
-                parent.appendChild( node );
-            }
-        } catch ( e ) {
-            console.warn( e.message );
-        }
-    }
-
-    function removeNode( parent, node ) {
-        try {
-            if ( parent.contains( node ) ) {
-                parent.removeChild( node );
-            }
-        } catch ( e ) {
-            console.warn( e.message );
-        }
     }
 
 
