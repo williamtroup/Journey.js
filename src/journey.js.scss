@@ -48,10 +48,11 @@ div.journey-js-dialog {
     border: var(--border-size) solid var(--dialog-border-color);
     padding: 10px;
     font-family: 'Montserrat', sans-serif;
-    font-size: 0.8rem;
+    font-size: 0.9rem;
     z-index: 10;
     width: 300px;
     height: auto;
+    display: none;
 
     div.title {
         font-weight: 700;
@@ -62,6 +63,7 @@ div.journey-js-dialog {
     }
 
     div.buttons {
+        margin-top: 10px;
         text-align: right;
 
         button.previous,

@@ -28,6 +28,8 @@
         // Variables: Elements
         _elements_Type = {},
         _elements_Attributes_Json = {},
+        _elements_Attributes_Keys = [],
+        _elements_Attributes_Position = 0,
 
         // Variables: Dialog
         _element_Dialog = null,
@@ -71,11 +73,46 @@
     }
 
     function onDialogPrevious() {
+        _elements_Attributes_Position--;
 
+        if ( _elements_Attributes_Position < 0 ) {
+            _elements_Attributes_Position = _elements_Attributes_Keys.length - 1;
+        }
+
+        setDialogPosition();
     }
 
     function onDialogNext() {
+        _elements_Attributes_Position++;
 
+        if ( _elements_Attributes_Position > _elements_Attributes_Keys.length - 1 ) {
+            _elements_Attributes_Position = 0;
+        }
+
+        setDialogPosition();
+    }
+
+    function setDialogPosition() {
+        var bindingOptions = _elements_Attributes_Json[ _elements_Attributes_Keys[ _elements_Attributes_Position ] ];
+
+        if ( isDefined( bindingOptions ) && isDefined( bindingOptions.element ) ) {
+            var offset = getOffset( bindingOptions.element ),
+                scrollPosition = getScrollPosition(),
+                top = ( offset.top - scrollPosition.top ) + bindingOptions.element.offsetHeight,
+                left = ( offset.left - scrollPosition.left );
+
+            if ( isDefinedString( bindingOptions.title ) ) {
+                _element_Dialog_Title.innerHTML = bindingOptions.title;
+            }
+
+            if ( isDefinedString( bindingOptions.description ) ) {
+                _element_Dialog_Description.innerHTML = bindingOptions.description;
+            }
+
+            _element_Dialog.style.display = "block";
+            _element_Dialog.style.top = top + "px";
+            _element_Dialog.style.left = left + "px";
+        }
     }
 
     
@@ -113,9 +150,11 @@
 
                 if ( bindingOptions.parsed && isDefinedObject( bindingOptions.result ) ) {
                     bindingOptions = buildAttributeOptions( bindingOptions.result );
+                    bindingOptions.element = element;
 
                     if ( isDefinedNumber( bindingOptions.order ) ) {
                         _elements_Attributes_Json[ bindingOptions.order ] = bindingOptions;
+                        _elements_Attributes_Keys.push( bindingOptions.order );
                     }
 
                 } else {
@@ -230,6 +269,34 @@
             e.preventDefault();
             e.cancelBubble = true;
         }
+    }
+
+    function getOffset( element ) {
+        var left = 0,
+            top = 0;
+
+        while ( element && !isNaN( element.offsetLeft ) && !isNaN( element.offsetTop ) ) {
+            left += element.offsetLeft - element.scrollLeft;
+            top += element.offsetTop - element.scrollTop;
+
+            element = element.offsetParent;
+        }
+
+        return {
+            left: left,
+            top: top
+        };
+    }
+
+    function getScrollPosition() {
+        var doc = _parameter_Document.documentElement,
+            left = ( _parameter_Window.pageXOffset || doc.scrollLeft )  - ( doc.clientLeft || 0 ),
+            top = ( _parameter_Window.pageYOffset || doc.scrollTop ) - ( doc.clientTop || 0 );
+
+        return {
+            left: left,
+            top: top
+        };
     }
 
 
@@ -351,6 +418,34 @@
         _configuration.safeMode = getDefaultBoolean( _configuration.safeMode, true );
         _configuration.domElementTypes = getDefaultStringOrArray( _configuration.domElementTypes, [ "*" ] );
     }
+
+
+    /*
+     * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+     * Public Functions:  Show/Hide
+     * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+     */
+
+    /**
+     * show().
+     * 
+     * Shows the Journey.js dialog for the element in the last known position (defaults to the start).
+     * 
+     * @public
+     */
+    this.show = function() {
+        setDialogPosition();
+    };
+
+    /**
+     * hide().
+     * 
+     * Hides the Journey.js dialog.
+     * 
+     * @public
+     */
+    this.hide = function() {
+    };
 
 
     /*
