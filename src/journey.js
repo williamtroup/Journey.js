@@ -33,6 +33,9 @@
         _elements_Attributes_Keys = [],
         _elements_Attributes_Position = 0,
 
+        // Variables: Disabled Background
+        _element_Disabled_Background = null,
+
         // Variables: Dialog
         _element_Dialog = null,
         _element_Dialog_Title = null,
@@ -42,6 +45,25 @@
 
         // Variables: Attribute Names
         _attribute_Name_Journey = "data-journey";
+
+
+    /*
+     * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+     * Disabled Background
+     * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+     */
+
+    function renderDisabledBackground() {
+        _element_Disabled_Background = createElement( "div", "journey-js-disabled-background" );
+    }
+
+    function showDisabledBackground() {
+        addNode( _parameter_Document.body, _element_Disabled_Background );
+    }
+
+    function hideDisabledBackground() {
+        removeNode( _parameter_Document.body, _element_Disabled_Background );
+    }
 
 
     /*
@@ -75,6 +97,8 @@
     }
 
     function onDialogPrevious() {
+        removeFocusClassFromLastElement();
+        
         _elements_Attributes_Position--;
 
         if ( _elements_Attributes_Position < 0 ) {
@@ -85,6 +109,8 @@
     }
 
     function onDialogNext() {
+        removeFocusClassFromLastElement();
+
         _elements_Attributes_Position++;
 
         if ( _elements_Attributes_Position > _elements_Attributes_Keys.length - 1 ) {
@@ -101,6 +127,10 @@
         var bindingOptions = _elements_Attributes_Json[ _elements_Attributes_Keys[ _elements_Attributes_Position ] ];
 
         if ( isDefined( bindingOptions ) && isDefined( bindingOptions.element ) ) {
+            showDisabledBackground();
+
+            bindingOptions.element.className += _string.space + "journey-js-element-focus";
+
             var offset = getOffset( bindingOptions.element ),
                 scrollPosition = getScrollPosition(),
                 top = ( offset.top - scrollPosition.top ) + bindingOptions.element.offsetHeight,
@@ -133,7 +163,17 @@
     }
 
     function hideDialog() {
+        hideDisabledBackground();
+
         _element_Dialog.style.display = "none";
+    }
+
+    function removeFocusClassFromLastElement() {
+        var element = _elements_Attributes_Json[ _elements_Attributes_Keys[ _elements_Attributes_Position ] ].element;
+
+        if ( isDefined( element ) ) {
+            element.className = element.className.replace( _string.space + "journey-js-element-focus", _string.empty );
+        }
     }
 
     
@@ -143,7 +183,7 @@
      * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
      */
 
-    function render() {
+    function getElements() {
         var tagTypes = _configuration.domElementTypes,
             tagTypesLength = tagTypes.length;
 
@@ -153,14 +193,14 @@
                 elementsLength = elements.length;
 
             for ( var elementIndex = 0; elementIndex < elementsLength; elementIndex++ ) {
-                if ( !renderElement( elements[ elementIndex ] ) ) {
+                if ( !getElement( elements[ elementIndex ] ) ) {
                     break;
                 }
             }
         }
     }
 
-    function renderElement( element ) {
+    function getElement( element ) {
         var result = true;
 
         if ( isDefined( element ) && element.hasAttribute( _attribute_Name_Journey ) ) {
@@ -409,6 +449,26 @@
         };
     }
 
+    function addNode( parent, node ) {
+        try {
+            if ( !parent.contains( node ) ) {
+                parent.appendChild( node );
+            }
+        } catch ( e ) {
+            console.warn( e.message );
+        }
+    }
+
+    function removeNode( parent, node ) {
+        try {
+            if ( parent.contains( node ) ) {
+                parent.removeChild( node );
+            }
+        } catch ( e ) {
+            console.warn( e.message );
+        }
+    }
+
 
     /*
      * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -506,8 +566,9 @@
         buildDefaultConfiguration();
 
         _parameter_Document.addEventListener( "DOMContentLoaded", function() {
+            renderDisabledBackground();
             renderDialog();
-            render();
+            getElements();
         } );
 
         if ( !isDefined( _parameter_Window.$journey ) ) {

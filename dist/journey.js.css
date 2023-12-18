@@ -37,7 +37,7 @@ div.journey-js-dialog {
   padding: 10px;
   font-family: "Montserrat", sans-serif;
   font-size: 0.9rem;
-  z-index: 10;
+  z-index: 1001;
   width: 300px;
   height: auto;
   display: none;
@@ -66,4 +66,24 @@ div.journey-js-dialog div.buttons button.next:not([disabled]):hover {
   cursor: pointer;
   opacity: 0.7;
   transition: var(--transition);
+}
+
+/*
+    -------------------------------------------------------------------------
+    Journey.js - Disabled Background
+    -------------------------------------------------------------------------
+*/
+div.journey-js-disabled-background {
+  z-index: 1000;
+  position: fixed;
+  background-color: #000000;
+  background-color: rgba(0, 0, 0, 0.5);
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+}
+
+.journey-js-element-focus {
+  z-index: 1001 !important;
 }/*# sourceMappingURL=journey.js.css.map */
