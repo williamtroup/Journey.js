@@ -168,6 +168,8 @@
             _element_Dialog.style.display = "block";
             _element_Dialog.style.top = top + "px";
             _element_Dialog.style.left = left + "px";
+
+            fireCustomTrigger( bindingOptions.onActivate, element );
         }
     }
 
