@@ -1,1 +1,18 @@
-/*# sourceMappingURL=journey.js.css.map */
+/*
+ * Journey.js Library v0.1.0
+ *
+ * Copyright 2023 Bunoon
+ * Released under the MIT License
+ */
+/*
+    -------------------------------------------------------------------------
+    Journey.js - Variables
+    -------------------------------------------------------------------------
+*/
+:root {
+  --color-black: #3b3a3a;
+  --color-white: #F5F5F5;
+  --border-radius: 0.5rem;
+  --border-size: 0.5px;
+  --transition: all .3s;
+}/*# sourceMappingURL=journey.js.css.map */
