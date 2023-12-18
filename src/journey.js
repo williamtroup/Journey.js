@@ -28,8 +28,54 @@
         // Variables: Elements
         _elements_Type = {},
 
+        // Variables: Dialog
+        _element_Dialog = null,
+        _element_Dialog_Title = null,
+        _element_Dialog_Description = null,
+        _element_Dialog_Previous_Button = null,
+        _element_Dialog_Next_Button = null,
+
         // Variables: Attribute Names
         _attribute_Name_Journey = "data-journey";
+
+
+    /*
+     * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+     * Dialog
+     * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+     */
+
+    function renderDialog() {
+        _element_Dialog = createElement( "div", "journey-js-dialog" );
+        _parameter_Document.body.appendChild( _element_Dialog );
+
+        _element_Dialog_Title = createElement( "div", "title" );
+        _element_Dialog.appendChild( _element_Dialog_Title );
+
+        _element_Dialog_Description = createElement( "div", "description" );
+        _element_Dialog.appendChild( _element_Dialog_Description );
+
+        var buttons = createElement( "div", "buttons" );
+        _element_Dialog.appendChild( buttons );
+
+        _element_Dialog_Previous_Button = createElement( "button", "previous" );
+        _element_Dialog_Previous_Button.innerHTML = "Previous";
+        _element_Dialog_Previous_Button.onclick = onDialogPrevious;
+        buttons.appendChild( _element_Dialog_Previous_Button );
+
+        _element_Dialog_Next_Button = createElement( "button", "next" );
+        _element_Dialog_Next_Button.innerHTML = "Next";
+        _element_Dialog_Next_Button.onclick = onDialogNext;
+        buttons.appendChild( _element_Dialog_Next_Button );
+    }
+
+    function onDialogPrevious() {
+
+    }
+
+    function onDialogNext() {
+
+    }
 
     
     /*
@@ -335,6 +381,7 @@
         buildDefaultConfiguration();
 
         _parameter_Document.addEventListener( "DOMContentLoaded", function() {
+            renderDialog();
             render();
         } );
 
