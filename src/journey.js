@@ -12,9 +12,7 @@
 
 
 ( function() {
-    var _this = this,
-
-        // Variables: Constructor Parameters
+    var // Variables: Constructor Parameters
         _parameter_Document = null,
         _parameter_Window = null,
 
@@ -169,7 +167,7 @@
             _element_Dialog.style.top = top + "px";
             _element_Dialog.style.left = left + "px";
 
-            fireCustomTrigger( bindingOptions.onActivate, element );
+            fireCustomTrigger( bindingOptions.onActivate, bindingOptions.element );
         }
     }
 
@@ -338,13 +336,6 @@
         }
 
         return result;
-    }
-
-    function cancelBubble( e ) {
-        if ( e !== null ) {
-            e.preventDefault();
-            e.cancelBubble = true;
-        }
     }
 
     function getOffset( element ) {
