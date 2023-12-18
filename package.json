@@ -1,28 +1,24 @@
 {
-    "name": "jsyntax.js",
-    "title": "Syntax.js",
-    "description": "A lightweight, and easy-to-use, JavaScript library for code syntax highlighting!",
-    "version": "1.5.1",
-    "main": "dist/syntax.js",
+    "name": "jjourney.js",
+    "title": "Journey.js",
+    "description": "A lightweight, and easy-to-use, JavaScript library for a website walk-through guide!",
+    "version": "0.1.0",
+    "main": "dist/journey.js",
     "author": {
       "name": "Bunoon"
     },
     "repository": {
       "type": "git",
-      "url": "https://github.com/williamtroup/Syntax.js"
+      "url": "https://github.com/williamtroup/Journey.js"
     },
     "keywords": [
       "javascript",
       "css",
-      "highlight",
-      "syntax-highlighting",
       "html5",
-      "code",
-      "code-highlighter",
-      "Syntax.js"
+      "Journey.js"
     ],
     "bugs": {
-      "url": "https://github.com/williamtroup/Syntax.js/issues"
+      "url": "https://github.com/williamtroup/Journey.js/issues"
     },
     "license": "MIT"
   }
