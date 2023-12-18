@@ -12,6 +12,7 @@
 :root {
   --color-black: #3b3a3a;
   --color-white: #F5F5F5;
+  --color-gray: #AAAAAA;
   --dialog-background-color: #002244;
   --dialog-text-color: var(--color-white);
   --dialog-border-color: #72A0C1;
@@ -43,6 +44,7 @@ div.journey-js-dialog {
   display: none;
 }
 div.journey-js-dialog div.title {
+  font-size: large;
   font-weight: 700;
 }
 div.journey-js-dialog div.description {
@@ -66,6 +68,10 @@ div.journey-js-dialog div.buttons button.next:not([disabled]):hover {
   cursor: pointer;
   opacity: 0.7;
   transition: var(--transition);
+}
+div.journey-js-dialog div.buttons button.previous:disabled,
+div.journey-js-dialog div.buttons button.next:disabled {
+  color: var(--color-gray);
 }
 
 /*
