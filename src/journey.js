@@ -27,6 +27,7 @@
 
         // Variables: Elements
         _elements_Type = {},
+        _elements_Attributes_Json = {},
 
         // Variables: Dialog
         _element_Dialog = null,
@@ -112,6 +113,10 @@
 
                 if ( bindingOptions.parsed && isDefinedObject( bindingOptions.result ) ) {
                     bindingOptions = buildAttributeOptions( bindingOptions.result );
+
+                    if ( isDefinedNumber( bindingOptions.order ) ) {
+                        _elements_Attributes_Json[ bindingOptions.order ] = bindingOptions;
+                    }
 
                 } else {
                     if ( !_configuration.safeMode ) {
