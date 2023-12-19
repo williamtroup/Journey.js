@@ -22,6 +22,8 @@
   --dialog-button-hover-background-color: #007FFF;
   --dialog-button-hover-border-color: var(--dialog-button-border-color);
   --dialog-button-hover-text-color: var(--dialog-button-text-color);
+  --dialog-close-button-color: var(--color-white);
+  --dialog-close-button-hover-color: var(--dialog-button-hover-background-color);
   --border-radius: 0.5rem;
   --border-size: 0.5px;
   --transition: all .3s;
@@ -45,6 +47,40 @@ div.journey-js-dialog {
   width: 300px;
   height: auto;
   display: none;
+}
+div.journey-js-dialog button.close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 1.1rem;
+  height: 1.1rem;
+  border-radius: 0.25rem;
+  padding: 0;
+  background-color: transparent;
+  border: var(--border-size) solid var(--dialog-close-button-color);
+}
+div.journey-js-dialog button.close::before, div.journey-js-dialog button.close::after {
+  content: "";
+  width: 1px;
+  height: 100%;
+  background: var(--dialog-close-button-color);
+  display: block;
+  transform: rotate(45deg) translateX(0px);
+  position: absolute;
+  left: 50%;
+  top: 0;
+}
+div.journey-js-dialog button.close::after {
+  transform: rotate(-45deg) translateX(0px);
+}
+div.journey-js-dialog button.close:hover {
+  cursor: pointer;
+  border: var(--border-size) solid var(--dialog-close-button-hover-color);
+  transition: var(--transition);
+}
+div.journey-js-dialog button.close:hover::before, div.journey-js-dialog button.close:hover::after {
+  background: var(--dialog-close-button-hover-color);
+  transition: var(--transition);
 }
 div.journey-js-dialog div.title {
   font-size: large;

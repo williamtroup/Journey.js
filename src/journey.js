@@ -77,6 +77,10 @@
         _element_Dialog = createElement( "div", "journey-js-dialog" );
         _parameter_Document.body.appendChild( _element_Dialog );
 
+        var closeButton = createElement( "button", "close" );
+        closeButton.onclick = hideDialog;
+        _element_Dialog.appendChild( closeButton );
+
         _element_Dialog_Title = createElement( "div", "title" );
         _element_Dialog.appendChild( _element_Dialog_Title );
 
