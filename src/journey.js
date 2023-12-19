@@ -532,7 +532,7 @@
      * 
      * @public
      * 
-     * @param       {Options}   newConfiguration                            All the configuration options that should be set (refer to "Options" documentation for properties).
+     * @param       {Object}   newConfiguration                             All the configuration options that should be set (refer to "Configuration Options" documentation for properties).
      * 
      * @returns     {Object}                                                The Journey.js class instance.
      */
