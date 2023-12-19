@@ -1,7 +1,7 @@
 # Journey.js - Change Log:
 
 ## Version 0.2.1:
--
+- Added Code of Conduct, Contributing, and Security Policy.
 
 <br>
 
