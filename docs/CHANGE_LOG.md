@@ -1,5 +1,11 @@
 # Journey.js - Change Log:
 
+## Version 0.2.1:
+-
+
+<br>
+
+
 ## Version 0.2.0:
 
 #### **Binding Options:**
