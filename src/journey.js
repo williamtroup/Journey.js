@@ -167,11 +167,11 @@
             _element_Dialog.style.display = "block";
 
             if ( left + _element_Dialog.offsetWidth > _parameter_Window.innerWidth ) {
-                left -= ( _element_Dialog.offsetWidth - bindingOptions.element.offsetWidth );
+                left -= ( _element_Dialog.offsetWidth + bindingOptions.element.offsetWidth );
             }
     
             if ( top + _element_Dialog.offsetHeight > _parameter_Window.innerHeight ) {
-                top -= ( _element_Dialog.offsetHeight - bindingOptions.element.offsetHeight );
+                top -= ( _element_Dialog.offsetHeight + bindingOptions.element.offsetHeight );
             }
 
             _element_Dialog.style.top = top + "px";
