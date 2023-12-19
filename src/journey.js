@@ -119,9 +119,6 @@
 
         if ( _elements_Attributes_Position > _elements_Attributes_Keys.length - 1 ) {
             hideDialog();
-
-            _elements_Attributes_Position = 0;
-
         } else {
             showDialogAndSetPosition();
         }
@@ -559,6 +556,10 @@
      * @public
      */
     this.show = function() {
+        if ( _elements_Attributes_Position > _elements_Attributes_Keys.length - 1 ) {
+            _elements_Attributes_Position = 0;
+        }
+
         showDialogAndSetPosition();
     };
 
@@ -585,6 +586,19 @@
     this.isOpen = function() {
         return _element_Dialog.style.display === "block";
     };
+
+    /**
+     * isComplete().
+     * 
+     * Returns a flag that states if the full journey has been completed.
+     * 
+     * @public
+     * 
+     * @returns     {boolean}                                               The flag that states if the full journey has been completed.
+     */
+    this.isComplete = function() {
+        return _elements_Attributes_Position >= _elements_Attributes_Keys.length - 1;
+    }
 
 
     /*
