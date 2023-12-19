@@ -116,6 +116,9 @@ div.journey-js-dialog div.buttons button.next:disabled {
   background-color: var(--dialog-button-disabled-background-color) !important;
   color: var(--color-gray);
 }
+div.journey-js-dialog div.buttons button.next {
+  font-weight: 700;
+}
 
 /*
     -------------------------------------------------------------------------
