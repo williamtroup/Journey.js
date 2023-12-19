@@ -7,7 +7,7 @@
 [![discussions Welcome](https://img.shields.io/badge/discussions-Welcome-red)](https://github.com/williamtroup/Journey.js/discussions)
 [![coded by William Troup](https://img.shields.io/badge/coded_by-William_Troup-yellow)](https://github.com/williamtroup)
 
-> A lightweight, and easy-to-use, JavaScript library for building a website walk-through guide!
+> 🚶 A lightweight, and easy-to-use, JavaScript library for building a website walk-through guide!
 
 
 ## What features does Journey.js have?

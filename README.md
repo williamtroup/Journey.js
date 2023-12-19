@@ -9,7 +9,7 @@ Journey.js
 [![coded by William Troup](https://img.shields.io/badge/coded_by-William_Troup-yellow)](https://github.com/williamtroup)
 </h1>
 
-> <p align="center">A lightweight, and easy-to-use, JavaScript library for building a website walk-through guide!</p>
+> <p align="center">🚶 A lightweight, and easy-to-use, JavaScript library for building a website walk-through guide!</p>
 > <p align="center">v0.2.0</p>
 <br />
 
