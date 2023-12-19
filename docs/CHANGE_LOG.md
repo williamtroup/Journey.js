@@ -9,7 +9,7 @@
 - Added a new binding custom trigger called "onClose", which states an event that should be triggered when the dialog is closed on a specific DOM element.
 
 #### **Configuration Options:**
-- Added new configuration option "showCloseButton" (defaults to true), which states if the close button is shown on the dialog.
+- Added a new configuration option "showCloseButton" (defaults to true), which states if the close button is shown on the dialog.
 - Calling "setConfiguration()" when the dialog is open will now close it and force the guide back to the start of the journey.
 
 #### **Documentation:**
