@@ -3,7 +3,7 @@
 Below are all the JSON properties that can be passed in the "data-journey-options" binding attribute for a DOM element.
 
 
-### Standard Options:
+## Standard Options:
 <br/>
 
 | Type: | Name: | Description: |
@@ -12,7 +12,7 @@ Below are all the JSON properties that can be passed in the "data-journey-option
 <br/>
 
 
-### Translatable String Options:
+## Translatable String Options:
 <br/>
 
 | Type: | Name: | Description: |

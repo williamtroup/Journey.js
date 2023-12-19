@@ -158,6 +158,27 @@
     }
     return result;
   }
+  function buildDocumentEvents(addEvents) {
+    addEvents = isDefined(addEvents) ? addEvents : true;
+    var documentFunc = addEvents ? _parameter_Document.addEventListener : _parameter_Document.removeEventListener;
+    if (_configuration.shortcutKeysEnabled) {
+      documentFunc("keydown", onWindowKeyDown);
+    }
+  }
+  function onWindowKeyDown(e) {
+    if (_this.isOpen()) {
+      if (e.keyCode === _enum_KeyCodes.escape) {
+        e.preventDefault();
+        onDialogClose();
+      } else if (e.keyCode === _enum_KeyCodes.left) {
+        e.preventDefault();
+        onDialogPrevious();
+      } else if (e.keyCode === _enum_KeyCodes.right) {
+        e.preventDefault();
+        onDialogNext();
+      }
+    }
+  }
   function buildAttributeOptions(newOptions) {
     var options = !isDefinedObject(newOptions) ? {} : newOptions;
     options.order = getDefaultNumber(options.order, 0);
@@ -313,11 +334,13 @@
     _configuration.nextButtonText = getDefaultString(_configuration.nextButtonText, "Next");
     _configuration.finishButtonText = getDefaultString(_configuration.finishButtonText, "Finish");
     _configuration.showCloseButton = getDefaultBoolean(_configuration.showCloseButton, true);
+    _configuration.shortcutKeysEnabled = getDefaultBoolean(_configuration.shortcutKeysEnabled, true);
   }
   var _this = this;
   var _parameter_Document = null;
   var _parameter_Window = null;
   var _configuration = {};
+  var _enum_KeyCodes = {escape:27, left:37, right:39};
   var _string = {empty:"", space:" "};
   var _elements_Type = {};
   var _elements_Attributes_Json = {};
@@ -367,6 +390,7 @@
       renderDisabledBackground();
       renderDialog();
       getElements();
+      buildDocumentEvents();
     });
     if (!isDefined(_parameter_Window.$journey)) {
       _parameter_Window.$journey = this;

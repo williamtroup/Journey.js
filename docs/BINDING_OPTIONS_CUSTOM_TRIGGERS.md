@@ -5,7 +5,7 @@ Below is a list of all the custom triggers supported in the "data-journey-option
 <br>
 
 
-<h1>For Viewing:</h1>
+## For Viewing:
 
 ### options.onEnter( *element* ):
 Fires when the the dialog is shown for a specific DOM element.

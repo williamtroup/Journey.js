@@ -5,7 +5,7 @@ Below is a list of all the public functions that can be called from the Journey.
 <br>
 
 
-<h1>Show/Hide:</h1>
+## Show/Hide:
 
 ### **show()**:
 Shows the Journey.js dialog for the element in the last known position (defaults to the start).
@@ -26,10 +26,10 @@ Returns a flag that states if the dialog is opened.
 Returns a flag that states if the full journey has been completed.
 <br>
 ***Returns***: '*boolean*' - The flag that states if the full journey has been completed.
-
-
 <br>
-<h1>Configuration:</h1>
+
+
+## Configuration:
 
 ### **setConfiguration( *newOptions* )**:
 Sets the specific configuration options that should be used.
@@ -37,10 +37,10 @@ Sets the specific configuration options that should be used.
 ***Parameter: newOptions***: '*Options*' - All the configuration options that should be set (refer to ["Configuration Options"](CONFIGURATION_OPTIONS.md) documentation for properties).
 <br>
 ***Returns***: '*Object*' - The Journey.js class instance.
-
-
 <br>
-<h1>Additional Data:</h1>
+
+
+## Additional Data:
 
 ### **getVersion()**:
 Returns the version of Journey.js.
