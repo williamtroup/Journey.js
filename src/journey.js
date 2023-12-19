@@ -45,7 +45,7 @@
         _element_Dialog_Next_Button = null,
 
         // Variables: Attribute Names
-        _attribute_Name_Journey = "data-journey";
+        _attribute_Name_Journey = "data-journey-options";
 
 
     /*
