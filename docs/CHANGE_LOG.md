@@ -8,7 +8,8 @@
 - Spacing is now applied for the first item in the dialog (to prevent overlaps with the close button).
 - Internal cleanups of the core JS code.
 - Added new configuration option "showCloseButton" (defaults to true), which states if the close button is shown on the dialog.
-- 
+- Calling "setConfiguration()" when the dialog is open will now close it and force the guide back to the start of the journey.
+- Fixed the testing HTML files referencing the wrong global JS variable.
 
 <br>
 

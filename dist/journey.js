@@ -313,6 +313,7 @@
     _configuration.finishButtonText = getDefaultString(_configuration.finishButtonText, "Finish");
     _configuration.showCloseButton = getDefaultBoolean(_configuration.showCloseButton, true);
   }
+  var _this = this;
   var _parameter_Document = null;
   var _parameter_Window = null;
   var _configuration = {};
@@ -333,6 +334,10 @@
   this.setConfiguration = function(newOptions) {
     _configuration = !isDefinedObject(newOptions) ? {} : newOptions;
     buildDefaultConfiguration();
+    if (_this.isOpen()) {
+      onDialogClose();
+      _elements_Attributes_Position = 0;
+    }
     return this;
   };
   this.show = function() {

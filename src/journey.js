@@ -12,7 +12,9 @@
 
 
 ( function() {
-    var // Variables: Constructor Parameters
+    var _this = this,
+
+        // Variables: Constructor Parameters
         _parameter_Document = null,
         _parameter_Window = null,
 
@@ -540,6 +542,12 @@
         _configuration = !isDefinedObject( newOptions ) ? {} : newOptions;
         
         buildDefaultConfiguration();
+
+        if ( _this.isOpen() ) {
+            onDialogClose();
+
+            _elements_Attributes_Position = 0;
+        }
 
         return this;
     };
