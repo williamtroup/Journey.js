@@ -4,7 +4,7 @@
  * A lightweight, and easy-to-use, JavaScript library for building a website walk-through guide!
  * 
  * @file        journey.js
- * @version     v0.1.0
+ * @version     v0.2.0
  * @author      Bunoon
  * @license     MIT License
  * @copyright   Bunoon 2023
@@ -12,7 +12,9 @@
 
 
 ( function() {
-    var // Variables: Constructor Parameters
+    var _this = this,
+
+        // Variables: Constructor Parameters
         _parameter_Document = null,
         _parameter_Window = null,
 
@@ -39,6 +41,7 @@
 
         // Variables: Dialog
         _element_Dialog = null,
+        _element_Dialog_Close_Button = null,
         _element_Dialog_Title = null,
         _element_Dialog_Description = null,
         _element_Dialog_Previous_Button = null,
@@ -78,9 +81,9 @@
         _element_Dialog.style.display = "none";
         _parameter_Document.body.appendChild( _element_Dialog );
 
-        var closeButton = createElement( "button", "close" );
-        closeButton.onclick = hideDialog;
-        _element_Dialog.appendChild( closeButton );
+        _element_Dialog_Close_Button = createElement( "button", "close" );
+        _element_Dialog_Close_Button.onclick = onDialogClose;
+        _element_Dialog.appendChild( _element_Dialog_Close_Button );
 
         _element_Dialog_Title = createElement( "div", "title" );
         _element_Dialog.appendChild( _element_Dialog_Title );
@@ -100,6 +103,19 @@
         buttons.appendChild( _element_Dialog_Next_Button );
     }
 
+    function onDialogClose() {
+        var bindingOptions = _elements_Attributes_Json[ _elements_Attributes_Keys[ _elements_Attributes_Position ] ];
+
+        if ( isDefined( bindingOptions.element ) ) {
+            fireCustomTrigger( bindingOptions.onClose, bindingOptions.element );
+        }
+
+        removeFocusClassFromLastElement( false );
+        hideDisabledBackground();
+
+        _element_Dialog.style.display = "none";
+    }
+
     function onDialogPrevious() {
         removeFocusClassFromLastElement();
 
@@ -113,13 +129,14 @@
     }
 
     function onDialogNext() {
-        removeFocusClassFromLastElement();
+        if ( _elements_Attributes_Position === _elements_Attributes_Keys.length - 1 ) {
+            onDialogClose();
 
-        _elements_Attributes_Position++;
-
-        if ( _elements_Attributes_Position > _elements_Attributes_Keys.length - 1 ) {
-            hideDialog();
         } else {
+            removeFocusClassFromLastElement();
+
+            _elements_Attributes_Position++;
+
             showDialogAndSetPosition();
         }
     }
@@ -129,7 +146,8 @@
 
         if ( isDefined( bindingOptions ) && isDefined( bindingOptions.element ) ) {
             showDisabledBackground();
-
+            
+            _element_Dialog_Close_Button.style.display = _configuration.showCloseButton ? "block": "none";
             bindingOptions.element.className += _string.space + "journey-js-element-focus";
 
             var offset = getOffset( bindingOptions.element ),
@@ -181,13 +199,9 @@
         }
     }
 
-    function hideDialog() {
-        hideDisabledBackground();
+    function removeFocusClassFromLastElement( callCustomTrigger ) {
+        callCustomTrigger = isDefined( callCustomTrigger ) ? callCustomTrigger : true;
 
-        _element_Dialog.style.display = "none";
-    }
-
-    function removeFocusClassFromLastElement() {
         var bindingOptions = _elements_Attributes_Json[ _elements_Attributes_Keys[ _elements_Attributes_Position ] ];
 
         if ( isDefined( bindingOptions.element ) ) {
@@ -197,7 +211,9 @@
                 bindingOptions.element.style.position = _element_Focus_Element_PositionStyle;
             }
 
-            fireCustomTrigger( bindingOptions.onLeave, bindingOptions.element );
+            if ( callCustomTrigger ) {
+                fireCustomTrigger( bindingOptions.onLeave, bindingOptions.element );
+            }
         }
     }
 
@@ -240,7 +256,7 @@
                     bindingOptions = buildAttributeOptions( bindingOptions.result );
                     bindingOptions.element = element;
 
-                    if ( isDefinedNumber( bindingOptions.order ) ) {
+                    if ( isDefinedNumber( bindingOptions.order ) && ( isDefinedString( bindingOptions.title ) || isDefinedString( bindingOptions.description ) ) ) {
                         _elements_Attributes_Json[ bindingOptions.order ] = bindingOptions;
                         _elements_Attributes_Keys.push( bindingOptions.order );
                     }
@@ -289,6 +305,7 @@
     function buildAttributeOptionCustomTriggers( options ) {
         options.onEnter = getDefaultFunction( options.onEnter, null );
         options.onLeave = getDefaultFunction( options.onLeave, null );
+        options.onClose = getDefaultFunction( options.onClose, null );
 
         return options;
     }
@@ -517,7 +534,7 @@
      * 
      * @public
      * 
-     * @param       {Options}   newConfiguration                            All the configuration options that should be set (refer to "Options" documentation for properties).
+     * @param       {Object}   newConfiguration                             All the configuration options that should be set (refer to "Configuration Options" documentation for properties).
      * 
      * @returns     {Object}                                                The Journey.js class instance.
      */
@@ -525,6 +542,12 @@
         _configuration = !isDefinedObject( newOptions ) ? {} : newOptions;
         
         buildDefaultConfiguration();
+
+        if ( _this.isOpen() ) {
+            onDialogClose();
+
+            _elements_Attributes_Position = 0;
+        }
 
         return this;
     };
@@ -535,6 +558,7 @@
         _configuration.previousButtonText = getDefaultString( _configuration.previousButtonText, "Previous" );
         _configuration.nextButtonText = getDefaultString( _configuration.nextButtonText, "Next" );
         _configuration.finishButtonText = getDefaultString( _configuration.finishButtonText, "Finish" );
+        _configuration.showCloseButton = getDefaultBoolean( _configuration.showCloseButton, true );
     }
 
 
@@ -552,7 +576,7 @@
      * @public
      */
     this.show = function() {
-        if ( _elements_Attributes_Position > _elements_Attributes_Keys.length - 1 ) {
+        if ( _elements_Attributes_Position === _elements_Attributes_Keys.length - 1 ) {
             _elements_Attributes_Position = 0;
         }
 
@@ -567,7 +591,7 @@
      * @public
      */
     this.hide = function() {
-        hideDialog();
+        onDialogClose();
     };
 
     /**
@@ -613,7 +637,7 @@
      * @returns     {string}                                                The version number.
      */
     this.getVersion = function() {
-        return "0.1.0";
+        return "0.2.0";
     };
 
 

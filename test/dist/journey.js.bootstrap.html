@@ -45,8 +45,9 @@
         document.getElementById( "header" ).innerText += " - v" + $journey.getVersion();
 
         function setupConfiguration() {
-            $syntax.setConfiguration( {
-                safeMode: false
+            $journey.setConfiguration( {
+                safeMode: false,
+                showCloseButton: false
             } );
         }
     </script>

@@ -1,5 +1,5 @@
 /*
- * Journey.js Library v0.1.0
+ * Journey.js Library v0.2.0
  *
  * Copyright 2023 Bunoon
  * Released under the MIT License
@@ -88,10 +88,12 @@ div.journey-js-dialog button.close:hover::before, div.journey-js-dialog button.c
   background: var(--dialog-close-button-hover-color);
   transition: var(--transition);
 }
+div.journey-js-dialog div:first-of-type {
+  padding-right: calc(var(--dialog-close-button-size) + var(--spacing));
+}
 div.journey-js-dialog div.title {
   font-size: large;
   font-weight: 700;
-  padding-right: calc(var(--dialog-close-button-size) + var(--spacing));
 }
 div.journey-js-dialog div.description {
   font-weight: 100;

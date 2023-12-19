@@ -1,4 +1,4 @@
-/*! Journey.js v0.1.0 | (c) Bunoon | MIT License */
+/*! Journey.js v0.2.0 | (c) Bunoon | MIT License */
 (function() {
   function renderDisabledBackground() {
     _element_Disabled_Background = createElement("div", "journey-js-disabled-background");
@@ -13,9 +13,9 @@
     _element_Dialog = createElement("div", "journey-js-dialog");
     _element_Dialog.style.display = "none";
     _parameter_Document.body.appendChild(_element_Dialog);
-    var closeButton = createElement("button", "close");
-    closeButton.onclick = hideDialog;
-    _element_Dialog.appendChild(closeButton);
+    _element_Dialog_Close_Button = createElement("button", "close");
+    _element_Dialog_Close_Button.onclick = onDialogClose;
+    _element_Dialog.appendChild(_element_Dialog_Close_Button);
     _element_Dialog_Title = createElement("div", "title");
     _element_Dialog.appendChild(_element_Dialog_Title);
     _element_Dialog_Description = createElement("div", "description");
@@ -29,6 +29,15 @@
     _element_Dialog_Next_Button.onclick = onDialogNext;
     buttons.appendChild(_element_Dialog_Next_Button);
   }
+  function onDialogClose() {
+    var bindingOptions = _elements_Attributes_Json[_elements_Attributes_Keys[_elements_Attributes_Position]];
+    if (isDefined(bindingOptions.element)) {
+      fireCustomTrigger(bindingOptions.onClose, bindingOptions.element);
+    }
+    removeFocusClassFromLastElement(false);
+    hideDisabledBackground();
+    _element_Dialog.style.display = "none";
+  }
   function onDialogPrevious() {
     removeFocusClassFromLastElement();
     _elements_Attributes_Position--;
@@ -38,11 +47,11 @@
     showDialogAndSetPosition();
   }
   function onDialogNext() {
-    removeFocusClassFromLastElement();
-    _elements_Attributes_Position++;
-    if (_elements_Attributes_Position > _elements_Attributes_Keys.length - 1) {
-      hideDialog();
+    if (_elements_Attributes_Position === _elements_Attributes_Keys.length - 1) {
+      onDialogClose();
     } else {
+      removeFocusClassFromLastElement();
+      _elements_Attributes_Position++;
       showDialogAndSetPosition();
     }
   }
@@ -50,6 +59,7 @@
     var bindingOptions = _elements_Attributes_Json[_elements_Attributes_Keys[_elements_Attributes_Position]];
     if (isDefined(bindingOptions) && isDefined(bindingOptions.element)) {
       showDisabledBackground();
+      _element_Dialog_Close_Button.style.display = _configuration.showCloseButton ? "block" : "none";
       bindingOptions.element.className += _string.space + "journey-js-element-focus";
       var offset = getOffset(bindingOptions.element);
       var scrollPosition = getScrollPosition();
@@ -89,18 +99,17 @@
       fireCustomTrigger(bindingOptions.onEnter, bindingOptions.element);
     }
   }
-  function hideDialog() {
-    hideDisabledBackground();
-    _element_Dialog.style.display = "none";
-  }
-  function removeFocusClassFromLastElement() {
+  function removeFocusClassFromLastElement(callCustomTrigger) {
+    callCustomTrigger = isDefined(callCustomTrigger) ? callCustomTrigger : true;
     var bindingOptions = _elements_Attributes_Json[_elements_Attributes_Keys[_elements_Attributes_Position]];
     if (isDefined(bindingOptions.element)) {
       bindingOptions.element.className = bindingOptions.element.className.replace(_string.space + "journey-js-element-focus", _string.empty);
       if (isDefined(_element_Focus_Element_PositionStyle)) {
         bindingOptions.element.style.position = _element_Focus_Element_PositionStyle;
       }
-      fireCustomTrigger(bindingOptions.onLeave, bindingOptions.element);
+      if (callCustomTrigger) {
+        fireCustomTrigger(bindingOptions.onLeave, bindingOptions.element);
+      }
     }
   }
   function getElements() {
@@ -129,7 +138,7 @@
         if (bindingOptions.parsed && isDefinedObject(bindingOptions.result)) {
           bindingOptions = buildAttributeOptions(bindingOptions.result);
           bindingOptions.element = element;
-          if (isDefinedNumber(bindingOptions.order)) {
+          if (isDefinedNumber(bindingOptions.order) && (isDefinedString(bindingOptions.title) || isDefinedString(bindingOptions.description))) {
             _elements_Attributes_Json[bindingOptions.order] = bindingOptions;
             _elements_Attributes_Keys.push(bindingOptions.order);
           }
@@ -162,6 +171,7 @@
   function buildAttributeOptionCustomTriggers(options) {
     options.onEnter = getDefaultFunction(options.onEnter, null);
     options.onLeave = getDefaultFunction(options.onLeave, null);
+    options.onClose = getDefaultFunction(options.onClose, null);
     return options;
   }
   function isDefined(value) {
@@ -301,7 +311,9 @@
     _configuration.previousButtonText = getDefaultString(_configuration.previousButtonText, "Previous");
     _configuration.nextButtonText = getDefaultString(_configuration.nextButtonText, "Next");
     _configuration.finishButtonText = getDefaultString(_configuration.finishButtonText, "Finish");
+    _configuration.showCloseButton = getDefaultBoolean(_configuration.showCloseButton, true);
   }
+  var _this = this;
   var _parameter_Document = null;
   var _parameter_Window = null;
   var _configuration = {};
@@ -313,6 +325,7 @@
   var _element_Focus_Element_PositionStyle = null;
   var _element_Disabled_Background = null;
   var _element_Dialog = null;
+  var _element_Dialog_Close_Button = null;
   var _element_Dialog_Title = null;
   var _element_Dialog_Description = null;
   var _element_Dialog_Previous_Button = null;
@@ -321,16 +334,20 @@
   this.setConfiguration = function(newOptions) {
     _configuration = !isDefinedObject(newOptions) ? {} : newOptions;
     buildDefaultConfiguration();
+    if (_this.isOpen()) {
+      onDialogClose();
+      _elements_Attributes_Position = 0;
+    }
     return this;
   };
   this.show = function() {
-    if (_elements_Attributes_Position > _elements_Attributes_Keys.length - 1) {
+    if (_elements_Attributes_Position === _elements_Attributes_Keys.length - 1) {
       _elements_Attributes_Position = 0;
     }
     showDialogAndSetPosition();
   };
   this.hide = function() {
-    hideDialog();
+    onDialogClose();
   };
   this.isOpen = function() {
     return _element_Dialog.style.display === "block";
@@ -339,7 +356,7 @@
     return _elements_Attributes_Position >= _elements_Attributes_Keys.length - 1;
   };
   this.getVersion = function() {
-    return "0.1.0";
+    return "0.2.0";
   };
   (function(documentObject, windowObject) {
     _parameter_Document = documentObject;
