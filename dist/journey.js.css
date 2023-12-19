@@ -22,10 +22,14 @@
   --dialog-button-hover-background-color: #007FFF;
   --dialog-button-hover-border-color: var(--dialog-button-border-color);
   --dialog-button-hover-text-color: var(--dialog-button-text-color);
-  --dialog-button-disabled-background-color: #002244;
-  --dialog-close-button-color: var(--color-white);
-  --dialog-close-button-hover-color: var(--dialog-button-hover-background-color);
+  --dialog-button-disabled-background-color: var(--dialog-background-color);
+  --dialog-close-button-background-color: var(--dialog-button-background-color);
+  --dialog-close-button-border-color: #3457D5;
   --dialog-close-button-size: 1.1rem;
+  --dialog-close-button-x-color: var(--color-white);
+  --dialog-close-button-hover-background-color: #007FFF;
+  --dialog-close-button-hover-x-color: var(--dialog-close-button-x-color);
+  --dialog-close-button-hover-border-color: var(--dialog-close-button-border-color);
   --border-radius: 0.5rem;
   --border-size: 0.5px;
   --spacing: 10px;
@@ -62,14 +66,14 @@ div.journey-js-dialog button.close {
   height: var(--dialog-close-button-size);
   border-radius: 0.25rem;
   padding: 0;
-  background-color: transparent;
-  border: var(--border-size) solid var(--dialog-close-button-color);
+  background-color: var(--dialog-close-button-background-color);
+  border: var(--border-size) solid var(--dialog-close-button-border-color);
 }
 div.journey-js-dialog button.close::before, div.journey-js-dialog button.close::after {
   content: "";
   width: 1px;
   height: 100%;
-  background: var(--dialog-close-button-color);
+  background: var(--dialog-close-button-x-color);
   display: block;
   transform: rotate(45deg) translateX(0px);
   position: absolute;
@@ -81,11 +85,12 @@ div.journey-js-dialog button.close::after {
 }
 div.journey-js-dialog button.close:hover {
   cursor: pointer;
-  border: var(--border-size) solid var(--dialog-close-button-hover-color);
+  border: var(--border-size) solid var(--dialog-close-button-hover-border-color);
   transition: var(--transition);
+  background-color: var(--dialog-close-button-hover-background-color);
 }
 div.journey-js-dialog button.close:hover::before, div.journey-js-dialog button.close:hover::after {
-  background: var(--dialog-close-button-hover-color);
+  background: var(--dialog-close-button-hover-x-color);
   transition: var(--transition);
 }
 div.journey-js-dialog div:first-of-type {

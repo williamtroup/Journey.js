@@ -2,6 +2,10 @@
 
 ## Version 0.3.0:
 - The attribute "data-journey-options" is now removed from all elements after they are processed.
+- Added CSS ":root" variable "--dialog-close-button-background-color", which states the background color to use for the close button.
+- Added CSS ":root" variable "--dialog-close-button-border-color", which states the border color to use for the close button.
+- Added CSS ":root" variable "--dialog-close-button-hover-background-color", which states the background color to use for the close button when hovered.
+- Renamed one or two of the other ":root" variables for the Close button.
 - 
 
 <br>
