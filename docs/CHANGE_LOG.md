@@ -3,7 +3,7 @@
 ## Version 0.3.0:
 
 #### **New Features:**
-- Added shortcut keys "Left", "Right" and "Escape", which move to the previous/next element in the journey, and close the dialog.
+- Added shortcut keys "Left", "Right", and "Escape", which move to the previous/next element in the journey, and close the dialog.
 
 #### **Configuration Options:**
 - Added a new configuration option "shortcutKeysEnabled" (defaults to true), which states if the shortcut keys (for navigation) are enabled.
