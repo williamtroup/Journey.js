@@ -183,7 +183,7 @@
             _element_Dialog.style.top = top + "px";
             _element_Dialog.style.left = left + "px";
 
-            fireCustomTrigger( bindingOptions.onActivate, bindingOptions.element );
+            fireCustomTrigger( bindingOptions.onEnter, bindingOptions.element );
         }
     }
 
@@ -194,14 +194,16 @@
     }
 
     function removeFocusClassFromLastElement() {
-        var element = _elements_Attributes_Json[ _elements_Attributes_Keys[ _elements_Attributes_Position ] ].element;
+        var bindingOptions = _elements_Attributes_Json[ _elements_Attributes_Keys[ _elements_Attributes_Position ] ];
 
-        if ( isDefined( element ) ) {
-            element.className = element.className.replace( _string.space + "journey-js-element-focus", _string.empty );
+        if ( isDefined( bindingOptions.element ) ) {
+            bindingOptions.element.className = bindingOptions.element.className.replace( _string.space + "journey-js-element-focus", _string.empty );
 
             if ( isDefined( _element_Focus_Element_PositionStyle ) ) {
-                element.style.position = _element_Focus_Element_PositionStyle;
+                bindingOptions.element.style.position = _element_Focus_Element_PositionStyle;
             }
+
+            fireCustomTrigger( bindingOptions.onLeave, bindingOptions.element );
         }
     }
 
@@ -289,7 +291,8 @@
     }
 
     function buildAttributeOptionCustomTriggers( options ) {
-        options.onActivate = getDefaultFunction( options.onActivate, null );
+        options.onEnter = getDefaultFunction( options.onEnter, null );
+        options.onLeave = getDefaultFunction( options.onLeave, null );
 
         return options;
     }

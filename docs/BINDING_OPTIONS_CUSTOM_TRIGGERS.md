@@ -7,7 +7,12 @@ Below is a list of all the custom triggers supported in the "data-journey-option
 
 <h1>For Viewing:</h1>
 
-### options.onActivate( *element* ):
+### options.onEnter( *element* ):
 Fires when the the dialog is shown for a specific DOM element.
 <br>
 ***Parameter:*** element: '*object*' - The DOM element that the dialog is being shown for.
+
+### options.onLeave( *element* ):
+Fires when the the dialog is hidden for a specific DOM element.
+<br>
+***Parameter:*** element: '*object*' - The DOM element that the dialog is being hidden for.
