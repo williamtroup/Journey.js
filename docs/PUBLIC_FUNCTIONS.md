@@ -17,6 +17,11 @@ Hides the Journey.js dialog.
 <br>
 ***Returns***: '*Object*' - The Journey.js class instance.
 
+### **isOpen()**:
+Returns a flag that states if the dialog is opened.
+<br>
+***Returns***: '*boolean*' - The flag that states if the dialog is open.
+
 
 <br>
 <h1>Configuration:</h1>

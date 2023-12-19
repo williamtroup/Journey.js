@@ -75,6 +75,7 @@
 
     function renderDialog() {
         _element_Dialog = createElement( "div", "journey-js-dialog" );
+        _element_Dialog.style.display = "none";
         _parameter_Document.body.appendChild( _element_Dialog );
 
         var closeButton = createElement( "button", "close" );
@@ -568,6 +569,19 @@
      */
     this.hide = function() {
         hideDialog();
+    };
+
+    /**
+     * isOpen().
+     * 
+     * Returns a flag that states if the dialog is opened.
+     * 
+     * @public
+     * 
+     * @returns     {boolean}                                               The flag that states if the dialog is open.
+     */
+    this.isOpen = function() {
+        return _element_Dialog.style.display === "block";
     };
 
 
