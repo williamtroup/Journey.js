@@ -14,7 +14,7 @@
     _element_Dialog.style.display = "none";
     _parameter_Document.body.appendChild(_element_Dialog);
     var closeButton = createElement("button", "close");
-    closeButton.onclick = hideDialog;
+    closeButton.onclick = onDialogClose;
     _element_Dialog.appendChild(closeButton);
     _element_Dialog_Title = createElement("div", "title");
     _element_Dialog.appendChild(_element_Dialog_Title);
@@ -28,6 +28,14 @@
     _element_Dialog_Next_Button = createElement("button", "next");
     _element_Dialog_Next_Button.onclick = onDialogNext;
     buttons.appendChild(_element_Dialog_Next_Button);
+  }
+  function onDialogClose() {
+    var bindingOptions = _elements_Attributes_Json[_elements_Attributes_Keys[_elements_Attributes_Position]];
+    if (isDefined(bindingOptions.element)) {
+      fireCustomTrigger(bindingOptions.onClose, bindingOptions.element);
+    }
+    removeFocusClassFromLastElement(false);
+    hideDialog();
   }
   function onDialogPrevious() {
     removeFocusClassFromLastElement();
@@ -93,14 +101,17 @@
     hideDisabledBackground();
     _element_Dialog.style.display = "none";
   }
-  function removeFocusClassFromLastElement() {
+  function removeFocusClassFromLastElement(fireCustomTrigger) {
+    fireCustomTrigger = isDefined(fireCustomTrigger) ? fireCustomTrigger : true;
     var bindingOptions = _elements_Attributes_Json[_elements_Attributes_Keys[_elements_Attributes_Position]];
     if (isDefined(bindingOptions.element)) {
       bindingOptions.element.className = bindingOptions.element.className.replace(_string.space + "journey-js-element-focus", _string.empty);
       if (isDefined(_element_Focus_Element_PositionStyle)) {
         bindingOptions.element.style.position = _element_Focus_Element_PositionStyle;
       }
-      fireCustomTrigger(bindingOptions.onLeave, bindingOptions.element);
+      if (fireCustomTrigger) {
+        fireCustomTrigger(bindingOptions.onLeave, bindingOptions.element);
+      }
     }
   }
   function getElements() {
@@ -162,6 +173,7 @@
   function buildAttributeOptionCustomTriggers(options) {
     options.onEnter = getDefaultFunction(options.onEnter, null);
     options.onLeave = getDefaultFunction(options.onLeave, null);
+    options.onClose = getDefaultFunction(options.onClose, null);
     return options;
   }
   function isDefined(value) {
