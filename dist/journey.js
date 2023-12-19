@@ -79,14 +79,10 @@
       }
       _element_Dialog.style.display = "block";
       if (left + _element_Dialog.offsetWidth > _parameter_Window.innerWidth) {
-        left = left - _element_Dialog.offsetWidth;
-      } else {
-        left++;
+        left = left - (_element_Dialog.offsetWidth + bindingOptions.element.offsetWidth);
       }
       if (top + _element_Dialog.offsetHeight > _parameter_Window.innerHeight) {
-        top = top - _element_Dialog.offsetHeight;
-      } else {
-        top++;
+        top = top - (_element_Dialog.offsetHeight + bindingOptions.element.offsetHeight);
       }
       _element_Dialog.style.top = top + "px";
       _element_Dialog.style.left = left + "px";
