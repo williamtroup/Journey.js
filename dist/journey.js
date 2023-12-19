@@ -141,6 +141,7 @@
           if (isDefinedNumber(bindingOptions.order) && (isDefinedString(bindingOptions.title) || isDefinedString(bindingOptions.description))) {
             _elements_Attributes_Json[bindingOptions.order] = bindingOptions;
             _elements_Attributes_Keys.push(bindingOptions.order);
+            element.removeAttribute(_attribute_Name_Journey);
           }
         } else {
           if (!_configuration.safeMode) {

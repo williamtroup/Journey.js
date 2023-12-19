@@ -1,6 +1,7 @@
 # Journey.js - Change Log:
 
 ## Version 0.3.0:
+- The attribute "data-journey-options" is now removed from all elements after they are processed.
 - 
 
 <br>
