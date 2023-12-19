@@ -1,7 +1,7 @@
 /**
  * Journey.js
  * 
- * A lightweight, and easy-to-use, JavaScript library for a website walk-through guide!
+ * A lightweight, and easy-to-use, JavaScript library for building a website walk-through guide!
  * 
  * @file        journey.js
  * @version     v0.1.0

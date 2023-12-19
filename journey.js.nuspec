@@ -4,7 +4,7 @@
         <id>jJourney.js</id>
         <version>0.1.0</version>
         <title>Journey.js</title>
-        <description>A lightweight, and easy-to-use, JavaScript library for a website walk-through guide!</description>
+        <description>A lightweight, and easy-to-use, JavaScript library for building a website walk-through guide!</description>
         <authors>William Troup</authors>
         <projectUrl>https://github.com/williamtroup/Journey.js</projectUrl>
         <repository type="git" url="https://github.com/williamtroup/Journey.js" branch="main" />

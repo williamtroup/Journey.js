@@ -1,7 +1,7 @@
 {
     "name": "jjourney.js",
     "title": "Journey.js",
-    "description": "A lightweight, and easy-to-use, JavaScript library for a website walk-through guide!",
+    "description": "A lightweight, and easy-to-use, JavaScript library for building a website walk-through guide!",
     "version": "0.1.0",
     "main": "dist/journey.js",
     "author": {
