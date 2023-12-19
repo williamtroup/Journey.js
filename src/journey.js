@@ -124,15 +124,13 @@
     }
 
     function onDialogPrevious() {
-        removeFocusClassFromLastElement();
+        if ( _elements_Attributes_Position > 0 ) {
+            removeFocusClassFromLastElement();
 
-        _elements_Attributes_Position--;
+            _elements_Attributes_Position--;
 
-        if ( _elements_Attributes_Position < 0 ) {
-            _elements_Attributes_Position = _elements_Attributes_Keys.length - 1;
-        }
-
-        showDialogAndSetPosition();
+            showDialogAndSetPosition();
+        }        
     }
 
     function onDialogNext() {

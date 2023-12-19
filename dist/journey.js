@@ -39,12 +39,11 @@
     _element_Dialog.style.display = "none";
   }
   function onDialogPrevious() {
-    removeFocusClassFromLastElement();
-    _elements_Attributes_Position--;
-    if (_elements_Attributes_Position < 0) {
-      _elements_Attributes_Position = _elements_Attributes_Keys.length - 1;
+    if (_elements_Attributes_Position > 0) {
+      removeFocusClassFromLastElement();
+      _elements_Attributes_Position--;
+      showDialogAndSetPosition();
     }
-    showDialogAndSetPosition();
   }
   function onDialogNext() {
     if (_elements_Attributes_Position === _elements_Attributes_Keys.length - 1) {
