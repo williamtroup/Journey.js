@@ -39,6 +39,7 @@
 */
 div.journey-js-dialog {
   position: absolute;
+  display: none;
   border-radius: var(--border-radius);
   background-color: var(--dialog-background-color);
   color: var(--dialog-text-color);
@@ -49,7 +50,9 @@ div.journey-js-dialog {
   z-index: 1001;
   width: 300px;
   height: auto;
-  display: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 div.journey-js-dialog button.close {
   position: absolute;
