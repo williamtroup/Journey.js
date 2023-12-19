@@ -22,19 +22,31 @@
     --dialog-background-color: #002244;
     --dialog-text-color: var(--color-white);
     --dialog-border-color: #72A0C1;
-    --dialog-button-disabled-background-color: #002244;
+
+    // Dialog - Buttons
     --dialog-button-background-color: #002D62;
     --dialog-button-border-color: #3457D5;
     --dialog-button-text-color: var(--color-white);
+
+    // Dialog - Buttons - Hover
     --dialog-button-hover-background-color: #007FFF;
     --dialog-button-hover-border-color: var(--dialog-button-border-color);
     --dialog-button-hover-text-color: var(--dialog-button-text-color);
+
+    // Dialog - Buttons - Disabled
+    --dialog-button-disabled-background-color: #002244;
+
+    // Dialog - Close Button
     --dialog-close-button-color: var(--color-white);
     --dialog-close-button-hover-color: var(--dialog-button-hover-background-color);
+    --dialog-close-button-size: 1.1rem;
     
     // Borders
     --border-radius: 0.5rem;
     --border-size: 0.5px;
+
+    // Sizes
+    --spacing: 10px;
 
     // Transitions
     --transition: all .3s;
@@ -53,7 +65,7 @@ div.journey-js-dialog {
     background-color: var(--dialog-background-color);
     color: var(--dialog-text-color);
     border: var(--border-size) solid var(--dialog-border-color);
-    padding: 10px;
+    padding: var(--spacing);
     font-family: 'Montserrat', sans-serif;
     font-size: 0.9rem;
     z-index: 1001;
@@ -63,10 +75,10 @@ div.journey-js-dialog {
 
     button.close {
         position: absolute;
-        top: 10px;
-        right: 10px;
-        width: 1.1rem;
-        height: 1.1rem;
+        top: var(--spacing);
+        right: var(--spacing);
+        width: var(--dialog-close-button-size);
+        height: var(--dialog-close-button-size);
         border-radius: 0.25rem;
         padding: 0;
         background-color: transparent;
@@ -105,6 +117,7 @@ div.journey-js-dialog {
     div.title {
         font-size: large;
         font-weight: 700;
+        padding-right: calc( var(--dialog-close-button-size) + var(--spacing) );
     }
 
     div.description {
@@ -112,7 +125,7 @@ div.journey-js-dialog {
     }
 
     div.buttons {
-        margin-top: 10px;
+        margin-top: var(--spacing);
         text-align: right;
 
         button.previous,
@@ -122,7 +135,7 @@ div.journey-js-dialog {
             color: var(--dialog-button-text-color);
             border: var(--border-size) solid var(--dialog-button-border-color);
             min-width: 100px;
-            padding: 10px;
+            padding: var(--spacing);
     
             &:not([disabled]):hover {
                 cursor: pointer;
