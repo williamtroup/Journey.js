@@ -230,6 +230,8 @@
                 }
             }
         }
+
+        _elements_Attributes_Keys.sort();
     }
 
     function getElement( element ) {
