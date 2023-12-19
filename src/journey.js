@@ -164,6 +164,19 @@
             }
 
             _element_Dialog.style.display = "block";
+
+            if ( left + _element_Dialog.offsetWidth > _parameter_Window.innerWidth ) {
+                left -= _element_Dialog.offsetWidth;
+            } else {
+                left++;
+            }
+    
+            if ( top + _element_Dialog.offsetHeight > _parameter_Window.innerHeight ) {
+                top -= _element_Dialog.offsetHeight;
+            } else {
+                top++;
+            }
+
             _element_Dialog.style.top = top + "px";
             _element_Dialog.style.left = left + "px";
 

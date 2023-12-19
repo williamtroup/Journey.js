@@ -25,6 +25,9 @@
     --dialog-button-background-color: #002D62;
     --dialog-button-border-color: #3457D5;
     --dialog-button-text-color: var(--color-white);
+    --dialog-button-hover-background-color: #007FFF;
+    --dialog-button-hover-border-color: var(--dialog-button-border-color);
+    --dialog-button-hover-text-color: var(--dialog-button-text-color);
     
     // Borders
     --border-radius: 0.5rem;
@@ -79,7 +82,9 @@ div.journey-js-dialog {
     
             &:not([disabled]):hover {
                 cursor: pointer;
-                opacity: 0.7;
+                background-color: var(--dialog-button-hover-background-color);
+                color: var(--dialog-button-hover-text-color);
+                border: var(--border-size) solid var(--dialog-button-hover-border-color);
                 transition: var(--transition);
             }
 
