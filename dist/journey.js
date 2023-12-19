@@ -101,15 +101,15 @@
     hideDisabledBackground();
     _element_Dialog.style.display = "none";
   }
-  function removeFocusClassFromLastElement(fireCustomTrigger) {
-    fireCustomTrigger = isDefined(fireCustomTrigger) ? fireCustomTrigger : true;
+  function removeFocusClassFromLastElement(callCustomTrigger) {
+    callCustomTrigger = isDefined(callCustomTrigger) ? callCustomTrigger : true;
     var bindingOptions = _elements_Attributes_Json[_elements_Attributes_Keys[_elements_Attributes_Position]];
     if (isDefined(bindingOptions.element)) {
       bindingOptions.element.className = bindingOptions.element.className.replace(_string.space + "journey-js-element-focus", _string.empty);
       if (isDefined(_element_Focus_Element_PositionStyle)) {
         bindingOptions.element.style.position = _element_Focus_Element_PositionStyle;
       }
-      if (fireCustomTrigger) {
+      if (callCustomTrigger) {
         fireCustomTrigger(bindingOptions.onLeave, bindingOptions.element);
       }
     }
@@ -140,7 +140,7 @@
         if (bindingOptions.parsed && isDefinedObject(bindingOptions.result)) {
           bindingOptions = buildAttributeOptions(bindingOptions.result);
           bindingOptions.element = element;
-          if (isDefinedNumber(bindingOptions.order)) {
+          if (isDefinedNumber(bindingOptions.order) && (isDefinedString(bindingOptions.title) || isDefinedString(bindingOptions.description))) {
             _elements_Attributes_Json[bindingOptions.order] = bindingOptions;
             _elements_Attributes_Keys.push(bindingOptions.order);
           }
