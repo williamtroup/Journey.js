@@ -598,7 +598,7 @@
      */
     this.isComplete = function() {
         return _elements_Attributes_Position >= _elements_Attributes_Keys.length - 1;
-    }
+    };
 
 
     /*
