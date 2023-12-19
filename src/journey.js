@@ -39,6 +39,7 @@
 
         // Variables: Dialog
         _element_Dialog = null,
+        _element_Dialog_Close_Button = null,
         _element_Dialog_Title = null,
         _element_Dialog_Description = null,
         _element_Dialog_Previous_Button = null,
@@ -78,9 +79,9 @@
         _element_Dialog.style.display = "none";
         _parameter_Document.body.appendChild( _element_Dialog );
 
-        var closeButton = createElement( "button", "close" );
-        closeButton.onclick = onDialogClose;
-        _element_Dialog.appendChild( closeButton );
+        _element_Dialog_Close_Button = createElement( "button", "close" );
+        _element_Dialog_Close_Button.onclick = onDialogClose;
+        _element_Dialog.appendChild( _element_Dialog_Close_Button );
 
         _element_Dialog_Title = createElement( "div", "title" );
         _element_Dialog.appendChild( _element_Dialog_Title );
@@ -108,7 +109,9 @@
         }
 
         removeFocusClassFromLastElement( false );
-        hideDialog();
+        hideDisabledBackground();
+
+        _element_Dialog.style.display = "none";
     }
 
     function onDialogPrevious() {
@@ -124,13 +127,14 @@
     }
 
     function onDialogNext() {
-        removeFocusClassFromLastElement();
+        if ( _elements_Attributes_Position === _elements_Attributes_Keys.length - 1 ) {
+            onDialogClose();
 
-        _elements_Attributes_Position++;
-
-        if ( _elements_Attributes_Position > _elements_Attributes_Keys.length - 1 ) {
-            hideDialog();
         } else {
+            removeFocusClassFromLastElement();
+
+            _elements_Attributes_Position++;
+
             showDialogAndSetPosition();
         }
     }
@@ -140,7 +144,8 @@
 
         if ( isDefined( bindingOptions ) && isDefined( bindingOptions.element ) ) {
             showDisabledBackground();
-
+            
+            _element_Dialog_Close_Button.style.display = _configuration.showCloseButton ? "block": "none";
             bindingOptions.element.className += _string.space + "journey-js-element-focus";
 
             var offset = getOffset( bindingOptions.element ),
@@ -190,12 +195,6 @@
 
             fireCustomTrigger( bindingOptions.onEnter, bindingOptions.element );
         }
-    }
-
-    function hideDialog() {
-        hideDisabledBackground();
-
-        _element_Dialog.style.display = "none";
     }
 
     function removeFocusClassFromLastElement( callCustomTrigger ) {
@@ -551,6 +550,7 @@
         _configuration.previousButtonText = getDefaultString( _configuration.previousButtonText, "Previous" );
         _configuration.nextButtonText = getDefaultString( _configuration.nextButtonText, "Next" );
         _configuration.finishButtonText = getDefaultString( _configuration.finishButtonText, "Finish" );
+        _configuration.showCloseButton = getDefaultBoolean( _configuration.showCloseButton, true );
     }
 
 
@@ -568,7 +568,7 @@
      * @public
      */
     this.show = function() {
-        if ( _elements_Attributes_Position > _elements_Attributes_Keys.length - 1 ) {
+        if ( _elements_Attributes_Position === _elements_Attributes_Keys.length - 1 ) {
             _elements_Attributes_Position = 0;
         }
 
@@ -583,7 +583,7 @@
      * @public
      */
     this.hide = function() {
-        hideDialog();
+        onDialogClose();
     };
 
     /**

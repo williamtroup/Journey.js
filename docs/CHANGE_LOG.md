@@ -6,6 +6,7 @@
 - Fixed a fault that caused the CSS class "journey-js-element-focus" to remain on an element when the dialog is closed.
 - A "title" or "description" must be set for the binding options for a DOM element to be accepted.
 - Spacing is now applied for the first item in the dialog (to prevent overlaps with the close button).
+- Internal cleanups of the core JS code.
 
 <br>
 
