@@ -1,10 +1,9 @@
 # Journey.js - Configuration Options:
 
 Below are all the configuration options that can be passed to the "setConfiguration()" public function.
+<br>
+<br>
 
-
-### Options:
-<br/>
 
 | Type: | Name: | Description: |
 | --- | --- | --- |
@@ -14,3 +13,4 @@ Below are all the configuration options that can be passed to the "setConfigurat
 | *string* | nextButtonText | States the text that should be used for the Next button (defaults to "Next"). |
 | *string* | finishButtonText | States the text that should be used for the Finish button (defaults to "Finish"). |
 | *boolean* | showCloseButton | States if the Close button is visible on the dialog (defaults to true). |
+| *boolean* | shortcutKeysEnabled | States if the shortcut keys are enabled (defaults to true). |

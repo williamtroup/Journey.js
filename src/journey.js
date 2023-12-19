@@ -4,7 +4,7 @@
  * A lightweight, and easy-to-use, JavaScript library for building a website walk-through guide!
  * 
  * @file        journey.js
- * @version     v0.2.1
+ * @version     v0.3.0
  * @author      Bunoon
  * @license     MIT License
  * @copyright   Bunoon 2023
@@ -20,6 +20,13 @@
 
         // Variables: Configuration
         _configuration = {},
+
+        // Variables: Enums
+        _enum_KeyCodes = {
+            escape: 27,
+            left: 37,
+            right: 39
+        },
 
         // Variables: Strings
         _string = {
@@ -117,15 +124,13 @@
     }
 
     function onDialogPrevious() {
-        removeFocusClassFromLastElement();
+        if ( _elements_Attributes_Position > 0 ) {
+            removeFocusClassFromLastElement();
 
-        _elements_Attributes_Position--;
+            _elements_Attributes_Position--;
 
-        if ( _elements_Attributes_Position < 0 ) {
-            _elements_Attributes_Position = _elements_Attributes_Keys.length - 1;
-        }
-
-        showDialogAndSetPosition();
+            showDialogAndSetPosition();
+        }        
     }
 
     function onDialogNext() {
@@ -259,6 +264,8 @@
                     if ( isDefinedNumber( bindingOptions.order ) && ( isDefinedString( bindingOptions.title ) || isDefinedString( bindingOptions.description ) ) ) {
                         _elements_Attributes_Json[ bindingOptions.order ] = bindingOptions;
                         _elements_Attributes_Keys.push( bindingOptions.order );
+
+                        element.removeAttribute( _attribute_Name_Journey );
                     }
 
                 } else {
@@ -277,6 +284,40 @@
         }
 
         return result;
+    }
+
+
+    /*
+     * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+     * Document Events
+     * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+     */
+
+    function buildDocumentEvents( addEvents ) {
+        addEvents = isDefined( addEvents ) ? addEvents : true;
+
+        var documentFunc = addEvents ? _parameter_Document.addEventListener : _parameter_Document.removeEventListener;
+
+        if ( _configuration.shortcutKeysEnabled ) {
+            documentFunc( "keydown", onWindowKeyDown );
+        }
+    }
+
+    function onWindowKeyDown( e ) {
+        if ( _this.isOpen() ) {
+            if ( e.keyCode === _enum_KeyCodes.escape ) {
+                e.preventDefault();
+                onDialogClose();
+
+            } else if ( e.keyCode === _enum_KeyCodes.left ) {
+                e.preventDefault();
+                onDialogPrevious();
+
+            } else if ( e.keyCode === _enum_KeyCodes.right ) {
+                e.preventDefault();
+                onDialogNext();
+            }
+        }
     }
 
 
@@ -559,6 +600,7 @@
         _configuration.nextButtonText = getDefaultString( _configuration.nextButtonText, "Next" );
         _configuration.finishButtonText = getDefaultString( _configuration.finishButtonText, "Finish" );
         _configuration.showCloseButton = getDefaultBoolean( _configuration.showCloseButton, true );
+        _configuration.shortcutKeysEnabled = getDefaultBoolean( _configuration.shortcutKeysEnabled, true );
     }
 
 
@@ -637,7 +679,7 @@
      * @returns     {string}                                                The version number.
      */
     this.getVersion = function() {
-        return "0.2.1";
+        return "0.3.0";
     };
 
 
@@ -657,6 +699,7 @@
             renderDisabledBackground();
             renderDialog();
             getElements();
+            buildDocumentEvents();
         } );
 
         if ( !isDefined( _parameter_Window.$journey ) ) {

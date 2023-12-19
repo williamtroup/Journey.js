@@ -1,5 +1,28 @@
 # Journey.js - Change Log:
 
+## Version 0.3.0:
+
+#### **New Features:**
+- Added shortcut keys "Left", "Right", and "Escape", which move to the previous/next element in the journey, and close the dialog.
+
+#### **Configuration Options:**
+- Added a new configuration option "shortcutKeysEnabled" (defaults to true), which states if the shortcut keys (for navigation) are enabled.
+
+#### **CSS:**
+- Added CSS ":root" variable "--dialog-close-button-background-color", which states the background color to use for the close button.
+- Added CSS ":root" variable "--dialog-close-button-border-color", which states the border color to use for the close button.
+- Added CSS ":root" variable "--dialog-close-button-hover-background-color", which states the background color to use for the close button when hovered.
+- Renamed one or two of the other ":root" variables for the Close button.
+
+#### **General Improvements:**
+- The attribute "data-journey-options" is now removed from all elements after they are processed.
+
+#### **Fixes:**
+- Fixed the previous buttons event sometimes allowing a loop back to the end.
+
+<br>
+
+
 ## Version 0.2.1:
 - Added Code of Conduct, Contributing, and Security Policy.
 

@@ -1,4 +1,4 @@
-/*! Journey.js v0.2.1 | (c) Bunoon | MIT License */
+/*! Journey.js v0.3.0 | (c) Bunoon | MIT License */
 (function() {
   function renderDisabledBackground() {
     _element_Disabled_Background = createElement("div", "journey-js-disabled-background");
@@ -39,12 +39,11 @@
     _element_Dialog.style.display = "none";
   }
   function onDialogPrevious() {
-    removeFocusClassFromLastElement();
-    _elements_Attributes_Position--;
-    if (_elements_Attributes_Position < 0) {
-      _elements_Attributes_Position = _elements_Attributes_Keys.length - 1;
+    if (_elements_Attributes_Position > 0) {
+      removeFocusClassFromLastElement();
+      _elements_Attributes_Position--;
+      showDialogAndSetPosition();
     }
-    showDialogAndSetPosition();
   }
   function onDialogNext() {
     if (_elements_Attributes_Position === _elements_Attributes_Keys.length - 1) {
@@ -141,6 +140,7 @@
           if (isDefinedNumber(bindingOptions.order) && (isDefinedString(bindingOptions.title) || isDefinedString(bindingOptions.description))) {
             _elements_Attributes_Json[bindingOptions.order] = bindingOptions;
             _elements_Attributes_Keys.push(bindingOptions.order);
+            element.removeAttribute(_attribute_Name_Journey);
           }
         } else {
           if (!_configuration.safeMode) {
@@ -156,6 +156,27 @@
       }
     }
     return result;
+  }
+  function buildDocumentEvents(addEvents) {
+    addEvents = isDefined(addEvents) ? addEvents : true;
+    var documentFunc = addEvents ? _parameter_Document.addEventListener : _parameter_Document.removeEventListener;
+    if (_configuration.shortcutKeysEnabled) {
+      documentFunc("keydown", onWindowKeyDown);
+    }
+  }
+  function onWindowKeyDown(e) {
+    if (_this.isOpen()) {
+      if (e.keyCode === _enum_KeyCodes.escape) {
+        e.preventDefault();
+        onDialogClose();
+      } else if (e.keyCode === _enum_KeyCodes.left) {
+        e.preventDefault();
+        onDialogPrevious();
+      } else if (e.keyCode === _enum_KeyCodes.right) {
+        e.preventDefault();
+        onDialogNext();
+      }
+    }
   }
   function buildAttributeOptions(newOptions) {
     var options = !isDefinedObject(newOptions) ? {} : newOptions;
@@ -312,11 +333,13 @@
     _configuration.nextButtonText = getDefaultString(_configuration.nextButtonText, "Next");
     _configuration.finishButtonText = getDefaultString(_configuration.finishButtonText, "Finish");
     _configuration.showCloseButton = getDefaultBoolean(_configuration.showCloseButton, true);
+    _configuration.shortcutKeysEnabled = getDefaultBoolean(_configuration.shortcutKeysEnabled, true);
   }
   var _this = this;
   var _parameter_Document = null;
   var _parameter_Window = null;
   var _configuration = {};
+  var _enum_KeyCodes = {escape:27, left:37, right:39};
   var _string = {empty:"", space:" "};
   var _elements_Type = {};
   var _elements_Attributes_Json = {};
@@ -356,7 +379,7 @@
     return _elements_Attributes_Position >= _elements_Attributes_Keys.length - 1;
   };
   this.getVersion = function() {
-    return "0.2.1";
+    return "0.3.0";
   };
   (function(documentObject, windowObject) {
     _parameter_Document = documentObject;
@@ -366,6 +389,7 @@
       renderDisabledBackground();
       renderDialog();
       getElements();
+      buildDocumentEvents();
     });
     if (!isDefined(_parameter_Window.$journey)) {
       _parameter_Window.$journey = this;
