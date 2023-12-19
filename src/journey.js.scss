@@ -21,7 +21,8 @@
     // Dialog
     --dialog-background-color: #002244;
     --dialog-text-color: var(--color-white);
-    --dialog-border-color: #72A0C1;    
+    --dialog-border-color: #72A0C1;
+    --dialog-button-disabled-background-color: #002244;
     --dialog-button-background-color: #002D62;
     --dialog-button-border-color: #3457D5;
     --dialog-button-text-color: var(--color-white);
@@ -132,6 +133,7 @@ div.journey-js-dialog {
             }
 
             &:disabled {
+                background-color: var(--dialog-button-disabled-background-color) !important;
                 color: var(--color-gray);
             }
         }

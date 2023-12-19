@@ -91,12 +91,10 @@
         _element_Dialog.appendChild( buttons );
 
         _element_Dialog_Previous_Button = createElement( "button", "previous" );
-        _element_Dialog_Previous_Button.innerHTML = _configuration.previousButtonText;
         _element_Dialog_Previous_Button.onclick = onDialogPrevious;
         buttons.appendChild( _element_Dialog_Previous_Button );
 
         _element_Dialog_Next_Button = createElement( "button", "next" );
-        _element_Dialog_Next_Button.innerHTML = _configuration.nextButtonText;
         _element_Dialog_Next_Button.onclick = onDialogNext;
         buttons.appendChild( _element_Dialog_Next_Button );
     }
@@ -147,6 +145,7 @@
                 bindingOptions.element.style.position = "relative";
             }
 
+            _element_Dialog_Previous_Button.innerHTML = _configuration.previousButtonText;
             _element_Dialog_Previous_Button.disabled = _elements_Attributes_Position === 0;
             
             if ( _elements_Attributes_Position >= _elements_Attributes_Keys.length - 1 ) {
