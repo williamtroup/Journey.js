@@ -1,7 +1,7 @@
 # Journey.js - Change Log:
 
 ## Version 0.3.1:
--
+- Project description update.
 
 <br>
 
