@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
     <metadata>
         <id>jJourney.js</id>
-        <version>0.3.0</version>
+        <version>0.3.1</version>
         <title>Journey.js</title>
         <description>A lightweight, and easy-to-use, JavaScript library for building a website walk-through guide!</description>
         <authors>William Troup</authors>

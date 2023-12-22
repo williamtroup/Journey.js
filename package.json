@@ -2,7 +2,7 @@
     "name": "jjourney.js",
     "title": "Journey.js",
     "description": "A lightweight, and easy-to-use, JavaScript library for building a website walk-through guide!",
-    "version": "0.3.0",
+    "version": "0.3.1",
     "main": "dist/journey.js",
     "author": {
       "name": "Bunoon"
