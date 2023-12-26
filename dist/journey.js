@@ -62,11 +62,8 @@
       showDisabledBackground();
       _element_Dialog_Close_Button.style.display = _configuration.showCloseButton ? "block" : "none";
       bindingOptions.element.className += _string.space + "journey-js-element-focus";
-      var offset = getOffset(bindingOptions.element);
-      var scrollPosition = getScrollPosition();
-      var top = offset.top - scrollPosition.top + bindingOptions.element.offsetHeight;
-      var left = offset.left - scrollPosition.left;
       var lastPositionStyle = getStyleValueByName(bindingOptions.element, "position");
+      var scrollPosition = getScrollPosition();
       if (lastPositionStyle !== _string.empty && lastPositionStyle.toLowerCase() === "static") {
         _element_Focus_Element_PositionStyle = lastPositionStyle;
         bindingOptions.element.style.position = "relative";
@@ -89,14 +86,24 @@
         _element_Dialog_Description.innerHTML = _string.empty;
       }
       _element_Dialog.style.display = "block";
-      if (left + _element_Dialog.offsetWidth > _parameter_Window.innerWidth) {
-        left = left - (_element_Dialog.offsetWidth + bindingOptions.element.offsetWidth);
+      if (bindingOptions.attach) {
+        var offset = getOffset(bindingOptions.element);
+        var top = offset.top - scrollPosition.top + bindingOptions.element.offsetHeight;
+        var left = offset.left - scrollPosition.left;
+        if (left + _element_Dialog.offsetWidth > _parameter_Window.innerWidth) {
+          left = left - (_element_Dialog.offsetWidth + bindingOptions.element.offsetWidth);
+        }
+        if (top + _element_Dialog.offsetHeight > _parameter_Window.innerHeight) {
+          top = top - (_element_Dialog.offsetHeight + bindingOptions.element.offsetHeight);
+        }
+        _element_Dialog.style.top = top + "px";
+        _element_Dialog.style.left = left + "px";
+      } else {
+        var centerLeft = Math.max(0, (_parameter_Window.innerWidth - _element_Dialog.offsetWidth) / 2 + scrollPosition.left);
+        var centerTop = Math.max(0, (_parameter_Window.innerHeight - _element_Dialog.offsetHeight) / 2 + scrollPosition.top);
+        _element_Dialog.style.left = centerLeft + "px";
+        _element_Dialog.style.top = centerTop + "px";
       }
-      if (top + _element_Dialog.offsetHeight > _parameter_Window.innerHeight) {
-        top = top - (_element_Dialog.offsetHeight + bindingOptions.element.offsetHeight);
-      }
-      _element_Dialog.style.top = top + "px";
-      _element_Dialog.style.left = left + "px";
       fireCustomTrigger(bindingOptions.onEnter, bindingOptions.element);
     }
   }
@@ -162,9 +169,11 @@
   function buildDocumentEvents(addEvents) {
     addEvents = isDefined(addEvents) ? addEvents : true;
     var documentFunc = addEvents ? _parameter_Document.addEventListener : _parameter_Document.removeEventListener;
+    var windowFunc = addEvents ? _parameter_Window.addEventListener : _parameter_Window.removeEventListener;
     if (_configuration.shortcutKeysEnabled) {
       documentFunc("keydown", onWindowKeyDown);
     }
+    windowFunc("resize", onWindowResize);
   }
   function onWindowKeyDown(e) {
     if (_this.isOpen()) {
@@ -180,9 +189,15 @@
       }
     }
   }
+  function onWindowResize() {
+    if (_this.isOpen()) {
+      showDialogAndSetPosition();
+    }
+  }
   function buildAttributeOptions(newOptions) {
     var options = !isDefinedObject(newOptions) ? {} : newOptions;
     options.order = getDefaultNumber(options.order, 0);
+    options.attach = getDefaultBoolean(options.attach, true);
     options = buildAttributeOptionStrings(options);
     return buildAttributeOptionCustomTriggers(options);
   }

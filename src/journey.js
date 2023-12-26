@@ -158,11 +158,8 @@
             _element_Dialog_Close_Button.style.display = _configuration.showCloseButton ? "block": "none";
             bindingOptions.element.className += _string.space + "journey-js-element-focus";
 
-            var offset = getOffset( bindingOptions.element ),
-                scrollPosition = getScrollPosition(),
-                top = ( offset.top - scrollPosition.top ) + bindingOptions.element.offsetHeight,
-                left = ( offset.left - scrollPosition.left ),
-                lastPositionStyle = getStyleValueByName( bindingOptions.element, "position" );
+            var lastPositionStyle = getStyleValueByName( bindingOptions.element, "position" ),
+                scrollPosition = getScrollPosition();
 
             if ( lastPositionStyle !== _string.empty && lastPositionStyle.toLowerCase() === "static" ) {
                 _element_Focus_Element_PositionStyle = lastPositionStyle;
@@ -192,16 +189,29 @@
 
             _element_Dialog.style.display = "block";
 
-            if ( left + _element_Dialog.offsetWidth > _parameter_Window.innerWidth ) {
-                left -= ( _element_Dialog.offsetWidth + bindingOptions.element.offsetWidth );
-            }
-    
-            if ( top + _element_Dialog.offsetHeight > _parameter_Window.innerHeight ) {
-                top -= ( _element_Dialog.offsetHeight + bindingOptions.element.offsetHeight );
-            }
+            if ( bindingOptions.attach ) {
+                var offset = getOffset( bindingOptions.element ),
+                    top = ( offset.top - scrollPosition.top ) + bindingOptions.element.offsetHeight,
+                    left = ( offset.left - scrollPosition.left );
 
-            _element_Dialog.style.top = top + "px";
-            _element_Dialog.style.left = left + "px";
+                if ( left + _element_Dialog.offsetWidth > _parameter_Window.innerWidth ) {
+                    left -= ( _element_Dialog.offsetWidth + bindingOptions.element.offsetWidth );
+                }
+        
+                if ( top + _element_Dialog.offsetHeight > _parameter_Window.innerHeight ) {
+                    top -= ( _element_Dialog.offsetHeight + bindingOptions.element.offsetHeight );
+                }
+    
+                _element_Dialog.style.top = top + "px";
+                _element_Dialog.style.left = left + "px";
+
+            } else {
+                var centerLeft = Math.max( 0, ( ( _parameter_Window.innerWidth - _element_Dialog.offsetWidth ) / 2 ) + scrollPosition.left ),
+                    centerTop = Math.max( 0, ( ( _parameter_Window.innerHeight - _element_Dialog.offsetHeight ) / 2 ) + scrollPosition.top );
+    
+                _element_Dialog.style.left = centerLeft + "px";
+                _element_Dialog.style.top = centerTop + "px";
+            }
 
             fireCustomTrigger( bindingOptions.onEnter, bindingOptions.element );
         }
@@ -299,11 +309,14 @@
     function buildDocumentEvents( addEvents ) {
         addEvents = isDefined( addEvents ) ? addEvents : true;
 
-        var documentFunc = addEvents ? _parameter_Document.addEventListener : _parameter_Document.removeEventListener;
+        var documentFunc = addEvents ? _parameter_Document.addEventListener : _parameter_Document.removeEventListener,
+            windowFunc = addEvents ? _parameter_Window.addEventListener : _parameter_Window.removeEventListener;
 
         if ( _configuration.shortcutKeysEnabled ) {
             documentFunc( "keydown", onWindowKeyDown );
         }
+
+        windowFunc( "resize", onWindowResize );
     }
 
     function onWindowKeyDown( e ) {
@@ -323,6 +336,12 @@
         }
     }
 
+    function onWindowResize() {
+        if ( _this.isOpen() ) {
+            showDialogAndSetPosition();
+        }
+    }
+
 
     /*
      * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -333,6 +352,7 @@
     function buildAttributeOptions( newOptions ) {
         var options = !isDefinedObject( newOptions ) ? {} : newOptions;
         options.order = getDefaultNumber( options.order, 0 );
+        options.attach = getDefaultBoolean( options.attach, true );
 
         options = buildAttributeOptionStrings( options );
 
