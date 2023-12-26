@@ -218,6 +218,10 @@
                 _element_Dialog.style.top = centerTop + "px";
             }
 
+            if ( bindingOptions.sendClick ) {
+                bindingOptions.element.click();
+            }
+
             buildProcessDots();
             fireCustomTrigger( bindingOptions.onEnter, bindingOptions.element );
         }
@@ -389,6 +393,7 @@
         var options = !isDefinedObject( newOptions ) ? {} : newOptions;
         options.order = getDefaultNumber( options.order, 0 );
         options.attach = getDefaultBoolean( options.attach, true );
+        options.sendClick = getDefaultBoolean( options.sendClick, false );
 
         options = buildAttributeOptionStrings( options );
 

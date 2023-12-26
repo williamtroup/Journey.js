@@ -10,6 +10,7 @@
 
 #### **Binding Options:**
 - Added a new binding option called "attach", which states if the dialog should be attached to the element (otherwise, its centered in the window)  Defaults to true.
+- Added a new binding option called "sendClick", which states if the active DOM element should fire any assigned click event (defaults to false).
 
 #### **Binding Options - Custom Triggers:**
 - Added a new binding custom trigger called "onFinish", which states an event that should be triggered when the dialog is closed on the final step DOM element.
