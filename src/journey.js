@@ -1,7 +1,7 @@
 /**
  * Journey.js
  * 
- * Journey.js is a lightweight, easy-to-use JavaScript library to create interactive, customizable, accessible guided tours across your websites or web apps!
+ * A lightweight, easy-to-use JavaScript library to create interactive, customizable, accessible guided tours across your websites or web apps!
  * 
  * @file        journey.js
  * @version     v0.3.1

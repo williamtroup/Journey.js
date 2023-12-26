@@ -7,7 +7,7 @@
 [![discussions Welcome](https://img.shields.io/badge/discussions-Welcome-red)](https://github.com/williamtroup/Journey.js/discussions)
 [![coded by William Troup](https://img.shields.io/badge/coded_by-William_Troup-yellow)](https://github.com/williamtroup)
 
-> 🚶 Journey.js is a lightweight, easy-to-use JavaScript library to create interactive, customizable, accessible guided tours across your websites or web apps!
+> 🚶 A lightweight, easy-to-use JavaScript library to create interactive, customizable, accessible guided tours across your websites or web apps!
 
 
 ## What features does Journey.js have?

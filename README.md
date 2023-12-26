@@ -9,7 +9,7 @@ Journey.js
 [![coded by William Troup](https://img.shields.io/badge/coded_by-William_Troup-yellow)](https://github.com/williamtroup)
 </h1>
 
-> <p align="center">🚶 Journey.js is a lightweight, easy-to-use JavaScript library to create interactive, customizable, accessible guided tours across your websites or web apps!</p>
+> <p align="center">🚶 A lightweight, easy-to-use JavaScript library to create interactive, customizable, accessible guided tours across your websites or web apps!</p>
 > <p align="center">v0.3.1</p>
 <br />
 
