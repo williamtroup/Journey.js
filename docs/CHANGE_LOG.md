@@ -11,6 +11,9 @@
 #### **Documentation:**
 - Project description update.
 
+#### **Fixes:**
+- Fixed the dialog showing in the wrong position when the element is alright off the right side of the screen.
+
 <br>
 
 

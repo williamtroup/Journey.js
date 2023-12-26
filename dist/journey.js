@@ -91,7 +91,8 @@
         var top = offset.top - scrollPosition.top + bindingOptions.element.offsetHeight;
         var left = offset.left - scrollPosition.left;
         if (left + _element_Dialog.offsetWidth > _parameter_Window.innerWidth) {
-          left = left - (_element_Dialog.offsetWidth + bindingOptions.element.offsetWidth);
+          left = left - _element_Dialog.offsetWidth;
+          left = left + bindingOptions.element.offsetWidth;
         }
         if (top + _element_Dialog.offsetHeight > _parameter_Window.innerHeight) {
           top = top - (_element_Dialog.offsetHeight + bindingOptions.element.offsetHeight);
