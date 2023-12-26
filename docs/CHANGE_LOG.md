@@ -2,6 +2,12 @@
 
 ## Version 0.4.0:
 
+#### **New Features:**
+- Progress dots are now shown on the dialog! This allows you to jump to specific areas of the journey!
+
+#### **Configuration Options:**
+- Added a new configuration option "showProgressDots" (defaults to true), which states if the progress dots are shown on the dialog.
+
 #### **Binding Options:**
 - Added a new binding option called "attach", which states if the dialog should be attached to the element (otherwise, its centered in the window)  Defaults to true.
 

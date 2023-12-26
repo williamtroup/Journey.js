@@ -139,6 +139,41 @@ div.journey-js-dialog {
         font-weight: 100;
     }
 
+    div.progress-dots {
+        margin-top: 5px;
+        margin-bottom: 5px;
+        text-wrap: nowrap;
+        text-align: center;
+
+        div.dot,
+        div.dot-active {
+            border-radius: 50%;
+            height: 10px;
+            width: 10px;
+            margin-right: 2.5px;
+            margin-left: 2.5px;
+            display: inline-block;
+            padding: 0 !important;
+        }
+
+        div.dot {
+            background-color: var(--dialog-button-background-color);
+            border: var(--border-size) solid var(--dialog-button-border-color);
+
+            &:hover {
+                cursor: pointer;
+                background-color: var(--dialog-button-hover-background-color);
+                border: var(--border-size) solid var(--dialog-button-hover-border-color);
+                transition: var(--transition);
+            }
+        }
+
+        div.dot-active {
+            background-color: var(--dialog-button-border-color);
+            border: var(--border-size) solid var(--dialog-button-border-color);
+        }
+    }
+
     div.buttons {
         margin-top: var(--spacing);
         text-align: right;

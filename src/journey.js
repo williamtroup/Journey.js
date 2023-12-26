@@ -51,6 +51,7 @@
         _element_Dialog_Close_Button = null,
         _element_Dialog_Title = null,
         _element_Dialog_Description = null,
+        _element_Dialog_ProgressDots = null,
         _element_Dialog_Previous_Button = null,
         _element_Dialog_Next_Button = null,
 
@@ -97,6 +98,9 @@
 
         _element_Dialog_Description = createElement( "div", "description" );
         _element_Dialog.appendChild( _element_Dialog_Description );
+
+        _element_Dialog_ProgressDots = createElement( "div", "progress-dots" );
+        _element_Dialog.appendChild( _element_Dialog_ProgressDots );
 
         var buttons = createElement( "div", "buttons" );
         _element_Dialog.appendChild( buttons );
@@ -214,6 +218,7 @@
                 _element_Dialog.style.top = centerTop + "px";
             }
 
+            buildProcessDots();
             fireCustomTrigger( bindingOptions.onEnter, bindingOptions.element );
         }
     }
@@ -233,6 +238,36 @@
             if ( callCustomTrigger ) {
                 fireCustomTrigger( bindingOptions.onLeave, bindingOptions.element );
             }
+        }
+    }
+
+    function buildProcessDots() {
+        _element_Dialog_ProgressDots.innerHTML = _string.empty;
+
+        if ( _configuration.showProgressDots ) {
+            var keysLength = _elements_Attributes_Keys.length;
+
+            for ( var keyIndex = 0; keyIndex < keysLength; keyIndex++ ) {
+                buildProgressDot( keyIndex );
+            }
+        }
+    }
+
+    function buildProgressDot( keyIndex ) {
+        if ( keyIndex === _elements_Attributes_Position ) {
+            _element_Dialog_ProgressDots.appendChild( createElement( "div", "dot-active" ) );
+            
+        } else {
+            var dot = createElement( "div", "dot" );
+            _element_Dialog_ProgressDots.appendChild( dot );
+    
+            dot.onclick = function() {
+                removeFocusClassFromLastElement();
+
+                _elements_Attributes_Position = keyIndex;
+
+                showDialogAndSetPosition();
+            };
         }
     }
 
@@ -626,6 +661,7 @@
         _configuration.finishButtonText = getDefaultString( _configuration.finishButtonText, "Finish" );
         _configuration.showCloseButton = getDefaultBoolean( _configuration.showCloseButton, true );
         _configuration.shortcutKeysEnabled = getDefaultBoolean( _configuration.shortcutKeysEnabled, true );
+        _configuration.showProgressDots = getDefaultBoolean( _configuration.showProgressDots, true );
     }
 
 
