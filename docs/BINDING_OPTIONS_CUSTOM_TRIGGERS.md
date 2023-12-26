@@ -21,3 +21,8 @@ Fires when the the dialog is hidden for a specific DOM element.
 Fires when the the dialog is closed on a specific DOM element.
 <br>
 ***Parameter:*** element: '*object*' - The DOM element that the dialog was closed on.
+
+### options.onFinish( *element* ):
+Fires when the the dialog is is closed on the final step.
+<br>
+***Parameter:*** element: '*object*' - The DOM element that the dialog was closed on.

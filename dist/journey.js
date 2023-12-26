@@ -47,7 +47,9 @@
   }
   function onDialogNext() {
     if (_elements_Attributes_Position === _elements_Attributes_Keys.length - 1) {
+      var bindingOptions = _elements_Attributes_Json[_elements_Attributes_Keys[_elements_Attributes_Position]];
       onDialogClose();
+      fireCustomTrigger(bindingOptions.onFinish, bindingOptions.element);
     } else {
       removeFocusClassFromLastElement();
       _elements_Attributes_Position++;
@@ -193,6 +195,7 @@
     options.onEnter = getDefaultFunction(options.onEnter, null);
     options.onLeave = getDefaultFunction(options.onLeave, null);
     options.onClose = getDefaultFunction(options.onClose, null);
+    options.onFinish = getDefaultFunction(options.onFinish, null);
     return options;
   }
   function isDefined(value) {

@@ -1,6 +1,11 @@
 # Journey.js - Change Log:
 
 ## Version 0.4.0:
+
+#### **Binding Options - Custom Triggers:**
+- Added a new binding custom trigger called "onFinish", which states an event that should be triggered when the dialog is closed on the final step DOM element.
+
+#### **Documentation:**
 - Project description update.
 
 <br>
