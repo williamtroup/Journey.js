@@ -1,5 +1,29 @@
 # Journey.js - Change Log:
 
+## Version 0.4.0:
+
+#### **New Features:**
+- Progress dots are now shown on the dialog! This allows you to jump to specific areas of the journey!
+
+#### **Configuration Options:**
+- Added a new configuration option "showProgressDots" (defaults to true), which states if the progress dots are shown on the dialog.
+
+#### **Binding Options:**
+- Added a new binding option called "attach", which states if the dialog should be attached to the element (otherwise, it's centred in the window)  Defaults to true.
+- Added a new binding option called "sendClick", which states if the active DOM element should fire any assigned click event (defaults to false).
+
+#### **Binding Options - Custom Triggers:**
+- Added a new binding custom trigger called "onFinish", which states an event that should be triggered when the dialog is closed on the final step DOM element.
+
+#### **Documentation:**
+- Project description update.
+
+#### **Fixes:**
+- Fixed the dialog showing in the wrong position when the element is aligned off the right side of the screen.
+
+<br>
+
+
 ## Version 0.3.0:
 
 #### **New Features:**

@@ -9,6 +9,8 @@ Below are all the JSON properties that can be passed in the "data-journey-option
 | Type: | Name: | Description: |
 | --- | --- | --- |
 | *number* | order | States the order that this journey help should be shown (required). |
+| *boolean* | attach | States the dialog should be attached to the element (if not, the dialog is centered in the window. Defaults to true). |
+| *boolean* | sendClick | States if the active DOM element should fire any assigned click event (defaults to false). |
 <br/>
 
 

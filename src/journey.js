@@ -1,10 +1,10 @@
 /**
  * Journey.js
  * 
- * A lightweight, and easy-to-use, JavaScript library for building a website walk-through guide!
+ * A lightweight, easy-to-use JavaScript library to create interactive, customizable, accessible guided tours across your websites or web apps!
  * 
  * @file        journey.js
- * @version     v0.3.0
+ * @version     v0.4.0
  * @author      Bunoon
  * @license     MIT License
  * @copyright   Bunoon 2023
@@ -51,6 +51,7 @@
         _element_Dialog_Close_Button = null,
         _element_Dialog_Title = null,
         _element_Dialog_Description = null,
+        _element_Dialog_ProgressDots = null,
         _element_Dialog_Previous_Button = null,
         _element_Dialog_Next_Button = null,
 
@@ -98,6 +99,9 @@
         _element_Dialog_Description = createElement( "div", "description" );
         _element_Dialog.appendChild( _element_Dialog_Description );
 
+        _element_Dialog_ProgressDots = createElement( "div", "progress-dots" );
+        _element_Dialog.appendChild( _element_Dialog_ProgressDots );
+
         var buttons = createElement( "div", "buttons" );
         _element_Dialog.appendChild( buttons );
 
@@ -135,7 +139,10 @@
 
     function onDialogNext() {
         if ( _elements_Attributes_Position === _elements_Attributes_Keys.length - 1 ) {
+            var bindingOptions = _elements_Attributes_Json[ _elements_Attributes_Keys[ _elements_Attributes_Position ] ];
+
             onDialogClose();
+            fireCustomTrigger( bindingOptions.onFinish, bindingOptions.element );
 
         } else {
             removeFocusClassFromLastElement();
@@ -155,11 +162,8 @@
             _element_Dialog_Close_Button.style.display = _configuration.showCloseButton ? "block": "none";
             bindingOptions.element.className += _string.space + "journey-js-element-focus";
 
-            var offset = getOffset( bindingOptions.element ),
-                scrollPosition = getScrollPosition(),
-                top = ( offset.top - scrollPosition.top ) + bindingOptions.element.offsetHeight,
-                left = ( offset.left - scrollPosition.left ),
-                lastPositionStyle = getStyleValueByName( bindingOptions.element, "position" );
+            var lastPositionStyle = getStyleValueByName( bindingOptions.element, "position" ),
+                scrollPosition = getScrollPosition();
 
             if ( lastPositionStyle !== _string.empty && lastPositionStyle.toLowerCase() === "static" ) {
                 _element_Focus_Element_PositionStyle = lastPositionStyle;
@@ -189,17 +193,36 @@
 
             _element_Dialog.style.display = "block";
 
-            if ( left + _element_Dialog.offsetWidth > _parameter_Window.innerWidth ) {
-                left -= ( _element_Dialog.offsetWidth + bindingOptions.element.offsetWidth );
-            }
+            if ( bindingOptions.attach ) {
+                var offset = getOffset( bindingOptions.element ),
+                    top = ( offset.top - scrollPosition.top ) + bindingOptions.element.offsetHeight,
+                    left = ( offset.left - scrollPosition.left );
+
+                if ( left + _element_Dialog.offsetWidth > _parameter_Window.innerWidth ) {
+                    left -=  _element_Dialog.offsetWidth;
+                    left += bindingOptions.element.offsetWidth;
+                }
+        
+                if ( top + _element_Dialog.offsetHeight > _parameter_Window.innerHeight ) {
+                    top -= ( _element_Dialog.offsetHeight + bindingOptions.element.offsetHeight );
+                }
     
-            if ( top + _element_Dialog.offsetHeight > _parameter_Window.innerHeight ) {
-                top -= ( _element_Dialog.offsetHeight + bindingOptions.element.offsetHeight );
+                _element_Dialog.style.top = top + "px";
+                _element_Dialog.style.left = left + "px";
+
+            } else {
+                var centerLeft = Math.max( 0, ( ( _parameter_Window.innerWidth - _element_Dialog.offsetWidth ) / 2 ) + scrollPosition.left ),
+                    centerTop = Math.max( 0, ( ( _parameter_Window.innerHeight - _element_Dialog.offsetHeight ) / 2 ) + scrollPosition.top );
+    
+                _element_Dialog.style.left = centerLeft + "px";
+                _element_Dialog.style.top = centerTop + "px";
             }
 
-            _element_Dialog.style.top = top + "px";
-            _element_Dialog.style.left = left + "px";
+            if ( bindingOptions.sendClick ) {
+                bindingOptions.element.click();
+            }
 
+            buildProcessDots();
             fireCustomTrigger( bindingOptions.onEnter, bindingOptions.element );
         }
     }
@@ -219,6 +242,36 @@
             if ( callCustomTrigger ) {
                 fireCustomTrigger( bindingOptions.onLeave, bindingOptions.element );
             }
+        }
+    }
+
+    function buildProcessDots() {
+        _element_Dialog_ProgressDots.innerHTML = _string.empty;
+
+        if ( _configuration.showProgressDots ) {
+            var keysLength = _elements_Attributes_Keys.length;
+
+            for ( var keyIndex = 0; keyIndex < keysLength; keyIndex++ ) {
+                buildProgressDot( keyIndex );
+            }
+        }
+    }
+
+    function buildProgressDot( keyIndex ) {
+        if ( keyIndex === _elements_Attributes_Position ) {
+            _element_Dialog_ProgressDots.appendChild( createElement( "div", "dot-active" ) );
+            
+        } else {
+            var dot = createElement( "div", "dot" );
+            _element_Dialog_ProgressDots.appendChild( dot );
+    
+            dot.onclick = function() {
+                removeFocusClassFromLastElement();
+
+                _elements_Attributes_Position = keyIndex;
+
+                showDialogAndSetPosition();
+            };
         }
     }
 
@@ -296,11 +349,14 @@
     function buildDocumentEvents( addEvents ) {
         addEvents = isDefined( addEvents ) ? addEvents : true;
 
-        var documentFunc = addEvents ? _parameter_Document.addEventListener : _parameter_Document.removeEventListener;
+        var documentFunc = addEvents ? _parameter_Document.addEventListener : _parameter_Document.removeEventListener,
+            windowFunc = addEvents ? _parameter_Window.addEventListener : _parameter_Window.removeEventListener;
 
         if ( _configuration.shortcutKeysEnabled ) {
             documentFunc( "keydown", onWindowKeyDown );
         }
+
+        windowFunc( "resize", onWindowResize );
     }
 
     function onWindowKeyDown( e ) {
@@ -320,6 +376,12 @@
         }
     }
 
+    function onWindowResize() {
+        if ( _this.isOpen() ) {
+            showDialogAndSetPosition();
+        }
+    }
+
 
     /*
      * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -330,6 +392,8 @@
     function buildAttributeOptions( newOptions ) {
         var options = !isDefinedObject( newOptions ) ? {} : newOptions;
         options.order = getDefaultNumber( options.order, 0 );
+        options.attach = getDefaultBoolean( options.attach, true );
+        options.sendClick = getDefaultBoolean( options.sendClick, false );
 
         options = buildAttributeOptionStrings( options );
 
@@ -347,6 +411,7 @@
         options.onEnter = getDefaultFunction( options.onEnter, null );
         options.onLeave = getDefaultFunction( options.onLeave, null );
         options.onClose = getDefaultFunction( options.onClose, null );
+        options.onFinish = getDefaultFunction( options.onFinish, null );
 
         return options;
     }
@@ -601,6 +666,7 @@
         _configuration.finishButtonText = getDefaultString( _configuration.finishButtonText, "Finish" );
         _configuration.showCloseButton = getDefaultBoolean( _configuration.showCloseButton, true );
         _configuration.shortcutKeysEnabled = getDefaultBoolean( _configuration.shortcutKeysEnabled, true );
+        _configuration.showProgressDots = getDefaultBoolean( _configuration.showProgressDots, true );
     }
 
 
@@ -679,7 +745,7 @@
      * @returns     {string}                                                The version number.
      */
     this.getVersion = function() {
-        return "0.3.0";
+        return "0.4.0";
     };
 
 

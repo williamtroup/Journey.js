@@ -1,4 +1,4 @@
-/*! Journey.js v0.3.0 | (c) Bunoon | MIT License */
+/*! Journey.js v0.4.0 | (c) Bunoon | MIT License */
 (function() {
   function renderDisabledBackground() {
     _element_Disabled_Background = createElement("div", "journey-js-disabled-background");
@@ -20,6 +20,8 @@
     _element_Dialog.appendChild(_element_Dialog_Title);
     _element_Dialog_Description = createElement("div", "description");
     _element_Dialog.appendChild(_element_Dialog_Description);
+    _element_Dialog_ProgressDots = createElement("div", "progress-dots");
+    _element_Dialog.appendChild(_element_Dialog_ProgressDots);
     var buttons = createElement("div", "buttons");
     _element_Dialog.appendChild(buttons);
     _element_Dialog_Previous_Button = createElement("button", "previous");
@@ -47,7 +49,9 @@
   }
   function onDialogNext() {
     if (_elements_Attributes_Position === _elements_Attributes_Keys.length - 1) {
+      var bindingOptions = _elements_Attributes_Json[_elements_Attributes_Keys[_elements_Attributes_Position]];
       onDialogClose();
+      fireCustomTrigger(bindingOptions.onFinish, bindingOptions.element);
     } else {
       removeFocusClassFromLastElement();
       _elements_Attributes_Position++;
@@ -60,11 +64,8 @@
       showDisabledBackground();
       _element_Dialog_Close_Button.style.display = _configuration.showCloseButton ? "block" : "none";
       bindingOptions.element.className += _string.space + "journey-js-element-focus";
-      var offset = getOffset(bindingOptions.element);
-      var scrollPosition = getScrollPosition();
-      var top = offset.top - scrollPosition.top + bindingOptions.element.offsetHeight;
-      var left = offset.left - scrollPosition.left;
       var lastPositionStyle = getStyleValueByName(bindingOptions.element, "position");
+      var scrollPosition = getScrollPosition();
       if (lastPositionStyle !== _string.empty && lastPositionStyle.toLowerCase() === "static") {
         _element_Focus_Element_PositionStyle = lastPositionStyle;
         bindingOptions.element.style.position = "relative";
@@ -87,14 +88,29 @@
         _element_Dialog_Description.innerHTML = _string.empty;
       }
       _element_Dialog.style.display = "block";
-      if (left + _element_Dialog.offsetWidth > _parameter_Window.innerWidth) {
-        left = left - (_element_Dialog.offsetWidth + bindingOptions.element.offsetWidth);
+      if (bindingOptions.attach) {
+        var offset = getOffset(bindingOptions.element);
+        var top = offset.top - scrollPosition.top + bindingOptions.element.offsetHeight;
+        var left = offset.left - scrollPosition.left;
+        if (left + _element_Dialog.offsetWidth > _parameter_Window.innerWidth) {
+          left = left - _element_Dialog.offsetWidth;
+          left = left + bindingOptions.element.offsetWidth;
+        }
+        if (top + _element_Dialog.offsetHeight > _parameter_Window.innerHeight) {
+          top = top - (_element_Dialog.offsetHeight + bindingOptions.element.offsetHeight);
+        }
+        _element_Dialog.style.top = top + "px";
+        _element_Dialog.style.left = left + "px";
+      } else {
+        var centerLeft = Math.max(0, (_parameter_Window.innerWidth - _element_Dialog.offsetWidth) / 2 + scrollPosition.left);
+        var centerTop = Math.max(0, (_parameter_Window.innerHeight - _element_Dialog.offsetHeight) / 2 + scrollPosition.top);
+        _element_Dialog.style.left = centerLeft + "px";
+        _element_Dialog.style.top = centerTop + "px";
       }
-      if (top + _element_Dialog.offsetHeight > _parameter_Window.innerHeight) {
-        top = top - (_element_Dialog.offsetHeight + bindingOptions.element.offsetHeight);
+      if (bindingOptions.sendClick) {
+        bindingOptions.element.click();
       }
-      _element_Dialog.style.top = top + "px";
-      _element_Dialog.style.left = left + "px";
+      buildProcessDots();
       fireCustomTrigger(bindingOptions.onEnter, bindingOptions.element);
     }
   }
@@ -109,6 +125,29 @@
       if (callCustomTrigger) {
         fireCustomTrigger(bindingOptions.onLeave, bindingOptions.element);
       }
+    }
+  }
+  function buildProcessDots() {
+    _element_Dialog_ProgressDots.innerHTML = _string.empty;
+    if (_configuration.showProgressDots) {
+      var keysLength = _elements_Attributes_Keys.length;
+      var keyIndex = 0;
+      for (; keyIndex < keysLength; keyIndex++) {
+        buildProgressDot(keyIndex);
+      }
+    }
+  }
+  function buildProgressDot(keyIndex) {
+    if (keyIndex === _elements_Attributes_Position) {
+      _element_Dialog_ProgressDots.appendChild(createElement("div", "dot-active"));
+    } else {
+      var dot = createElement("div", "dot");
+      _element_Dialog_ProgressDots.appendChild(dot);
+      dot.onclick = function() {
+        removeFocusClassFromLastElement();
+        _elements_Attributes_Position = keyIndex;
+        showDialogAndSetPosition();
+      };
     }
   }
   function getElements() {
@@ -160,9 +199,11 @@
   function buildDocumentEvents(addEvents) {
     addEvents = isDefined(addEvents) ? addEvents : true;
     var documentFunc = addEvents ? _parameter_Document.addEventListener : _parameter_Document.removeEventListener;
+    var windowFunc = addEvents ? _parameter_Window.addEventListener : _parameter_Window.removeEventListener;
     if (_configuration.shortcutKeysEnabled) {
       documentFunc("keydown", onWindowKeyDown);
     }
+    windowFunc("resize", onWindowResize);
   }
   function onWindowKeyDown(e) {
     if (_this.isOpen()) {
@@ -178,9 +219,16 @@
       }
     }
   }
+  function onWindowResize() {
+    if (_this.isOpen()) {
+      showDialogAndSetPosition();
+    }
+  }
   function buildAttributeOptions(newOptions) {
     var options = !isDefinedObject(newOptions) ? {} : newOptions;
     options.order = getDefaultNumber(options.order, 0);
+    options.attach = getDefaultBoolean(options.attach, true);
+    options.sendClick = getDefaultBoolean(options.sendClick, false);
     options = buildAttributeOptionStrings(options);
     return buildAttributeOptionCustomTriggers(options);
   }
@@ -193,6 +241,7 @@
     options.onEnter = getDefaultFunction(options.onEnter, null);
     options.onLeave = getDefaultFunction(options.onLeave, null);
     options.onClose = getDefaultFunction(options.onClose, null);
+    options.onFinish = getDefaultFunction(options.onFinish, null);
     return options;
   }
   function isDefined(value) {
@@ -334,6 +383,7 @@
     _configuration.finishButtonText = getDefaultString(_configuration.finishButtonText, "Finish");
     _configuration.showCloseButton = getDefaultBoolean(_configuration.showCloseButton, true);
     _configuration.shortcutKeysEnabled = getDefaultBoolean(_configuration.shortcutKeysEnabled, true);
+    _configuration.showProgressDots = getDefaultBoolean(_configuration.showProgressDots, true);
   }
   var _this = this;
   var _parameter_Document = null;
@@ -351,6 +401,7 @@
   var _element_Dialog_Close_Button = null;
   var _element_Dialog_Title = null;
   var _element_Dialog_Description = null;
+  var _element_Dialog_ProgressDots = null;
   var _element_Dialog_Previous_Button = null;
   var _element_Dialog_Next_Button = null;
   var _attribute_Name_Journey = "data-journey-options";
@@ -379,7 +430,7 @@
     return _elements_Attributes_Position >= _elements_Attributes_Keys.length - 1;
   };
   this.getVersion = function() {
-    return "0.3.0";
+    return "0.4.0";
   };
   (function(documentObject, windowObject) {
     _parameter_Document = documentObject;
