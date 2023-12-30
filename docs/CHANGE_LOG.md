@@ -1,7 +1,12 @@
 # Journey.js - Change Log:
 
 ## Version 0.5.0:
--
+
+#### **New Features:**
+- Browser URL parameters support! This will allow you to force Journey.js to open when the page has finished loading, and state what step to start on.
+
+#### **Configuration Options:**
+- Added a new configuration option "browserUrlParametersEnabled" (defaults to true), which states if browser URL parameter reading support is enabled.
 
 <br>
 

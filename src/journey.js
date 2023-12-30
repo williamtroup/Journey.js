@@ -419,6 +419,54 @@
 
     /*
      * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+     * Browser URL Parameters
+     * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+     */
+
+    function getBrowserUrlParameters() {
+        var show = false;
+
+        if ( _configuration.browserUrlParametersEnabled ) {
+            var url = _parameter_Window.location.href,
+                urlArguments = getBrowserUrlArguments( url );
+
+            if ( isDefined( urlArguments.sjOrderId ) ) {
+                var orderId = parseInt( urlArguments.sjOrderId, 10 );
+
+                if ( !isNaN( orderId ) && orderId <= _elements_Attributes_Keys.length - 1 ) {
+                    _elements_Attributes_Position = orderId;
+                }
+            }
+
+            if ( isDefined( urlArguments.sjShow ) ) {
+                show = urlArguments.sjShow === "true";
+            }
+        }
+
+        return show;
+    }
+
+    function getBrowserUrlArguments( url ) {
+        var urlArguments = {},
+            urlDataParts = url.split( "?" );
+
+        if ( urlDataParts.length > 1 ) {
+            var parsedArgs = urlDataParts[ 1 ].split( "&" ),
+                parsedArgsLength = parsedArgs.length;
+
+            for ( var parsedArgsIndex = 0; parsedArgsIndex < parsedArgsLength; parsedArgsIndex++ ) {
+                var parsedArg = parsedArgs[ parsedArgsIndex ].split( "=" );
+
+                urlArguments[ parsedArg[ 0 ] ] = parsedArg[ 1 ];
+            }
+        }
+
+        return urlArguments;
+    }
+
+
+    /*
+     * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
      * Validation
      * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
      */
@@ -667,6 +715,7 @@
         _configuration.showCloseButton = getDefaultBoolean( _configuration.showCloseButton, true );
         _configuration.shortcutKeysEnabled = getDefaultBoolean( _configuration.shortcutKeysEnabled, true );
         _configuration.showProgressDots = getDefaultBoolean( _configuration.showProgressDots, true );
+        _configuration.browserUrlParametersEnabled = getDefaultBoolean( _configuration.browserUrlParametersEnabled, true );
     }
 
 
@@ -766,6 +815,10 @@
             renderDialog();
             getElements();
             buildDocumentEvents();
+
+            if ( getBrowserUrlParameters() ) {
+                _this.show();
+            }
         } );
 
         if ( !isDefined( _parameter_Window.$journey ) ) {

@@ -25,6 +25,7 @@ Journey.js
 - Full CSS theme support (using :root variables, with a default dark-mode theme).
 - Custom triggers for actions (when the dialog is shown for an element, or hidden, etc).
 - Shortcut keys (click [here](docs/SHORTCUT_KEYS.md) to see the full list).
+- Browser URL parameters support (click [here](docs/BROWSER_PARAMETERS.md) to see the full list).
 <br />
 <br />
 

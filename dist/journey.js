@@ -244,6 +244,37 @@
     options.onFinish = getDefaultFunction(options.onFinish, null);
     return options;
   }
+  function getBrowserUrlParameters() {
+    var show = false;
+    if (_configuration.browserUrlParametersEnabled) {
+      var url = _parameter_Window.location.href;
+      var urlArguments = getBrowserUrlArguments(url);
+      if (isDefined(urlArguments.sjOrderId)) {
+        var orderId = parseInt(urlArguments.sjOrderId, 10);
+        if (!isNaN(orderId) && orderId <= _elements_Attributes_Keys.length - 1) {
+          _elements_Attributes_Position = orderId;
+        }
+      }
+      if (isDefined(urlArguments.sjShow)) {
+        show = urlArguments.sjShow === "true";
+      }
+    }
+    return show;
+  }
+  function getBrowserUrlArguments(url) {
+    var urlArguments = {};
+    var urlDataParts = url.split("?");
+    if (urlDataParts.length > 1) {
+      var parsedArgs = urlDataParts[1].split("&");
+      var parsedArgsLength = parsedArgs.length;
+      var parsedArgsIndex = 0;
+      for (; parsedArgsIndex < parsedArgsLength; parsedArgsIndex++) {
+        var parsedArg = parsedArgs[parsedArgsIndex].split("=");
+        urlArguments[parsedArg[0]] = parsedArg[1];
+      }
+    }
+    return urlArguments;
+  }
   function isDefined(value) {
     return value !== null && value !== undefined && value !== _string.empty;
   }
@@ -384,6 +415,7 @@
     _configuration.showCloseButton = getDefaultBoolean(_configuration.showCloseButton, true);
     _configuration.shortcutKeysEnabled = getDefaultBoolean(_configuration.shortcutKeysEnabled, true);
     _configuration.showProgressDots = getDefaultBoolean(_configuration.showProgressDots, true);
+    _configuration.browserUrlParametersEnabled = getDefaultBoolean(_configuration.browserUrlParametersEnabled, true);
   }
   var _this = this;
   var _parameter_Document = null;
@@ -441,6 +473,9 @@
       renderDialog();
       getElements();
       buildDocumentEvents();
+      if (getBrowserUrlParameters()) {
+        _this.show();
+      }
     });
     if (!isDefined(_parameter_Window.$journey)) {
       _parameter_Window.$journey = this;
