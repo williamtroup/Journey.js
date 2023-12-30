@@ -1,4 +1,4 @@
-/*! Journey.js v0.4.0 | (c) Bunoon | MIT License */
+/*! Journey.js v0.5.0 | (c) Bunoon | MIT License */
 (function() {
   function renderDisabledBackground() {
     _element_Disabled_Background = createElement("div", "journey-js-disabled-background");
@@ -430,7 +430,7 @@
     return _elements_Attributes_Position >= _elements_Attributes_Keys.length - 1;
   };
   this.getVersion = function() {
-    return "0.4.0";
+    return "0.5.0";
   };
   (function(documentObject, windowObject) {
     _parameter_Document = documentObject;
