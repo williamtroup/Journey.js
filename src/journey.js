@@ -191,7 +191,11 @@
                 _element_Dialog_Description.innerHTML = _string.empty;
             }
 
-            _element_Dialog.style.display = "block";
+            if ( _element_Dialog.style.display !== "block" ) {
+                _element_Dialog.style.display = "block";
+
+                fireCustomTrigger( bindingOptions.onOpen, bindingOptions.element );
+            }
 
             if ( bindingOptions.attach ) {
                 var offset = getOffset( bindingOptions.element ),
@@ -414,6 +418,7 @@
         options.onLeave = getDefaultFunction( options.onLeave, null );
         options.onClose = getDefaultFunction( options.onClose, null );
         options.onFinish = getDefaultFunction( options.onFinish, null );
+        options.onOpen = getDefaultFunction( options.onOpen, null );
 
         return options;
     }

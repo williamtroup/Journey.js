@@ -23,9 +23,14 @@ Fires when the the dialog is closed on a specific DOM element.
 ***Parameter:*** element: '*object*' - The DOM element that the dialog was closed on.
 
 ### options.onFinish( *element* ):
-Fires when the the dialog is is closed on the final step.
+Fires when the the dialog is closed on the final step.
 <br>
 ***Parameter:*** element: '*object*' - The DOM element that the dialog was closed on.
+
+### options.onOpen( *element* ):
+Fires when the the dialog is first opened.
+<br>
+***Parameter:*** element: '*object*' - The DOM element that the dialog was opened on.
 
 <br/>
 
