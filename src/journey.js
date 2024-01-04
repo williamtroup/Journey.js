@@ -4,7 +4,7 @@
  * A lightweight, easy-to-use JavaScript library to create interactive, customizable, accessible guided tours across your websites or web apps!
  * 
  * @file        journey.js
- * @version     v0.5.0
+ * @version     v0.6.0
  * @author      Bunoon
  * @license     MIT License
  * @copyright   Bunoon 2023
@@ -25,7 +25,9 @@
         _enum_KeyCodes = {
             escape: 27,
             left: 37,
-            right: 39
+            up: 38,
+            right: 39,
+            down: 40
         },
 
         // Variables: Strings
@@ -191,19 +193,23 @@
                 _element_Dialog_Description.innerHTML = _string.empty;
             }
 
-            _element_Dialog.style.display = "block";
+            if ( _element_Dialog.style.display !== "block" ) {
+                _element_Dialog.style.display = "block";
+
+                fireCustomTrigger( bindingOptions.onOpen, bindingOptions.element );
+            }
 
             if ( bindingOptions.attach ) {
                 var offset = getOffset( bindingOptions.element ),
                     top = ( offset.top - scrollPosition.top ) + bindingOptions.element.offsetHeight,
                     left = ( offset.left - scrollPosition.left );
 
-                if ( left + _element_Dialog.offsetWidth > _parameter_Window.innerWidth ) {
+                if ( left + _element_Dialog.offsetWidth > _parameter_Window.innerWidth || bindingOptions.alignRight ) {
                     left -=  _element_Dialog.offsetWidth;
                     left += bindingOptions.element.offsetWidth;
                 }
         
-                if ( top + _element_Dialog.offsetHeight > _parameter_Window.innerHeight ) {
+                if ( top + _element_Dialog.offsetHeight > _parameter_Window.innerHeight || bindingOptions.alignTop ) {
                     top -= ( _element_Dialog.offsetHeight + bindingOptions.element.offsetHeight );
                 }
     
@@ -372,12 +378,40 @@
             } else if ( e.keyCode === _enum_KeyCodes.right ) {
                 e.preventDefault();
                 onDialogNext();
+
+            } else if ( e.keyCode === _enum_KeyCodes.up ) {
+                e.preventDefault();
+                onWindowKeyCodeUp();
+
+            } else if ( e.keyCode === _enum_KeyCodes.down ) {
+                e.preventDefault();
+                onWindowKeyCodeDown();
             }
         }
     }
 
     function onWindowResize() {
         if ( _this.isOpen() ) {
+            showDialogAndSetPosition();
+        }
+    }
+
+    function onWindowKeyCodeUp() {
+        if ( _elements_Attributes_Position !== 0 ) {
+            removeFocusClassFromLastElement();
+
+            _elements_Attributes_Position = 0;
+    
+            showDialogAndSetPosition();
+        }
+    }
+
+    function onWindowKeyCodeDown() {
+        if ( _elements_Attributes_Position !== _elements_Attributes_Keys.length - 1 ) {
+            removeFocusClassFromLastElement();
+
+            _elements_Attributes_Position = _elements_Attributes_Keys.length - 1;
+    
             showDialogAndSetPosition();
         }
     }
@@ -394,6 +428,8 @@
         options.order = getDefaultNumber( options.order, 0 );
         options.attach = getDefaultBoolean( options.attach, true );
         options.sendClick = getDefaultBoolean( options.sendClick, false );
+        options.alignTop = getDefaultBoolean( options.alignTop, false );
+        options.alignRight = getDefaultBoolean( options.alignRight, false );
 
         options = buildAttributeOptionStrings( options );
 
@@ -412,6 +448,7 @@
         options.onLeave = getDefaultFunction( options.onLeave, null );
         options.onClose = getDefaultFunction( options.onClose, null );
         options.onFinish = getDefaultFunction( options.onFinish, null );
+        options.onOpen = getDefaultFunction( options.onOpen, null );
 
         return options;
     }
@@ -794,7 +831,7 @@
      * @returns     {string}                                                The version number.
      */
     this.getVersion = function() {
-        return "0.5.0";
+        return "0.6.0";
     };
 
 

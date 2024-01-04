@@ -1,8 +1,8 @@
-# Journey.js v0.5.0
+# Journey.js v0.6.0
 
 [![Tweet](https://img.shields.io/twitter/url/http/shields.io.svg?style=social)](https://twitter.com/intent/tweet?text=Journey.js%2C%20a%20free%20JavaScript%journey%builder&url=https://github.com/williamtroup/Journey.js&hashtags=javascript,html,journey,guide)
-[![npm](https://img.shields.io/badge/npmjs-v0.5.0-blue)](https://www.npmjs.com/package/jjourney.js)
-[![nuget](https://img.shields.io/badge/nuget-v0.5.0-purple)](https://www.nuget.org/packages/jJourney.js/)
+[![npm](https://img.shields.io/badge/npmjs-v0.6.0-blue)](https://www.npmjs.com/package/jjourney.js)
+[![nuget](https://img.shields.io/badge/nuget-v0.6.0-purple)](https://www.nuget.org/packages/jJourney.js/)
 [![license](https://img.shields.io/badge/license-MIT-green)](https://github.com/williamtroup/Journey.js/blob/main/LICENSE.txt)
 [![discussions Welcome](https://img.shields.io/badge/discussions-Welcome-red)](https://github.com/williamtroup/Journey.js/discussions)
 [![coded by William Troup](https://img.shields.io/badge/coded_by-William_Troup-yellow)](https://github.com/williamtroup)
@@ -56,9 +56,9 @@ Make sure you include the "DOCTYPE html" tag at the top of your HTML, as follows
 <button data-journey-options="{ 'title': 'Get Version', 'description': 'Logs the current version of Journey.js to the developers console.', 'order': 6 }" onclick="console.log( $journey.getVersion() );">Get Version</button>
 ```
 
-To see a list of all the available binding options you can use for "data-journey-options", click [here](https://github.com/williamtroup/Journey.js/blob/main/docs/BINDING_OPTIONS.md).
+To see a list of all the available binding options you can use for "data-journey-options", click [here](https://github.com/williamtroup/Journey.js/blob/main/docs/binding/OPTIONS.md).
 
-To see a list of all the available custom triggers you can use for "data-journey-options", click [here](https://github.com/williamtroup/Journey.js/blob/main/docs/BINDING_OPTIONS_CUSTOM_TRIGGERS.md).
+To see a list of all the available custom triggers you can use for "data-journey-options", click [here](https://github.com/williamtroup/Journey.js/blob/main/docs/binding/CUSTOM_TRIGGERS.md).
 
 
 ### 4. Finishing Up:
@@ -96,4 +96,4 @@ Configuration options allow you to customize how Journey.js will function.  You 
 </script>
 ```
 
-To see a list of all the available configuration options you can use, click [here](https://github.com/williamtroup/Journey.js/blob/main/docs/CONFIGURATION_OPTIONS.md).
+To see a list of all the available configuration options you can use, click [here](https://github.com/williamtroup/Journey.js/blob/main/docs/configuration/OPTIONS.md).

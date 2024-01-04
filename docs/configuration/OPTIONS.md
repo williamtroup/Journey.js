@@ -7,7 +7,7 @@ Below are all the configuration options that can be passed to the "setConfigurat
 
 | Type: | Name: | Description: |
 | --- | --- | --- |
-| *boolean* | safeMode | States if safe-mode is enabled (errors will be ignored and logged only (defaults to true). |
+| *boolean* | safeMode | States if safe-mode is enabled (errors will be ignored and logged only. Defaults to true). |
 | *Object* | domElementTypes | The DOM element types to lookup (can be either an array of strings, or a space separated string, and defaults to "*"). |
 | *string* | previousButtonText | States the text that should be used for the Previous button (defaults to "Previous"). |
 | *string* | nextButtonText | States the text that should be used for the Next button (defaults to "Next"). |
@@ -16,3 +16,16 @@ Below are all the configuration options that can be passed to the "setConfigurat
 | *boolean* | shortcutKeysEnabled | States if the shortcut keys are enabled (defaults to true). |
 | *boolean* | showProgressDots | States if the progress dots are visible on the dialog (defaults to true). |
 | *boolean* | browserUrlParametersEnabled | States if the browser URL parameters are enabled (defaults to true). |
+
+<br/>
+
+
+## Example:
+
+```markdown
+<script> 
+  $journey.setConfiguration( {
+      safeMode: false
+  } );
+</script>
+```

@@ -1,5 +1,25 @@
 # Journey.js - Change Log:
 
+## Version 0.6.0:
+
+#### **Binding Options:**
+- Added a new binding option called "alignTop", which states if the dialog should be aligned to the top of the element.
+- Added a new binding option called "alignRight", which states if the dialog should be aligned to the right of the element.
+
+#### **Binding Options - Custom Triggers:**
+- Added a new binding custom trigger called "onOpen", which states an event that should be triggered when the dialog is first opened.
+
+#### **Shortcut Keys:**
+- Added a new shortcut key "Up", which will move to the first element in the journey.
+- Added a new shortcut key "Down", which will move to the last element in the journey.
+
+#### **Documentation:**
+- Added examples to all documentation areas.
+- Reorganized the documentation for the project.
+
+<br>
+
+
 ## Version 0.5.0:
 
 #### **New Features:**

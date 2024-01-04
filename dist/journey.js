@@ -1,4 +1,4 @@
-/*! Journey.js v0.5.0 | (c) Bunoon | MIT License */
+/*! Journey.js v0.6.0 | (c) Bunoon | MIT License */
 (function() {
   function renderDisabledBackground() {
     _element_Disabled_Background = createElement("div", "journey-js-disabled-background");
@@ -87,16 +87,19 @@
       } else {
         _element_Dialog_Description.innerHTML = _string.empty;
       }
-      _element_Dialog.style.display = "block";
+      if (_element_Dialog.style.display !== "block") {
+        _element_Dialog.style.display = "block";
+        fireCustomTrigger(bindingOptions.onOpen, bindingOptions.element);
+      }
       if (bindingOptions.attach) {
         var offset = getOffset(bindingOptions.element);
         var top = offset.top - scrollPosition.top + bindingOptions.element.offsetHeight;
         var left = offset.left - scrollPosition.left;
-        if (left + _element_Dialog.offsetWidth > _parameter_Window.innerWidth) {
+        if (left + _element_Dialog.offsetWidth > _parameter_Window.innerWidth || bindingOptions.alignRight) {
           left = left - _element_Dialog.offsetWidth;
           left = left + bindingOptions.element.offsetWidth;
         }
-        if (top + _element_Dialog.offsetHeight > _parameter_Window.innerHeight) {
+        if (top + _element_Dialog.offsetHeight > _parameter_Window.innerHeight || bindingOptions.alignTop) {
           top = top - (_element_Dialog.offsetHeight + bindingOptions.element.offsetHeight);
         }
         _element_Dialog.style.top = top + "px";
@@ -216,6 +219,12 @@
       } else if (e.keyCode === _enum_KeyCodes.right) {
         e.preventDefault();
         onDialogNext();
+      } else if (e.keyCode === _enum_KeyCodes.up) {
+        e.preventDefault();
+        onWindowKeyCodeUp();
+      } else if (e.keyCode === _enum_KeyCodes.down) {
+        e.preventDefault();
+        onWindowKeyCodeDown();
       }
     }
   }
@@ -224,11 +233,27 @@
       showDialogAndSetPosition();
     }
   }
+  function onWindowKeyCodeUp() {
+    if (_elements_Attributes_Position !== 0) {
+      removeFocusClassFromLastElement();
+      _elements_Attributes_Position = 0;
+      showDialogAndSetPosition();
+    }
+  }
+  function onWindowKeyCodeDown() {
+    if (_elements_Attributes_Position !== _elements_Attributes_Keys.length - 1) {
+      removeFocusClassFromLastElement();
+      _elements_Attributes_Position = _elements_Attributes_Keys.length - 1;
+      showDialogAndSetPosition();
+    }
+  }
   function buildAttributeOptions(newOptions) {
     var options = !isDefinedObject(newOptions) ? {} : newOptions;
     options.order = getDefaultNumber(options.order, 0);
     options.attach = getDefaultBoolean(options.attach, true);
     options.sendClick = getDefaultBoolean(options.sendClick, false);
+    options.alignTop = getDefaultBoolean(options.alignTop, false);
+    options.alignRight = getDefaultBoolean(options.alignRight, false);
     options = buildAttributeOptionStrings(options);
     return buildAttributeOptionCustomTriggers(options);
   }
@@ -242,6 +267,7 @@
     options.onLeave = getDefaultFunction(options.onLeave, null);
     options.onClose = getDefaultFunction(options.onClose, null);
     options.onFinish = getDefaultFunction(options.onFinish, null);
+    options.onOpen = getDefaultFunction(options.onOpen, null);
     return options;
   }
   function getBrowserUrlParameters() {
@@ -421,7 +447,7 @@
   var _parameter_Document = null;
   var _parameter_Window = null;
   var _configuration = {};
-  var _enum_KeyCodes = {escape:27, left:37, right:39};
+  var _enum_KeyCodes = {escape:27, left:37, up:38, right:39, down:40};
   var _string = {empty:"", space:" "};
   var _elements_Type = {};
   var _elements_Attributes_Json = {};
@@ -462,7 +488,7 @@
     return _elements_Attributes_Position >= _elements_Attributes_Keys.length - 1;
   };
   this.getVersion = function() {
-    return "0.5.0";
+    return "0.6.0";
   };
   (function(documentObject, windowObject) {
     _parameter_Document = documentObject;
