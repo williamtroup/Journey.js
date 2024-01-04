@@ -198,12 +198,12 @@
                     top = ( offset.top - scrollPosition.top ) + bindingOptions.element.offsetHeight,
                     left = ( offset.left - scrollPosition.left );
 
-                if ( left + _element_Dialog.offsetWidth > _parameter_Window.innerWidth ) {
+                if ( left + _element_Dialog.offsetWidth > _parameter_Window.innerWidth || bindingOptions.alignRight ) {
                     left -=  _element_Dialog.offsetWidth;
                     left += bindingOptions.element.offsetWidth;
                 }
         
-                if ( top + _element_Dialog.offsetHeight > _parameter_Window.innerHeight ) {
+                if ( top + _element_Dialog.offsetHeight > _parameter_Window.innerHeight || bindingOptions.alignTop ) {
                     top -= ( _element_Dialog.offsetHeight + bindingOptions.element.offsetHeight );
                 }
     
@@ -394,6 +394,8 @@
         options.order = getDefaultNumber( options.order, 0 );
         options.attach = getDefaultBoolean( options.attach, true );
         options.sendClick = getDefaultBoolean( options.sendClick, false );
+        options.alignTop = getDefaultBoolean( options.alignTop, false );
+        options.alignRight = getDefaultBoolean( options.alignRight, false );
 
         options = buildAttributeOptionStrings( options );
 

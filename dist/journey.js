@@ -92,11 +92,11 @@
         var offset = getOffset(bindingOptions.element);
         var top = offset.top - scrollPosition.top + bindingOptions.element.offsetHeight;
         var left = offset.left - scrollPosition.left;
-        if (left + _element_Dialog.offsetWidth > _parameter_Window.innerWidth) {
+        if (left + _element_Dialog.offsetWidth > _parameter_Window.innerWidth || bindingOptions.alignRight) {
           left = left - _element_Dialog.offsetWidth;
           left = left + bindingOptions.element.offsetWidth;
         }
-        if (top + _element_Dialog.offsetHeight > _parameter_Window.innerHeight) {
+        if (top + _element_Dialog.offsetHeight > _parameter_Window.innerHeight || bindingOptions.alignTop) {
           top = top - (_element_Dialog.offsetHeight + bindingOptions.element.offsetHeight);
         }
         _element_Dialog.style.top = top + "px";
@@ -229,6 +229,8 @@
     options.order = getDefaultNumber(options.order, 0);
     options.attach = getDefaultBoolean(options.attach, true);
     options.sendClick = getDefaultBoolean(options.sendClick, false);
+    options.alignTop = getDefaultBoolean(options.alignTop, false);
+    options.alignRight = getDefaultBoolean(options.alignRight, false);
     options = buildAttributeOptionStrings(options);
     return buildAttributeOptionCustomTriggers(options);
   }

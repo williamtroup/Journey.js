@@ -2,6 +2,10 @@
 
 ## Version 0.6.0:
 
+#### **Binding Options:**
+- Added a new binding option called "alignTop", which states if the dialog should be aligned to the top of the element.
+- Added a new binding option called "alignRight", which states if the dialog should be aligned to the right of the element.
+
 #### **Documentation:**
 - Added examples to all documentation areas.
 - Reorganized the documentation for the project.
