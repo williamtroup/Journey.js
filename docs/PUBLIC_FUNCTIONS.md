@@ -27,6 +27,7 @@ Returns a flag that states if the full journey has been completed.
 <br>
 ***Returns***: '*boolean*' - The flag that states if the full journey has been completed.
 <br>
+<br>
 
 
 ## Configuration:
@@ -38,6 +39,7 @@ Sets the specific configuration options that should be used.
 <br>
 ***Returns***: '*Object*' - The Journey.js class instance.
 <br>
+<br>
 
 
 ## Additional Data:
@@ -46,3 +48,14 @@ Sets the specific configuration options that should be used.
 Returns the version of Journey.js.
 <br>
 ***Returns***: '*string*' - The version number.
+<br>
+<br>
+
+
+## Example:
+
+```markdown
+<script> 
+    var version = $journey.getVersion();
+</script>
+```
