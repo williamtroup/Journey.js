@@ -26,3 +26,12 @@ Fires when the the dialog is closed on a specific DOM element.
 Fires when the the dialog is is closed on the final step.
 <br>
 ***Parameter:*** element: '*object*' - The DOM element that the dialog was closed on.
+
+<br/>
+
+
+## Binding Example:
+
+```markdown
+<button data-journey-options="{ 'onFinish': yourJsFunction }"></button>
+```

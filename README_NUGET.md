@@ -56,9 +56,9 @@ Make sure you include the "DOCTYPE html" tag at the top of your HTML, as follows
 <button data-journey-options="{ 'title': 'Get Version', 'description': 'Logs the current version of Journey.js to the developers console.', 'order': 6 }" onclick="console.log( $journey.getVersion() );">Get Version</button>
 ```
 
-To see a list of all the available binding options you can use for "data-journey-options", click [here](https://github.com/williamtroup/Journey.js/blob/main/docs/BINDING_OPTIONS.md).
+To see a list of all the available binding options you can use for "data-journey-options", click [here](https://github.com/williamtroup/Journey.js/blob/main/docs/binding/OPTIONS.md).
 
-To see a list of all the available custom triggers you can use for "data-journey-options", click [here](https://github.com/williamtroup/Journey.js/blob/main/docs/BINDING_OPTIONS_CUSTOM_TRIGGERS.md).
+To see a list of all the available custom triggers you can use for "data-journey-options", click [here](https://github.com/williamtroup/Journey.js/blob/main/docs/binding/CUSTOM_TRIGGERS.md).
 
 
 ### 4. Finishing Up:

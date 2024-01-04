@@ -14,10 +14,19 @@ Below are all the JSON properties that can be passed in the "data-journey-option
 <br/>
 
 
-## Translatable String Options:
+## String Options:
 <br/>
 
 | Type: | Name: | Description: |
 | --- | --- | --- |
 | *string* | title | The title that should be shown in the dialog (defaults to null). |
 | *string* | description | The description that should be shown in the dialog (defaults to null). |
+
+<br/>
+
+
+## Binding Example:
+
+```markdown
+<button data-journey-options="{ 'order': 6 }"></button>
+```
