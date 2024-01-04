@@ -234,14 +234,18 @@
     }
   }
   function onWindowKeyCodeUp() {
-    removeFocusClassFromLastElement();
-    _elements_Attributes_Position = 0;
-    showDialogAndSetPosition();
+    if (_elements_Attributes_Position !== 0) {
+      removeFocusClassFromLastElement();
+      _elements_Attributes_Position = 0;
+      showDialogAndSetPosition();
+    }
   }
   function onWindowKeyCodeDown() {
-    removeFocusClassFromLastElement();
-    _elements_Attributes_Position = _elements_Attributes_Keys.length - 1;
-    showDialogAndSetPosition();
+    if (_elements_Attributes_Position !== _elements_Attributes_Keys.length - 1) {
+      removeFocusClassFromLastElement();
+      _elements_Attributes_Position = _elements_Attributes_Keys.length - 1;
+      showDialogAndSetPosition();
+    }
   }
   function buildAttributeOptions(newOptions) {
     var options = !isDefinedObject(newOptions) ? {} : newOptions;

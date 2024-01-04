@@ -397,19 +397,23 @@
     }
 
     function onWindowKeyCodeUp() {
-        removeFocusClassFromLastElement();
+        if ( _elements_Attributes_Position !== 0 ) {
+            removeFocusClassFromLastElement();
 
-        _elements_Attributes_Position = 0;
-
-        showDialogAndSetPosition();
+            _elements_Attributes_Position = 0;
+    
+            showDialogAndSetPosition();
+        }
     }
 
     function onWindowKeyCodeDown() {
-        removeFocusClassFromLastElement();
+        if ( _elements_Attributes_Position !== _elements_Attributes_Keys.length - 1 ) {
+            removeFocusClassFromLastElement();
 
-        _elements_Attributes_Position = _elements_Attributes_Keys.length - 1;
-
-        showDialogAndSetPosition();
+            _elements_Attributes_Position = _elements_Attributes_Keys.length - 1;
+    
+            showDialogAndSetPosition();
+        }
     }
 
 
