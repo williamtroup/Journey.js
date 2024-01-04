@@ -25,7 +25,9 @@
         _enum_KeyCodes = {
             escape: 27,
             left: 37,
-            right: 39
+            up: 38,
+            right: 39,
+            down: 40
         },
 
         // Variables: Strings
@@ -376,6 +378,14 @@
             } else if ( e.keyCode === _enum_KeyCodes.right ) {
                 e.preventDefault();
                 onDialogNext();
+
+            } else if ( e.keyCode === _enum_KeyCodes.up ) {
+                e.preventDefault();
+                onWindowKeyCodeUp();
+
+            } else if ( e.keyCode === _enum_KeyCodes.down ) {
+                e.preventDefault();
+                onWindowKeyCodeDown();
             }
         }
     }
@@ -384,6 +394,22 @@
         if ( _this.isOpen() ) {
             showDialogAndSetPosition();
         }
+    }
+
+    function onWindowKeyCodeUp() {
+        removeFocusClassFromLastElement();
+
+        _elements_Attributes_Position = 0;
+
+        showDialogAndSetPosition();
+    }
+
+    function onWindowKeyCodeDown() {
+        removeFocusClassFromLastElement();
+
+        _elements_Attributes_Position = _elements_Attributes_Keys.length - 1;
+
+        showDialogAndSetPosition();
     }
 
 

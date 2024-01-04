@@ -9,6 +9,10 @@
 #### **Binding Options - Custom Triggers:**
 - Added a new binding custom trigger called "onOpen", which states an event that should be triggered when the dialog is first opened.
 
+#### **Shortcut Keys:**
+- Added new shortcut key "Up", which will move to the first element in the journey.
+- Added new shortcut key "Down", which will move to the last element in the journey.
+
 #### **Documentation:**
 - Added examples to all documentation areas.
 - Reorganized the documentation for the project.

@@ -219,6 +219,12 @@
       } else if (e.keyCode === _enum_KeyCodes.right) {
         e.preventDefault();
         onDialogNext();
+      } else if (e.keyCode === _enum_KeyCodes.up) {
+        e.preventDefault();
+        onWindowKeyCodeUp();
+      } else if (e.keyCode === _enum_KeyCodes.down) {
+        e.preventDefault();
+        onWindowKeyCodeDown();
       }
     }
   }
@@ -226,6 +232,16 @@
     if (_this.isOpen()) {
       showDialogAndSetPosition();
     }
+  }
+  function onWindowKeyCodeUp() {
+    removeFocusClassFromLastElement();
+    _elements_Attributes_Position = 0;
+    showDialogAndSetPosition();
+  }
+  function onWindowKeyCodeDown() {
+    removeFocusClassFromLastElement();
+    _elements_Attributes_Position = _elements_Attributes_Keys.length - 1;
+    showDialogAndSetPosition();
   }
   function buildAttributeOptions(newOptions) {
     var options = !isDefinedObject(newOptions) ? {} : newOptions;
@@ -427,7 +443,7 @@
   var _parameter_Document = null;
   var _parameter_Window = null;
   var _configuration = {};
-  var _enum_KeyCodes = {escape:27, left:37, right:39};
+  var _enum_KeyCodes = {escape:27, left:37, up:38, right:39, down:40};
   var _string = {empty:"", space:" "};
   var _elements_Type = {};
   var _elements_Attributes_Json = {};
