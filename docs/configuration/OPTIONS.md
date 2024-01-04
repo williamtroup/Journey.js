@@ -16,3 +16,16 @@ Below are all the configuration options that can be passed to the "setConfigurat
 | *boolean* | shortcutKeysEnabled | States if the shortcut keys are enabled (defaults to true). |
 | *boolean* | showProgressDots | States if the progress dots are visible on the dialog (defaults to true). |
 | *boolean* | browserUrlParametersEnabled | States if the browser URL parameters are enabled (defaults to true). |
+
+<br/>
+
+
+## Example:
+
+```markdown
+<script> 
+  $journey.setConfiguration( {
+      safeMode: false
+  } );
+</script>
+```

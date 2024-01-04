@@ -115,4 +115,4 @@ Configuration options allow you to customize how Journey.js will function.  You 
 </script>
 ```
 
-To see a list of all the available configuration options you can use, click [here](docs/CONFIGURATION_OPTIONS.md).
+To see a list of all the available configuration options you can use, click [here](docs/configuration/OPTIONS.md).
