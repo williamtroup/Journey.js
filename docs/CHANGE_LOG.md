@@ -1,7 +1,10 @@
 # Journey.js - Change Log:
 
 ## Version 0.6.0:
--
+
+#### **Documentation:**
+- Added examples to all documentation areas.
+- Reorganized the documentation for the project.
 
 <br>
 
