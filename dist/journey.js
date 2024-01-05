@@ -1,4 +1,4 @@
-/*! Journey.js v0.6.0 | (c) Bunoon | MIT License */
+/*! Journey.js v0.7.0 | (c) Bunoon | MIT License */
 (function() {
   function renderDisabledBackground() {
     _element_Disabled_Background = createElement("div", "journey-js-disabled-background");
@@ -22,14 +22,14 @@
     _element_Dialog.appendChild(_element_Dialog_Description);
     _element_Dialog_ProgressDots = createElement("div", "progress-dots");
     _element_Dialog.appendChild(_element_Dialog_ProgressDots);
-    var buttons = createElement("div", "buttons");
-    _element_Dialog.appendChild(buttons);
-    _element_Dialog_Previous_Button = createElement("button", "previous");
-    _element_Dialog_Previous_Button.onclick = onDialogPrevious;
-    buttons.appendChild(_element_Dialog_Previous_Button);
+    _element_Dialog_Buttons = createElement("div", "buttons");
+    _element_Dialog.appendChild(_element_Dialog_Buttons);
+    _element_Dialog_Back_Button = createElement("button", "back");
+    _element_Dialog_Back_Button.onclick = onDialogBack;
+    _element_Dialog_Buttons.appendChild(_element_Dialog_Back_Button);
     _element_Dialog_Next_Button = createElement("button", "next");
     _element_Dialog_Next_Button.onclick = onDialogNext;
-    buttons.appendChild(_element_Dialog_Next_Button);
+    _element_Dialog_Buttons.appendChild(_element_Dialog_Next_Button);
   }
   function onDialogClose() {
     var bindingOptions = _elements_Attributes_Json[_elements_Attributes_Keys[_elements_Attributes_Position]];
@@ -40,7 +40,7 @@
     hideDisabledBackground();
     _element_Dialog.style.display = "none";
   }
-  function onDialogPrevious() {
+  function onDialogBack() {
     if (_elements_Attributes_Position > 0) {
       removeFocusClassFromLastElement();
       _elements_Attributes_Position--;
@@ -65,56 +65,68 @@
       _element_Dialog_Close_Button.style.display = _configuration.showCloseButton ? "block" : "none";
       bindingOptions.element.className += _string.space + "journey-js-element-focus";
       var lastPositionStyle = getStyleValueByName(bindingOptions.element, "position");
-      var scrollPosition = getScrollPosition();
       if (lastPositionStyle !== _string.empty && lastPositionStyle.toLowerCase() === "static") {
         _element_Focus_Element_PositionStyle = lastPositionStyle;
         bindingOptions.element.style.position = "relative";
       }
-      _element_Dialog_Previous_Button.innerHTML = _configuration.previousButtonText;
-      _element_Dialog_Previous_Button.disabled = _elements_Attributes_Position === 0;
+      if (_element_Dialog_ProgressDots.style.display !== "block") {
+        _element_Dialog_ProgressDots.style.display = "block";
+      }
+      if (_element_Dialog_Buttons.style.display !== "block") {
+        _element_Dialog_Buttons.style.display = "block";
+      }
+      _element_Dialog_Back_Button.innerHTML = _configuration.backButtonText;
+      _element_Dialog_Back_Button.disabled = _elements_Attributes_Position === 0;
       if (_elements_Attributes_Position >= _elements_Attributes_Keys.length - 1) {
         _element_Dialog_Next_Button.innerHTML = _configuration.finishButtonText;
       } else {
         _element_Dialog_Next_Button.innerHTML = _configuration.nextButtonText;
       }
-      if (isDefinedString(bindingOptions.title)) {
-        _element_Dialog_Title.innerHTML = bindingOptions.title;
-      } else {
-        _element_Dialog_Title.innerHTML = _string.empty;
-      }
-      if (isDefinedString(bindingOptions.description)) {
-        _element_Dialog_Description.innerHTML = bindingOptions.description;
-      } else {
-        _element_Dialog_Description.innerHTML = _string.empty;
-      }
-      if (_element_Dialog.style.display !== "block") {
-        _element_Dialog.style.display = "block";
-        fireCustomTrigger(bindingOptions.onOpen, bindingOptions.element);
-      }
-      if (bindingOptions.attach) {
-        var offset = getOffset(bindingOptions.element);
-        var top = offset.top - scrollPosition.top + bindingOptions.element.offsetHeight;
-        var left = offset.left - scrollPosition.left;
-        if (left + _element_Dialog.offsetWidth > _parameter_Window.innerWidth || bindingOptions.alignRight) {
-          left = left - _element_Dialog.offsetWidth;
-          left = left + bindingOptions.element.offsetWidth;
-        }
-        if (top + _element_Dialog.offsetHeight > _parameter_Window.innerHeight || bindingOptions.alignTop) {
-          top = top - (_element_Dialog.offsetHeight + bindingOptions.element.offsetHeight);
-        }
-        _element_Dialog.style.top = top + "px";
-        _element_Dialog.style.left = left + "px";
-      } else {
-        var centerLeft = Math.max(0, (_parameter_Window.innerWidth - _element_Dialog.offsetWidth) / 2 + scrollPosition.left);
-        var centerTop = Math.max(0, (_parameter_Window.innerHeight - _element_Dialog.offsetHeight) / 2 + scrollPosition.top);
-        _element_Dialog.style.left = centerLeft + "px";
-        _element_Dialog.style.top = centerTop + "px";
-      }
+      setDialogText(bindingOptions);
+      setDialogPosition(bindingOptions);
+      buildProcessDots();
+      fireCustomTrigger(bindingOptions.onEnter, bindingOptions.element);
       if (bindingOptions.sendClick) {
         bindingOptions.element.click();
       }
-      buildProcessDots();
-      fireCustomTrigger(bindingOptions.onEnter, bindingOptions.element);
+    }
+  }
+  function setDialogText(bindingOptions) {
+    if (isDefinedString(bindingOptions.title)) {
+      _element_Dialog_Title.innerHTML = bindingOptions.title;
+    } else {
+      _element_Dialog_Title.innerHTML = _string.empty;
+    }
+    if (isDefinedString(bindingOptions.description)) {
+      _element_Dialog_Description.innerHTML = bindingOptions.description;
+    } else {
+      _element_Dialog_Description.innerHTML = _string.empty;
+    }
+  }
+  function setDialogPosition(bindingOptions) {
+    var scrollPosition = getScrollPosition();
+    if (_element_Dialog.style.display !== "block") {
+      _element_Dialog.style.display = "block";
+      fireCustomTrigger(bindingOptions.onOpen, bindingOptions.element);
+    }
+    if (bindingOptions.attach || bindingOptions.isHint) {
+      var offset = getOffset(bindingOptions.element);
+      var top = offset.top - scrollPosition.top + bindingOptions.element.offsetHeight;
+      var left = offset.left - scrollPosition.left;
+      if (left + _element_Dialog.offsetWidth > _parameter_Window.innerWidth || bindingOptions.alignRight) {
+        left = left - _element_Dialog.offsetWidth;
+        left = left + bindingOptions.element.offsetWidth;
+      }
+      if (top + _element_Dialog.offsetHeight > _parameter_Window.innerHeight || bindingOptions.alignTop) {
+        top = top - (_element_Dialog.offsetHeight + bindingOptions.element.offsetHeight);
+      }
+      _element_Dialog.style.top = top + "px";
+      _element_Dialog.style.left = left + "px";
+    } else {
+      var centerLeft = Math.max(0, (_parameter_Window.innerWidth - _element_Dialog.offsetWidth) / 2 + scrollPosition.left);
+      var centerTop = Math.max(0, (_parameter_Window.innerHeight - _element_Dialog.offsetHeight) / 2 + scrollPosition.top);
+      _element_Dialog.style.left = centerLeft + "px";
+      _element_Dialog.style.top = centerTop + "px";
     }
   }
   function removeFocusClassFromLastElement(callCustomTrigger) {
@@ -177,13 +189,7 @@
       if (isDefinedString(bindingOptionsData)) {
         var bindingOptions = getObjectFromString(bindingOptionsData);
         if (bindingOptions.parsed && isDefinedObject(bindingOptions.result)) {
-          bindingOptions = buildAttributeOptions(bindingOptions.result);
-          bindingOptions.element = element;
-          if (isDefinedNumber(bindingOptions.order) && (isDefinedString(bindingOptions.title) || isDefinedString(bindingOptions.description))) {
-            _elements_Attributes_Json[bindingOptions.order] = bindingOptions;
-            _elements_Attributes_Keys.push(bindingOptions.order);
-            element.removeAttribute(_attribute_Name_Journey);
-          }
+          setupElement(element, buildAttributeOptions(bindingOptions.result));
         } else {
           if (!_configuration.safeMode) {
             console.error("The attribute '" + _attribute_Name_Journey + "' is not a valid object.");
@@ -198,6 +204,33 @@
       }
     }
     return result;
+  }
+  function setupElement(element, bindingOptions) {
+    bindingOptions.element = element;
+    if (isDefinedNumber(bindingOptions.order) && (isDefinedString(bindingOptions.title) || isDefinedString(bindingOptions.description))) {
+      if (!bindingOptions.isHint) {
+        _elements_Attributes_Json[bindingOptions.order] = bindingOptions;
+        _elements_Attributes_Keys.push(bindingOptions.order);
+      } else {
+        renderHint(bindingOptions);
+      }
+      element.removeAttribute(_attribute_Name_Journey);
+    }
+  }
+  function renderHint(bindingOptions) {
+    var positionStyle = getStyleValueByName(bindingOptions.element, "position");
+    if (positionStyle !== _string.empty && positionStyle.toLowerCase() === "static") {
+      bindingOptions.element.style.position = "relative";
+    }
+    var hint = createElement("div", "journey-js-hint");
+    bindingOptions.element.appendChild(hint);
+    hint.onclick = function(e) {
+      cancelBubble(e);
+      _element_Dialog_Buttons.style.display = "none";
+      _element_Dialog_ProgressDots.style.display = "none";
+      setDialogText(bindingOptions);
+      setDialogPosition(bindingOptions);
+    };
   }
   function buildDocumentEvents(addEvents) {
     addEvents = isDefined(addEvents) ? addEvents : true;
@@ -215,7 +248,7 @@
         onDialogClose();
       } else if (e.keyCode === _enum_KeyCodes.left) {
         e.preventDefault();
-        onDialogPrevious();
+        onDialogBack();
       } else if (e.keyCode === _enum_KeyCodes.right) {
         e.preventDefault();
         onDialogNext();
@@ -254,6 +287,7 @@
     options.sendClick = getDefaultBoolean(options.sendClick, false);
     options.alignTop = getDefaultBoolean(options.alignTop, false);
     options.alignRight = getDefaultBoolean(options.alignRight, false);
+    options.isHint = getDefaultBoolean(options.isHint, false);
     options = buildAttributeOptionStrings(options);
     return buildAttributeOptionCustomTriggers(options);
   }
@@ -378,6 +412,10 @@
       console.warn(e.message);
     }
   }
+  function cancelBubble(e) {
+    e.preventDefault();
+    e.cancelBubble = true;
+  }
   function fireCustomTrigger(triggerFunction) {
     if (isDefinedFunction(triggerFunction)) {
       triggerFunction.apply(null, [].slice.call(arguments, 1));
@@ -435,7 +473,7 @@
   function buildDefaultConfiguration() {
     _configuration.safeMode = getDefaultBoolean(_configuration.safeMode, true);
     _configuration.domElementTypes = getDefaultStringOrArray(_configuration.domElementTypes, ["*"]);
-    _configuration.previousButtonText = getDefaultString(_configuration.previousButtonText, "Previous");
+    _configuration.backButtonText = getDefaultString(_configuration.backButtonText, "Back");
     _configuration.nextButtonText = getDefaultString(_configuration.nextButtonText, "Next");
     _configuration.finishButtonText = getDefaultString(_configuration.finishButtonText, "Finish");
     _configuration.showCloseButton = getDefaultBoolean(_configuration.showCloseButton, true);
@@ -460,17 +498,13 @@
   var _element_Dialog_Title = null;
   var _element_Dialog_Description = null;
   var _element_Dialog_ProgressDots = null;
-  var _element_Dialog_Previous_Button = null;
+  var _element_Dialog_Buttons = null;
+  var _element_Dialog_Back_Button = null;
   var _element_Dialog_Next_Button = null;
   var _attribute_Name_Journey = "data-journey-options";
-  this.setConfiguration = function(newOptions) {
-    _configuration = !isDefinedObject(newOptions) ? {} : newOptions;
-    buildDefaultConfiguration();
-    if (_this.isOpen()) {
-      onDialogClose();
-      _elements_Attributes_Position = 0;
-    }
-    return this;
+  this.start = function() {
+    _elements_Attributes_Position = 0;
+    showDialogAndSetPosition();
   };
   this.show = function() {
     if (_elements_Attributes_Position === _elements_Attributes_Keys.length - 1) {
@@ -487,8 +521,26 @@
   this.isComplete = function() {
     return _elements_Attributes_Position >= _elements_Attributes_Keys.length - 1;
   };
+  this.addStep = function(element, options) {
+    setupElement(element, buildAttributeOptions(options));
+    _elements_Attributes_Keys.sort();
+    if (_this.isOpen()) {
+      onDialogClose();
+      _elements_Attributes_Position = 0;
+    }
+    return this;
+  };
+  this.setConfiguration = function(newOptions) {
+    _configuration = !isDefinedObject(newOptions) ? {} : newOptions;
+    buildDefaultConfiguration();
+    if (_this.isOpen()) {
+      onDialogClose();
+      _elements_Attributes_Position = 0;
+    }
+    return this;
+  };
   this.getVersion = function() {
-    return "0.6.0";
+    return "0.7.0";
   };
   (function(documentObject, windowObject) {
     _parameter_Document = documentObject;

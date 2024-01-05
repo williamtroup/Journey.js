@@ -1,8 +1,8 @@
-# Journey.js v0.6.0
+# Journey.js v0.7.0
 
 [![Tweet](https://img.shields.io/twitter/url/http/shields.io.svg?style=social)](https://twitter.com/intent/tweet?text=Journey.js%2C%20a%20free%20JavaScript%journey%builder&url=https://github.com/williamtroup/Journey.js&hashtags=javascript,html,journey,guide)
-[![npm](https://img.shields.io/badge/npmjs-v0.6.0-blue)](https://www.npmjs.com/package/jjourney.js)
-[![nuget](https://img.shields.io/badge/nuget-v0.6.0-purple)](https://www.nuget.org/packages/jJourney.js/)
+[![npm](https://img.shields.io/badge/npmjs-v0.7.0-blue)](https://www.npmjs.com/package/jjourney.js)
+[![nuget](https://img.shields.io/badge/nuget-v0.7.0-purple)](https://www.nuget.org/packages/jJourney.js/)
 [![license](https://img.shields.io/badge/license-MIT-green)](https://github.com/williamtroup/Journey.js/blob/main/LICENSE.txt)
 [![discussions Welcome](https://img.shields.io/badge/discussions-Welcome-red)](https://github.com/williamtroup/Journey.js/discussions)
 [![coded by William Troup](https://img.shields.io/badge/coded_by-William_Troup-yellow)](https://github.com/williamtroup)
@@ -19,6 +19,7 @@
 - Custom triggers for actions (when the dialog is shown for an element, or hidden, etc).
 - Shortcut keys (click [here](https://github.com/williamtroup/Journey.js/blob/main/docs/SHORTCUT_KEYS.md) to see the full list).
 - Browser URL parameters support (click [here](https://github.com/williamtroup/Journey.js/blob/main/docs/BROWSER_PARAMETERS.md) to see the full list).
+- Hints support (not included in the main journey).
 
 
 ## What browsers are supported?
@@ -67,7 +68,7 @@ To start the journey, call the following public function:
 
 ```markdown
 <script> 
-  $journey.show();
+  $journey.start();
 </script>
 ```
 

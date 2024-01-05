@@ -7,6 +7,11 @@ Below is a list of all the public functions that can be called from the Journey.
 
 ## Show/Hide:
 
+### **start()**:
+Starts the Journey from the beginning.
+<br>
+***Returns***: '*Object*' - The Journey.js class instance.
+
 ### **show()**:
 Shows the Journey.js dialog for the element in the last known position (defaults to the start).
 <br>
@@ -30,12 +35,26 @@ Returns a flag that states if the full journey has been completed.
 <br>
 
 
+## Adding Steps:
+
+### **addStep( *element*, *options* )**:
+Adds a new step to the journey for a specific element.
+<br>
+***Parameter: element***: '*Object*' - The element that should be added to the journey.
+<br>
+***Parameter: options***: '*Object*' - The options to use for this step in the journey (refer to ["Configuration Options"](binding/OPTIONS.md) documentation for properties).
+<br>
+***Returns***: '*Object*' - The Journey.js class instance.
+<br>
+<br>
+
+
 ## Configuration:
 
 ### **setConfiguration( *newOptions* )**:
 Sets the specific configuration options that should be used.
 <br>
-***Parameter: newOptions***: '*Options*' - All the configuration options that should be set (refer to ["Configuration Options"](configuration/OPTIONS.md) documentation for properties).
+***Parameter: newOptions***: '*Object*' - All the configuration options that should be set (refer to ["Configuration Options"](configuration/OPTIONS.md) documentation for properties).
 <br>
 ***Returns***: '*Object*' - The Journey.js class instance.
 <br>

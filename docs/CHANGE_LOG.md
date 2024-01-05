@@ -1,5 +1,30 @@
 # Journey.js - Change Log:
 
+## Version 0.7.0:
+
+#### **New Features:**
+- Added hints support! This will draw a small icon in the top left of an element, that can be clicked to show a hint.
+
+#### **Binding Options:**
+- Added a new binding option called "isHint", which states if the element should show the dialog as a hint (will not be included in the main journey).
+
+#### **Configuration Options:**
+- Renamed the configuration option "previousButtonText" to "backButtonText" (the default text is now "Back").
+
+#### **Public Functions:**
+- Added new public function "start()", which is used to start the journey from the beginning.
+- Added new public function "addStep()", which is used to add a new step to the current journey.
+
+#### **CSS:**
+- Added active progress DOT is now slightly larger in width (makes it a bit more clear).
+- Renamed the CSS class "button.previous" to "button.back".
+
+#### **Documentation:**
+- Fixed spelling and grammar mistakes across all the documentation.
+
+<br>
+
+
 ## Version 0.6.0:
 
 #### **Binding Options:**
