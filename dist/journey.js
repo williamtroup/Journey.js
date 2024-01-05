@@ -500,15 +500,6 @@
   var _element_Dialog_Back_Button = null;
   var _element_Dialog_Next_Button = null;
   var _attribute_Name_Journey = "data-journey-options";
-  this.setConfiguration = function(newOptions) {
-    _configuration = !isDefinedObject(newOptions) ? {} : newOptions;
-    buildDefaultConfiguration();
-    if (_this.isOpen()) {
-      onDialogClose();
-      _elements_Attributes_Position = 0;
-    }
-    return this;
-  };
   this.start = function() {
     _elements_Attributes_Position = 0;
     showDialogAndSetPosition();
@@ -527,6 +518,15 @@
   };
   this.isComplete = function() {
     return _elements_Attributes_Position >= _elements_Attributes_Keys.length - 1;
+  };
+  this.setConfiguration = function(newOptions) {
+    _configuration = !isDefinedObject(newOptions) ? {} : newOptions;
+    buildDefaultConfiguration();
+    if (_this.isOpen()) {
+      onDialogClose();
+      _elements_Attributes_Position = 0;
+    }
+    return this;
   };
   this.getVersion = function() {
     return "0.7.0";

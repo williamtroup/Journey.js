@@ -761,50 +761,6 @@
 
     /*
      * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-     * Public Functions:  Configuration
-     * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-     */
-
-    /**
-     * setConfiguration().
-     * 
-     * Sets the specific configuration options that should be used.
-     * 
-     * @public
-     * 
-     * @param       {Object}   newConfiguration                             All the configuration options that should be set (refer to "Configuration Options" documentation for properties).
-     * 
-     * @returns     {Object}                                                The Journey.js class instance.
-     */
-    this.setConfiguration = function( newOptions ) {
-        _configuration = !isDefinedObject( newOptions ) ? {} : newOptions;
-        
-        buildDefaultConfiguration();
-
-        if ( _this.isOpen() ) {
-            onDialogClose();
-
-            _elements_Attributes_Position = 0;
-        }
-
-        return this;
-    };
-
-    function buildDefaultConfiguration() {
-        _configuration.safeMode = getDefaultBoolean( _configuration.safeMode, true );
-        _configuration.domElementTypes = getDefaultStringOrArray( _configuration.domElementTypes, [ "*" ] );
-        _configuration.backButtonText = getDefaultString( _configuration.backButtonText, "Back" );
-        _configuration.nextButtonText = getDefaultString( _configuration.nextButtonText, "Next" );
-        _configuration.finishButtonText = getDefaultString( _configuration.finishButtonText, "Finish" );
-        _configuration.showCloseButton = getDefaultBoolean( _configuration.showCloseButton, true );
-        _configuration.shortcutKeysEnabled = getDefaultBoolean( _configuration.shortcutKeysEnabled, true );
-        _configuration.showProgressDots = getDefaultBoolean( _configuration.showProgressDots, true );
-        _configuration.browserUrlParametersEnabled = getDefaultBoolean( _configuration.browserUrlParametersEnabled, true );
-    }
-
-
-    /*
-     * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
      * Public Functions:  Show/Hide
      * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
      */
@@ -873,6 +829,50 @@
     this.isComplete = function() {
         return _elements_Attributes_Position >= _elements_Attributes_Keys.length - 1;
     };
+
+
+    /*
+     * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+     * Public Functions:  Configuration
+     * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+     */
+
+    /**
+     * setConfiguration().
+     * 
+     * Sets the specific configuration options that should be used.
+     * 
+     * @public
+     * 
+     * @param       {Object}   newConfiguration                             All the configuration options that should be set (refer to "Configuration Options" documentation for properties).
+     * 
+     * @returns     {Object}                                                The Journey.js class instance.
+     */
+    this.setConfiguration = function( newOptions ) {
+        _configuration = !isDefinedObject( newOptions ) ? {} : newOptions;
+        
+        buildDefaultConfiguration();
+
+        if ( _this.isOpen() ) {
+            onDialogClose();
+
+            _elements_Attributes_Position = 0;
+        }
+
+        return this;
+    };
+
+    function buildDefaultConfiguration() {
+        _configuration.safeMode = getDefaultBoolean( _configuration.safeMode, true );
+        _configuration.domElementTypes = getDefaultStringOrArray( _configuration.domElementTypes, [ "*" ] );
+        _configuration.backButtonText = getDefaultString( _configuration.backButtonText, "Back" );
+        _configuration.nextButtonText = getDefaultString( _configuration.nextButtonText, "Next" );
+        _configuration.finishButtonText = getDefaultString( _configuration.finishButtonText, "Finish" );
+        _configuration.showCloseButton = getDefaultBoolean( _configuration.showCloseButton, true );
+        _configuration.shortcutKeysEnabled = getDefaultBoolean( _configuration.shortcutKeysEnabled, true );
+        _configuration.showProgressDots = getDefaultBoolean( _configuration.showProgressDots, true );
+        _configuration.browserUrlParametersEnabled = getDefaultBoolean( _configuration.browserUrlParametersEnabled, true );
+    }
 
 
     /*
