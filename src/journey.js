@@ -54,7 +54,7 @@
         _element_Dialog_Title = null,
         _element_Dialog_Description = null,
         _element_Dialog_ProgressDots = null,
-        _element_Dialog_Previous_Button = null,
+        _element_Dialog_Back_Button = null,
         _element_Dialog_Next_Button = null,
 
         // Variables: Attribute Names
@@ -107,9 +107,9 @@
         var buttons = createElement( "div", "buttons" );
         _element_Dialog.appendChild( buttons );
 
-        _element_Dialog_Previous_Button = createElement( "button", "previous" );
-        _element_Dialog_Previous_Button.onclick = onDialogPrevious;
-        buttons.appendChild( _element_Dialog_Previous_Button );
+        _element_Dialog_Back_Button = createElement( "button", "back" );
+        _element_Dialog_Back_Button.onclick = onDialogBack;
+        buttons.appendChild( _element_Dialog_Back_Button );
 
         _element_Dialog_Next_Button = createElement( "button", "next" );
         _element_Dialog_Next_Button.onclick = onDialogNext;
@@ -129,7 +129,7 @@
         _element_Dialog.style.display = "none";
     }
 
-    function onDialogPrevious() {
+    function onDialogBack() {
         if ( _elements_Attributes_Position > 0 ) {
             removeFocusClassFromLastElement();
 
@@ -172,8 +172,8 @@
                 bindingOptions.element.style.position = "relative";
             }
 
-            _element_Dialog_Previous_Button.innerHTML = _configuration.previousButtonText;
-            _element_Dialog_Previous_Button.disabled = _elements_Attributes_Position === 0;
+            _element_Dialog_Back_Button.innerHTML = _configuration.backButtonText;
+            _element_Dialog_Back_Button.disabled = _elements_Attributes_Position === 0;
             
             if ( _elements_Attributes_Position >= _elements_Attributes_Keys.length - 1 ) {
                 _element_Dialog_Next_Button.innerHTML = _configuration.finishButtonText;
@@ -373,7 +373,7 @@
 
             } else if ( e.keyCode === _enum_KeyCodes.left ) {
                 e.preventDefault();
-                onDialogPrevious();
+                onDialogBack();
 
             } else if ( e.keyCode === _enum_KeyCodes.right ) {
                 e.preventDefault();
@@ -746,7 +746,7 @@
     function buildDefaultConfiguration() {
         _configuration.safeMode = getDefaultBoolean( _configuration.safeMode, true );
         _configuration.domElementTypes = getDefaultStringOrArray( _configuration.domElementTypes, [ "*" ] );
-        _configuration.previousButtonText = getDefaultString( _configuration.previousButtonText, "Previous" );
+        _configuration.backButtonText = getDefaultString( _configuration.backButtonText, "Back" );
         _configuration.nextButtonText = getDefaultString( _configuration.nextButtonText, "Next" );
         _configuration.finishButtonText = getDefaultString( _configuration.finishButtonText, "Finish" );
         _configuration.showCloseButton = getDefaultBoolean( _configuration.showCloseButton, true );

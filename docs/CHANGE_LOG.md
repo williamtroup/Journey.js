@@ -2,8 +2,12 @@
 
 ## Version 0.7.0:
 
+#### **Configuration Options:**
+- Renamed the configuration option "previousButtonText" to "backButtonText" (the default text is now "Back").
+
 #### **CSS:**
 - Added active progress DOT is now slightly larger in width (makes it a bit more clear).
+- Renamed the CSS class "button.previous" to "button.back".
 
 <br>
 

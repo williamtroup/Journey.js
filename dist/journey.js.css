@@ -140,7 +140,7 @@ div.journey-js-dialog div.buttons {
   margin-top: var(--spacing);
   text-align: right;
 }
-div.journey-js-dialog div.buttons button.previous,
+div.journey-js-dialog div.buttons button.back,
 div.journey-js-dialog div.buttons button.next {
   border-radius: var(--border-radius);
   background-color: var(--dialog-button-background-color);
@@ -149,7 +149,7 @@ div.journey-js-dialog div.buttons button.next {
   min-width: 100px;
   padding: var(--spacing);
 }
-div.journey-js-dialog div.buttons button.previous:not([disabled]):hover,
+div.journey-js-dialog div.buttons button.back:not([disabled]):hover,
 div.journey-js-dialog div.buttons button.next:not([disabled]):hover {
   cursor: pointer;
   background-color: var(--dialog-button-hover-background-color);
@@ -157,7 +157,7 @@ div.journey-js-dialog div.buttons button.next:not([disabled]):hover {
   border: var(--border-size) solid var(--dialog-button-hover-border-color);
   transition: var(--transition);
 }
-div.journey-js-dialog div.buttons button.previous:disabled,
+div.journey-js-dialog div.buttons button.back:disabled,
 div.journey-js-dialog div.buttons button.next:disabled {
   background-color: var(--dialog-button-disabled-background-color) !important;
   color: var(--color-gray);
