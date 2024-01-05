@@ -181,6 +181,7 @@ div.journey-js-hint {
   right: -7.5px;
   top: -7.5px;
   animation: journey-js-hint-effect 2s infinite;
+  cursor: pointer;
 }
 
 @keyframes journey-js-hint-effect {
