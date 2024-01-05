@@ -111,15 +111,15 @@ div.journey-js-dialog div.progress-dots {
 }
 div.journey-js-dialog div.progress-dots div.dot,
 div.journey-js-dialog div.progress-dots div.dot-active {
-  border-radius: 50%;
-  height: 10px;
-  width: 10px;
   margin-right: 2.5px;
   margin-left: 2.5px;
   display: inline-block;
   padding: 0 !important;
 }
 div.journey-js-dialog div.progress-dots div.dot {
+  border-radius: 50%;
+  height: 10px;
+  width: 10px;
   background-color: var(--dialog-button-background-color);
   border: var(--border-size) solid var(--dialog-button-border-color);
 }
@@ -130,6 +130,9 @@ div.journey-js-dialog div.progress-dots div.dot:hover {
   transition: var(--transition);
 }
 div.journey-js-dialog div.progress-dots div.dot-active {
+  border-radius: 10px;
+  height: 10px;
+  width: 15px;
   background-color: var(--dialog-button-border-color);
   border: var(--border-size) solid var(--dialog-button-border-color);
 }

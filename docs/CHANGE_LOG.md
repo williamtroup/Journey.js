@@ -1,7 +1,9 @@
 # Journey.js - Change Log:
 
 ## Version 0.7.0:
-- 
+
+#### **CSS:**
+- Added active progress DOT is now slightly larger in width (makes it a bit more clear).
 
 <br>
 
