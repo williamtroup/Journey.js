@@ -32,6 +32,10 @@
             <button class="btn btn-primary" data-journey-options="{ 'isHint': true, 'title': 'Is Complete', 'description': 'States if the journey is complete.' }" onclick="console.log( $journey.isComplete() );">Is Complete</button>
             <br />
 
+            <h2>Add Step:</h2>
+            <button id="addStep" class="btn btn-primary" onclick="addStepToJourney();">Add Step</button>
+            <br />
+
             <h2>Configuration:</h2>
             <button class="btn btn-primary" data-journey-options="{ 'title': 'Configuration', 'description': 'Sets the configuration that should be used in Journey.js.', 'order': 7, 'alignTop': true }" onclick="setupConfiguration();">Set Configuration</button>
             <br />
@@ -50,6 +54,14 @@
                 safeMode: false,
                 showCloseButton: false,
                 showProgressDots: false
+            } );
+        }
+
+        function addStepToJourney() {
+            $journey.addStep( document.getElementById( "addStep" ), { 
+                isHint: true,
+                title: 'Add Step',
+                description: 'Adds a new step to the journey.'
             } );
         }
     </script>

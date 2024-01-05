@@ -333,19 +333,7 @@
                 var bindingOptions = getObjectFromString( bindingOptionsData );
 
                 if ( bindingOptions.parsed && isDefinedObject( bindingOptions.result ) ) {
-                    bindingOptions = buildAttributeOptions( bindingOptions.result );
-                    bindingOptions.element = element;
-
-                    if ( isDefinedNumber( bindingOptions.order ) && ( isDefinedString( bindingOptions.title ) || isDefinedString( bindingOptions.description ) ) ) {
-                        if ( !bindingOptions.isHint ) {
-                            _elements_Attributes_Json[ bindingOptions.order ] = bindingOptions;
-                            _elements_Attributes_Keys.push( bindingOptions.order );
-                        } else {
-                            renderHint( bindingOptions );
-                        }
-
-                        element.removeAttribute( _attribute_Name_Journey );
-                    }
+                    setupElement( element, buildAttributeOptions( bindingOptions.result ) );
 
                 } else {
                     if ( !_configuration.safeMode ) {
@@ -363,6 +351,21 @@
         }
 
         return result;
+    }
+
+    function setupElement( element, bindingOptions ) {
+        bindingOptions.element = element;
+
+        if ( isDefinedNumber( bindingOptions.order ) && ( isDefinedString( bindingOptions.title ) || isDefinedString( bindingOptions.description ) ) ) {
+            if ( !bindingOptions.isHint ) {
+                _elements_Attributes_Json[ bindingOptions.order ] = bindingOptions;
+                _elements_Attributes_Keys.push( bindingOptions.order );
+            } else {
+                renderHint( bindingOptions );
+            }
+
+            element.removeAttribute( _attribute_Name_Journey );
+        }
     }
 
     function renderHint( bindingOptions ) {
@@ -828,6 +831,39 @@
      */
     this.isComplete = function() {
         return _elements_Attributes_Position >= _elements_Attributes_Keys.length - 1;
+    };
+
+
+    /*
+     * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+     * Public Functions:  Adding Steps
+     * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+     */
+
+    /**
+     * addStep().
+     * 
+     * Adds a new step to the journey for a specific element.
+     * 
+     * @public
+     * 
+     * @param       {Object}   element                                      The element that should be added to the journey.
+     * @param       {Object}   options                                      The options to use for this step in the journey (refer to "Binding Options" documentation for properties).
+     * 
+     * @returns     {Object}                                                The Journey.js class instance.
+     */
+    this.addStep = function( element, options ) {
+        setupElement( element, buildAttributeOptions( options ) );
+
+        _elements_Attributes_Keys.sort();
+
+        if ( _this.isOpen() ) {
+            onDialogClose();
+
+            _elements_Attributes_Position = 0;
+        }
+
+        return this;
     };
 
 

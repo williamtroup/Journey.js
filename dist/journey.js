@@ -189,17 +189,7 @@
       if (isDefinedString(bindingOptionsData)) {
         var bindingOptions = getObjectFromString(bindingOptionsData);
         if (bindingOptions.parsed && isDefinedObject(bindingOptions.result)) {
-          bindingOptions = buildAttributeOptions(bindingOptions.result);
-          bindingOptions.element = element;
-          if (isDefinedNumber(bindingOptions.order) && (isDefinedString(bindingOptions.title) || isDefinedString(bindingOptions.description))) {
-            if (!bindingOptions.isHint) {
-              _elements_Attributes_Json[bindingOptions.order] = bindingOptions;
-              _elements_Attributes_Keys.push(bindingOptions.order);
-            } else {
-              renderHint(bindingOptions);
-            }
-            element.removeAttribute(_attribute_Name_Journey);
-          }
+          setupElement(element, buildAttributeOptions(bindingOptions.result));
         } else {
           if (!_configuration.safeMode) {
             console.error("The attribute '" + _attribute_Name_Journey + "' is not a valid object.");
@@ -214,6 +204,18 @@
       }
     }
     return result;
+  }
+  function setupElement(element, bindingOptions) {
+    bindingOptions.element = element;
+    if (isDefinedNumber(bindingOptions.order) && (isDefinedString(bindingOptions.title) || isDefinedString(bindingOptions.description))) {
+      if (!bindingOptions.isHint) {
+        _elements_Attributes_Json[bindingOptions.order] = bindingOptions;
+        _elements_Attributes_Keys.push(bindingOptions.order);
+      } else {
+        renderHint(bindingOptions);
+      }
+      element.removeAttribute(_attribute_Name_Journey);
+    }
   }
   function renderHint(bindingOptions) {
     var positionStyle = getStyleValueByName(bindingOptions.element, "position");
@@ -518,6 +520,15 @@
   };
   this.isComplete = function() {
     return _elements_Attributes_Position >= _elements_Attributes_Keys.length - 1;
+  };
+  this.addStep = function(element, options) {
+    setupElement(element, buildAttributeOptions(options));
+    _elements_Attributes_Keys.sort();
+    if (_this.isOpen()) {
+      onDialogClose();
+      _elements_Attributes_Position = 0;
+    }
+    return this;
   };
   this.setConfiguration = function(newOptions) {
     _configuration = !isDefinedObject(newOptions) ? {} : newOptions;

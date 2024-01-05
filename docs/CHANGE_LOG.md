@@ -13,6 +13,7 @@
 
 #### **Public Functions:**
 - Added new public function "start()", which is used to start the journey from the beginning.
+- Added new public function "addStep()", which is used to to add a new step to the current journey.
 
 #### **CSS:**
 - Added active progress DOT is now slightly larger in width (makes it a bit more clear).
