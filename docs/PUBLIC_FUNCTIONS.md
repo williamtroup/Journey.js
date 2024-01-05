@@ -7,6 +7,11 @@ Below is a list of all the public functions that can be called from the Journey.
 
 ## Show/Hide:
 
+### **start()**:
+Starts the Journey from the beginning.
+<br>
+***Returns***: '*Object*' - The Journey.js class instance.
+
 ### **show()**:
 Shows the Journey.js dialog for the element in the last known position (defaults to the start).
 <br>

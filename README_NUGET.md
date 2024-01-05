@@ -67,7 +67,7 @@ To start the journey, call the following public function:
 
 ```markdown
 <script> 
-  $journey.show();
+  $journey.start();
 </script>
 ```
 

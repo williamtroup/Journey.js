@@ -509,6 +509,10 @@
     }
     return this;
   };
+  this.start = function() {
+    _elements_Attributes_Position = 0;
+    showDialogAndSetPosition();
+  };
   this.show = function() {
     if (_elements_Attributes_Position === _elements_Attributes_Keys.length - 1) {
       _elements_Attributes_Position = 0;

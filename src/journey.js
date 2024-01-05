@@ -810,6 +810,19 @@
      */
 
     /**
+     * start().
+     * 
+     * Starts the Journey from the beginning.
+     * 
+     * @public
+     */
+    this.start = function() {
+        _elements_Attributes_Position = 0;
+
+        showDialogAndSetPosition();
+    };
+
+    /**
      * show().
      * 
      * Shows the Journey.js dialog for the element in the last known position (defaults to the start).

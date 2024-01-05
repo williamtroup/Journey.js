@@ -11,6 +11,9 @@
 #### **Configuration Options:**
 - Renamed the configuration option "previousButtonText" to "backButtonText" (the default text is now "Back").
 
+#### **Public Functions:**
+- Added new public function "start()", which is used to start the journey from the beginning.
+
 #### **CSS:**
 - Added active progress DOT is now slightly larger in width (makes it a bit more clear).
 - Renamed the CSS class "button.previous" to "button.back".
