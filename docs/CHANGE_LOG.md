@@ -3,7 +3,7 @@
 ## Version 0.7.0:
 
 #### **New Features:**
-- Added hints support! This will draw a small icon in the top left of an element, that can be clicked on to show a hint.
+- Added hints support! This will draw a small icon in the top left of an element, that can be clicked to show a hint.
 
 #### **Binding Options:**
 - Added a new binding option called "isHint", which states if the element should show the dialog as a hint (will not be included in the main journey).
