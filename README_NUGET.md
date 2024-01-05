@@ -19,6 +19,7 @@
 - Custom triggers for actions (when the dialog is shown for an element, or hidden, etc).
 - Shortcut keys (click [here](https://github.com/williamtroup/Journey.js/blob/main/docs/SHORTCUT_KEYS.md) to see the full list).
 - Browser URL parameters support (click [here](https://github.com/williamtroup/Journey.js/blob/main/docs/BROWSER_PARAMETERS.md) to see the full list).
+- Hints support (not included in the main journey).
 
 
 ## What browsers are supported?
