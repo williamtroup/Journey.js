@@ -13,11 +13,14 @@
 
 #### **Public Functions:**
 - Added new public function "start()", which is used to start the journey from the beginning.
-- Added new public function "addStep()", which is used to to add a new step to the current journey.
+- Added new public function "addStep()", which is used to add a new step to the current journey.
 
 #### **CSS:**
 - Added active progress DOT is now slightly larger in width (makes it a bit more clear).
 - Renamed the CSS class "button.previous" to "button.back".
+
+#### **Documentation:**
+- Fixed spelling and grammar mistakes across all the documentation.
 
 <br>
 
