@@ -27,9 +27,9 @@
         <div class="contents">
             <h2>Show/Hide:</h2>
             <button class="btn btn-primary" onclick="$journey.show()">Show</button>
-            <button class="btn btn-primary" onclick="$journey.hide()">Hide</button>
+            <button class="btn btn-primary" data-journey-options="{ 'isHint': true, 'title': 'Hide', 'description': 'Hides the journey dialog.' }" onclick="$journey.hide()">Hide</button>
             <button class="btn btn-primary" onclick="console.log( $journey.isOpen() );">Is Open</button>
-            <button class="btn btn-primary" onclick="console.log( $journey.isComplete() );">Is Complete</button>
+            <button class="btn btn-primary" data-journey-options="{ 'isHint': true, 'title': 'Is Complete', 'description': 'States if the journey is complete.' }" onclick="console.log( $journey.isComplete() );">Is Complete</button>
             <br />
 
             <h2>Configuration:</h2>

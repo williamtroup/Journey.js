@@ -17,6 +17,7 @@
     --color-black: #3b3a3a;
     --color-white: #F5F5F5;
     --color-gray: #AAAAAA;
+    --color-hint: rgba( 170, 170, 170, 0.5 );
 
     // Dialog
     --dialog-background-color: #002244;
@@ -209,6 +210,39 @@ div.journey-js-dialog {
         }
     }
 }
+
+
+/*
+    -------------------------------------------------------------------------
+    Journey.js - Hints
+    -------------------------------------------------------------------------
+*/
+
+div.journey-js-hint {
+    position: absolute;
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    background-color: var(--color-gray);
+    right: -7.5px;
+    top: -7.5px;
+    animation: journey-js-hint-effect 2s infinite;
+}
+
+@keyframes journey-js-hint-effect {
+    0% {
+        box-shadow: 0 0 0 0 var(--color-hint);
+    }
+
+    70% {
+        box-shadow: 0 0 0 10px var(--color-hint);
+    }
+
+    100% {
+        box-shadow: 0 0 0 0 var(--color-hint);
+    }
+}
+
 
 
 /*

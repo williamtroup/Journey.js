@@ -2,6 +2,12 @@
 
 ## Version 0.7.0:
 
+#### **New Features:**
+- Added hints support! This will draw a small icon in the top left of an element, that can be clicked on to show a hint.
+
+#### **Binding Options:**
+- Added a new binding option called "isHint", which states if the element should show the dialog as a hint (will not be included in the main journey).
+
 #### **Configuration Options:**
 - Renamed the configuration option "previousButtonText" to "backButtonText" (the default text is now "Back").
 

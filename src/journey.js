@@ -54,6 +54,7 @@
         _element_Dialog_Title = null,
         _element_Dialog_Description = null,
         _element_Dialog_ProgressDots = null,
+        _element_Dialog_Buttons = null,
         _element_Dialog_Back_Button = null,
         _element_Dialog_Next_Button = null,
 
@@ -104,16 +105,16 @@
         _element_Dialog_ProgressDots = createElement( "div", "progress-dots" );
         _element_Dialog.appendChild( _element_Dialog_ProgressDots );
 
-        var buttons = createElement( "div", "buttons" );
-        _element_Dialog.appendChild( buttons );
+        _element_Dialog_Buttons = createElement( "div", "buttons" );
+        _element_Dialog.appendChild( _element_Dialog_Buttons );
 
         _element_Dialog_Back_Button = createElement( "button", "back" );
         _element_Dialog_Back_Button.onclick = onDialogBack;
-        buttons.appendChild( _element_Dialog_Back_Button );
+        _element_Dialog_Buttons.appendChild( _element_Dialog_Back_Button );
 
         _element_Dialog_Next_Button = createElement( "button", "next" );
         _element_Dialog_Next_Button.onclick = onDialogNext;
-        buttons.appendChild( _element_Dialog_Next_Button );
+        _element_Dialog_Buttons.appendChild( _element_Dialog_Next_Button );
     }
 
     function onDialogClose() {
@@ -164,12 +165,19 @@
             _element_Dialog_Close_Button.style.display = _configuration.showCloseButton ? "block": "none";
             bindingOptions.element.className += _string.space + "journey-js-element-focus";
 
-            var lastPositionStyle = getStyleValueByName( bindingOptions.element, "position" ),
-                scrollPosition = getScrollPosition();
+            var lastPositionStyle = getStyleValueByName( bindingOptions.element, "position" );
 
             if ( lastPositionStyle !== _string.empty && lastPositionStyle.toLowerCase() === "static" ) {
                 _element_Focus_Element_PositionStyle = lastPositionStyle;
                 bindingOptions.element.style.position = "relative";
+            }
+
+            if ( _element_Dialog_ProgressDots.style.display !== "block" ) {
+                _element_Dialog_ProgressDots.style.display = "block";
+            }
+
+            if ( _element_Dialog_Buttons.style.display !== "block" ) {
+                _element_Dialog_Buttons.style.display = "block";
             }
 
             _element_Dialog_Back_Button.innerHTML = _configuration.backButtonText;
@@ -181,55 +189,63 @@
                 _element_Dialog_Next_Button.innerHTML = _configuration.nextButtonText;
             }
 
-            if ( isDefinedString( bindingOptions.title ) ) {
-                _element_Dialog_Title.innerHTML = bindingOptions.title;
-            } else {
-                _element_Dialog_Title.innerHTML = _string.empty;
-            }
-
-            if ( isDefinedString( bindingOptions.description ) ) {
-                _element_Dialog_Description.innerHTML = bindingOptions.description;
-            } else {
-                _element_Dialog_Description.innerHTML = _string.empty;
-            }
-
-            if ( _element_Dialog.style.display !== "block" ) {
-                _element_Dialog.style.display = "block";
-
-                fireCustomTrigger( bindingOptions.onOpen, bindingOptions.element );
-            }
-
-            if ( bindingOptions.attach ) {
-                var offset = getOffset( bindingOptions.element ),
-                    top = ( offset.top - scrollPosition.top ) + bindingOptions.element.offsetHeight,
-                    left = ( offset.left - scrollPosition.left );
-
-                if ( left + _element_Dialog.offsetWidth > _parameter_Window.innerWidth || bindingOptions.alignRight ) {
-                    left -=  _element_Dialog.offsetWidth;
-                    left += bindingOptions.element.offsetWidth;
-                }
-        
-                if ( top + _element_Dialog.offsetHeight > _parameter_Window.innerHeight || bindingOptions.alignTop ) {
-                    top -= ( _element_Dialog.offsetHeight + bindingOptions.element.offsetHeight );
-                }
-    
-                _element_Dialog.style.top = top + "px";
-                _element_Dialog.style.left = left + "px";
-
-            } else {
-                var centerLeft = Math.max( 0, ( ( _parameter_Window.innerWidth - _element_Dialog.offsetWidth ) / 2 ) + scrollPosition.left ),
-                    centerTop = Math.max( 0, ( ( _parameter_Window.innerHeight - _element_Dialog.offsetHeight ) / 2 ) + scrollPosition.top );
-    
-                _element_Dialog.style.left = centerLeft + "px";
-                _element_Dialog.style.top = centerTop + "px";
-            }
+            setDialogText( bindingOptions );
+            setDialogPosition( bindingOptions );
+            buildProcessDots();
+            fireCustomTrigger( bindingOptions.onEnter, bindingOptions.element );
 
             if ( bindingOptions.sendClick ) {
                 bindingOptions.element.click();
             }
+        }
+    }
 
-            buildProcessDots();
-            fireCustomTrigger( bindingOptions.onEnter, bindingOptions.element );
+    function setDialogText( bindingOptions ) {
+        if ( isDefinedString( bindingOptions.title ) ) {
+            _element_Dialog_Title.innerHTML = bindingOptions.title;
+        } else {
+            _element_Dialog_Title.innerHTML = _string.empty;
+        }
+
+        if ( isDefinedString( bindingOptions.description ) ) {
+            _element_Dialog_Description.innerHTML = bindingOptions.description;
+        } else {
+            _element_Dialog_Description.innerHTML = _string.empty;
+        }
+    }
+
+    function setDialogPosition( bindingOptions ) {
+        var scrollPosition = getScrollPosition();
+
+        if ( _element_Dialog.style.display !== "block" ) {
+            _element_Dialog.style.display = "block";
+
+            fireCustomTrigger( bindingOptions.onOpen, bindingOptions.element );
+        }
+
+        if ( bindingOptions.attach || bindingOptions.isHint ) {
+            var offset = getOffset( bindingOptions.element ),
+                top = ( offset.top - scrollPosition.top ) + bindingOptions.element.offsetHeight,
+                left = ( offset.left - scrollPosition.left );
+
+            if ( left + _element_Dialog.offsetWidth > _parameter_Window.innerWidth || bindingOptions.alignRight ) {
+                left -=  _element_Dialog.offsetWidth;
+                left += bindingOptions.element.offsetWidth;
+            }
+    
+            if ( top + _element_Dialog.offsetHeight > _parameter_Window.innerHeight || bindingOptions.alignTop ) {
+                top -= ( _element_Dialog.offsetHeight + bindingOptions.element.offsetHeight );
+            }
+
+            _element_Dialog.style.top = top + "px";
+            _element_Dialog.style.left = left + "px";
+
+        } else {
+            var centerLeft = Math.max( 0, ( ( _parameter_Window.innerWidth - _element_Dialog.offsetWidth ) / 2 ) + scrollPosition.left ),
+                centerTop = Math.max( 0, ( ( _parameter_Window.innerHeight - _element_Dialog.offsetHeight ) / 2 ) + scrollPosition.top );
+
+            _element_Dialog.style.left = centerLeft + "px";
+            _element_Dialog.style.top = centerTop + "px";
         }
     }
 
@@ -321,8 +337,12 @@
                     bindingOptions.element = element;
 
                     if ( isDefinedNumber( bindingOptions.order ) && ( isDefinedString( bindingOptions.title ) || isDefinedString( bindingOptions.description ) ) ) {
-                        _elements_Attributes_Json[ bindingOptions.order ] = bindingOptions;
-                        _elements_Attributes_Keys.push( bindingOptions.order );
+                        if ( !bindingOptions.isHint ) {
+                            _elements_Attributes_Json[ bindingOptions.order ] = bindingOptions;
+                            _elements_Attributes_Keys.push( bindingOptions.order );
+                        } else {
+                            renderHint( bindingOptions );
+                        }
 
                         element.removeAttribute( _attribute_Name_Journey );
                     }
@@ -343,6 +363,27 @@
         }
 
         return result;
+    }
+
+    function renderHint( bindingOptions ) {
+        var positionStyle = getStyleValueByName( bindingOptions.element, "position" );
+
+        if ( positionStyle !== _string.empty && positionStyle.toLowerCase() === "static" ) {
+            bindingOptions.element.style.position = "relative";
+        }
+
+        var hint = createElement( "div", "journey-js-hint" );
+        bindingOptions.element.appendChild( hint );
+
+        hint.onclick = function( e ) {
+            cancelBubble( e );
+
+            _element_Dialog_Buttons.style.display = "none";
+            _element_Dialog_ProgressDots.style.display = "none";
+
+            setDialogText( bindingOptions );
+            setDialogPosition( bindingOptions );
+        };
     }
 
 
@@ -430,6 +471,7 @@
         options.sendClick = getDefaultBoolean( options.sendClick, false );
         options.alignTop = getDefaultBoolean( options.alignTop, false );
         options.alignRight = getDefaultBoolean( options.alignRight, false );
+        options.isHint = getDefaultBoolean( options.isHint, false );
 
         options = buildAttributeOptionStrings( options );
 
@@ -620,6 +662,11 @@
         } catch ( e ) {
             console.warn( e.message );
         }
+    }
+
+    function cancelBubble( e ) {
+        e.preventDefault();
+        e.cancelBubble = true;
     }
 
 
