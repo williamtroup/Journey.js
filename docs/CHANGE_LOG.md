@@ -14,7 +14,7 @@
 - The progress dots will now show tooltips (which is the title of the step being focused).
 
 #### **CSS:**
-- The "Close" button now uses a slightly thicker lines for the X.
+- The "Close" button now uses slightly thicker lines for the X.
 - Added more default padding around the progress dots area.
 
 #### **Documentation:**
