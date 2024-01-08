@@ -17,6 +17,7 @@ Below are all the configuration options that can be passed to the "setConfigurat
 | *boolean* | showProgressDots | States if the progress dots are visible on the dialog (defaults to true). |
 | *boolean* | browserUrlParametersEnabled | States if the browser URL parameters are enabled (defaults to true). |
 | *boolean* | showProgressDotNumbers | States if the progress dots should show the step numbers in them (defaults to false). |
+| *boolean* | showButtons | States if the buttons are visible on the dialog (defaults to true). |
 
 <br/>
 

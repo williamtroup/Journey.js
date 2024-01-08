@@ -177,13 +177,8 @@
                 bindingOptions.element.style.position = "relative";
             }
 
-            if ( _element_Dialog_ProgressDots.style.display !== "block" ) {
-                _element_Dialog_ProgressDots.style.display = "block";
-            }
-
-            if ( _element_Dialog_Buttons.style.display !== "block" ) {
-                _element_Dialog_Buttons.style.display = "block";
-            }
+            showElementBasedOnCondition( _element_Dialog_ProgressDots, _configuration.showProgressDots );
+            showElementBasedOnCondition( _element_Dialog_Buttons, _configuration.showButtons );
 
             _element_Dialog_Back_Button.innerHTML = _configuration.backButtonText;
             _element_Dialog_Back_Button.disabled = _elements_Attributes_Position === 0;
@@ -726,6 +721,19 @@
         element.style.top = top + "px";
     }
 
+    function showElementBasedOnCondition( element, condition ) {
+        if ( condition ) {
+            if ( element.style.display !== "block" ) {
+                element.style.display = "block";
+            }
+            
+        } else {
+            if ( element.style.display !== "none" ) {
+                element.style.display = "none";
+            }
+        }
+    }
+
 
     /*
      * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -963,6 +971,7 @@
         _configuration.showProgressDots = getDefaultBoolean( _configuration.showProgressDots, true );
         _configuration.browserUrlParametersEnabled = getDefaultBoolean( _configuration.browserUrlParametersEnabled, true );
         _configuration.showProgressDotNumbers = getDefaultBoolean( _configuration.showProgressDotNumbers, false );
+        _configuration.showButtons = getDefaultBoolean( _configuration.showButtons, true );
     }
 
 

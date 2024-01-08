@@ -7,6 +7,7 @@
 
 #### **Configuration Options:**
 - Added a new configuration option "showProgressDotNumbers" (defaults to false), which states if the progress dots should show the step numbers in them.
+- Added a new configuration option "showButtons" (defaults to true), which states if the main buttons should be shown.
 
 #### **CSS:**
 - The "Close" button now uses a slightly thicker lines for the X.
