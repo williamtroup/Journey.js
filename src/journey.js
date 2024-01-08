@@ -96,6 +96,7 @@
         _parameter_Document.body.appendChild( _element_Dialog );
 
         _element_Dialog_Close_Button = createElement( "button", "close" );
+        _element_Dialog_Close_Button.title = _configuration.closeButtonToolTipText;
         _element_Dialog_Close_Button.onclick = onDialogClose;
         _element_Dialog.appendChild( _element_Dialog_Close_Button );
 
@@ -972,6 +973,7 @@
         _configuration.browserUrlParametersEnabled = getDefaultBoolean( _configuration.browserUrlParametersEnabled, true );
         _configuration.showProgressDotNumbers = getDefaultBoolean( _configuration.showProgressDotNumbers, false );
         _configuration.showButtons = getDefaultBoolean( _configuration.showButtons, true );
+        _configuration.closeButtonToolTipText = getDefaultString( _configuration.closeButtonToolTipText, "Close" );
     }
 
 

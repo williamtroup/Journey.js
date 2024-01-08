@@ -8,6 +8,7 @@
 #### **Configuration Options:**
 - Added a new configuration option "showProgressDotNumbers" (defaults to false), which states if the progress dots should show the step numbers in them.
 - Added a new configuration option "showButtons" (defaults to true), which states if the main buttons should be shown.
+- Added a new configuration option "closeButtonToolTipText" (defaults to "Close"), which states the tooltip text to use for the "Close" button.
 
 #### **CSS:**
 - The "Close" button now uses a slightly thicker lines for the X.
