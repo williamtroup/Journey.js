@@ -1,4 +1,4 @@
-/*! Journey.js v0.8.0 | (c) Bunoon | MIT License */
+/*! Journey.js v0.8.0 | (c) Bunoon 2024 | MIT License */
 (function() {
   function renderDisabledBackground() {
     _element_Disabled_Background = createElement("div", "journey-js-disabled-background");
