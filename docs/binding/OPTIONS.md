@@ -11,7 +11,10 @@ Below are all the JSON properties that can be passed in the "data-journey-option
 | *number* | order | States the order that this journey's step should be shown (required). |
 | *boolean* | attach | States the dialog should be attached to the element (only if not a hint.  If false, the dialog is centred in the window. Defaults to true). |
 | *boolean* | sendClick | States if the active DOM element should fire any assigned click event (defaults to false). |
+| *boolean* | alignTop | States if the dialog should be aligned to the top of the element. (defaults to false). |
+| *boolean* | alignRight | States if the dialog should be aligned to the right of the element. (defaults to false). |
 | *boolean* | isHint | States if this item should only be shown as a hint (not included in the main journey, defaults to false). |
+| *boolean* | alignHintToClickPosition | States if the hint should be shown at the position of the mouse click (defaults to false). |
 <br/>
 
 

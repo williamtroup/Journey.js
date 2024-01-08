@@ -1,5 +1,31 @@
 # Journey.js - Change Log:
 
+## Version 0.8.0:
+
+#### **Binding Options:**
+- Added a new binding option called "alignHintToClickPosition", which states if the hint should be shown at the mouse position (defaults to false).
+
+#### **Configuration Options:**
+- Added a new configuration option "showProgressDotNumbers" (defaults to false), which states if the progress dots should show the step numbers in them.
+- Added a new configuration option "showButtons" (defaults to true), which states if the main buttons should be shown.
+- Added a new configuration option "closeButtonToolTipText" (defaults to "Close"), which states the tooltip text to use for the "Close" button.
+
+#### **General Improvements:**
+- The progress dots will now show tooltips (which is the title of the step being focused).
+
+#### **CSS:**
+- The "Close" button now uses slightly thicker lines for the X.
+- Added more default padding around the progress dots area.
+
+#### **Documentation:**
+- Added missing binding documentation for "alignTop" and "alignRight".
+
+#### **Fixes:**
+- Fixed a fault that allowed the shortcut keys (for journey navigation) to still work when a hint is shown.
+
+<br>
+
+
 ## Version 0.7.0:
 
 #### **New Features:**

@@ -16,6 +16,9 @@ Below are all the configuration options that can be passed to the "setConfigurat
 | *boolean* | shortcutKeysEnabled | States if the shortcut keys are enabled (defaults to true). |
 | *boolean* | showProgressDots | States if the progress dots are visible on the dialog (defaults to true). |
 | *boolean* | browserUrlParametersEnabled | States if the browser URL parameters are enabled (defaults to true). |
+| *boolean* | showProgressDotNumbers | States if the progress dots should show the step numbers in them (defaults to false). |
+| *boolean* | showButtons | States if the buttons are visible on the dialog (defaults to true). |
+| *string* | closeButtonToolTipText | States the tooltip text that should be used for the "Close" button (defaults to "Close"). |
 
 <br/>
 
