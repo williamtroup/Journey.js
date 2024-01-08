@@ -5,6 +5,9 @@
 #### **Binding Options:**
 - Added a new binding option called "alignHintToClickPosition", which states if the hint should be shown at the mouse position (defaults to false).
 
+#### **Configuration Options:**
+- Added a new configuration option "showProgressDotNumbers" (defaults to false), which states if the progress dots should show the step numbers in them.
+
 #### **Documentation:**
 - Added missing binding documentation for "alignTop" and "alignRight".
 

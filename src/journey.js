@@ -286,11 +286,22 @@
 
     function buildProgressDot( keyIndex ) {
         if ( keyIndex === _elements_Attributes_Position ) {
-            _element_Dialog_ProgressDots.appendChild( createElement( "div", "dot-active" ) );
+            var activeDot = createElement( "div", "dot-active" );
+            _element_Dialog_ProgressDots.appendChild( activeDot );
+
+            if ( _configuration.showProgressDotNumbers ) {
+                activeDot.className += " dot-number";
+                activeDot.innerHTML = ( keyIndex + 1 ).toString();
+            }
             
         } else {
             var dot = createElement( "div", "dot" );
             _element_Dialog_ProgressDots.appendChild( dot );
+
+            if ( _configuration.showProgressDotNumbers ) {
+                dot.className += " dot-number";
+                dot.innerHTML = ( keyIndex + 1 ).toString();
+            }
     
             dot.onclick = function() {
                 removeFocusClassFromLastElement();
@@ -945,6 +956,7 @@
         _configuration.shortcutKeysEnabled = getDefaultBoolean( _configuration.shortcutKeysEnabled, true );
         _configuration.showProgressDots = getDefaultBoolean( _configuration.showProgressDots, true );
         _configuration.browserUrlParametersEnabled = getDefaultBoolean( _configuration.browserUrlParametersEnabled, true );
+        _configuration.showProgressDotNumbers = getDefaultBoolean( _configuration.showProgressDotNumbers, false );
     }
 
 

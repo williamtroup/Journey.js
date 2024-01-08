@@ -130,6 +130,17 @@ div.journey-js-dialog div.progress-dots div.dot:hover {
   border: var(--border-size) solid var(--dialog-button-hover-border-color);
   transition: var(--transition);
 }
+div.journey-js-dialog div.progress-dots div.dot-number {
+  height: 25px !important;
+  width: 25px !important;
+  padding: 3px;
+  display: inline-flex;
+  justify-content: center;
+  align-content: center;
+  flex-direction: column;
+  font-size: 0.8rem;
+  border-radius: 50% !important;
+}
 div.journey-js-dialog div.progress-dots div.dot-active {
   border-radius: 10px;
   height: 10px;
