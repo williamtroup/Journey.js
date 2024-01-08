@@ -11,6 +11,7 @@
 
 #### **CSS:**
 - The "Close" button now uses a slightly thicker lines for the X.
+- Added more default padding around the progress dots area.
 
 #### **Documentation:**
 - Added missing binding documentation for "alignTop" and "alignRight".

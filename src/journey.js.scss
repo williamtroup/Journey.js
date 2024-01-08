@@ -141,8 +141,8 @@ div.journey-js-dialog {
     }
 
     div.progress-dots {
-        margin-top: 5px;
-        margin-bottom: 5px;
+        margin-top: 7px;
+        margin-bottom: 7px;
         text-wrap: nowrap;
         text-align: center;
 
@@ -166,6 +166,7 @@ div.journey-js-dialog {
                 background-color: var(--dialog-button-hover-background-color);
                 border: var(--border-size) solid var(--dialog-button-hover-border-color);
                 transition: var(--transition);
+                color: var(--color-white) !important;
             }
         }
 
@@ -179,6 +180,7 @@ div.journey-js-dialog {
             flex-direction: column;
             font-size: 0.8rem;
             border-radius: 50% !important;
+            color: var(--color-gray) !important;
         }
 
         div.dot-active {
@@ -187,6 +189,7 @@ div.journey-js-dialog {
             width: 15px;
             background-color: var(--dialog-button-border-color);
             border: var(--border-size) solid var(--dialog-button-border-color);
+            color: var(--color-white) !important;
         }
     }
 
