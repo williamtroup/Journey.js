@@ -83,7 +83,7 @@
         _element_Dialog_Next_Button.innerHTML = _configuration.nextButtonText;
       }
       setDialogText(bindingOptions);
-      setDialogPosition(bindingOptions);
+      setDialogPosition(null, bindingOptions);
       buildProcessDots();
       fireCustomTrigger(bindingOptions.onEnter, bindingOptions.element);
       if (bindingOptions.sendClick) {
@@ -103,25 +103,29 @@
       _element_Dialog_Description.innerHTML = _string.empty;
     }
   }
-  function setDialogPosition(bindingOptions) {
+  function setDialogPosition(e, bindingOptions) {
     var scrollPosition = getScrollPosition();
     if (_element_Dialog.style.display !== "block") {
       _element_Dialog.style.display = "block";
       fireCustomTrigger(bindingOptions.onOpen, bindingOptions.element);
     }
     if (bindingOptions.attach || bindingOptions.isHint) {
-      var offset = getOffset(bindingOptions.element);
-      var top = offset.top - scrollPosition.top + bindingOptions.element.offsetHeight;
-      var left = offset.left - scrollPosition.left;
-      if (left + _element_Dialog.offsetWidth > _parameter_Window.innerWidth || bindingOptions.alignRight) {
-        left = left - _element_Dialog.offsetWidth;
-        left = left + bindingOptions.element.offsetWidth;
+      if (bindingOptions.isHint && bindingOptions.alignHintToClickPosition) {
+        showElementAtMousePosition(e, _element_Dialog);
+      } else {
+        var offset = getOffset(bindingOptions.element);
+        var top = offset.top - scrollPosition.top + bindingOptions.element.offsetHeight;
+        var left = offset.left - scrollPosition.left;
+        if (left + _element_Dialog.offsetWidth > _parameter_Window.innerWidth || bindingOptions.alignRight) {
+          left = left - _element_Dialog.offsetWidth;
+          left = left + bindingOptions.element.offsetWidth;
+        }
+        if (top + _element_Dialog.offsetHeight > _parameter_Window.innerHeight || bindingOptions.alignTop) {
+          top = top - (_element_Dialog.offsetHeight + bindingOptions.element.offsetHeight);
+        }
+        _element_Dialog.style.top = top + "px";
+        _element_Dialog.style.left = left + "px";
       }
-      if (top + _element_Dialog.offsetHeight > _parameter_Window.innerHeight || bindingOptions.alignTop) {
-        top = top - (_element_Dialog.offsetHeight + bindingOptions.element.offsetHeight);
-      }
-      _element_Dialog.style.top = top + "px";
-      _element_Dialog.style.left = left + "px";
     } else {
       var centerLeft = Math.max(0, (_parameter_Window.innerWidth - _element_Dialog.offsetWidth) / 2 + scrollPosition.left);
       var centerTop = Math.max(0, (_parameter_Window.innerHeight - _element_Dialog.offsetHeight) / 2 + scrollPosition.top);
@@ -229,7 +233,7 @@
       _element_Dialog_Buttons.style.display = "none";
       _element_Dialog_ProgressDots.style.display = "none";
       setDialogText(bindingOptions);
-      setDialogPosition(bindingOptions);
+      setDialogPosition(e, bindingOptions);
     };
   }
   function buildDocumentEvents(addEvents) {
@@ -288,6 +292,7 @@
     options.alignTop = getDefaultBoolean(options.alignTop, false);
     options.alignRight = getDefaultBoolean(options.alignRight, false);
     options.isHint = getDefaultBoolean(options.isHint, false);
+    options.alignHintToClickPosition = getDefaultBoolean(options.alignHintToClickPosition, false);
     options = buildAttributeOptionStrings(options);
     return buildAttributeOptionCustomTriggers(options);
   }
@@ -415,6 +420,30 @@
   function cancelBubble(e) {
     e.preventDefault();
     e.cancelBubble = true;
+  }
+  function showElementAtMousePosition(e, element) {
+    var left = e.pageX;
+    var top = e.pageY;
+    var scrollPosition = getScrollPosition();
+    element.style.display = "block";
+    if (left + element.offsetWidth > _parameter_Window.innerWidth) {
+      left = left - element.offsetWidth;
+    } else {
+      left++;
+    }
+    if (top + element.offsetHeight > _parameter_Window.innerHeight) {
+      top = top - element.offsetHeight;
+    } else {
+      top++;
+    }
+    if (left < scrollPosition.left) {
+      left = e.pageX + 1;
+    }
+    if (top < scrollPosition.top) {
+      top = e.pageY + 1;
+    }
+    element.style.left = left + "px";
+    element.style.top = top + "px";
   }
   function fireCustomTrigger(triggerFunction) {
     if (isDefinedFunction(triggerFunction)) {

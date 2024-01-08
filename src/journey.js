@@ -190,7 +190,7 @@
             }
 
             setDialogText( bindingOptions );
-            setDialogPosition( bindingOptions );
+            setDialogPosition( null, bindingOptions );
             buildProcessDots();
             fireCustomTrigger( bindingOptions.onEnter, bindingOptions.element );
 
@@ -214,7 +214,7 @@
         }
     }
 
-    function setDialogPosition( bindingOptions ) {
+    function setDialogPosition( e, bindingOptions ) {
         var scrollPosition = getScrollPosition();
 
         if ( _element_Dialog.style.display !== "block" ) {
@@ -224,21 +224,26 @@
         }
 
         if ( bindingOptions.attach || bindingOptions.isHint ) {
-            var offset = getOffset( bindingOptions.element ),
-                top = ( offset.top - scrollPosition.top ) + bindingOptions.element.offsetHeight,
-                left = ( offset.left - scrollPosition.left );
+            if ( bindingOptions.isHint && bindingOptions.alignHintToClickPosition ) {
+                showElementAtMousePosition( e, _element_Dialog );
 
-            if ( left + _element_Dialog.offsetWidth > _parameter_Window.innerWidth || bindingOptions.alignRight ) {
-                left -=  _element_Dialog.offsetWidth;
-                left += bindingOptions.element.offsetWidth;
-            }
-    
-            if ( top + _element_Dialog.offsetHeight > _parameter_Window.innerHeight || bindingOptions.alignTop ) {
-                top -= ( _element_Dialog.offsetHeight + bindingOptions.element.offsetHeight );
-            }
+            } else {
+                var offset = getOffset( bindingOptions.element ),
+                    top = ( offset.top - scrollPosition.top ) + bindingOptions.element.offsetHeight,
+                    left = ( offset.left - scrollPosition.left );
 
-            _element_Dialog.style.top = top + "px";
-            _element_Dialog.style.left = left + "px";
+                if ( left + _element_Dialog.offsetWidth > _parameter_Window.innerWidth || bindingOptions.alignRight ) {
+                    left -=  _element_Dialog.offsetWidth;
+                    left += bindingOptions.element.offsetWidth;
+                }
+        
+                if ( top + _element_Dialog.offsetHeight > _parameter_Window.innerHeight || bindingOptions.alignTop ) {
+                    top -= ( _element_Dialog.offsetHeight + bindingOptions.element.offsetHeight );
+                }
+
+                _element_Dialog.style.top = top + "px";
+                _element_Dialog.style.left = left + "px";
+            }
 
         } else {
             var centerLeft = Math.max( 0, ( ( _parameter_Window.innerWidth - _element_Dialog.offsetWidth ) / 2 ) + scrollPosition.left ),
@@ -385,7 +390,7 @@
             _element_Dialog_ProgressDots.style.display = "none";
 
             setDialogText( bindingOptions );
-            setDialogPosition( bindingOptions );
+            setDialogPosition( e, bindingOptions );
         };
     }
 
@@ -475,6 +480,7 @@
         options.alignTop = getDefaultBoolean( options.alignTop, false );
         options.alignRight = getDefaultBoolean( options.alignRight, false );
         options.isHint = getDefaultBoolean( options.isHint, false );
+        options.alignHintToClickPosition = getDefaultBoolean( options.alignHintToClickPosition, false );
 
         options = buildAttributeOptionStrings( options );
 
@@ -670,6 +676,37 @@
     function cancelBubble( e ) {
         e.preventDefault();
         e.cancelBubble = true;
+    }
+
+    function showElementAtMousePosition( e, element ) {
+        var left = e.pageX,
+            top = e.pageY,
+            scrollPosition = getScrollPosition();
+
+        element.style.display = "block";
+
+        if ( left + element.offsetWidth > _parameter_Window.innerWidth ) {
+            left -= element.offsetWidth;
+        } else {
+            left++;
+        }
+
+        if ( top + element.offsetHeight > _parameter_Window.innerHeight ) {
+            top -= element.offsetHeight;
+        } else {
+            top++;
+        }
+
+        if ( left < scrollPosition.left ) {
+            left = e.pageX + 1;
+        }
+
+        if ( top < scrollPosition.top ) {
+            top = e.pageY + 1;
+        }
+        
+        element.style.left = left + "px";
+        element.style.top = top + "px";
     }
 
 

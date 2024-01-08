@@ -1,7 +1,12 @@
 # Journey.js - Change Log:
 
 ## Version 0.8.0:
--
+
+#### **Binding Options:**
+- Added a new binding option called "alignHintToClickPosition", which states if the hint should be shown at the mouse position (defaults to false).
+
+#### **Documentation:**
+- Added missing binding documentation for "alignTop" and "alignRight".
 
 <br>
 
