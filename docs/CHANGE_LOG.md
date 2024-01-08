@@ -8,6 +8,9 @@
 #### **Configuration Options:**
 - Added a new configuration option "showProgressDotNumbers" (defaults to false), which states if the progress dots should show the step numbers in them.
 
+#### **CSS:**
+- The "Close" button now uses a slightly thicker lines for the X.
+
 #### **Documentation:**
 - Added missing binding documentation for "alignTop" and "alignRight".
 

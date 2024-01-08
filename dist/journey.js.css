@@ -72,13 +72,13 @@ div.journey-js-dialog button.close {
 }
 div.journey-js-dialog button.close::before, div.journey-js-dialog button.close::after {
   content: "";
-  width: 1px;
+  width: 2px;
   height: 100%;
   background: var(--dialog-close-button-x-color);
   display: block;
   transform: rotate(45deg) translateX(0px);
   position: absolute;
-  left: 50%;
+  left: calc(50% - 0.5px);
   top: 0;
 }
 div.journey-js-dialog button.close::after {
