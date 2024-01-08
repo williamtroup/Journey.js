@@ -155,8 +155,10 @@
     }
   }
   function buildProgressDot(keyIndex) {
+    var bindingOptions = _elements_Attributes_Json[_elements_Attributes_Keys[keyIndex]];
     if (keyIndex === _elements_Attributes_Position) {
       var activeDot = createElement("div", "dot-active");
+      activeDot.title = bindingOptions.title;
       _element_Dialog_ProgressDots.appendChild(activeDot);
       if (_configuration.showProgressDotNumbers) {
         activeDot.className += " dot-number";
@@ -164,6 +166,7 @@
       }
     } else {
       var dot = createElement("div", "dot");
+      dot.title = bindingOptions.title;
       _element_Dialog_ProgressDots.appendChild(dot);
       if (_configuration.showProgressDotNumbers) {
         dot.className += " dot-number";

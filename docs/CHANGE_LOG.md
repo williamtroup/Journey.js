@@ -10,6 +10,9 @@
 - Added a new configuration option "showButtons" (defaults to true), which states if the main buttons should be shown.
 - Added a new configuration option "closeButtonToolTipText" (defaults to "Close"), which states the tooltip text to use for the "Close" button.
 
+#### **General Improvements:**
+- The progress dots will now show tooltips (which is the title of the step being focused).
+
 #### **CSS:**
 - The "Close" button now uses a slightly thicker lines for the X.
 - Added more default padding around the progress dots area.
