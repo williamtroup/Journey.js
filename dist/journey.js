@@ -63,6 +63,7 @@
     if (isDefined(bindingOptions) && isDefined(bindingOptions.element)) {
       showDisabledBackground();
       _element_Dialog_Close_Button.style.display = _configuration.showCloseButton ? "block" : "none";
+      _configuration_ShortcutKeysEnabled = true;
       bindingOptions.element.className += _string.space + "journey-js-element-focus";
       var lastPositionStyle = getStyleValueByName(bindingOptions.element, "position");
       if (lastPositionStyle !== _string.empty && lastPositionStyle.toLowerCase() === "static") {
@@ -241,6 +242,7 @@
       cancelBubble(e);
       _element_Dialog_Buttons.style.display = "none";
       _element_Dialog_ProgressDots.style.display = "none";
+      _configuration_ShortcutKeysEnabled = false;
       setDialogText(bindingOptions);
       setDialogPosition(e, bindingOptions);
     };
@@ -259,16 +261,16 @@
       if (e.keyCode === _enum_KeyCodes.escape) {
         e.preventDefault();
         onDialogClose();
-      } else if (e.keyCode === _enum_KeyCodes.left) {
+      } else if (e.keyCode === _enum_KeyCodes.left && _configuration_ShortcutKeysEnabled) {
         e.preventDefault();
         onDialogBack();
-      } else if (e.keyCode === _enum_KeyCodes.right) {
+      } else if (e.keyCode === _enum_KeyCodes.right && _configuration_ShortcutKeysEnabled) {
         e.preventDefault();
         onDialogNext();
-      } else if (e.keyCode === _enum_KeyCodes.up) {
+      } else if (e.keyCode === _enum_KeyCodes.up && _configuration_ShortcutKeysEnabled) {
         e.preventDefault();
         onWindowKeyCodeUp();
-      } else if (e.keyCode === _enum_KeyCodes.down) {
+      } else if (e.keyCode === _enum_KeyCodes.down && _configuration_ShortcutKeysEnabled) {
         e.preventDefault();
         onWindowKeyCodeDown();
       }
@@ -524,6 +526,7 @@
   var _parameter_Document = null;
   var _parameter_Window = null;
   var _configuration = {};
+  var _configuration_ShortcutKeysEnabled = true;
   var _enum_KeyCodes = {escape:27, left:37, up:38, right:39, down:40};
   var _string = {empty:"", space:" "};
   var _elements_Type = {};

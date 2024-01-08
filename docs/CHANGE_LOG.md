@@ -14,6 +14,9 @@
 #### **Documentation:**
 - Added missing binding documentation for "alignTop" and "alignRight".
 
+#### **Fixes:**
+- Fixed a fault that allowed the shortcut keys (for journey navigation) to still work when a hint is shown.
+
 <br>
 
 

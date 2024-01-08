@@ -21,6 +21,9 @@
         // Variables: Configuration
         _configuration = {},
 
+        // Variables: Configuration (overrides)
+        _configuration_ShortcutKeysEnabled = true,
+
         // Variables: Enums
         _enum_KeyCodes = {
             escape: 27,
@@ -163,6 +166,8 @@
             showDisabledBackground();
             
             _element_Dialog_Close_Button.style.display = _configuration.showCloseButton ? "block": "none";
+            _configuration_ShortcutKeysEnabled = true;
+            
             bindingOptions.element.className += _string.space + "journey-js-element-focus";
 
             var lastPositionStyle = getStyleValueByName( bindingOptions.element, "position" );
@@ -399,6 +404,7 @@
 
             _element_Dialog_Buttons.style.display = "none";
             _element_Dialog_ProgressDots.style.display = "none";
+            _configuration_ShortcutKeysEnabled = false;
 
             setDialogText( bindingOptions );
             setDialogPosition( e, bindingOptions );
@@ -431,19 +437,19 @@
                 e.preventDefault();
                 onDialogClose();
 
-            } else if ( e.keyCode === _enum_KeyCodes.left ) {
+            } else if ( e.keyCode === _enum_KeyCodes.left && _configuration_ShortcutKeysEnabled ) {
                 e.preventDefault();
                 onDialogBack();
 
-            } else if ( e.keyCode === _enum_KeyCodes.right ) {
+            } else if ( e.keyCode === _enum_KeyCodes.right && _configuration_ShortcutKeysEnabled ) {
                 e.preventDefault();
                 onDialogNext();
 
-            } else if ( e.keyCode === _enum_KeyCodes.up ) {
+            } else if ( e.keyCode === _enum_KeyCodes.up && _configuration_ShortcutKeysEnabled ) {
                 e.preventDefault();
                 onWindowKeyCodeUp();
 
-            } else if ( e.keyCode === _enum_KeyCodes.down ) {
+            } else if ( e.keyCode === _enum_KeyCodes.down && _configuration_ShortcutKeysEnabled ) {
                 e.preventDefault();
                 onWindowKeyCodeDown();
             }
