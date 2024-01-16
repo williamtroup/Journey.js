@@ -10,31 +10,31 @@
     -------------------------------------------------------------------------
 */
 :root {
-  --color-black: #3b3a3a;
-  --color-white: #F5F5F5;
-  --color-gray: #AAAAAA;
-  --color-hint: rgba( 170, 170, 170, 0.5 );
-  --dialog-background-color: #002244;
-  --dialog-text-color: var(--color-white);
-  --dialog-border-color: #72A0C1;
-  --dialog-button-background-color: #002D62;
-  --dialog-button-border-color: #3457D5;
-  --dialog-button-text-color: var(--color-white);
-  --dialog-button-hover-background-color: #007FFF;
-  --dialog-button-hover-border-color: var(--dialog-button-border-color);
-  --dialog-button-hover-text-color: var(--dialog-button-text-color);
-  --dialog-button-disabled-background-color: var(--dialog-background-color);
-  --dialog-close-button-background-color: var(--dialog-button-background-color);
-  --dialog-close-button-border-color: #3457D5;
-  --dialog-close-button-size: 1.1rem;
-  --dialog-close-button-x-color: var(--color-white);
-  --dialog-close-button-hover-background-color: #007FFF;
-  --dialog-close-button-hover-x-color: var(--dialog-close-button-x-color);
-  --dialog-close-button-hover-border-color: var(--dialog-close-button-border-color);
-  --border-radius: 0.5rem;
-  --border-size: 0.5px;
-  --spacing: 10px;
-  --transition: all .3s;
+  --journey-js-color-black: #3b3a3a;
+  --journey-js-color-white: #F5F5F5;
+  --journey-js-color-gray: #AAAAAA;
+  --journey-js-color-hint: rgba( 170, 170, 170, 0.5 );
+  --journey-js-dialog-background-color: #002244;
+  --journey-js-dialog-text-color: var(--journey-js-color-white);
+  --journey-js-dialog-border-color: #72A0C1;
+  --journey-js-dialog-button-background-color: #002D62;
+  --journey-js-dialog-button-border-color: #3457D5;
+  --journey-js-dialog-button-text-color: var(--journey-js-color-white);
+  --journey-js-dialog-button-hover-background-color: #007FFF;
+  --journey-js-dialog-button-hover-border-color: var(--journey-js-dialog-button-border-color);
+  --journey-js-dialog-button-hover-text-color: var(--journey-js-dialog-button-text-color);
+  --journey-js-dialog-button-disabled-background-color: var(--journey-js-dialog-background-color);
+  --journey-js-dialog-close-button-background-color: var(--journey-js-dialog-button-background-color);
+  --journey-js-dialog-close-button-border-color: #3457D5;
+  --journey-js-dialog-close-button-size: 1.1rem;
+  --journey-js-dialog-close-button-x-color: var(--journey-js-color-white);
+  --journey-js-dialog-close-button-hover-background-color: #007FFF;
+  --journey-js-dialog-close-button-hover-x-color: var(--journey-js-dialog-close-button-x-color);
+  --journey-js-dialog-close-button-hover-border-color: var(--journey-js-dialog-close-button-border-color);
+  --journey-js-border-radius: 0.5rem;
+  --journey-js-border-size: 0.5px;
+  --journey-js-spacing: 10px;
+  --journey-js-transition: all .3s;
 }
 
 /*
@@ -45,11 +45,11 @@
 div.journey-js-dialog {
   position: absolute;
   display: none;
-  border-radius: var(--border-radius);
-  background-color: var(--dialog-background-color);
-  color: var(--dialog-text-color);
-  border: var(--border-size) solid var(--dialog-border-color);
-  padding: var(--spacing);
+  border-radius: var(--journey-js-border-radius);
+  background-color: var(--journey-js-dialog-background-color);
+  color: var(--journey-js-dialog-text-color);
+  border: var(--journey-js-border-size) solid var(--journey-js-dialog-border-color);
+  padding: var(--journey-js-spacing);
   font-family: "Montserrat", sans-serif;
   font-size: 0.9rem;
   z-index: 1001;
@@ -61,20 +61,20 @@ div.journey-js-dialog {
 }
 div.journey-js-dialog button.close {
   position: absolute;
-  top: var(--spacing);
-  right: var(--spacing);
-  width: var(--dialog-close-button-size);
-  height: var(--dialog-close-button-size);
+  top: var(--journey-js-spacing);
+  right: var(--journey-js-spacing);
+  width: var(--journey-js-dialog-close-button-size);
+  height: var(--journey-js-dialog-close-button-size);
   border-radius: 0.25rem;
   padding: 0;
-  background-color: var(--dialog-close-button-background-color);
-  border: var(--border-size) solid var(--dialog-close-button-border-color);
+  background-color: var(--journey-js-dialog-close-button-background-color);
+  border: var(--journey-js-border-size) solid var(--journey-js-dialog-close-button-border-color);
 }
 div.journey-js-dialog button.close::before, div.journey-js-dialog button.close::after {
   content: "";
   width: 2px;
   height: 100%;
-  background: var(--dialog-close-button-x-color);
+  background: var(--journey-js-dialog-close-button-x-color);
   display: block;
   transform: rotate(45deg) translateX(0px);
   position: absolute;
@@ -86,16 +86,16 @@ div.journey-js-dialog button.close::after {
 }
 div.journey-js-dialog button.close:hover {
   cursor: pointer;
-  border: var(--border-size) solid var(--dialog-close-button-hover-border-color);
-  transition: var(--transition);
-  background-color: var(--dialog-close-button-hover-background-color);
+  border: var(--journey-js-border-size) solid var(--journey-js-dialog-close-button-hover-border-color);
+  transition: var(--journey-js-transition);
+  background-color: var(--journey-js-dialog-close-button-hover-background-color);
 }
 div.journey-js-dialog button.close:hover::before, div.journey-js-dialog button.close:hover::after {
-  background: var(--dialog-close-button-hover-x-color);
-  transition: var(--transition);
+  background: var(--journey-js-dialog-close-button-hover-x-color);
+  transition: var(--journey-js-transition);
 }
 div.journey-js-dialog div:first-of-type {
-  padding-right: calc(var(--dialog-close-button-size) + var(--spacing));
+  padding-right: calc(var(--journey-js-dialog-close-button-size) + var(--journey-js-spacing));
 }
 div.journey-js-dialog div.title {
   font-size: large;
@@ -121,15 +121,15 @@ div.journey-js-dialog div.progress-dots div.dot {
   border-radius: 50%;
   height: 10px;
   width: 10px;
-  background-color: var(--dialog-button-background-color);
-  border: var(--border-size) solid var(--dialog-button-border-color);
+  background-color: var(--journey-js-dialog-button-background-color);
+  border: var(--journey-js-border-size) solid var(--journey-js-dialog-button-border-color);
 }
 div.journey-js-dialog div.progress-dots div.dot:hover {
   cursor: pointer;
-  background-color: var(--dialog-button-hover-background-color);
-  border: var(--border-size) solid var(--dialog-button-hover-border-color);
-  transition: var(--transition);
-  color: var(--color-white) !important;
+  background-color: var(--journey-js-dialog-button-hover-background-color);
+  border: var(--journey-js-border-size) solid var(--journey-js-dialog-button-hover-border-color);
+  transition: var(--journey-js-transition);
+  color: var(--journey-js-color-white) !important;
 }
 div.journey-js-dialog div.progress-dots div.dot-number {
   height: 25px !important;
@@ -141,41 +141,41 @@ div.journey-js-dialog div.progress-dots div.dot-number {
   flex-direction: column;
   font-size: 0.8rem;
   border-radius: 50% !important;
-  color: var(--color-gray) !important;
+  color: var(--journey-js-color-gray) !important;
 }
 div.journey-js-dialog div.progress-dots div.dot-active {
   border-radius: 10px;
   height: 10px;
   width: 15px;
-  background-color: var(--dialog-button-border-color);
-  border: var(--border-size) solid var(--dialog-button-border-color);
-  color: var(--color-white) !important;
+  background-color: var(--journey-js-dialog-button-border-color);
+  border: var(--journey-js-border-size) solid var(--journey-js-dialog-button-border-color);
+  color: var(--journey-js-color-white) !important;
 }
 div.journey-js-dialog div.buttons {
-  margin-top: var(--spacing);
+  margin-top: var(--journey-js-spacing);
   text-align: right;
 }
 div.journey-js-dialog div.buttons button.back,
 div.journey-js-dialog div.buttons button.next {
-  border-radius: var(--border-radius);
-  background-color: var(--dialog-button-background-color);
-  color: var(--dialog-button-text-color);
-  border: var(--border-size) solid var(--dialog-button-border-color);
+  border-radius: var(--journey-js-border-radius);
+  background-color: var(--journey-js-dialog-button-background-color);
+  color: var(--journey-js-dialog-button-text-color);
+  border: var(--journey-js-border-size) solid var(--journey-js-dialog-button-border-color);
   min-width: 100px;
-  padding: var(--spacing);
+  padding: var(--journey-js-spacing);
 }
 div.journey-js-dialog div.buttons button.back:not([disabled]):hover,
 div.journey-js-dialog div.buttons button.next:not([disabled]):hover {
   cursor: pointer;
-  background-color: var(--dialog-button-hover-background-color);
-  color: var(--dialog-button-hover-text-color);
-  border: var(--border-size) solid var(--dialog-button-hover-border-color);
-  transition: var(--transition);
+  background-color: var(--journey-js-dialog-button-hover-background-color);
+  color: var(--journey-js-dialog-button-hover-text-color);
+  border: var(--journey-js-border-size) solid var(--journey-js-dialog-button-hover-border-color);
+  transition: var(--journey-js-transition);
 }
 div.journey-js-dialog div.buttons button.back:disabled,
 div.journey-js-dialog div.buttons button.next:disabled {
-  background-color: var(--dialog-button-disabled-background-color) !important;
-  color: var(--color-gray);
+  background-color: var(--journey-js-dialog-button-disabled-background-color) !important;
+  color: var(--journey-js-color-gray);
 }
 div.journey-js-dialog div.buttons button.next {
   font-weight: 700;
@@ -191,7 +191,7 @@ div.journey-js-hint {
   width: 15px;
   height: 15px;
   border-radius: 50%;
-  background-color: var(--color-gray);
+  background-color: var(--journey-js-color-gray);
   right: -7.5px;
   top: -7.5px;
   animation: journey-js-hint-effect 2s infinite;
@@ -200,13 +200,13 @@ div.journey-js-hint {
 
 @keyframes journey-js-hint-effect {
   0% {
-    box-shadow: 0 0 0 0 var(--color-hint);
+    box-shadow: 0 0 0 0 var(--journey-js-color-hint);
   }
   70% {
-    box-shadow: 0 0 0 10px var(--color-hint);
+    box-shadow: 0 0 0 10px var(--journey-js-color-hint);
   }
   100% {
-    box-shadow: 0 0 0 0 var(--color-hint);
+    box-shadow: 0 0 0 0 var(--journey-js-color-hint);
   }
 }
 /*

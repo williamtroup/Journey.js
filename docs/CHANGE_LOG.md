@@ -1,6 +1,7 @@
 # Journey.js - Change Log:
 
 ## Version 1.0.0:
+- BREAKING: All ":root" variables now start with "--journey-js-", which will prevent collisions with other libraries.
 - 
 
 <br>
