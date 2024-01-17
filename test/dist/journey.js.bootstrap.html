@@ -54,7 +54,8 @@
                 safeMode: false,
                 showCloseButton: false,
                 showProgressDots: false,
-                showButtons: false
+                showButtons: false,
+                showDoNotShowAgain: false
             } );
         }
 
@@ -65,5 +66,9 @@
                 description: 'Adds a new step to the journey.'
             } );
         }
+
+        $journey.setConfiguration( {
+            showDoNotShowAgain: true
+        } );
     </script>
 </html>
