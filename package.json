@@ -4,6 +4,7 @@
     "description": "A lightweight, easy-to-use JavaScript library to create interactive, customizable, accessible guided tours across your websites or web apps!",
     "version": "1.0.0",
     "main": "dist/journey.js",
+    "homepage": "https://www.william-troup.com/journey-js/",
     "author": {
       "name": "Bunoon"
     },

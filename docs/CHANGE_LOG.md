@@ -14,6 +14,7 @@
 
 #### **General Improvements:**
 - BREAKING: All ":root" variables now start with "--journey-js-", which will prevent collisions with other libraries.
+- Updated project homepage URL.
 
 <br>
 
