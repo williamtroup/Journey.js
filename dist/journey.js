@@ -5,7 +5,7 @@
     k(a.element) && A(a.onClose, a.element);
     d.showDoNotShowAgain && A(d.onDoNotShowAgainChange, N.checked);
     B(!1);
-    a = r.body;
+    a = q.body;
     var b = T;
     try {
       a.contains(b) && a.removeChild(b);
@@ -29,7 +29,7 @@
   function u() {
     var a = z[l[h]];
     if (k(a) && k(a.element)) {
-      var b = r.body, c = T;
+      var b = q.body, c = T;
       try {
         b.contains(c) || b.appendChild(c);
       } catch (f) {
@@ -68,20 +68,20 @@
     if (b.attach || b.isHint) {
       if (b.isHint && b.alignHintToClickPosition) {
         c = g;
-        var f = a.pageX, e = a.pageY, q = ea();
+        var f = a.pageX, e = a.pageY, r = ea();
         c.style.display = "block";
         f + c.offsetWidth > n.innerWidth ? f -= c.offsetWidth : f++;
         e + c.offsetHeight > n.innerHeight ? e -= c.offsetHeight : e++;
-        f < q.left && (f = a.pageX + 1);
-        e < q.top && (e = a.pageY + 1);
+        f < r.left && (f = a.pageX + 1);
+        e < r.top && (e = a.pageY + 1);
         c.style.left = f + "px";
         c.style.top = e + "px";
       } else {
         e = b.element;
-        for (q = f = 0; e && !isNaN(e.offsetLeft) && !isNaN(e.offsetTop);) {
-          f += e.offsetLeft - e.scrollLeft, q += e.offsetTop - e.scrollTop, e = e.offsetParent;
+        for (r = f = 0; e && !isNaN(e.offsetLeft) && !isNaN(e.offsetTop);) {
+          f += e.offsetLeft - e.scrollLeft, r += e.offsetTop - e.scrollTop, e = e.offsetParent;
         }
-        e = q - c.top + b.element.offsetHeight;
+        e = r - c.top + b.element.offsetHeight;
         c = f - c.left;
         if (c + g.offsetWidth > n.innerWidth || b.alignRight) {
           c -= g.offsetWidth, c += b.element.offsetWidth;
@@ -180,18 +180,18 @@
   function m(a, b) {
     var c = a.toLowerCase();
     var f = "text" === c;
-    X.hasOwnProperty(c) || (X[c] = f ? r.createTextNode(t.empty) : r.createElement(c));
+    X.hasOwnProperty(c) || (X[c] = f ? q.createTextNode(t.empty) : q.createElement(c));
     c = X[c].cloneNode(!1);
     k(b) && (c.className = b);
     return c;
   }
   function ea() {
-    var a = r.documentElement;
+    var a = q.documentElement;
     return {left:(n.pageXOffset || a.scrollLeft) - (a.clientLeft || 0), top:(n.pageYOffset || a.scrollTop) - (a.clientTop || 0)};
   }
   function ba(a, b) {
     var c = null;
-    n.getComputedStyle ? c = document.defaultView.getComputedStyle(a, null).getPropertyValue(b) : a.currentStyle && (c = a.currentStyle[b]);
+    n.getComputedStyle ? c = q.defaultView.getComputedStyle(a, null).getPropertyValue(b) : a.currentStyle && (c = a.currentStyle[b]);
     return c;
   }
   function V(a, b) {
@@ -241,7 +241,7 @@
     d.showDoNotShowAgain = p(d.showDoNotShowAgain, !1);
     d.onDoNotShowAgainChange = E(d.onDoNotShowAgainChange, null);
   }
-  var K = this, r = null, n = null, d = {}, C = !0, L = {escape:27, left:37, up:38, right:39, down:40}, t = {empty:"", space:" "}, X = {}, z = {}, l = [], h = 0, U = null, T = null, g = null, H = null, P = null, Q = null, I = null, N = null, w = null, D = null, J = null, O = null;
+  var K = this, q = null, n = null, d = {}, C = !0, L = {escape:27, left:37, up:38, right:39, down:40}, t = {empty:"", space:" "}, X = {}, z = {}, l = [], h = 0, U = null, T = null, g = null, H = null, P = null, Q = null, I = null, N = null, w = null, D = null, J = null, O = null;
   this.start = function() {
     h = 0;
     u();
@@ -275,14 +275,14 @@
     return "1.0.0";
   };
   (function(a, b) {
-    r = a;
+    q = a;
     n = b;
     ja();
-    r.addEventListener("DOMContentLoaded", function() {
+    q.addEventListener("DOMContentLoaded", function() {
       T = m("div", "journey-js-disabled-background");
       g = m("div", "journey-js-dialog");
       g.style.display = "none";
-      r.body.appendChild(g);
+      q.body.appendChild(g);
       H = m("button", "close");
       H.title = d.closeButtonToolTipText;
       H.onclick = y;
@@ -313,10 +313,10 @@
       c = d.domElementTypes;
       f = c.length;
       for (var e = 0; e < f; e++) {
-        var q = r.getElementsByTagName(c[e]);
-        q = [].slice.call(q);
-        for (var M = q.length, F = 0; F < M; F++) {
-          var S = q[F], Y = !0;
+        var r = q.getElementsByTagName(c[e]);
+        r = [].slice.call(r);
+        for (var M = r.length, F = 0; F < M; F++) {
+          var S = r[F], Y = !0;
           if (k(S) && S.hasAttribute("data-journey-options")) {
             var G = S.getAttribute("data-journey-options");
             v(G) ? (G = oa(G), G.parsed && R(G.result) ? fa(S, ia(G.result)) : d.safeMode || (console.error("The attribute 'data-journey-options' is not a valid object."), Y = !1)) : d.safeMode || (console.error("The attribute 'data-journey-options' has not been set correctly."), Y = !1);
@@ -328,7 +328,7 @@
       }
       l.sort();
       f = void 0;
-      c = (f = k(f) ? f : !0) ? r.addEventListener : r.removeEventListener;
+      c = (f = k(f) ? f : !0) ? q.addEventListener : q.removeEventListener;
       f = f ? n.addEventListener : n.removeEventListener;
       d.shortcutKeysEnabled && c("keydown", ma);
       f("resize", na);
@@ -337,7 +337,7 @@
         f = {};
         e = n.location.href.split("?");
         if (1 < e.length) {
-          for (e = e[1].split("&"), q = e.length, M = 0; M < q; M++) {
+          for (e = e[1].split("&"), r = e.length, M = 0; M < r; M++) {
             F = e[M].split("="), f[F[0]] = F[1];
           }
         }

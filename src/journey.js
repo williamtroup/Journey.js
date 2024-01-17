@@ -685,7 +685,7 @@
         var value = null;
 
         if ( _parameter_Window.getComputedStyle ) {
-            value = document.defaultView.getComputedStyle( element, null ).getPropertyValue( stylePropertyName ); 
+            value = _parameter_Document.defaultView.getComputedStyle( element, null ).getPropertyValue( stylePropertyName ); 
         }  
         else if ( element.currentStyle ) {
             value = element.currentStyle[ stylePropertyName ];
