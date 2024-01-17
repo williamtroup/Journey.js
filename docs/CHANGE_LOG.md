@@ -1,8 +1,19 @@
 # Journey.js - Change Log:
 
 ## Version 1.0.0:
+
+#### **New Features:**
+- Do not show again! This will show a checkbox, which will ask if the journey dialog should be shown again (calls a custom trigger to state the option selected).
+
+#### **Configuration Options:**
+- Added a new configuration option "showDoNotShowAgain" (defaults to false), which states if the "Do not show again" checkbox should be shown.
+- Added a new configuration option "doNotShowAgainText" (defaults to "Do not show again"), which states the text to use for the "Do not show again" checkbox.
+
+#### **Configuration Options - Custom Triggers:**
+- Added a new configuration custom trigger called "onDoNotShowAgainChange", which states an event that should be triggered when the "Do not show again" checkbox is changed (on close).
+
+#### **General Improvements:**
 - BREAKING: All ":root" variables now start with "--journey-js-", which will prevent collisions with other libraries.
-- 
 
 <br>
 

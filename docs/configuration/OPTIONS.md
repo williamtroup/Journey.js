@@ -19,6 +19,8 @@ Below are all the configuration options that can be passed to the "setConfigurat
 | *boolean* | showProgressDotNumbers | States if the progress dots should show the step numbers in them (defaults to false). |
 | *boolean* | showButtons | States if the buttons are visible on the dialog (defaults to true). |
 | *string* | closeButtonToolTipText | States the tooltip text that should be used for the "Close" button (defaults to "Close"). |
+| *string* | doNotShowAgainText | States the text that should be used for the "Do not show again" checkbox (defaults to "Do not show again"). |
+| *boolean* | showDoNotShowAgain | States if the "Do not show again" checkbox should be shown (defaults to false). |
 
 <br/>
 

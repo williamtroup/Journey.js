@@ -140,6 +140,15 @@ div.journey-js-dialog {
         font-weight: 100;
     }
 
+    div.checkbox-container {
+        margin-top: 7px;
+        margin-bottom: 7px;
+
+        input {
+            margin-right: var(--journey-js-spacing);
+        }
+    }
+
     div.progress-dots {
         margin-top: 7px;
         margin-bottom: 7px;

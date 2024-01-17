@@ -56,6 +56,8 @@
         _element_Dialog_Close_Button = null,
         _element_Dialog_Title = null,
         _element_Dialog_Description = null,
+        _element_Dialog_CheckBox_Container = null,
+        _element_Dialog_CheckBox_Input = null,
         _element_Dialog_ProgressDots = null,
         _element_Dialog_Buttons = null,
         _element_Dialog_Back_Button = null,
@@ -106,6 +108,22 @@
         _element_Dialog_Description = createElement( "div", "description" );
         _element_Dialog.appendChild( _element_Dialog_Description );
 
+        _element_Dialog_CheckBox_Container = createElement( "div", "checkbox-container" );
+        _element_Dialog.appendChild( _element_Dialog_CheckBox_Container );
+
+        var label = createElement( "label" ),
+            textContent = createElement( "text" );
+
+        _element_Dialog_CheckBox_Input = createElement( "input" );
+        _element_Dialog_CheckBox_Input.type = "checkbox";
+
+        textContent.nodeValue = _configuration.doNotShowAgainText;
+        
+        label.appendChild( _element_Dialog_CheckBox_Input );
+        label.appendChild( textContent );
+        
+        _element_Dialog_CheckBox_Container.appendChild( label );
+
         _element_Dialog_ProgressDots = createElement( "div", "progress-dots" );
         _element_Dialog.appendChild( _element_Dialog_ProgressDots );
 
@@ -126,6 +144,10 @@
 
         if ( isDefined( bindingOptions.element ) ) {
             fireCustomTrigger( bindingOptions.onClose, bindingOptions.element );
+        }
+
+        if ( _configuration.showDoNotShowAgain ) {
+            fireCustomTrigger( _configuration.onDoNotShowAgainChange, _element_Dialog_CheckBox_Input.checked );
         }
 
         removeFocusClassFromLastElement( false );
@@ -178,6 +200,7 @@
                 bindingOptions.element.style.position = "relative";
             }
 
+            showElementBasedOnCondition( _element_Dialog_CheckBox_Container, _configuration.showDoNotShowAgain );
             showElementBasedOnCondition( _element_Dialog_ProgressDots, _configuration.showProgressDots );
             showElementBasedOnCondition( _element_Dialog_Buttons, _configuration.showButtons );
 
@@ -402,8 +425,9 @@
         hint.onclick = function( e ) {
             cancelBubble( e );
 
-            _element_Dialog_Buttons.style.display = "none";
+            _element_Dialog_CheckBox_Container.style.display = "none";
             _element_Dialog_ProgressDots.style.display = "none";
+            _element_Dialog_Buttons.style.display = "none";
             _configuration_ShortcutKeysEnabled = false;
 
             setDialogText( bindingOptions );
@@ -884,7 +908,7 @@
      * @returns     {boolean}                                               The flag that states if the dialog is open.
      */
     this.isOpen = function() {
-        return _element_Dialog.style.display === "block";
+        return isDefined( _element_Dialog ) && _element_Dialog.style.display === "block";
     };
 
     /**
@@ -978,6 +1002,14 @@
         _configuration.showProgressDotNumbers = getDefaultBoolean( _configuration.showProgressDotNumbers, false );
         _configuration.showButtons = getDefaultBoolean( _configuration.showButtons, true );
         _configuration.closeButtonToolTipText = getDefaultString( _configuration.closeButtonToolTipText, "Close" );
+        _configuration.doNotShowAgainText = getDefaultString( _configuration.doNotShowAgainText, "Do not show again" );
+        _configuration.showDoNotShowAgain = getDefaultBoolean( _configuration.showDoNotShowAgain, false );
+
+        buildDefaultConfigurationCustomTriggers();
+    }
+
+    function buildDefaultConfigurationCustomTriggers() {
+        _configuration.onDoNotShowAgainChange = getDefaultFunction( _configuration.onDoNotShowAgainChange, null );
     }
 
 

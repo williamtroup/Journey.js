@@ -104,6 +104,13 @@ div.journey-js-dialog div.title {
 div.journey-js-dialog div.description {
   font-weight: 100;
 }
+div.journey-js-dialog div.checkbox-container {
+  margin-top: 7px;
+  margin-bottom: 7px;
+}
+div.journey-js-dialog div.checkbox-container input {
+  margin-right: var(--journey-js-spacing);
+}
 div.journey-js-dialog div.progress-dots {
   margin-top: 7px;
   margin-bottom: 7px;
