@@ -1,8 +1,8 @@
-# Journey.js v1.0.0
+# Journey.js v1.0.1
 
 [![Tweet](https://img.shields.io/twitter/url/http/shields.io.svg?style=social)](https://twitter.com/intent/tweet?text=Journey.js%2C%20a%20free%20JavaScript%journey%builder&url=https://github.com/williamtroup/Journey.js&hashtags=javascript,html,journey,guide)
-[![npm](https://img.shields.io/badge/npmjs-v1.0.0-blue)](https://www.npmjs.com/package/jjourney.js)
-[![nuget](https://img.shields.io/badge/nuget-v1.0.0-purple)](https://www.nuget.org/packages/jJourney.js/)
+[![npm](https://img.shields.io/badge/npmjs-v1.0.1-blue)](https://www.npmjs.com/package/jjourney.js)
+[![nuget](https://img.shields.io/badge/nuget-v1.0.1-purple)](https://www.nuget.org/packages/jJourney.js/)
 [![license](https://img.shields.io/badge/license-MIT-green)](https://github.com/williamtroup/Journey.js/blob/main/LICENSE.txt)
 [![discussions Welcome](https://img.shields.io/badge/discussions-Welcome-red)](https://github.com/williamtroup/Journey.js/discussions)
 [![coded by William Troup](https://img.shields.io/badge/coded_by-William_Troup-yellow)](https://github.com/williamtroup)
@@ -47,7 +47,7 @@ Make sure you include the "DOCTYPE html" tag at the top of your HTML, as follows
 ### 2. Include Files:
 
 ```markdown
-<link rel="stylesheet" href="dist/Journey.js.css" />
+<link rel="stylesheet" href="dist/Journey.js.css">
 <script src="dist/Journey.js"></script>
 ```
 
