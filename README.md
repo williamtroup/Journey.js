@@ -60,7 +60,7 @@ Make sure you include the "DOCTYPE html" tag at the top of your HTML, as follows
 ### 2. Include Files:
 
 ```markdown
-<link rel="stylesheet" href="dist/Journey.js.css" />
+<link rel="stylesheet" href="dist/Journey.js.css">
 <script src="dist/Journey.js"></script>
 ```
 <br>
