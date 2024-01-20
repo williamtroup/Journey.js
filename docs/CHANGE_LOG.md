@@ -1,5 +1,11 @@
 # Journey.js - Change Log:
 
+## Version 1.1.0:
+- 
+
+<br>
+
+
 ## Version 1.0.1:
 - Fixed some missing CSS files in test HTML files, and updated the files to use the correct markup.
 - Fixed some incorrectly formatted markup in the documentation.
