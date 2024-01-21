@@ -1,4 +1,4 @@
-/*! Journey.js v1.0.1 | (c) Bunoon 2024 | MIT License */
+/*! Journey.js v1.0.2 | (c) Bunoon 2024 | MIT License */
 (function() {
   function y() {
     var a = z[l[h]];
@@ -272,7 +272,7 @@
     return this;
   };
   this.getVersion = function() {
-    return "1.0.1";
+    return "1.0.2";
   };
   (function(a, b) {
     q = a;

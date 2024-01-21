@@ -1,5 +1,15 @@
 # Journey.js - Change Log:
 
+## Version 1.0.2:
+- All hover transition effects now work for hovering, and not hovering, which results in a smoother display.
+- Removed the outline effect for the "Back", "Next", and "Finish" buttons.
+- Removed replicated HEX colors (all now reference the original ":root" variable).
+- Added an ":active" states for all buttons, dots, and the close button (now shows a slightly lighter background color).
+- Minor documentation improvements.
+
+<br>
+
+
 ## Version 1.0.1:
 - Fixed some missing CSS files in test HTML files, and updated the files to use the correct markup.
 - Fixed some incorrectly formatted markup in the documentation.
