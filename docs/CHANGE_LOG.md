@@ -6,7 +6,7 @@
 - All hover transition effects now work for hovering, and not hovering, which results in a smoother display.
 - Removed the outline effect for the "Back", "Next", and "Finish" buttons.
 - Removed replicated HEX colors (all now reference the original ":root" variable).
-- 
+- Added an ":active" states for all buttons, dots, and the close button (now shows a slightly lighter background color).
 
 <br>
 
