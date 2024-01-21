@@ -1,5 +1,12 @@
 # Journey.js - Change Log:
 
+## Version 1.0.3:
+- Fixed the buttons now having any spacing around them by default.
+-
+
+<br>
+
+
 ## Version 1.0.2:
 - All hover transition effects now work for hovering, and not hovering, which results in a smoother display.
 - Removed the outline effect for the "Back", "Next", and "Finish" buttons.
