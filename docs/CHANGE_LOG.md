@@ -1,5 +1,13 @@
 # Journey.js - Change Log:
 
+## Version 1.0.3:
+- Fixed the buttons not having any spacing around them by default.
+- Fixed a fault that prevented the hints from closing correctly (due to element binding existing).
+- Fixed a fault that caused a single progress dot to appear when only one item is available.
+
+<br>
+
+
 ## Version 1.0.2:
 - All hover transition effects now work for hovering, and not hovering, which results in a smoother display.
 - Removed the outline effect for the "Back", "Next", and "Finish" buttons.

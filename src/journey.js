@@ -4,7 +4,7 @@
  * A lightweight, easy-to-use JavaScript library to create interactive, customizable, accessible guided tours across your websites or web apps!
  * 
  * @file        journey.js
- * @version     v1.0.2
+ * @version     v1.0.3
  * @author      Bunoon
  * @license     MIT License
  * @copyright   Bunoon 2024
@@ -142,7 +142,7 @@
     function onDialogClose() {
         var bindingOptions = _elements_Attributes_Json[ _elements_Attributes_Keys[ _elements_Attributes_Position ] ];
 
-        if ( isDefined( bindingOptions.element ) ) {
+        if ( isDefined( bindingOptions ) && isDefined( bindingOptions.element ) ) {
             fireCustomTrigger( bindingOptions.onClose, bindingOptions.element );
         }
 
@@ -201,7 +201,7 @@
             }
 
             showElementBasedOnCondition( _element_Dialog_CheckBox_Container, _configuration.showDoNotShowAgain );
-            showElementBasedOnCondition( _element_Dialog_ProgressDots, _configuration.showProgressDots );
+            showElementBasedOnCondition( _element_Dialog_ProgressDots, _configuration.showProgressDots && _elements_Attributes_Keys.length > 1 );
             showElementBasedOnCondition( _element_Dialog_Buttons, _configuration.showButtons );
 
             _element_Dialog_Back_Button.innerHTML = _configuration.backButtonText;
@@ -283,7 +283,7 @@
 
         var bindingOptions = _elements_Attributes_Json[ _elements_Attributes_Keys[ _elements_Attributes_Position ] ];
 
-        if ( isDefined( bindingOptions.element ) ) {
+        if ( isDefined( bindingOptions ) && isDefined( bindingOptions.element ) ) {
             bindingOptions.element.className = bindingOptions.element.className.replace( _string.space + "journey-js-element-focus", _string.empty );
 
             if ( isDefined( _element_Focus_Element_PositionStyle ) ) {
@@ -1029,7 +1029,7 @@
      * @returns     {string}                                                The version number.
      */
     this.getVersion = function() {
-        return "1.0.2";
+        return "1.0.3";
     };
 
 

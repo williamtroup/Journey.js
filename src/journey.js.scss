@@ -1,5 +1,5 @@
 /*
- * Journey.js Library v1.0.2
+ * Journey.js Library v1.0.3
  *
  * Copyright 2024 Bunoon
  * Released under the MIT License
@@ -241,6 +241,7 @@ div.journey-js-dialog {
             padding: var(--journey-js-spacing);
             transition: var(--journey-js-transition);
             outline: none;
+            margin-left: var(--journey-js-spacing);
 
             &:not([disabled]):active {
                 background-color: var(--journey-js-dialog-button-active-background-color) !important;
