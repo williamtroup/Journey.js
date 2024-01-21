@@ -215,6 +215,7 @@ div.journey-js-dialog {
             min-width: 100px;
             padding: var(--journey-js-spacing);
             transition: var(--journey-js-transition);
+            outline: none;
 
             &:not([disabled]):hover {
                 cursor: pointer;

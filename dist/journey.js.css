@@ -171,6 +171,7 @@ div.journey-js-dialog div.buttons button.next {
   min-width: 100px;
   padding: var(--journey-js-spacing);
   transition: var(--journey-js-transition);
+  outline: none;
 }
 div.journey-js-dialog div.buttons button.back:not([disabled]):hover,
 div.journey-js-dialog div.buttons button.next:not([disabled]):hover {
