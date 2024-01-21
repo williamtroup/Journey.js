@@ -8,6 +8,9 @@
 - Removed replicated HEX colors (all now reference the original ":root" variable).
 - Added an ":active" states for all buttons, dots, and the close button (now shows a slightly lighter background color).
 
+#### **Documentation:**
+- Minor documentation improvements.
+
 <br>
 
 
