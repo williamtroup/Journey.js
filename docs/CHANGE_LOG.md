@@ -3,6 +3,7 @@
 ## Version 1.0.3:
 - Fixed the buttons now having any spacing around them by default.
 - Fixed a fault that prevented hints from closing correctly (due to no element bind existing).
+- Fixed a fault that caused a single progress dot to appear when only one item is available.
 
 <br>
 

@@ -85,7 +85,7 @@
         bindingOptions.element.style.position = "relative";
       }
       showElementBasedOnCondition(_element_Dialog_CheckBox_Container, _configuration.showDoNotShowAgain);
-      showElementBasedOnCondition(_element_Dialog_ProgressDots, _configuration.showProgressDots);
+      showElementBasedOnCondition(_element_Dialog_ProgressDots, _configuration.showProgressDots && _elements_Attributes_Keys.length > 1);
       showElementBasedOnCondition(_element_Dialog_Buttons, _configuration.showButtons);
       _element_Dialog_Back_Button.innerHTML = _configuration.backButtonText;
       _element_Dialog_Back_Button.disabled = _elements_Attributes_Position === 0;
