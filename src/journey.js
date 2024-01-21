@@ -142,7 +142,7 @@
     function onDialogClose() {
         var bindingOptions = _elements_Attributes_Json[ _elements_Attributes_Keys[ _elements_Attributes_Position ] ];
 
-        if ( isDefined( bindingOptions.element ) ) {
+        if ( isDefined( bindingOptions ) && isDefined( bindingOptions.element ) ) {
             fireCustomTrigger( bindingOptions.onClose, bindingOptions.element );
         }
 
@@ -283,7 +283,7 @@
 
         var bindingOptions = _elements_Attributes_Json[ _elements_Attributes_Keys[ _elements_Attributes_Position ] ];
 
-        if ( isDefined( bindingOptions.element ) ) {
+        if ( isDefined( bindingOptions ) && isDefined( bindingOptions.element ) ) {
             bindingOptions.element.className = bindingOptions.element.className.replace( _string.space + "journey-js-element-focus", _string.empty );
 
             if ( isDefined( _element_Focus_Element_PositionStyle ) ) {
