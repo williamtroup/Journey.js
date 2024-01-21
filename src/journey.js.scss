@@ -241,6 +241,7 @@ div.journey-js-dialog {
             padding: var(--journey-js-spacing);
             transition: var(--journey-js-transition);
             outline: none;
+            margin-left: var(--journey-js-spacing);
 
             &:not([disabled]):active {
                 background-color: var(--journey-js-dialog-button-active-background-color) !important;

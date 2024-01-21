@@ -189,6 +189,7 @@ div.journey-js-dialog div.buttons button.next {
   padding: var(--journey-js-spacing);
   transition: var(--journey-js-transition);
   outline: none;
+  margin-left: var(--journey-js-spacing);
 }
 div.journey-js-dialog div.buttons button.back:not([disabled]):active,
 div.journey-js-dialog div.buttons button.next:not([disabled]):active {
