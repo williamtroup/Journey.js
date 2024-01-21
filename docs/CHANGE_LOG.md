@@ -1,7 +1,9 @@
 # Journey.js - Change Log:
 
 ## Version 1.1.0:
-- 
+
+#### **CSS:**
+- All hover transition effects now work for hovering, and not hovering, which results in a smoother display.
 
 <br>
 

@@ -93,6 +93,7 @@ div.journey-js-dialog {
         padding: 0;
         background-color: var(--journey-js-dialog-close-button-background-color);
         border: var(--journey-js-border-size) solid var(--journey-js-dialog-close-button-border-color);
+        transition: var(--journey-js-transition);
 
         &::before,
         &::after {
@@ -114,7 +115,6 @@ div.journey-js-dialog {
         &:hover {
             cursor: pointer;
             border: var(--journey-js-border-size) solid var(--journey-js-dialog-close-button-hover-border-color);
-            transition: var(--journey-js-transition);
             background-color: var(--journey-js-dialog-close-button-hover-background-color);
 
             &::before,
@@ -169,12 +169,12 @@ div.journey-js-dialog {
             width: 10px;
             background-color: var(--journey-js-dialog-button-background-color);
             border: var(--journey-js-border-size) solid var(--journey-js-dialog-button-border-color);
+            transition: var(--journey-js-transition);
 
             &:hover {
                 cursor: pointer;
                 background-color: var(--journey-js-dialog-button-hover-background-color);
                 border: var(--journey-js-border-size) solid var(--journey-js-dialog-button-hover-border-color);
-                transition: var(--journey-js-transition);
                 color: var(--journey-js-color-white) !important;
             }
         }
@@ -214,13 +214,13 @@ div.journey-js-dialog {
             border: var(--journey-js-border-size) solid var(--journey-js-dialog-button-border-color);
             min-width: 100px;
             padding: var(--journey-js-spacing);
-    
+            transition: var(--journey-js-transition);
+
             &:not([disabled]):hover {
                 cursor: pointer;
                 background-color: var(--journey-js-dialog-button-hover-background-color);
                 color: var(--journey-js-dialog-button-hover-text-color);
                 border: var(--journey-js-border-size) solid var(--journey-js-dialog-button-hover-border-color);
-                transition: var(--journey-js-transition);
             }
 
             &:disabled {
