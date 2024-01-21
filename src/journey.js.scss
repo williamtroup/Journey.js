@@ -39,12 +39,12 @@
 
     // Dialog - Close Button
     --journey-js-dialog-close-button-background-color: var(--journey-js-dialog-button-background-color);
-    --journey-js-dialog-close-button-border-color: #3457D5;
+    --journey-js-dialog-close-button-border-color: var(--journey-js-dialog-button-border-color);
     --journey-js-dialog-close-button-size: 1.1rem;
     --journey-js-dialog-close-button-x-color: var(--journey-js-color-white);
 
     // Dialog - Close Button - Hover
-    --journey-js-dialog-close-button-hover-background-color: #007FFF;
+    --journey-js-dialog-close-button-hover-background-color: var(--journey-js-dialog-button-hover-background-color);
     --journey-js-dialog-close-button-hover-x-color: var(--journey-js-dialog-close-button-x-color);
     --journey-js-dialog-close-button-hover-border-color: var(--journey-js-dialog-close-button-border-color);
 
