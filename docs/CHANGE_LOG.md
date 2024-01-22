@@ -1,5 +1,11 @@
 # Journey.js - Change Log:
 
+## Version 1.1.0:
+- 
+
+<br>
+
+
 ## Version 1.0.3:
 - Fixed the buttons not having any spacing around them by default.
 - Fixed a fault that prevented the hints from closing correctly (due to element binding existing).

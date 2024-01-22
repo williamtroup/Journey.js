@@ -1,4 +1,4 @@
-/*! Journey.js v1.0.3 | (c) Bunoon 2024 | MIT License */
+/*! Journey.js v1.1.0 | (c) Bunoon 2024 | MIT License */
 (function() {
   function renderDisabledBackground() {
     _element_Disabled_Background = createElement("div", "journey-js-disabled-background");
@@ -618,7 +618,7 @@
     return this;
   };
   this.getVersion = function() {
-    return "1.0.3";
+    return "1.1.0";
   };
   (function(documentObject, windowObject) {
     _parameter_Document = documentObject;
