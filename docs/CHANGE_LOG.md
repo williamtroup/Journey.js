@@ -54,6 +54,7 @@
 
 #### **Documentation:**
 - Added install instructions into the main README files.
+- Added documentation to state how issues and feature requests should be made.
 
 #### **Fixes:**
 - Fixed the "journey.js.nuspec" file including the ".github" folder when NuGet PACK is called.
