@@ -20,6 +20,7 @@
 - Shortcut keys (click [here](https://github.com/williamtroup/Journey.js/blob/main/docs/SHORTCUT_KEYS.md) to see the full list).
 - Browser URL parameters support (click [here](https://github.com/williamtroup/Journey.js/blob/main/docs/BROWSER_PARAMETERS.md) to see the full list).
 - Hints support (not included in the main journey).
+- 40 language translations available!
 
 
 ## What browsers are supported?
@@ -27,9 +28,64 @@
 All modern browsers (such as Google Chrome, FireFox, and Opera) are fully supported.
 
 
+## What languages are supported?
+
+- `ar` Arabic
+- `bn` Bengali
+- `bg` Bulgarian
+- `zh` Chinese (simplified)
+- `da` Danish
+- `nl` Dutch
+- `en` English (default)
+- `et` Estonian
+- `fa` Farsi
+- `fi` Finnish
+- `fr` French
+- `gl` Galician
+- `ka` Georgian
+- `de` German
+- `el` Greek
+- `he` Hebrew
+- `hi` Hindi
+- `hu` Hungarian
+- `is` Icelandic
+- `id` Indonesian
+- `ga` Irish
+- `it` Italian
+- `ja` Japanese
+- `ko` Korean
+- `lv` Latvian
+- `lt` Lithuanian
+- `lb` Luxembourgish
+- `ms` Malay
+- `ne` Nepali
+- `no` Norwegian
+- `pl` Polish
+- `pt` Portuguese
+- `ro` Romanian
+- `sk` Slovak
+- `sl` Slovenian
+- `es` Spanish
+- `sv` Swedish
+- `th` Thai
+- `tr` Turkish
+- `uk` Ukrainian
+
+
 ## What are the most recent changes?
 
 To see a list of all the most recent changes, click [here](https://github.com/williamtroup/Journey.js/blob/main/docs/CHANGE_LOG.md).
+
+
+## How do I install Journey.js?
+
+You can install the library with npm into your local modules directory using the following command:
+
+```markdown
+npm install jjourney.js
+```
+
+Or, you can download the latest zipped up version [here](https://www.william-troup.com/journey-js/download.html).
 
 
 ## How do I get started?
