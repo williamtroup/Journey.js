@@ -57,6 +57,7 @@
 
 #### **Fixes:**
 - Fixed the "journey.js.nuspec" file including the ".github" folder when NuGet PACK is called.
+- Fixed spacing issues in the dialog that occur when additional CSS libraries are not included.
 
 <br>
 

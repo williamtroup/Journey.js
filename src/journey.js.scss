@@ -157,6 +157,7 @@ div.journey-js-dialog {
     div.title {
         font-size: large;
         font-weight: 700;
+        margin-bottom: var(--journey-js-spacing);
     }
 
     div.description {
@@ -164,8 +165,8 @@ div.journey-js-dialog {
     }
 
     div.checkbox-container {
-        margin-top: 7px;
-        margin-bottom: 7px;
+        margin-top: var(--journey-js-spacing);
+        margin-bottom: var(--journey-js-spacing);
 
         input {
             margin-right: var(--journey-js-spacing);
@@ -173,8 +174,8 @@ div.journey-js-dialog {
     }
 
     div.progress-dots {
-        margin-top: 7px;
-        margin-bottom: 7px;
+        margin-top: var(--journey-js-spacing);
+        margin-bottom: var(--journey-js-spacing);
         text-wrap: nowrap;
         text-align: center;
 
