@@ -45,6 +45,10 @@
   39. `tr` Turkish
   40. `uk` Ukrainian
 
+#### **General Improvements:**
+- Added Math injection directly into the main instance.
+- Added JSON injection directly into the main instance.
+
 <br>
 
 
