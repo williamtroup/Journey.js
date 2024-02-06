@@ -1,4 +1,4 @@
-/*! Journey.js v1.0.3 | (c) Bunoon 2024 | MIT License */
+/*! Journey.js v1.1.0 | (c) Bunoon 2024 | MIT License */
 (function() {
   function renderDisabledBackground() {
     _element_Disabled_Background = createElement("div", "journey-js-disabled-background");
@@ -139,8 +139,8 @@
         _element_Dialog.style.left = left + "px";
       }
     } else {
-      var centerLeft = Math.max(0, (_parameter_Window.innerWidth - _element_Dialog.offsetWidth) / 2 + scrollPosition.left);
-      var centerTop = Math.max(0, (_parameter_Window.innerHeight - _element_Dialog.offsetHeight) / 2 + scrollPosition.top);
+      var centerLeft = _parameter_Math.max(0, (_parameter_Window.innerWidth - _element_Dialog.offsetWidth) / 2 + scrollPosition.left);
+      var centerTop = _parameter_Math.max(0, (_parameter_Window.innerHeight - _element_Dialog.offsetHeight) / 2 + scrollPosition.top);
       _element_Dialog.style.left = centerLeft + "px";
       _element_Dialog.style.top = centerTop + "px";
     }
@@ -518,7 +518,7 @@
     var result = null;
     try {
       if (isDefinedString(objectString)) {
-        result = JSON.parse(objectString);
+        result = _parameter_Json.parse(objectString);
       }
     } catch (e1) {
       try {
@@ -559,6 +559,8 @@
   var _this = this;
   var _parameter_Document = null;
   var _parameter_Window = null;
+  var _parameter_Math = null;
+  var _parameter_Json = null;
   var _configuration = {};
   var _configuration_ShortcutKeysEnabled = true;
   var _enum_KeyCodes = {escape:27, left:37, up:38, right:39, down:40};
@@ -618,11 +620,13 @@
     return this;
   };
   this.getVersion = function() {
-    return "1.0.3";
+    return "1.1.0";
   };
-  (function(documentObject, windowObject) {
+  (function(documentObject, windowObject, mathObject, jsonObject) {
     _parameter_Document = documentObject;
     _parameter_Window = windowObject;
+    _parameter_Math = mathObject;
+    _parameter_Json = jsonObject;
     buildDefaultConfiguration();
     _parameter_Document.addEventListener("DOMContentLoaded", function() {
       renderDisabledBackground();
@@ -636,5 +640,5 @@
     if (!isDefined(_parameter_Window.$journey)) {
       _parameter_Window.$journey = this;
     }
-  })(document, window);
+  })(document, window, Math, JSON);
 })();

@@ -4,7 +4,7 @@
  * A lightweight, easy-to-use JavaScript library to create interactive, customizable, accessible guided tours across your websites or web apps!
  * 
  * @file        journey.js
- * @version     v1.0.3
+ * @version     v1.1.0
  * @author      Bunoon
  * @license     MIT License
  * @copyright   Bunoon 2024
@@ -17,6 +17,8 @@
         // Variables: Constructor Parameters
         _parameter_Document = null,
         _parameter_Window = null,
+        _parameter_Math = null,
+        _parameter_Json = null,
 
         // Variables: Configuration
         _configuration = {},
@@ -270,8 +272,8 @@
             }
 
         } else {
-            var centerLeft = Math.max( 0, ( ( _parameter_Window.innerWidth - _element_Dialog.offsetWidth ) / 2 ) + scrollPosition.left ),
-                centerTop = Math.max( 0, ( ( _parameter_Window.innerHeight - _element_Dialog.offsetHeight ) / 2 ) + scrollPosition.top );
+            var centerLeft = _parameter_Math.max( 0, ( ( _parameter_Window.innerWidth - _element_Dialog.offsetWidth ) / 2 ) + scrollPosition.left ),
+                centerTop = _parameter_Math.max( 0, ( ( _parameter_Window.innerHeight - _element_Dialog.offsetHeight ) / 2 ) + scrollPosition.top );
 
             _element_Dialog.style.left = centerLeft + "px";
             _element_Dialog.style.top = centerTop + "px";
@@ -824,7 +826,7 @@
 
         try {
             if ( isDefinedString( objectString ) ) {
-                result = JSON.parse( objectString );
+                result = _parameter_Json.parse( objectString );
             }
 
         } catch ( e1 ) {
@@ -1029,7 +1031,7 @@
      * @returns     {string}                                                The version number.
      */
     this.getVersion = function() {
-        return "1.0.3";
+        return "1.1.0";
     };
 
 
@@ -1039,9 +1041,11 @@
      * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
      */
 
-    ( function ( documentObject, windowObject ) {
+    ( function ( documentObject, windowObject, mathObject, jsonObject ) {
         _parameter_Document = documentObject;
         _parameter_Window = windowObject;
+        _parameter_Math = mathObject;
+        _parameter_Json = jsonObject;
 
         buildDefaultConfiguration();
 
@@ -1060,5 +1064,5 @@
             _parameter_Window.$journey = this;
         }
 
-    } ) ( document, window );
+    } ) ( document, window, Math, JSON );
 } )();

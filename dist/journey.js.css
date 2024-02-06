@@ -1,5 +1,5 @@
 /*
- * Journey.js Library v1.0.3
+ * Journey.js Library v1.1.0
  *
  * Copyright 2024 Bunoon
  * Released under the MIT License
@@ -10,6 +10,7 @@
     -------------------------------------------------------------------------
 */
 :root {
+  --journey-js-default-font: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", "Noto Sans", "Liberation Sans", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
   --journey-js-color-black: #3b3a3a;
   --journey-js-color-white: #F5F5F5;
   --journey-js-color-gray: #AAAAAA;
@@ -49,6 +50,7 @@
     -------------------------------------------------------------------------
 */
 div.journey-js-dialog {
+  font-family: var(--journey-js-default-font);
   position: absolute;
   display: none;
   border-radius: var(--journey-js-border-radius);
@@ -56,7 +58,6 @@ div.journey-js-dialog {
   color: var(--journey-js-dialog-text-color);
   border: var(--journey-js-border-size) solid var(--journey-js-dialog-border-color);
   padding: var(--journey-js-spacing);
-  font-family: "Montserrat", sans-serif;
   font-size: 0.9rem;
   z-index: 1001;
   width: 300px;
@@ -112,20 +113,21 @@ div.journey-js-dialog div:first-of-type {
 div.journey-js-dialog div.title {
   font-size: large;
   font-weight: 700;
+  margin-bottom: var(--journey-js-spacing);
 }
 div.journey-js-dialog div.description {
   font-weight: 100;
 }
 div.journey-js-dialog div.checkbox-container {
-  margin-top: 7px;
-  margin-bottom: 7px;
+  margin-top: var(--journey-js-spacing);
+  margin-bottom: var(--journey-js-spacing);
 }
 div.journey-js-dialog div.checkbox-container input {
   margin-right: var(--journey-js-spacing);
 }
 div.journey-js-dialog div.progress-dots {
-  margin-top: 7px;
-  margin-bottom: 7px;
+  margin-top: var(--journey-js-spacing);
+  margin-bottom: var(--journey-js-spacing);
   text-wrap: nowrap;
   text-align: center;
 }
