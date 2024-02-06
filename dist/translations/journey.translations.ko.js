@@ -1,8 +1,8 @@
 /*! Journey.js v1.1.0 - Korean | (c) Bunoon 2024 | MIT License */
 $journey.setConfiguration( {
-        "backButtonText": "Back",
-        "nextButtonText": "Next",
-        "finishButtonText": "Finish",
-        "closeButtonToolTipText": "Close",
-        "doNotShowAgainText": "Do not show again"
+        "backButtonText": "뒤쪽에",
+        "nextButtonText": "다음",
+        "finishButtonText": "마치다",
+        "closeButtonToolTipText": "닫다",
+        "doNotShowAgainText": "다시 표시하지 않습니다"
 } );

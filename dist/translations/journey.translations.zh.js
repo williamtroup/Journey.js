@@ -1,8 +1,8 @@
 /*! Journey.js v1.1.0 - Chinese (simplified) | (c) Bunoon 2024 | MIT License */
 $journey.setConfiguration( {
-        "backButtonText": "Back",
-        "nextButtonText": "Next",
-        "finishButtonText": "Finish",
-        "closeButtonToolTipText": "Close",
-        "doNotShowAgainText": "Do not show again"
+        "backButtonText": "后退",
+        "nextButtonText": "下一个",
+        "finishButtonText": "结束",
+        "closeButtonToolTipText": "关闭",
+        "doNotShowAgainText": "不再显示"
 } );

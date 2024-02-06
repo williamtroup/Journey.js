@@ -1,8 +1,8 @@
 /*! Journey.js v1.1.0 - Dutch | (c) Bunoon 2024 | MIT License */
 $journey.setConfiguration( {
-        "backButtonText": "Back",
-        "nextButtonText": "Next",
+        "backButtonText": "Rug",
+        "nextButtonText": "Volgende",
         "finishButtonText": "Finish",
-        "closeButtonToolTipText": "Close",
-        "doNotShowAgainText": "Do not show again"
+        "closeButtonToolTipText": "Dichtbij",
+        "doNotShowAgainText": "Niet meer tonen"
 } );

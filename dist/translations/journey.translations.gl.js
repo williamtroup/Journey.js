@@ -1,8 +1,8 @@
 /*! Journey.js v1.1.0 - Galician | (c) Bunoon 2024 | MIT License */
 $journey.setConfiguration( {
-        "backButtonText": "Back",
-        "nextButtonText": "Next",
-        "finishButtonText": "Finish",
-        "closeButtonToolTipText": "Close",
-        "doNotShowAgainText": "Do not show again"
+        "backButtonText": "De volta",
+        "nextButtonText": "A continuación",
+        "finishButtonText": "Remate",
+        "closeButtonToolTipText": "Pechar",
+        "doNotShowAgainText": "Non volver a mostrar"
 } );

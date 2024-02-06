@@ -1,8 +1,8 @@
 /*! Journey.js v1.1.0 - Latvian | (c) Bunoon 2024 | MIT License */
 $journey.setConfiguration( {
-        "backButtonText": "Back",
-        "nextButtonText": "Next",
-        "finishButtonText": "Finish",
-        "closeButtonToolTipText": "Close",
-        "doNotShowAgainText": "Do not show again"
+        "backButtonText": "Atpakaļ",
+        "nextButtonText": "Nākamais",
+        "finishButtonText": "Pabeigt",
+        "closeButtonToolTipText": "Aizvērt",
+        "doNotShowAgainText": "Nerādīt vēlreiz"
 } );

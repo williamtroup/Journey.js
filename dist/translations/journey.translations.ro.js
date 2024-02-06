@@ -1,8 +1,8 @@
 /*! Journey.js v1.1.0 - Romanian | (c) Bunoon 2024 | MIT License */
 $journey.setConfiguration( {
-        "backButtonText": "Back",
-        "nextButtonText": "Next",
-        "finishButtonText": "Finish",
-        "closeButtonToolTipText": "Close",
-        "doNotShowAgainText": "Do not show again"
+        "backButtonText": "Înapoi",
+        "nextButtonText": "Următorul",
+        "finishButtonText": "finalizarea",
+        "closeButtonToolTipText": "Închide",
+        "doNotShowAgainText": "Nu se afișează din nou"
 } );

@@ -1,8 +1,8 @@
 /*! Journey.js v1.1.0 - Greek | (c) Bunoon 2024 | MIT License */
 $journey.setConfiguration( {
-        "backButtonText": "Back",
-        "nextButtonText": "Next",
-        "finishButtonText": "Finish",
-        "closeButtonToolTipText": "Close",
-        "doNotShowAgainText": "Do not show again"
+        "backButtonText": "Πίσω",
+        "nextButtonText": "Επόμενο",
+        "finishButtonText": "Φινίρισμα",
+        "closeButtonToolTipText": "Κλείσε",
+        "doNotShowAgainText": "Να μην εμφανιστεί ξανά"
 } );

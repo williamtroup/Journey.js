@@ -1,8 +1,8 @@
 /*! Journey.js v1.1.0 - Georgian | (c) Bunoon 2024 | MIT License */
 $journey.setConfiguration( {
-        "backButtonText": "Back",
-        "nextButtonText": "Next",
-        "finishButtonText": "Finish",
-        "closeButtonToolTipText": "Close",
-        "doNotShowAgainText": "Do not show again"
+        "backButtonText": "უკან",
+        "nextButtonText": "შემდეგი",
+        "finishButtonText": "დასრულება",
+        "closeButtonToolTipText": "დახურვა",
+        "doNotShowAgainText": "Აღარ აჩვენო"
 } );
