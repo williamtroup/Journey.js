@@ -13,6 +13,9 @@
 */
 
 :root {
+    // Fonts
+    --journey-js-default-font: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", "Noto Sans", "Liberation Sans", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+
     // Colors
     --journey-js-color-black: #3b3a3a;
     --journey-js-color-white: #F5F5F5;
@@ -77,6 +80,7 @@
 */
 
 div.journey-js-dialog {
+    font-family: var(--journey-js-default-font);
     position: absolute;
     display: none;
     border-radius: var(--journey-js-border-radius);

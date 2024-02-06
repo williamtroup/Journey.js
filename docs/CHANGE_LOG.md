@@ -49,6 +49,9 @@
 - Added Math injection directly into the main instance.
 - Added JSON injection directly into the main instance.
 
+#### **CSS:**
+- Added a new ":root" variable called "--heat-js-default-font".
+
 <br>
 
 
