@@ -25,8 +25,8 @@ Journey.js
 - Fully styled in CSS/SASS and compatible with the Bootstrap library.
 - Full CSS theme support (using :root variables, with a default dark-mode theme).
 - Custom triggers for actions (when the dialog is shown for an element, or hidden, etc).
-- Shortcut keys (click [here](docs/SHORTCUT_KEYS.md) to see the full list).
-- Browser URL parameters support (click [here](docs/BROWSER_PARAMETERS.md) to see the full list).
+- Shortcut keys (click [here](https://www.william-troup.com/journey-js/documentation/shortcut-keys.html) to see the full list).
+- Browser URL parameters support (click [here](https://www.william-troup.com/journey-js/documentation/browser-parameters.html) to see the full list).
 - Hints support (not included in the main journey).
 - 40 language translations available!
 <br />
@@ -88,7 +88,7 @@ All modern browsers (such as Google Chrome, FireFox, and Opera) are fully suppor
 
 <h1>What are the most recent changes?</h1>
 
-To see a list of all the most recent changes, click [here](docs/CHANGE_LOG.md).
+To see a list of all the most recent changes, click [here](https://www.william-troup.com/journey-js/documentation/recent-changes.html).
 <br>
 <br>
 
@@ -138,9 +138,9 @@ Make sure you include the "DOCTYPE html" tag at the top of your HTML, as follows
 <button data-journey-options="{ 'title': 'Get Version', 'description': 'Logs the current version of Journey.js to the developers console.', 'order': 6 }" onclick="console.log( $journey.getVersion() );">Get Version</button>
 ```
 
-To see a list of all the available binding options you can use for "data-journey-options", click [here](docs/binding/OPTIONS.md).
+To see a list of all the available binding options you can use for "data-journey-options", click [here](https://www.william-troup.com/journey-js/documentation/binding-options.html).
 
-To see a list of all the available custom triggers you can use for "data-journey-options", click [here](docs/binding/CUSTOM_TRIGGERS.md).
+To see a list of all the available custom triggers you can use for "data-journey-options", click [here](https://www.william-troup.com/journey-js/documentation/binding-options-custom-triggers.html).
 
 <br>
 
@@ -169,7 +169,7 @@ To customize, and get more out of Journey.js, please read through the following 
 
 ### 1. Public Functions:
 
-To see a list of all the public functions available, click [here](docs/PUBLIC_FUNCTIONS.md).
+To see a list of all the public functions available, click [here](https://www.william-troup.com/journey-js/documentation/public-functions.html).
 <br>
 <br>
 
@@ -186,6 +186,6 @@ Configuration options allow you to customize how Journey.js will function.  You 
 </script>
 ```
 
-To see a list of all the available configuration options you can use, click [here](docs/configuration/OPTIONS.md).
+To see a list of all the available configuration options you can use, click [here](https://www.william-troup.com/journey-js/documentation/options.html).
 
-To see a list of all the available configuration option custom triggers you can use, click [here](docs/configuration/CUSTOM_TRIGGERS.md).
+To see a list of all the available configuration option custom triggers you can use, click [here](https://www.william-troup.com/journey-js/documentation/custom-triggers.html).
