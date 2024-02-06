@@ -52,6 +52,9 @@
 #### **CSS:**
 - Added a new ":root" variable called "--heat-js-default-font".
 
+#### **Documentation:**
+- Added install instructions into the main README files.
+
 <br>
 
 
