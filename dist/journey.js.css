@@ -58,7 +58,6 @@ div.journey-js-dialog {
   color: var(--journey-js-dialog-text-color);
   border: var(--journey-js-border-size) solid var(--journey-js-dialog-border-color);
   padding: var(--journey-js-spacing);
-  font-family: "Montserrat", sans-serif;
   font-size: 0.9rem;
   z-index: 1001;
   width: 300px;
