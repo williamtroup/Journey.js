@@ -1,7 +1,49 @@
 # Journey.js - Change Log:
 
 ## Version 1.1.0:
-- 
+
+#### **New Features:**
+- Added a new folder to "dist" called translations, and add translation files for the following languages:
+  1. `ar` Arabic
+  2. `bn` Bengali
+  3. `bg` Bulgarian
+  4. `zh` Chinese (simplified)
+  5. `da` Danish
+  6. `nl` Dutch
+  7. `en` English (default)
+  8. `et` Estonian
+  9. `fa` Farsi
+  10. `fi` Finnish
+  11. `fr` French
+  12. `gl` Galician
+  13. `ka` Georgian
+  14. `de` German
+  15. `el` Greek
+  16. `he` Hebrew
+  17. `hi` Hindi
+  18. `hu` Hungarian
+  19. `is` Icelandic
+  20. `id` Indonesian
+  21. `ga` Irish
+  22. `it` Italian
+  23. `ja` Japanese
+  24. `ko` Korean
+  25. `lv` Latvian
+  26. `lt` Lithuanian
+  27. `lb` Luxembourgish
+  28. `ms` Malay
+  29. `ne` Nepali
+  30. `no` Norwegian
+  31. `pl` Polish
+  32. `pt` Portuguese
+  33. `ro` Romanian
+  34. `sk` Slovak
+  35. `sl` Slovenian
+  36. `es` Spanish
+  37. `sv` Swedish
+  38. `th` Thai
+  39. `tr` Turkish
+  40. `uk` Ukrainian
 
 <br>
 
