@@ -20,7 +20,7 @@
 - Shortcut keys (click [here](https://www.william-troup.com/journey-js/documentation/shortcut-keys.html) to see the full list).
 - Browser URL parameters support (click [here](https://www.william-troup.com/journey-js/documentation/browser-parameters.html) to see the full list).
 - Hints support (not included in the main journey).
-- 40 language translations available!
+- 51 language translations available!
 
 
 ## Where can I find the documentation?
@@ -37,17 +37,23 @@ All modern browsers (such as Google Chrome, FireFox, and Opera) are fully suppor
 
 ## What languages are supported?
 
+- `af` Afrikaans
 - `ar` Arabic
+- `hy` Armenian
+- `be` Belarusian
 - `bn` Bengali
 - `bg` Bulgarian
+- `ca` Catalan
 - `zh` Chinese (simplified)
 - `da` Danish
 - `nl` Dutch
 - `en` English (default)
+- `eo` Esperanto
 - `et` Estonian
 - `fa` Farsi
 - `fi` Finnish
 - `fr` French
+- `fy` Frisian
 - `gl` Galician
 - `ka` Georgian
 - `de` German
@@ -70,10 +76,15 @@ All modern browsers (such as Google Chrome, FireFox, and Opera) are fully suppor
 - `pl` Polish
 - `pt` Portuguese
 - `ro` Romanian
+- `si` Sinhalese
 - `sk` Slovak
 - `sl` Slovenian
 - `es` Spanish
 - `sv` Swedish
+- `tl` Tagalog
+- `ta` Tamil
+- `zh-tw` Taiwanese
+- `te` Telugu
 - `th` Thai
 - `tr` Turkish
 - `uk` Ukrainian
