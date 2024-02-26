@@ -1,6 +1,6 @@
 # Journey.js - Change Log:
 
-## Version 1.1.0:
+## Version 1.1.1:
 
 #### **New Features:**
 - Added a new folder to "dist" called translations, and add translation files for the following languages:
