@@ -1,4 +1,4 @@
-/*! Journey.js v1.1.0 - Bulgarian | (c) Bunoon 2024 | MIT License */
+/*! Journey.js v1.1.1 - Bulgarian | (c) Bunoon 2024 | MIT License */
 $journey.setConfiguration( {
         "backButtonText": "обратно",
         "nextButtonText": "Следващия",

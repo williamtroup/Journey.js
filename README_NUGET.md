@@ -1,8 +1,8 @@
-# Journey.js v1.1.0
+# Journey.js v1.1.1
 
 [![Tweet](https://img.shields.io/twitter/url/http/shields.io.svg?style=social)](https://twitter.com/intent/tweet?text=Journey.js%2C%20a%20free%20JavaScript%journey%builder&url=https://github.com/williamtroup/Journey.js&hashtags=javascript,html,journey,guide)
-[![npm](https://img.shields.io/badge/npmjs-v1.1.0-blue)](https://www.npmjs.com/package/jjourney.js)
-[![nuget](https://img.shields.io/badge/nuget-v1.1.0-purple)](https://www.nuget.org/packages/jJourney.js/)
+[![npm](https://img.shields.io/badge/npmjs-v1.1.1-blue)](https://www.npmjs.com/package/jjourney.js)
+[![nuget](https://img.shields.io/badge/nuget-v1.1.1-purple)](https://www.nuget.org/packages/jJourney.js/)
 [![license](https://img.shields.io/badge/license-MIT-green)](https://github.com/williamtroup/Journey.js/blob/main/LICENSE.txt)
 [![discussions Welcome](https://img.shields.io/badge/discussions-Welcome-red)](https://github.com/williamtroup/Journey.js/discussions)
 [![coded by William Troup](https://img.shields.io/badge/coded_by-William_Troup-yellow)](https://www.william-troup.com/)
@@ -20,7 +20,14 @@
 - Shortcut keys (click [here](https://www.william-troup.com/journey-js/documentation/shortcut-keys.html) to see the full list).
 - Browser URL parameters support (click [here](https://www.william-troup.com/journey-js/documentation/browser-parameters.html) to see the full list).
 - Hints support (not included in the main journey).
-- 40 language translations available!
+- 51 language translations available!
+
+
+## Where can I find the documentation?
+
+All the documentation can be found [here](https://www.william-troup.com/journey-js/documentation/index.html):  
+<br>
+<br>
 
 
 ## What browsers are supported?
@@ -30,17 +37,23 @@ All modern browsers (such as Google Chrome, FireFox, and Opera) are fully suppor
 
 ## What languages are supported?
 
+- `af` Afrikaans
 - `ar` Arabic
+- `hy` Armenian
+- `be` Belarusian
 - `bn` Bengali
 - `bg` Bulgarian
+- `ca` Catalan
 - `zh` Chinese (simplified)
 - `da` Danish
 - `nl` Dutch
 - `en` English (default)
+- `eo` Esperanto
 - `et` Estonian
 - `fa` Farsi
 - `fi` Finnish
 - `fr` French
+- `fy` Frisian
 - `gl` Galician
 - `ka` Georgian
 - `de` German
@@ -63,10 +76,15 @@ All modern browsers (such as Google Chrome, FireFox, and Opera) are fully suppor
 - `pl` Polish
 - `pt` Portuguese
 - `ro` Romanian
+- `si` Sinhalese
 - `sk` Slovak
 - `sl` Slovenian
 - `es` Spanish
 - `sv` Swedish
+- `tl` Tagalog
+- `ta` Tamil
+- `zh-tw` Taiwanese
+- `te` Telugu
 - `th` Thai
 - `tr` Turkish
 - `uk` Ukrainian
