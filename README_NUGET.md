@@ -23,6 +23,13 @@
 - 40 language translations available!
 
 
+## Where can I find the documentation?
+
+All the documentation can be found [here](https://www.william-troup.com/journey-js/documentation/index.html):  
+<br>
+<br>
+
+
 ## What browsers are supported?
 
 All modern browsers (such as Google Chrome, FireFox, and Opera) are fully supported.
