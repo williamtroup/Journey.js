@@ -1,25 +1,25 @@
 {
-    "name": "jjourney.js",
-    "title": "Journey.js",
-    "description": "A lightweight, easy-to-use JavaScript library to create interactive, customizable, accessible guided tours across your websites or web apps!",
-    "version": "1.2.0",
-    "main": "dist/journey.js",
-    "homepage": "https://www.william-troup.com/journey-js/",
-    "author": {
-      "name": "Bunoon"
-    },
-    "repository": {
-      "type": "git",
-      "url": "https://github.com/williamtroup/Journey.js"
-    },
-    "keywords": [
-      "javascript",
-      "css",
-      "html5",
-      "Journey.js"
-    ],
-    "bugs": {
-      "url": "https://github.com/williamtroup/Journey.js/issues"
-    },
-    "license": "MIT"
-  }
+  "name": "jjourney.js",
+  "title": "Journey.js",
+  "description": "A lightweight, easy-to-use JavaScript library to create interactive, customizable, accessible guided tours across your websites or web apps!",
+  "version": "1.2.0",
+  "main": "dist/journey.js",
+  "homepage": "https://www.william-troup.com/journey-js/",
+  "author": {
+    "name": "Bunoon"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/williamtroup/Journey.js"
+  },
+  "keywords": [
+    "javascript",
+    "css",
+    "html5",
+    "Journey.js"
+  ],
+  "bugs": {
+    "url": "https://github.com/williamtroup/Journey.js/issues"
+  },
+  "license": "MIT"
+}
