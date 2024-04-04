@@ -4,5 +4,8 @@ $journey.setConfiguration( {
         "nextButtonText": "Næste",
         "finishButtonText": "Afslut",
         "closeButtonToolTipText": "Tæt",
-        "doNotShowAgainText": "Vis ikke igen"
+        "doNotShowAgainText": "Vis ikke igen",
+        "objectErrorText": "Fejl i objektet: {{error_1}}, {{error_2}}",
+        "attributeNotValidErrorText": "Attributten '{{attribute_name}}' er ikke et gyldigt objekt.",
+        "attributeNotSetErrorText": "Attributten '{{attribute_name}}' er ikke indstillet korrekt.",
 } );

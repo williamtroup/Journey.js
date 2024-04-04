@@ -4,5 +4,8 @@ $journey.setConfiguration( {
         "nextButtonText": "A continuación",
         "finishButtonText": "Remate",
         "closeButtonToolTipText": "Pechar",
-        "doNotShowAgainText": "Non volver a mostrar"
+        "doNotShowAgainText": "Non volver a mostrar",
+        "objectErrorText": "Erros no obxecto: {{error_1}}, {{error_2}}",
+        "attributeNotValidErrorText": "O atributo '{{attribute_name}}' non é un obxecto válido.",
+        "attributeNotSetErrorText": "O atributo '{{attribute_name}}' non se axustou correctamente.",
 } );

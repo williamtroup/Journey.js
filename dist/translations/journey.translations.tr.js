@@ -4,5 +4,8 @@ $journey.setConfiguration( {
         "nextButtonText": "Sonraki",
         "finishButtonText": "Sona ermek",
         "closeButtonToolTipText": "Kapalı",
-        "doNotShowAgainText": "Tekrar gösterme"
+        "doNotShowAgainText": "Tekrar gösterme",
+        "objectErrorText": "Nesnedeki hatalar: {{error_1}}, {{error_2}}",
+        "attributeNotValidErrorText": "Özellik '{{attribute_name}}' geçerli bir nesne değil.",
+        "attributeNotSetErrorText": "Özellik '{{attribute_name}}' doğru şekilde ayarlanmadı.",
 } );

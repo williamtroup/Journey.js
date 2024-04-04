@@ -4,5 +4,8 @@ $journey.setConfiguration( {
         "nextButtonText": "Kitas",
         "finishButtonText": "Baigti",
         "closeButtonToolTipText": "Uždaryti",
-        "doNotShowAgainText": "Daugiau neberodyti"
+        "doNotShowAgainText": "Daugiau neberodyti",
+        "objectErrorText": "Klaidos objekte: {{error_1}}, {{error_2}}",
+        "attributeNotValidErrorText": "atributas '{{attribute_name}}“ nėra tinkamas objektas.",
+        "attributeNotSetErrorText": "atributas '{{attribute_name}}“ nebuvo nustatytas teisingai.",
 } );

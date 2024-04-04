@@ -4,5 +4,8 @@ $journey.setConfiguration( {
         "nextButtonText": "Volgende",
         "finishButtonText": "Finish",
         "closeButtonToolTipText": "Dichtbij",
-        "doNotShowAgainText": "Niet meer tonen"
+        "doNotShowAgainText": "Niet meer tonen",
+        "objectErrorText": "Fouten in object: {{error_1}}, {{error_2}}",
+        "attributeNotValidErrorText": "Het attribuut '{{attribute_name}}' is geen geldig object.",
+        "attributeNotSetErrorText": "Het attribuut '{{attribute_name}}' is niet correct ingesteld.",
 } );

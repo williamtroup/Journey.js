@@ -4,5 +4,8 @@ $journey.setConfiguration( {
         "nextButtonText": "Далей",
         "finishButtonText": "Скончыць",
         "closeButtonToolTipText": "Блізка",
-        "doNotShowAgainText": "Больш не паказваць"
+        "doNotShowAgainText": "Больш не паказваць",
+        "objectErrorText": "Памылкі ў аб'екце: {{error_1}}, {{error_2}}",
+        "attributeNotValidErrorText": "Атрыбут '{{attribute_name}}' не з'яўляецца дапушчальным аб'ектам.",
+        "attributeNotSetErrorText": "Атрыбут '{{attribute_name}}' не быў усталяваны правільна.",
 } );

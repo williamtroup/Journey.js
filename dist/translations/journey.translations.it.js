@@ -4,5 +4,8 @@ $journey.setConfiguration( {
         "nextButtonText": "Prossimo",
         "finishButtonText": "Fine",
         "closeButtonToolTipText": "Vicino",
-        "doNotShowAgainText": "Non mostrare più"
+        "doNotShowAgainText": "Non mostrare più",
+        "objectErrorText": "Errori nell'oggetto: {{error_1}}, {{error_2}}",
+        "attributeNotValidErrorText": "L'attributo '{{attribute_name}}' non è un oggetto valido.",
+        "attributeNotSetErrorText": "L'attributo '{{attribute_name}}' non è stato impostato correttamente.",
 } );

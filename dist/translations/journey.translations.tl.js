@@ -4,5 +4,8 @@ $journey.setConfiguration( {
         "nextButtonText": "Susunod",
         "finishButtonText": "Tapusin",
         "closeButtonToolTipText": "Isara",
-        "doNotShowAgainText": "Huwag ipakitang muli"
+        "doNotShowAgainText": "Huwag ipakitang muli",
+        "objectErrorText": "Mga error sa object: {{error_1}}, {{error_2}}",
+        "attributeNotValidErrorText": "Ang katangian '{{attribute_name}}' ay hindi isang wastong bagay.",
+        "attributeNotSetErrorText": "Ang katangian '{{attribute_name}}' ay hindi naitakda nang tama.",
 } );
