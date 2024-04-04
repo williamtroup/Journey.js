@@ -25,13 +25,7 @@
     _element_Dialog.appendChild(_element_Dialog_Description);
     _element_Dialog_CheckBox_Container = createElement("div", "checkbox-container");
     _element_Dialog.appendChild(_element_Dialog_CheckBox_Container);
-    var label = createElement("label"), textContent = createElement("text");
-    _element_Dialog_CheckBox_Input = createElement("input");
-    _element_Dialog_CheckBox_Input.type = "checkbox";
-    textContent.nodeValue = _configuration.doNotShowAgainText;
-    label.appendChild(_element_Dialog_CheckBox_Input);
-    label.appendChild(textContent);
-    _element_Dialog_CheckBox_Container.appendChild(label);
+    _element_Dialog_CheckBox_Input = buildCheckBox(_element_Dialog_CheckBox_Container, _configuration.doNotShowAgainText).input;
     _element_Dialog_ProgressDots = createElement("div", "progress-dots");
     _element_Dialog.appendChild(_element_Dialog_ProgressDots);
     _element_Dialog_Buttons = createElement("div", "buttons");
@@ -461,6 +455,18 @@
         element.style.display = "none";
       }
     }
+  }
+  function buildCheckBox(container, labelText) {
+    var lineContainer = createElement("div"), label = createElement("label", "checkbox"), input = createElement("input");
+    container.appendChild(lineContainer);
+    lineContainer.appendChild(label);
+    label.appendChild(input);
+    input.type = "checkbox";
+    var checkMark = createElement("span", "check-mark"), text = createElement("span", "text");
+    text.innerHTML = labelText;
+    label.appendChild(checkMark);
+    label.appendChild(text);
+    return {input:input, label:label};
   }
   function fireCustomTrigger(triggerFunction) {
     if (isDefinedFunction(triggerFunction)) {
