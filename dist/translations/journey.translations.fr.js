@@ -1,8 +1,11 @@
-/*! Journey.js v1.1.1 - French | (c) Bunoon 2024 | MIT License */
+/*! Journey.js v1.2.0 - French | (c) Bunoon 2024 | MIT License */
 $journey.setConfiguration( {
         "backButtonText": "Dos",
         "nextButtonText": "Suivant",
         "finishButtonText": "Finition",
         "closeButtonToolTipText": "Fermer",
-        "doNotShowAgainText": "Ne pas montrer de nouveau"
+        "doNotShowAgainText": "Ne pas montrer de nouveau",
+        "objectErrorText": "Erreurs dans l'objet : {{error_1}}, {{error_2}}",
+        "attributeNotValidErrorText": "L'attribut '{{attribute_name}}' n'est pas un objet valide.",
+        "attributeNotSetErrorText": "L'attribut '{{attribute_name}}' n'a pas été défini correctement."
 } );

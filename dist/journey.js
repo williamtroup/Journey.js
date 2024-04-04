@@ -1,5 +1,7 @@
-/*! Journey.js v1.1.1 | (c) Bunoon 2024 | MIT License */
+/*! Journey.js v1.2.0 | (c) Bunoon 2024 | MIT License */
 (function() {
+  var _parameter_Document = null, _parameter_Window = null, _parameter_Math = null, _parameter_Json = null, _public = {}, _configuration = {}, _configuration_ShortcutKeysEnabled = true, _enum_KeyCodes = {escape:27, left:37, up:38, right:39, down:40}, _string = {empty:"", space:" "}, _elements_Type = {}, _elements_Attributes_Json = {}, _elements_Attributes_Keys = [], _elements_Attributes_Position = 0, _element_Focus_Element_PositionStyle = null, _element_Disabled_Background = null, _element_Dialog = 
+  null, _element_Dialog_Close_Button = null, _element_Dialog_Title = null, _element_Dialog_Description = null, _element_Dialog_CheckBox_Container = null, _element_Dialog_CheckBox_Input = null, _element_Dialog_ProgressDots = null, _element_Dialog_Buttons = null, _element_Dialog_Back_Button = null, _element_Dialog_Next_Button = null, _attribute_Name_Options = "data-journey-js";
   function renderDisabledBackground() {
     _element_Disabled_Background = createElement("div", "journey-js-disabled-background");
   }
@@ -23,14 +25,7 @@
     _element_Dialog.appendChild(_element_Dialog_Description);
     _element_Dialog_CheckBox_Container = createElement("div", "checkbox-container");
     _element_Dialog.appendChild(_element_Dialog_CheckBox_Container);
-    var label = createElement("label");
-    var textContent = createElement("text");
-    _element_Dialog_CheckBox_Input = createElement("input");
-    _element_Dialog_CheckBox_Input.type = "checkbox";
-    textContent.nodeValue = _configuration.doNotShowAgainText;
-    label.appendChild(_element_Dialog_CheckBox_Input);
-    label.appendChild(textContent);
-    _element_Dialog_CheckBox_Container.appendChild(label);
+    _element_Dialog_CheckBox_Input = buildCheckBox(_element_Dialog_CheckBox_Container, _configuration.doNotShowAgainText).input;
     _element_Dialog_ProgressDots = createElement("div", "progress-dots");
     _element_Dialog.appendChild(_element_Dialog_ProgressDots);
     _element_Dialog_Buttons = createElement("div", "buttons");
@@ -45,7 +40,7 @@
   function onDialogClose() {
     var bindingOptions = _elements_Attributes_Json[_elements_Attributes_Keys[_elements_Attributes_Position]];
     if (isDefined(bindingOptions) && isDefined(bindingOptions.element)) {
-      fireCustomTrigger(bindingOptions.onClose, bindingOptions.element);
+      fireCustomTrigger(bindingOptions.events.onClose, bindingOptions.element);
     }
     if (_configuration.showDoNotShowAgain) {
       fireCustomTrigger(_configuration.onDoNotShowAgainChange, _element_Dialog_CheckBox_Input.checked);
@@ -65,7 +60,7 @@
     if (_elements_Attributes_Position === _elements_Attributes_Keys.length - 1) {
       var bindingOptions = _elements_Attributes_Json[_elements_Attributes_Keys[_elements_Attributes_Position]];
       onDialogClose();
-      fireCustomTrigger(bindingOptions.onFinish, bindingOptions.element);
+      fireCustomTrigger(bindingOptions.events.onFinish, bindingOptions.element);
     } else {
       removeFocusClassFromLastElement();
       _elements_Attributes_Position++;
@@ -97,7 +92,7 @@
       setDialogText(bindingOptions);
       setDialogPosition(null, bindingOptions);
       buildProcessDots();
-      fireCustomTrigger(bindingOptions.onEnter, bindingOptions.element);
+      fireCustomTrigger(bindingOptions.events.onEnter, bindingOptions.element);
       if (bindingOptions.sendClick) {
         bindingOptions.element.click();
       }
@@ -119,28 +114,25 @@
     var scrollPosition = getScrollPosition();
     if (_element_Dialog.style.display !== "block") {
       _element_Dialog.style.display = "block";
-      fireCustomTrigger(bindingOptions.onOpen, bindingOptions.element);
+      fireCustomTrigger(bindingOptions.events.onOpen, bindingOptions.element);
     }
     if (bindingOptions.attach || bindingOptions.isHint) {
       if (bindingOptions.isHint && bindingOptions.alignHintToClickPosition) {
         showElementAtMousePosition(e, _element_Dialog);
       } else {
-        var offset = getOffset(bindingOptions.element);
-        var top = offset.top - scrollPosition.top + bindingOptions.element.offsetHeight;
-        var left = offset.left - scrollPosition.left;
+        var offset = getOffset(bindingOptions.element), top = offset.top - scrollPosition.top + bindingOptions.element.offsetHeight, left = offset.left - scrollPosition.left;
         if (left + _element_Dialog.offsetWidth > _parameter_Window.innerWidth || bindingOptions.alignRight) {
-          left = left - _element_Dialog.offsetWidth;
-          left = left + bindingOptions.element.offsetWidth;
+          left -= _element_Dialog.offsetWidth;
+          left += bindingOptions.element.offsetWidth;
         }
         if (top + _element_Dialog.offsetHeight > _parameter_Window.innerHeight || bindingOptions.alignTop) {
-          top = top - (_element_Dialog.offsetHeight + bindingOptions.element.offsetHeight);
+          top -= _element_Dialog.offsetHeight + bindingOptions.element.offsetHeight;
         }
         _element_Dialog.style.top = top + "px";
         _element_Dialog.style.left = left + "px";
       }
     } else {
-      var centerLeft = _parameter_Math.max(0, (_parameter_Window.innerWidth - _element_Dialog.offsetWidth) / 2 + scrollPosition.left);
-      var centerTop = _parameter_Math.max(0, (_parameter_Window.innerHeight - _element_Dialog.offsetHeight) / 2 + scrollPosition.top);
+      var centerLeft = _parameter_Math.max(0, (_parameter_Window.innerWidth - _element_Dialog.offsetWidth) / 2 + scrollPosition.left), centerTop = _parameter_Math.max(0, (_parameter_Window.innerHeight - _element_Dialog.offsetHeight) / 2 + scrollPosition.top);
       _element_Dialog.style.left = centerLeft + "px";
       _element_Dialog.style.top = centerTop + "px";
     }
@@ -154,7 +146,7 @@
         bindingOptions.element.style.position = _element_Focus_Element_PositionStyle;
       }
       if (callCustomTrigger) {
-        fireCustomTrigger(bindingOptions.onLeave, bindingOptions.element);
+        fireCustomTrigger(bindingOptions.events.onLeave, bindingOptions.element);
       }
     }
   }
@@ -162,8 +154,7 @@
     _element_Dialog_ProgressDots.innerHTML = _string.empty;
     if (_configuration.showProgressDots) {
       var keysLength = _elements_Attributes_Keys.length;
-      var keyIndex = 0;
-      for (; keyIndex < keysLength; keyIndex++) {
+      for (var keyIndex = 0; keyIndex < keysLength; keyIndex++) {
         buildProgressDot(keyIndex);
       }
     }
@@ -194,15 +185,10 @@
     }
   }
   function getElements() {
-    var tagTypes = _configuration.domElementTypes;
-    var tagTypesLength = tagTypes.length;
-    var tagTypeIndex = 0;
-    for (; tagTypeIndex < tagTypesLength; tagTypeIndex++) {
-      var domElements = _parameter_Document.getElementsByTagName(tagTypes[tagTypeIndex]);
-      var elements = [].slice.call(domElements);
-      var elementsLength = elements.length;
-      var elementIndex = 0;
-      for (; elementIndex < elementsLength; elementIndex++) {
+    var tagTypes = _configuration.domElementTypes, tagTypesLength = tagTypes.length;
+    for (var tagTypeIndex = 0; tagTypeIndex < tagTypesLength; tagTypeIndex++) {
+      var domElements = _parameter_Document.getElementsByTagName(tagTypes[tagTypeIndex]), elements = [].slice.call(domElements), elementsLength = elements.length;
+      for (var elementIndex = 0; elementIndex < elementsLength; elementIndex++) {
         if (!getElement(elements[elementIndex])) {
           break;
         }
@@ -212,21 +198,21 @@
   }
   function getElement(element) {
     var result = true;
-    if (isDefined(element) && element.hasAttribute(_attribute_Name_Journey)) {
-      var bindingOptionsData = element.getAttribute(_attribute_Name_Journey);
+    if (isDefined(element) && element.hasAttribute(_attribute_Name_Options)) {
+      var bindingOptionsData = element.getAttribute(_attribute_Name_Options);
       if (isDefinedString(bindingOptionsData)) {
         var bindingOptions = getObjectFromString(bindingOptionsData);
         if (bindingOptions.parsed && isDefinedObject(bindingOptions.result)) {
           setupElement(element, buildAttributeOptions(bindingOptions.result));
         } else {
           if (!_configuration.safeMode) {
-            console.error("The attribute '" + _attribute_Name_Journey + "' is not a valid object.");
+            console.error(_configuration.attributeNotValidErrorText.replace("{{attribute_name}}", _attribute_Name_Options));
             result = false;
           }
         }
       } else {
         if (!_configuration.safeMode) {
-          console.error("The attribute '" + _attribute_Name_Journey + "' has not been set correctly.");
+          console.error(_configuration.attributeNotSetErrorText.replace("{{attribute_name}}", _attribute_Name_Options));
           result = false;
         }
       }
@@ -242,7 +228,7 @@
       } else {
         renderHint(bindingOptions);
       }
-      element.removeAttribute(_attribute_Name_Journey);
+      element.removeAttribute(_attribute_Name_Options);
     }
   }
   function renderHint(bindingOptions) {
@@ -264,15 +250,14 @@
   }
   function buildDocumentEvents(addEvents) {
     addEvents = isDefined(addEvents) ? addEvents : true;
-    var documentFunc = addEvents ? _parameter_Document.addEventListener : _parameter_Document.removeEventListener;
-    var windowFunc = addEvents ? _parameter_Window.addEventListener : _parameter_Window.removeEventListener;
+    var documentFunc = addEvents ? _parameter_Document.addEventListener : _parameter_Document.removeEventListener, windowFunc = addEvents ? _parameter_Window.addEventListener : _parameter_Window.removeEventListener;
     if (_configuration.shortcutKeysEnabled) {
       documentFunc("keydown", onWindowKeyDown);
     }
     windowFunc("resize", onWindowResize);
   }
   function onWindowKeyDown(e) {
-    if (_this.isOpen()) {
+    if (_public.isOpen()) {
       if (e.keyCode === _enum_KeyCodes.escape) {
         e.preventDefault();
         onDialogClose();
@@ -292,7 +277,7 @@
     }
   }
   function onWindowResize() {
-    if (_this.isOpen()) {
+    if (_public.isOpen()) {
       showDialogAndSetPosition();
     }
   }
@@ -328,18 +313,18 @@
     return options;
   }
   function buildAttributeOptionCustomTriggers(options) {
-    options.onEnter = getDefaultFunction(options.onEnter, null);
-    options.onLeave = getDefaultFunction(options.onLeave, null);
-    options.onClose = getDefaultFunction(options.onClose, null);
-    options.onFinish = getDefaultFunction(options.onFinish, null);
-    options.onOpen = getDefaultFunction(options.onOpen, null);
+    options.events = getDefaultObject(options.events, {});
+    options.events.onEnter = getDefaultFunction(options.events.onEnter, null);
+    options.events.onLeave = getDefaultFunction(options.events.onLeave, null);
+    options.events.onClose = getDefaultFunction(options.events.onClose, null);
+    options.events.onFinish = getDefaultFunction(options.events.onFinish, null);
+    options.events.onOpen = getDefaultFunction(options.events.onOpen, null);
     return options;
   }
   function getBrowserUrlParameters() {
     var show = false;
     if (_configuration.browserUrlParametersEnabled) {
-      var url = _parameter_Window.location.href;
-      var urlArguments = getBrowserUrlArguments(url);
+      var url = _parameter_Window.location.href, urlArguments = getBrowserUrlArguments(url);
       if (isDefined(urlArguments.sjOrderId)) {
         var orderId = parseInt(urlArguments.sjOrderId, 10);
         if (!isNaN(orderId) && orderId <= _elements_Attributes_Keys.length - 1) {
@@ -353,13 +338,10 @@
     return show;
   }
   function getBrowserUrlArguments(url) {
-    var urlArguments = {};
-    var urlDataParts = url.split("?");
+    var urlArguments = {}, urlDataParts = url.split("?");
     if (urlDataParts.length > 1) {
-      var parsedArgs = urlDataParts[1].split("&");
-      var parsedArgsLength = parsedArgs.length;
-      var parsedArgsIndex = 0;
-      for (; parsedArgsIndex < parsedArgsLength; parsedArgsIndex++) {
+      var parsedArgs = urlDataParts[1].split("&"), parsedArgsLength = parsedArgs.length;
+      for (var parsedArgsIndex = 0; parsedArgsIndex < parsedArgsLength; parsedArgsIndex++) {
         var parsedArg = parsedArgs[parsedArgsIndex].split("=");
         urlArguments[parsedArg[0]] = parsedArg[1];
       }
@@ -388,9 +370,7 @@
     return isDefinedObject(object) && object instanceof Array;
   }
   function createElement(type, className) {
-    var result = null;
-    var nodeType = type.toLowerCase();
-    var isText = nodeType === "text";
+    var result = null, nodeType = type.toLowerCase(), isText = nodeType === "text";
     if (!_elements_Type.hasOwnProperty(nodeType)) {
       _elements_Type[nodeType] = isText ? _parameter_Document.createTextNode(_string.empty) : _parameter_Document.createElement(nodeType);
     }
@@ -401,19 +381,16 @@
     return result;
   }
   function getOffset(element) {
-    var left = 0;
-    var top = 0;
-    for (; element && !isNaN(element.offsetLeft) && !isNaN(element.offsetTop);) {
-      left = left + (element.offsetLeft - element.scrollLeft);
-      top = top + (element.offsetTop - element.scrollTop);
+    var left = 0, top = 0;
+    while (element && !isNaN(element.offsetLeft) && !isNaN(element.offsetTop)) {
+      left += element.offsetLeft - element.scrollLeft;
+      top += element.offsetTop - element.scrollTop;
       element = element.offsetParent;
     }
     return {left:left, top:top};
   }
   function getScrollPosition() {
-    var doc = _parameter_Document.documentElement;
-    var left = (_parameter_Window.pageXOffset || doc.scrollLeft) - (doc.clientLeft || 0);
-    var top = (_parameter_Window.pageYOffset || doc.scrollTop) - (doc.clientTop || 0);
+    var doc = _parameter_Document.documentElement, left = (_parameter_Window.pageXOffset || doc.scrollLeft) - (doc.clientLeft || 0), top = (_parameter_Window.pageYOffset || doc.scrollTop) - (doc.clientTop || 0);
     return {left:left, top:top};
   }
   function getStyleValueByName(element, stylePropertyName) {
@@ -448,17 +425,15 @@
     e.cancelBubble = true;
   }
   function showElementAtMousePosition(e, element) {
-    var left = e.pageX;
-    var top = e.pageY;
-    var scrollPosition = getScrollPosition();
+    var left = e.pageX, top = e.pageY, scrollPosition = getScrollPosition();
     element.style.display = "block";
     if (left + element.offsetWidth > _parameter_Window.innerWidth) {
-      left = left - element.offsetWidth;
+      left -= element.offsetWidth;
     } else {
       left++;
     }
     if (top + element.offsetHeight > _parameter_Window.innerHeight) {
-      top = top - element.offsetHeight;
+      top -= element.offsetHeight;
     } else {
       top++;
     }
@@ -482,6 +457,18 @@
       }
     }
   }
+  function buildCheckBox(container, labelText) {
+    var lineContainer = createElement("div"), label = createElement("label", "checkbox"), input = createElement("input");
+    container.appendChild(lineContainer);
+    lineContainer.appendChild(label);
+    label.appendChild(input);
+    input.type = "checkbox";
+    var checkMark = createElement("span", "check-mark"), text = createElement("span", "text");
+    text.innerHTML = labelText;
+    label.appendChild(checkMark);
+    label.appendChild(text);
+    return {input:input, label:label};
+  }
   function fireCustomTrigger(triggerFunction) {
     if (isDefinedFunction(triggerFunction)) {
       triggerFunction.apply(null, [].slice.call(arguments, 1));
@@ -493,14 +480,17 @@
   function getDefaultBoolean(value, defaultValue) {
     return isDefinedBoolean(value) ? value : defaultValue;
   }
+  function getDefaultNumber(value, defaultValue) {
+    return isDefinedNumber(value) ? value : defaultValue;
+  }
   function getDefaultFunction(value, defaultValue) {
     return isDefinedFunction(value) ? value : defaultValue;
   }
+  function getDefaultObject(value, defaultValue) {
+    return isDefinedObject(value) ? value : defaultValue;
+  }
   function getDefaultArray(value, defaultValue) {
     return isDefinedArray(value) ? value : defaultValue;
-  }
-  function getDefaultNumber(value, defaultValue) {
-    return isDefinedNumber(value) ? value : defaultValue;
   }
   function getDefaultStringOrArray(value, defaultValue) {
     if (isDefinedString(value)) {
@@ -514,8 +504,7 @@
     return value;
   }
   function getObjectFromString(objectString) {
-    var parsed = true;
-    var result = null;
+    var parsed = true, result = null;
     try {
       if (isDefinedString(objectString)) {
         result = _parameter_Json.parse(objectString);
@@ -528,7 +517,7 @@
         }
       } catch (e2) {
         if (!_configuration.safeMode) {
-          console.error("Errors in object: " + e1.message + ", " + e2.message);
+          console.error(_configuration.objectErrorText.replace("{{error_1}}", e1.message).replace("{{error_2}}", e2.message));
           parsed = false;
         }
         result = null;
@@ -536,91 +525,78 @@
     }
     return {parsed:parsed, result:result};
   }
-  function buildDefaultConfiguration() {
+  _public.start = function() {
+    _elements_Attributes_Position = 0;
+    showDialogAndSetPosition();
+  };
+  _public.show = function() {
+    if (_elements_Attributes_Position === _elements_Attributes_Keys.length - 1) {
+      _elements_Attributes_Position = 0;
+    }
+    showDialogAndSetPosition();
+  };
+  _public.hide = function() {
+    onDialogClose();
+  };
+  _public.isOpen = function() {
+    return isDefined(_element_Dialog) && _element_Dialog.style.display === "block";
+  };
+  _public.isComplete = function() {
+    return _elements_Attributes_Position >= _elements_Attributes_Keys.length - 1;
+  };
+  _public.addStep = function(element, options) {
+    setupElement(element, buildAttributeOptions(options));
+    _elements_Attributes_Keys.sort();
+    if (_public.isOpen()) {
+      onDialogClose();
+      _elements_Attributes_Position = 0;
+    }
+    return _public;
+  };
+  _public.setConfiguration = function(newConfiguration) {
+    if (isDefinedObject(newConfiguration)) {
+      var configurationHasChanged = false;
+      for (var propertyName in newConfiguration) {
+        if (newConfiguration.hasOwnProperty(propertyName) && _configuration.hasOwnProperty(propertyName) && _configuration[propertyName] !== newConfiguration[propertyName]) {
+          _configuration[propertyName] = newConfiguration[propertyName];
+          configurationHasChanged = true;
+        }
+      }
+      if (configurationHasChanged) {
+        buildDefaultConfiguration(_configuration);
+      }
+    }
+    return _public;
+  };
+  function buildDefaultConfiguration(newConfiguration) {
+    _configuration = getDefaultObject(newConfiguration, {});
     _configuration.safeMode = getDefaultBoolean(_configuration.safeMode, true);
     _configuration.domElementTypes = getDefaultStringOrArray(_configuration.domElementTypes, ["*"]);
-    _configuration.backButtonText = getDefaultString(_configuration.backButtonText, "Back");
-    _configuration.nextButtonText = getDefaultString(_configuration.nextButtonText, "Next");
-    _configuration.finishButtonText = getDefaultString(_configuration.finishButtonText, "Finish");
     _configuration.showCloseButton = getDefaultBoolean(_configuration.showCloseButton, true);
     _configuration.shortcutKeysEnabled = getDefaultBoolean(_configuration.shortcutKeysEnabled, true);
     _configuration.showProgressDots = getDefaultBoolean(_configuration.showProgressDots, true);
     _configuration.browserUrlParametersEnabled = getDefaultBoolean(_configuration.browserUrlParametersEnabled, true);
     _configuration.showProgressDotNumbers = getDefaultBoolean(_configuration.showProgressDotNumbers, false);
     _configuration.showButtons = getDefaultBoolean(_configuration.showButtons, true);
+    _configuration.showDoNotShowAgain = getDefaultBoolean(_configuration.showDoNotShowAgain, false);
+    buildDefaultConfigurationStrings();
+    buildDefaultConfigurationCustomTriggers();
+  }
+  function buildDefaultConfigurationStrings() {
+    _configuration.backButtonText = getDefaultString(_configuration.backButtonText, "Back");
+    _configuration.nextButtonText = getDefaultString(_configuration.nextButtonText, "Next");
+    _configuration.finishButtonText = getDefaultString(_configuration.finishButtonText, "Finish");
     _configuration.closeButtonToolTipText = getDefaultString(_configuration.closeButtonToolTipText, "Close");
     _configuration.doNotShowAgainText = getDefaultString(_configuration.doNotShowAgainText, "Do not show again");
-    _configuration.showDoNotShowAgain = getDefaultBoolean(_configuration.showDoNotShowAgain, false);
-    buildDefaultConfigurationCustomTriggers();
+    _configuration.objectErrorText = getDefaultString(_configuration.objectErrorText, "Errors in object: {{error_1}}, {{error_2}}");
+    _configuration.attributeNotValidErrorText = getDefaultString(_configuration.attributeNotValidErrorText, "The attribute '{{attribute_name}}' is not a valid object.");
+    _configuration.attributeNotSetErrorText = getDefaultString(_configuration.attributeNotSetErrorText, "The attribute '{{attribute_name}}' has not been set correctly.");
   }
   function buildDefaultConfigurationCustomTriggers() {
     _configuration.onDoNotShowAgainChange = getDefaultFunction(_configuration.onDoNotShowAgainChange, null);
   }
-  var _this = this;
-  var _parameter_Document = null;
-  var _parameter_Window = null;
-  var _parameter_Math = null;
-  var _parameter_Json = null;
-  var _configuration = {};
-  var _configuration_ShortcutKeysEnabled = true;
-  var _enum_KeyCodes = {escape:27, left:37, up:38, right:39, down:40};
-  var _string = {empty:"", space:" "};
-  var _elements_Type = {};
-  var _elements_Attributes_Json = {};
-  var _elements_Attributes_Keys = [];
-  var _elements_Attributes_Position = 0;
-  var _element_Focus_Element_PositionStyle = null;
-  var _element_Disabled_Background = null;
-  var _element_Dialog = null;
-  var _element_Dialog_Close_Button = null;
-  var _element_Dialog_Title = null;
-  var _element_Dialog_Description = null;
-  var _element_Dialog_CheckBox_Container = null;
-  var _element_Dialog_CheckBox_Input = null;
-  var _element_Dialog_ProgressDots = null;
-  var _element_Dialog_Buttons = null;
-  var _element_Dialog_Back_Button = null;
-  var _element_Dialog_Next_Button = null;
-  var _attribute_Name_Journey = "data-journey-options";
-  this.start = function() {
-    _elements_Attributes_Position = 0;
-    showDialogAndSetPosition();
-  };
-  this.show = function() {
-    if (_elements_Attributes_Position === _elements_Attributes_Keys.length - 1) {
-      _elements_Attributes_Position = 0;
-    }
-    showDialogAndSetPosition();
-  };
-  this.hide = function() {
-    onDialogClose();
-  };
-  this.isOpen = function() {
-    return isDefined(_element_Dialog) && _element_Dialog.style.display === "block";
-  };
-  this.isComplete = function() {
-    return _elements_Attributes_Position >= _elements_Attributes_Keys.length - 1;
-  };
-  this.addStep = function(element, options) {
-    setupElement(element, buildAttributeOptions(options));
-    _elements_Attributes_Keys.sort();
-    if (_this.isOpen()) {
-      onDialogClose();
-      _elements_Attributes_Position = 0;
-    }
-    return this;
-  };
-  this.setConfiguration = function(newOptions) {
-    _configuration = !isDefinedObject(newOptions) ? {} : newOptions;
-    buildDefaultConfiguration();
-    if (_this.isOpen()) {
-      onDialogClose();
-      _elements_Attributes_Position = 0;
-    }
-    return this;
-  };
-  this.getVersion = function() {
-    return "1.1.1";
+  _public.getVersion = function() {
+    return "1.2.0";
   };
   (function(documentObject, windowObject, mathObject, jsonObject) {
     _parameter_Document = documentObject;
@@ -634,11 +610,11 @@
       getElements();
       buildDocumentEvents();
       if (getBrowserUrlParameters()) {
-        _this.show();
+        _public.show();
       }
     });
     if (!isDefined(_parameter_Window.$journey)) {
-      _parameter_Window.$journey = this;
+      _parameter_Window.$journey = _public;
     }
   })(document, window, Math, JSON);
 })();

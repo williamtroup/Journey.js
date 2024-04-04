@@ -4,7 +4,7 @@
  * A lightweight, easy-to-use JavaScript library to create interactive, customizable, accessible guided tours across your websites or web apps!
  * 
  * @file        journey.js
- * @version     v1.1.1
+ * @version     v1.2.0
  * @author      Bunoon
  * @license     MIT License
  * @copyright   Bunoon 2024
@@ -12,13 +12,16 @@
 
 
 ( function() {
-    var _this = this,
+    "use strict";
 
-        // Variables: Constructor Parameters
+    var // Variables: Constructor Parameters
         _parameter_Document = null,
         _parameter_Window = null,
         _parameter_Math = null,
         _parameter_Json = null,
+
+        // Variables: Public Scope
+        _public = {},
 
         // Variables: Configuration
         _configuration = {},
@@ -66,7 +69,7 @@
         _element_Dialog_Next_Button = null,
 
         // Variables: Attribute Names
-        _attribute_Name_Journey = "data-journey-options";
+        _attribute_Name_Options = "data-journey-js";
 
 
     /*
@@ -113,18 +116,7 @@
         _element_Dialog_CheckBox_Container = createElement( "div", "checkbox-container" );
         _element_Dialog.appendChild( _element_Dialog_CheckBox_Container );
 
-        var label = createElement( "label" ),
-            textContent = createElement( "text" );
-
-        _element_Dialog_CheckBox_Input = createElement( "input" );
-        _element_Dialog_CheckBox_Input.type = "checkbox";
-
-        textContent.nodeValue = _configuration.doNotShowAgainText;
-        
-        label.appendChild( _element_Dialog_CheckBox_Input );
-        label.appendChild( textContent );
-        
-        _element_Dialog_CheckBox_Container.appendChild( label );
+        _element_Dialog_CheckBox_Input = buildCheckBox( _element_Dialog_CheckBox_Container, _configuration.doNotShowAgainText ).input;
 
         _element_Dialog_ProgressDots = createElement( "div", "progress-dots" );
         _element_Dialog.appendChild( _element_Dialog_ProgressDots );
@@ -145,7 +137,7 @@
         var bindingOptions = _elements_Attributes_Json[ _elements_Attributes_Keys[ _elements_Attributes_Position ] ];
 
         if ( isDefined( bindingOptions ) && isDefined( bindingOptions.element ) ) {
-            fireCustomTrigger( bindingOptions.onClose, bindingOptions.element );
+            fireCustomTrigger( bindingOptions.events.onClose, bindingOptions.element );
         }
 
         if ( _configuration.showDoNotShowAgain ) {
@@ -173,7 +165,7 @@
             var bindingOptions = _elements_Attributes_Json[ _elements_Attributes_Keys[ _elements_Attributes_Position ] ];
 
             onDialogClose();
-            fireCustomTrigger( bindingOptions.onFinish, bindingOptions.element );
+            fireCustomTrigger( bindingOptions.events.onFinish, bindingOptions.element );
 
         } else {
             removeFocusClassFromLastElement();
@@ -218,7 +210,7 @@
             setDialogText( bindingOptions );
             setDialogPosition( null, bindingOptions );
             buildProcessDots();
-            fireCustomTrigger( bindingOptions.onEnter, bindingOptions.element );
+            fireCustomTrigger( bindingOptions.events.onEnter, bindingOptions.element );
 
             if ( bindingOptions.sendClick ) {
                 bindingOptions.element.click();
@@ -246,7 +238,7 @@
         if ( _element_Dialog.style.display !== "block" ) {
             _element_Dialog.style.display = "block";
 
-            fireCustomTrigger( bindingOptions.onOpen, bindingOptions.element );
+            fireCustomTrigger( bindingOptions.events.onOpen, bindingOptions.element );
         }
 
         if ( bindingOptions.attach || bindingOptions.isHint ) {
@@ -293,7 +285,7 @@
             }
 
             if ( callCustomTrigger ) {
-                fireCustomTrigger( bindingOptions.onLeave, bindingOptions.element );
+                fireCustomTrigger( bindingOptions.events.onLeave, bindingOptions.element );
             }
         }
     }
@@ -372,8 +364,8 @@
     function getElement( element ) {
         var result = true;
 
-        if ( isDefined( element ) && element.hasAttribute( _attribute_Name_Journey ) ) {
-            var bindingOptionsData = element.getAttribute( _attribute_Name_Journey );
+        if ( isDefined( element ) && element.hasAttribute( _attribute_Name_Options ) ) {
+            var bindingOptionsData = element.getAttribute( _attribute_Name_Options );
 
             if ( isDefinedString( bindingOptionsData ) ) {
                 var bindingOptions = getObjectFromString( bindingOptionsData );
@@ -383,14 +375,14 @@
 
                 } else {
                     if ( !_configuration.safeMode ) {
-                        console.error( "The attribute '" + _attribute_Name_Journey + "' is not a valid object." );
+                        console.error( _configuration.attributeNotValidErrorText.replace( "{{attribute_name}}", _attribute_Name_Options ) );
                         result = false;
                     }
                 }
 
             } else {
                 if ( !_configuration.safeMode ) {
-                    console.error( "The attribute '" + _attribute_Name_Journey + "' has not been set correctly." );
+                    console.error( _configuration.attributeNotSetErrorText.replace( "{{attribute_name}}", _attribute_Name_Options ) );
                     result = false;
                 }
             }
@@ -410,7 +402,7 @@
                 renderHint( bindingOptions );
             }
 
-            element.removeAttribute( _attribute_Name_Journey );
+            element.removeAttribute( _attribute_Name_Options );
         }
     }
 
@@ -458,7 +450,7 @@
     }
 
     function onWindowKeyDown( e ) {
-        if ( _this.isOpen() ) {
+        if ( _public.isOpen() ) {
             if ( e.keyCode === _enum_KeyCodes.escape ) {
                 e.preventDefault();
                 onDialogClose();
@@ -483,7 +475,7 @@
     }
 
     function onWindowResize() {
-        if ( _this.isOpen() ) {
+        if ( _public.isOpen() ) {
             showDialogAndSetPosition();
         }
     }
@@ -538,11 +530,12 @@
     }
 
     function buildAttributeOptionCustomTriggers( options ) {
-        options.onEnter = getDefaultFunction( options.onEnter, null );
-        options.onLeave = getDefaultFunction( options.onLeave, null );
-        options.onClose = getDefaultFunction( options.onClose, null );
-        options.onFinish = getDefaultFunction( options.onFinish, null );
-        options.onOpen = getDefaultFunction( options.onOpen, null );
+        options.events = getDefaultObject( options.events, {} );
+        options.events.onEnter = getDefaultFunction( options.events.onEnter, null );
+        options.events.onLeave = getDefaultFunction( options.events.onLeave, null );
+        options.events.onClose = getDefaultFunction( options.events.onClose, null );
+        options.events.onFinish = getDefaultFunction( options.events.onFinish, null );
+        options.events.onOpen = getDefaultFunction( options.events.onOpen, null );
 
         return options;
     }
@@ -765,6 +758,31 @@
         }
     }
 
+    function buildCheckBox( container, labelText ) {
+        var lineContainer = createElement( "div" ),
+            label = createElement( "label", "checkbox" ),
+            input = createElement( "input" );
+
+        container.appendChild( lineContainer );
+        lineContainer.appendChild( label );
+        label.appendChild( input );
+
+        input.type = "checkbox";
+
+        var checkMark = createElement( "span", "check-mark" ),
+            text = createElement( "span", "text" );
+
+        text.innerHTML = labelText;
+        
+        label.appendChild( checkMark );
+        label.appendChild( text );
+
+        return {
+            input: input,
+            label: label
+        };
+    }
+
 
     /*
      * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -793,16 +811,20 @@
         return isDefinedBoolean( value ) ? value : defaultValue;
     }
 
+    function getDefaultNumber( value, defaultValue ) {
+        return isDefinedNumber( value ) ? value : defaultValue;
+    }
+
     function getDefaultFunction( value, defaultValue ) {
         return isDefinedFunction( value ) ? value : defaultValue;
     }
 
-    function getDefaultArray( value, defaultValue ) {
-        return isDefinedArray( value ) ? value : defaultValue;
+    function getDefaultObject( value, defaultValue ) {
+        return isDefinedObject( value ) ? value : defaultValue;
     }
 
-    function getDefaultNumber( value, defaultValue ) {
-        return isDefinedNumber( value ) ? value : defaultValue;
+    function getDefaultArray( value, defaultValue ) {
+        return isDefinedArray( value ) ? value : defaultValue;
     }
 
     function getDefaultStringOrArray( value, defaultValue ) {
@@ -840,7 +862,7 @@
                 
             } catch ( e2 ) {
                 if ( !_configuration.safeMode ) {
-                    console.error( "Errors in object: " + e1.message + ", " + e2.message );
+                    console.error( _configuration.objectErrorText.replace( "{{error_1}}",  e1.message ).replace( "{{error_2}}",  e2.message ) );
                     parsed = false;
                 }
                 
@@ -868,7 +890,7 @@
      * 
      * @public
      */
-    this.start = function() {
+    _public.start = function() {
         _elements_Attributes_Position = 0;
 
         showDialogAndSetPosition();
@@ -881,7 +903,7 @@
      * 
      * @public
      */
-    this.show = function() {
+    _public.show = function() {
         if ( _elements_Attributes_Position === _elements_Attributes_Keys.length - 1 ) {
             _elements_Attributes_Position = 0;
         }
@@ -896,7 +918,7 @@
      * 
      * @public
      */
-    this.hide = function() {
+    _public.hide = function() {
         onDialogClose();
     };
 
@@ -909,7 +931,7 @@
      * 
      * @returns     {boolean}                                               The flag that states if the dialog is open.
      */
-    this.isOpen = function() {
+    _public.isOpen = function() {
         return isDefined( _element_Dialog ) && _element_Dialog.style.display === "block";
     };
 
@@ -922,7 +944,7 @@
      * 
      * @returns     {boolean}                                               The flag that states if the full journey has been completed.
      */
-    this.isComplete = function() {
+    _public.isComplete = function() {
         return _elements_Attributes_Position >= _elements_Attributes_Keys.length - 1;
     };
 
@@ -945,18 +967,18 @@
      * 
      * @returns     {Object}                                                The Journey.js class instance.
      */
-    this.addStep = function( element, options ) {
+    _public.addStep = function( element, options ) {
         setupElement( element, buildAttributeOptions( options ) );
 
         _elements_Attributes_Keys.sort();
 
-        if ( _this.isOpen() ) {
+        if ( _public.isOpen() ) {
             onDialogClose();
 
             _elements_Attributes_Position = 0;
         }
 
-        return this;
+        return _public;
     };
 
 
@@ -977,37 +999,50 @@
      * 
      * @returns     {Object}                                                The Journey.js class instance.
      */
-    this.setConfiguration = function( newOptions ) {
-        _configuration = !isDefinedObject( newOptions ) ? {} : newOptions;
+    _public.setConfiguration = function( newConfiguration ) {
+        if ( isDefinedObject( newConfiguration ) ) {
+            var configurationHasChanged = false;
         
-        buildDefaultConfiguration();
-
-        if ( _this.isOpen() ) {
-            onDialogClose();
-
-            _elements_Attributes_Position = 0;
+            for ( var propertyName in newConfiguration ) {
+                if ( newConfiguration.hasOwnProperty( propertyName ) && _configuration.hasOwnProperty( propertyName ) && _configuration[ propertyName ] !== newConfiguration[ propertyName ] ) {
+                    _configuration[ propertyName ] = newConfiguration[ propertyName ];
+                    configurationHasChanged = true;
+                }
+            }
+    
+            if ( configurationHasChanged ) {
+                buildDefaultConfiguration( _configuration );
+            }
         }
 
-        return this;
+        return _public;
     };
 
-    function buildDefaultConfiguration() {
+    function buildDefaultConfiguration( newConfiguration ) {
+        _configuration = getDefaultObject( newConfiguration, {} );
         _configuration.safeMode = getDefaultBoolean( _configuration.safeMode, true );
         _configuration.domElementTypes = getDefaultStringOrArray( _configuration.domElementTypes, [ "*" ] );
-        _configuration.backButtonText = getDefaultString( _configuration.backButtonText, "Back" );
-        _configuration.nextButtonText = getDefaultString( _configuration.nextButtonText, "Next" );
-        _configuration.finishButtonText = getDefaultString( _configuration.finishButtonText, "Finish" );
         _configuration.showCloseButton = getDefaultBoolean( _configuration.showCloseButton, true );
         _configuration.shortcutKeysEnabled = getDefaultBoolean( _configuration.shortcutKeysEnabled, true );
         _configuration.showProgressDots = getDefaultBoolean( _configuration.showProgressDots, true );
         _configuration.browserUrlParametersEnabled = getDefaultBoolean( _configuration.browserUrlParametersEnabled, true );
         _configuration.showProgressDotNumbers = getDefaultBoolean( _configuration.showProgressDotNumbers, false );
         _configuration.showButtons = getDefaultBoolean( _configuration.showButtons, true );
-        _configuration.closeButtonToolTipText = getDefaultString( _configuration.closeButtonToolTipText, "Close" );
-        _configuration.doNotShowAgainText = getDefaultString( _configuration.doNotShowAgainText, "Do not show again" );
         _configuration.showDoNotShowAgain = getDefaultBoolean( _configuration.showDoNotShowAgain, false );
 
+        buildDefaultConfigurationStrings();
         buildDefaultConfigurationCustomTriggers();
+    }
+
+    function buildDefaultConfigurationStrings() {
+        _configuration.backButtonText = getDefaultString( _configuration.backButtonText, "Back" );
+        _configuration.nextButtonText = getDefaultString( _configuration.nextButtonText, "Next" );
+        _configuration.finishButtonText = getDefaultString( _configuration.finishButtonText, "Finish" );
+        _configuration.closeButtonToolTipText = getDefaultString( _configuration.closeButtonToolTipText, "Close" );
+        _configuration.doNotShowAgainText = getDefaultString( _configuration.doNotShowAgainText, "Do not show again" );
+        _configuration.objectErrorText = getDefaultString( _configuration.objectErrorText, "Errors in object: {{error_1}}, {{error_2}}" );
+        _configuration.attributeNotValidErrorText = getDefaultString( _configuration.attributeNotValidErrorText, "The attribute '{{attribute_name}}' is not a valid object." );
+        _configuration.attributeNotSetErrorText = getDefaultString( _configuration.attributeNotSetErrorText, "The attribute '{{attribute_name}}' has not been set correctly." );
     }
 
     function buildDefaultConfigurationCustomTriggers() {
@@ -1030,8 +1065,8 @@
      * 
      * @returns     {string}                                                The version number.
      */
-    this.getVersion = function() {
-        return "1.1.1";
+    _public.getVersion = function() {
+        return "1.2.0";
     };
 
 
@@ -1056,12 +1091,12 @@
             buildDocumentEvents();
 
             if ( getBrowserUrlParameters() ) {
-                _this.show();
+                _public.show();
             }
         } );
 
         if ( !isDefined( _parameter_Window.$journey ) ) {
-            _parameter_Window.$journey = this;
+            _parameter_Window.$journey = _public;
         }
 
     } ) ( document, window, Math, JSON );

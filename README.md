@@ -2,15 +2,15 @@
 Journey.js
 
 [![Tweet](https://img.shields.io/twitter/url/http/shields.io.svg?style=social)](https://twitter.com/intent/tweet?text=Journey.js%2C%20a%20free%20JavaScript%journey%builder&url=https://github.com/williamtroup/Journey.js&hashtags=javascript,html,journey,guide)
-[![npm](https://img.shields.io/badge/npmjs-v1.1.1-blue)](https://www.npmjs.com/package/jjourney.js)
-[![nuget](https://img.shields.io/badge/nuget-v1.1.1-purple)](https://www.nuget.org/packages/jJourney.js/)
+[![npm](https://img.shields.io/badge/npmjs-v1.2.0-blue)](https://www.npmjs.com/package/jjourney.js)
+[![nuget](https://img.shields.io/badge/nuget-v1.2.0-purple)](https://www.nuget.org/packages/jJourney.js/)
 [![license](https://img.shields.io/badge/license-MIT-green)](https://github.com/williamtroup/Journey.js/blob/main/LICENSE.txt)
 [![discussions Welcome](https://img.shields.io/badge/discussions-Welcome-red)](https://github.com/williamtroup/Journey.js/discussions)
 [![coded by William Troup](https://img.shields.io/badge/coded_by-William_Troup-yellow)](https://www.william-troup.com/)
 </h1>
 
 > <p align="center">🚶 A lightweight, easy-to-use JavaScript library to create interactive, customizable, accessible guided tours across your websites or web apps!</p>
-> <p align="center">v1.1.1</p>
+> <p align="center">v1.2.0</p>
 <br />
 
 ![Journey.js](docs/images/main.png)
@@ -153,12 +153,12 @@ Make sure you include the "DOCTYPE html" tag at the top of your HTML, as follows
 ### 3. DOM Element Binding:
 
 ```markdown
-<button data-journey-options="{ 'title': 'Get Version', 'description': 'Logs the current version of Journey.js to the developers console.', 'order': 6 }" onclick="console.log( $journey.getVersion() );">Get Version</button>
+<button data-journey-js="{ 'title': 'Get Version', 'description': 'Logs the current version of Journey.js to the developers console.', 'order': 6 }" onclick="console.log( $journey.getVersion() );">Get Version</button>
 ```
 
-To see a list of all the available binding options you can use for "data-journey-options", click [here](https://www.william-troup.com/journey-js/documentation/binding-options.html).
+To see a list of all the available binding options you can use for "data-journey-js", click [here](https://www.william-troup.com/journey-js/documentation/binding-options.html).
 
-To see a list of all the available custom triggers you can use for "data-journey-options", click [here](https://www.william-troup.com/journey-js/documentation/binding-options-custom-triggers.html).
+To see a list of all the available custom triggers you can use for "data-journey-js", click [here](https://www.william-troup.com/journey-js/documentation/binding-options-custom-triggers.html).
 
 <br>
 

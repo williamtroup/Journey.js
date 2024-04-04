@@ -1,8 +1,11 @@
-/*! Journey.js v1.1.1 - Lithuanian | (c) Bunoon 2024 | MIT License */
+/*! Journey.js v1.2.0 - Lithuanian | (c) Bunoon 2024 | MIT License */
 $journey.setConfiguration( {
         "backButtonText": "Atgal",
         "nextButtonText": "Kitas",
         "finishButtonText": "Baigti",
         "closeButtonToolTipText": "Uždaryti",
-        "doNotShowAgainText": "Daugiau neberodyti"
+        "doNotShowAgainText": "Daugiau neberodyti",
+        "objectErrorText": "Klaidos objekte: {{error_1}}, {{error_2}}",
+        "attributeNotValidErrorText": "atributas '{{attribute_name}}“ nėra tinkamas objektas.",
+        "attributeNotSetErrorText": "atributas '{{attribute_name}}“ nebuvo nustatytas teisingai."
 } );
