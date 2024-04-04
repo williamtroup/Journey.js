@@ -7,5 +7,5 @@ $journey.setConfiguration( {
         "doNotShowAgainText": "Ära näita uuesti",
         "objectErrorText": "Vead objektil: {{error_1}}, {{error_2}}",
         "attributeNotValidErrorText": "atribuut '{{attribute_name}}' ei ole kehtiv objekt.",
-        "attributeNotSetErrorText": "atribuut '{{attribute_name}}' pole õigesti seadistatud.",
+        "attributeNotSetErrorText": "atribuut '{{attribute_name}}' pole õigesti seadistatud."
 } );

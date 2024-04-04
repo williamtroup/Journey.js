@@ -7,5 +7,5 @@ $journey.setConfiguration( {
         "doNotShowAgainText": "फेरि नदेखाउनुहोस्",
         "objectErrorText": "वस्तुमा त्रुटिहरू: {{error_1}}, {{error_2}}",
         "attributeNotValidErrorText": "विशेषता'{{attribute_name}}' मान्य वस्तु होइन।",
-        "attributeNotSetErrorText": "विशेषता'{{attribute_name}}' ठीकसँग सेट गरिएको छैन।",
+        "attributeNotSetErrorText": "विशेषता'{{attribute_name}}' ठीकसँग सेट गरिएको छैन।"
 } );

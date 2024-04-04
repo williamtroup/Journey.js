@@ -7,5 +7,5 @@ $journey.setConfiguration( {
         "doNotShowAgainText": "Daugiau neberodyti",
         "objectErrorText": "Klaidos objekte: {{error_1}}, {{error_2}}",
         "attributeNotValidErrorText": "atributas '{{attribute_name}}“ nėra tinkamas objektas.",
-        "attributeNotSetErrorText": "atributas '{{attribute_name}}“ nebuvo nustatytas teisingai.",
+        "attributeNotSetErrorText": "atributas '{{attribute_name}}“ nebuvo nustatytas teisingai."
 } );

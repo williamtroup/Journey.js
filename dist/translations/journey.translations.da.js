@@ -7,5 +7,5 @@ $journey.setConfiguration( {
         "doNotShowAgainText": "Vis ikke igen",
         "objectErrorText": "Fejl i objektet: {{error_1}}, {{error_2}}",
         "attributeNotValidErrorText": "Attributten '{{attribute_name}}' er ikke et gyldigt objekt.",
-        "attributeNotSetErrorText": "Attributten '{{attribute_name}}' er ikke indstillet korrekt.",
+        "attributeNotSetErrorText": "Attributten '{{attribute_name}}' er ikke indstillet korrekt."
 } );

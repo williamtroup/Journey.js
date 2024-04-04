@@ -7,5 +7,5 @@ $journey.setConfiguration( {
         "doNotShowAgainText": "আবার প্রদর্শন করো না",
         "objectErrorText": "বস্তুর ত্রুটি: {{error_1}}, {{error_2}}",
         "attributeNotValidErrorText": "বৈশিষ্ট্য '{{attribute_name}}' একটি বৈধ বস্তু নয়।",
-        "attributeNotSetErrorText": "বৈশিষ্ট্য '{{attribute_name}}' সঠিকভাবে সেট করা হয়নি।",
+        "attributeNotSetErrorText": "বৈশিষ্ট্য '{{attribute_name}}' সঠিকভাবে সেট করা হয়নি।"
 } );

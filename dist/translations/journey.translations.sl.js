@@ -7,5 +7,5 @@ $journey.setConfiguration( {
         "doNotShowAgainText": "Ne prikaži več",
         "objectErrorText": "Napake v objektu: {{error_1}}, {{error_2}}",
         "attributeNotValidErrorText": "Atribut '{{attribute_name}}' ni veljaven predmet.",
-        "attributeNotSetErrorText": "Atribut '{{attribute_name}}' ni pravilno nastavljen.",
+        "attributeNotSetErrorText": "Atribut '{{attribute_name}}' ni pravilno nastavljen."
 } );

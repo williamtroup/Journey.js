@@ -7,5 +7,5 @@ $journey.setConfiguration( {
         "doNotShowAgainText": "אל תציג שוב",
         "objectErrorText": "שגיאות באובייקט: {{error_1}}, {{error_2}}",
         "attributeNotValidErrorText": "התכונה'{{attribute_name}}' אינו אובייקט חוקי.",
-        "attributeNotSetErrorText": "התכונה'{{attribute_name}}' לא הוגדר כהלכה.",
+        "attributeNotSetErrorText": "התכונה'{{attribute_name}}' לא הוגדר כהלכה."
 } );

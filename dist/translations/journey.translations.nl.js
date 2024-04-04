@@ -7,5 +7,5 @@ $journey.setConfiguration( {
         "doNotShowAgainText": "Niet meer tonen",
         "objectErrorText": "Fouten in object: {{error_1}}, {{error_2}}",
         "attributeNotValidErrorText": "Het attribuut '{{attribute_name}}' is geen geldig object.",
-        "attributeNotSetErrorText": "Het attribuut '{{attribute_name}}' is niet correct ingesteld.",
+        "attributeNotSetErrorText": "Het attribuut '{{attribute_name}}' is niet correct ingesteld."
 } );

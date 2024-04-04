@@ -7,5 +7,5 @@ $journey.setConfiguration( {
         "doNotShowAgainText": "다시 표시하지 않습니다",
         "objectErrorText": "개체 오류: {{error_1}}, {{error_2}}",
         "attributeNotValidErrorText": "속성 '{{attribute_name}}'은(는) 유효한 개체가 아닙니다.",
-        "attributeNotSetErrorText": "속성 '{{attribute_name}}'가 올바르게 설정되지 않았습니다.",
+        "attributeNotSetErrorText": "속성 '{{attribute_name}}'가 올바르게 설정되지 않았습니다."
 } );

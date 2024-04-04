@@ -7,5 +7,5 @@ $journey.setConfiguration( {
         "doNotShowAgainText": "Აღარ აჩვენო",
         "objectErrorText": "შეცდომები ობიექტში: {{error_1}}, {{error_2}}",
         "attributeNotValidErrorText": "ატრიბუტი '{{attribute_name}}' არ არის სწორი ობიექტი.",
-        "attributeNotSetErrorText": "ატრიბუტი '{{attribute_name}}' არ არის სწორად დაყენებული.",
+        "attributeNotSetErrorText": "ატრიბუტი '{{attribute_name}}' არ არის სწორად დაყენებული."
 } );

@@ -7,5 +7,5 @@ $journey.setConfiguration( {
         "doNotShowAgainText": "Non volver a mostrar",
         "objectErrorText": "Erros no obxecto: {{error_1}}, {{error_2}}",
         "attributeNotValidErrorText": "O atributo '{{attribute_name}}' non é un obxecto válido.",
-        "attributeNotSetErrorText": "O atributo '{{attribute_name}}' non se axustou correctamente.",
+        "attributeNotSetErrorText": "O atributo '{{attribute_name}}' non se axustou correctamente."
 } );

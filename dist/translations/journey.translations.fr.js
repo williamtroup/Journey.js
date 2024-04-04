@@ -7,5 +7,5 @@ $journey.setConfiguration( {
         "doNotShowAgainText": "Ne pas montrer de nouveau",
         "objectErrorText": "Erreurs dans l'objet : {{error_1}}, {{error_2}}",
         "attributeNotValidErrorText": "L'attribut '{{attribute_name}}' n'est pas un objet valide.",
-        "attributeNotSetErrorText": "L'attribut '{{attribute_name}}' n'a pas été défini correctement.",
+        "attributeNotSetErrorText": "L'attribut '{{attribute_name}}' n'a pas été défini correctement."
 } );
