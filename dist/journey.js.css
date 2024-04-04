@@ -36,7 +36,7 @@
   --journey-js-checkbox-background-color-checked: var(--journey-js-dialog-button-active-background-color);
   --journey-js-checkbox-background-color: var(--journey-js-dialog-button-background-color);
   --journey-js-checkbox-border-color-checked: --journey-js-checkbox-background-color-checked;
-  --journey-js-checkbox-border-color: var(--journey-js-color-white);
+  --journey-js-checkbox-border-color: var(--journey-js-dialog-button-border-color);
   --journey-js-border-control-radius: 0.25rem;
   --journey-js-border-radius: 0.5rem;
   --journey-js-border-size: 0.5px;
