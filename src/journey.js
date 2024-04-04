@@ -386,14 +386,14 @@
 
                 } else {
                     if ( !_configuration.safeMode ) {
-                        console.error( "The attribute '" + _attribute_Name_Journey + "' is not a valid object." );
+                        console.error( _configuration.attributeNotValidErrorText.replace( "{{attribute_name}}", _attribute_Name_Journey ) );
                         result = false;
                     }
                 }
 
             } else {
                 if ( !_configuration.safeMode ) {
-                    console.error( "The attribute '" + _attribute_Name_Journey + "' has not been set correctly." );
+                    console.error( _configuration.attributeNotSetErrorText.replace( "{{attribute_name}}", _attribute_Name_Journey ) );
                     result = false;
                 }
             }
@@ -847,7 +847,7 @@
                 
             } catch ( e2 ) {
                 if ( !_configuration.safeMode ) {
-                    console.error( "Errors in object: " + e1.message + ", " + e2.message );
+                    console.error( _configuration.objectErrorText.replace( "{{error_1}}",  e1.message ).replace( "{{error_2}}",  e2.message ) );
                     parsed = false;
                 }
                 
@@ -985,36 +985,49 @@
      * @returns     {Object}                                                The Journey.js class instance.
      */
     _public.setConfiguration = function( newConfiguration ) {
-        _configuration = getDefaultObject( newConfiguration, {} );
+        if ( isDefinedObject( newConfiguration ) ) {
+            var configurationHasChanged = false;
         
-        buildDefaultConfiguration();
-
-        if ( _public.isOpen() ) {
-            onDialogClose();
-
-            _elements_Attributes_Position = 0;
+            for ( var propertyName in newConfiguration ) {
+                if ( newConfiguration.hasOwnProperty( propertyName ) && _configuration.hasOwnProperty( propertyName ) && _configuration[ propertyName ] !== newConfiguration[ propertyName ] ) {
+                    _configuration[ propertyName ] = newConfiguration[ propertyName ];
+                    configurationHasChanged = true;
+                }
+            }
+    
+            if ( configurationHasChanged ) {
+                buildDefaultConfiguration( _configuration );
+            }
         }
 
         return _public;
     };
 
-    function buildDefaultConfiguration() {
+    function buildDefaultConfiguration( newConfiguration ) {
+        _configuration = getDefaultObject( newConfiguration, {} );
         _configuration.safeMode = getDefaultBoolean( _configuration.safeMode, true );
         _configuration.domElementTypes = getDefaultStringOrArray( _configuration.domElementTypes, [ "*" ] );
-        _configuration.backButtonText = getDefaultString( _configuration.backButtonText, "Back" );
-        _configuration.nextButtonText = getDefaultString( _configuration.nextButtonText, "Next" );
-        _configuration.finishButtonText = getDefaultString( _configuration.finishButtonText, "Finish" );
         _configuration.showCloseButton = getDefaultBoolean( _configuration.showCloseButton, true );
         _configuration.shortcutKeysEnabled = getDefaultBoolean( _configuration.shortcutKeysEnabled, true );
         _configuration.showProgressDots = getDefaultBoolean( _configuration.showProgressDots, true );
         _configuration.browserUrlParametersEnabled = getDefaultBoolean( _configuration.browserUrlParametersEnabled, true );
         _configuration.showProgressDotNumbers = getDefaultBoolean( _configuration.showProgressDotNumbers, false );
         _configuration.showButtons = getDefaultBoolean( _configuration.showButtons, true );
-        _configuration.closeButtonToolTipText = getDefaultString( _configuration.closeButtonToolTipText, "Close" );
-        _configuration.doNotShowAgainText = getDefaultString( _configuration.doNotShowAgainText, "Do not show again" );
         _configuration.showDoNotShowAgain = getDefaultBoolean( _configuration.showDoNotShowAgain, false );
 
+        buildDefaultConfigurationStrings();
         buildDefaultConfigurationCustomTriggers();
+    }
+
+    function buildDefaultConfigurationStrings() {
+        _configuration.backButtonText = getDefaultString( _configuration.backButtonText, "Back" );
+        _configuration.nextButtonText = getDefaultString( _configuration.nextButtonText, "Next" );
+        _configuration.finishButtonText = getDefaultString( _configuration.finishButtonText, "Finish" );
+        _configuration.closeButtonToolTipText = getDefaultString( _configuration.closeButtonToolTipText, "Close" );
+        _configuration.doNotShowAgainText = getDefaultString( _configuration.doNotShowAgainText, "Do not show again" );
+        _configuration.objectErrorText = getDefaultString( _configuration.objectErrorText, "Errors in object: {{error_1}}, {{error_2}}" );
+        _configuration.attributeNotValidErrorText = getDefaultString( _configuration.attributeNotValidErrorText, "The attribute '{{attribute_name}}' is not a valid object." );
+        _configuration.attributeNotSetErrorText = getDefaultString( _configuration.attributeNotSetErrorText, "The attribute '{{attribute_name}}' has not been set correctly." );
     }
 
     function buildDefaultConfigurationCustomTriggers() {
