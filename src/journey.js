@@ -12,13 +12,16 @@
 
 
 ( function() {
-    var _this = this,
+    "use strict";
 
-        // Variables: Constructor Parameters
+    var // Variables: Constructor Parameters
         _parameter_Document = null,
         _parameter_Window = null,
         _parameter_Math = null,
         _parameter_Json = null,
+
+        // Variables: Public Scope
+        _public = {},
 
         // Variables: Configuration
         _configuration = {},
@@ -458,7 +461,7 @@
     }
 
     function onWindowKeyDown( e ) {
-        if ( _this.isOpen() ) {
+        if ( _public.isOpen() ) {
             if ( e.keyCode === _enum_KeyCodes.escape ) {
                 e.preventDefault();
                 onDialogClose();
@@ -483,7 +486,7 @@
     }
 
     function onWindowResize() {
-        if ( _this.isOpen() ) {
+        if ( _public.isOpen() ) {
             showDialogAndSetPosition();
         }
     }
@@ -868,7 +871,7 @@
      * 
      * @public
      */
-    this.start = function() {
+    _public.start = function() {
         _elements_Attributes_Position = 0;
 
         showDialogAndSetPosition();
@@ -881,7 +884,7 @@
      * 
      * @public
      */
-    this.show = function() {
+    _public.show = function() {
         if ( _elements_Attributes_Position === _elements_Attributes_Keys.length - 1 ) {
             _elements_Attributes_Position = 0;
         }
@@ -896,7 +899,7 @@
      * 
      * @public
      */
-    this.hide = function() {
+    _public.hide = function() {
         onDialogClose();
     };
 
@@ -909,7 +912,7 @@
      * 
      * @returns     {boolean}                                               The flag that states if the dialog is open.
      */
-    this.isOpen = function() {
+    _public.isOpen = function() {
         return isDefined( _element_Dialog ) && _element_Dialog.style.display === "block";
     };
 
@@ -922,7 +925,7 @@
      * 
      * @returns     {boolean}                                               The flag that states if the full journey has been completed.
      */
-    this.isComplete = function() {
+    _public.isComplete = function() {
         return _elements_Attributes_Position >= _elements_Attributes_Keys.length - 1;
     };
 
@@ -945,18 +948,18 @@
      * 
      * @returns     {Object}                                                The Journey.js class instance.
      */
-    this.addStep = function( element, options ) {
+    _public.addStep = function( element, options ) {
         setupElement( element, buildAttributeOptions( options ) );
 
         _elements_Attributes_Keys.sort();
 
-        if ( _this.isOpen() ) {
+        if ( _public.isOpen() ) {
             onDialogClose();
 
             _elements_Attributes_Position = 0;
         }
 
-        return this;
+        return _public;
     };
 
 
@@ -977,18 +980,18 @@
      * 
      * @returns     {Object}                                                The Journey.js class instance.
      */
-    this.setConfiguration = function( newOptions ) {
+    _public.setConfiguration = function( newOptions ) {
         _configuration = !isDefinedObject( newOptions ) ? {} : newOptions;
         
         buildDefaultConfiguration();
 
-        if ( _this.isOpen() ) {
+        if ( _public.isOpen() ) {
             onDialogClose();
 
             _elements_Attributes_Position = 0;
         }
 
-        return this;
+        return _public;
     };
 
     function buildDefaultConfiguration() {
@@ -1030,7 +1033,7 @@
      * 
      * @returns     {string}                                                The version number.
      */
-    this.getVersion = function() {
+    _public.getVersion = function() {
         return "1.2.0";
     };
 
@@ -1056,12 +1059,12 @@
             buildDocumentEvents();
 
             if ( getBrowserUrlParameters() ) {
-                _this.show();
+                _public.show();
             }
         } );
 
         if ( !isDefined( _parameter_Window.$journey ) ) {
-            _parameter_Window.$journey = this;
+            _parameter_Window.$journey = _public;
         }
 
     } ) ( document, window, Math, JSON );
