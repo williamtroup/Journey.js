@@ -796,16 +796,20 @@
         return isDefinedBoolean( value ) ? value : defaultValue;
     }
 
+    function getDefaultNumber( value, defaultValue ) {
+        return isDefinedNumber( value ) ? value : defaultValue;
+    }
+
     function getDefaultFunction( value, defaultValue ) {
         return isDefinedFunction( value ) ? value : defaultValue;
     }
 
-    function getDefaultArray( value, defaultValue ) {
-        return isDefinedArray( value ) ? value : defaultValue;
+    function getDefaultObject( value, defaultValue ) {
+        return isDefinedObject( value ) ? value : defaultValue;
     }
 
-    function getDefaultNumber( value, defaultValue ) {
-        return isDefinedNumber( value ) ? value : defaultValue;
+    function getDefaultArray( value, defaultValue ) {
+        return isDefinedArray( value ) ? value : defaultValue;
     }
 
     function getDefaultStringOrArray( value, defaultValue ) {
@@ -980,8 +984,8 @@
      * 
      * @returns     {Object}                                                The Journey.js class instance.
      */
-    _public.setConfiguration = function( newOptions ) {
-        _configuration = !isDefinedObject( newOptions ) ? {} : newOptions;
+    _public.setConfiguration = function( newConfiguration ) {
+        _configuration = getDefaultObject( newConfiguration, {} );
         
         buildDefaultConfiguration();
 

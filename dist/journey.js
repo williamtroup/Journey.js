@@ -473,14 +473,17 @@
   function getDefaultBoolean(value, defaultValue) {
     return isDefinedBoolean(value) ? value : defaultValue;
   }
+  function getDefaultNumber(value, defaultValue) {
+    return isDefinedNumber(value) ? value : defaultValue;
+  }
   function getDefaultFunction(value, defaultValue) {
     return isDefinedFunction(value) ? value : defaultValue;
   }
+  function getDefaultObject(value, defaultValue) {
+    return isDefinedObject(value) ? value : defaultValue;
+  }
   function getDefaultArray(value, defaultValue) {
     return isDefinedArray(value) ? value : defaultValue;
-  }
-  function getDefaultNumber(value, defaultValue) {
-    return isDefinedNumber(value) ? value : defaultValue;
   }
   function getDefaultStringOrArray(value, defaultValue) {
     if (isDefinedString(value)) {
@@ -543,8 +546,8 @@
     }
     return _public;
   };
-  _public.setConfiguration = function(newOptions) {
-    _configuration = !isDefinedObject(newOptions) ? {} : newOptions;
+  _public.setConfiguration = function(newConfiguration) {
+    _configuration = getDefaultObject(newConfiguration, {});
     buildDefaultConfiguration();
     if (_public.isOpen()) {
       onDialogClose();
