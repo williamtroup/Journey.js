@@ -40,7 +40,7 @@
   function onDialogClose() {
     var bindingOptions = _elements_Attributes_Json[_elements_Attributes_Keys[_elements_Attributes_Position]];
     if (isDefined(bindingOptions) && isDefined(bindingOptions.element)) {
-      fireCustomTrigger(bindingOptions.onClose, bindingOptions.element);
+      fireCustomTrigger(bindingOptions.events.onClose, bindingOptions.element);
     }
     if (_configuration.showDoNotShowAgain) {
       fireCustomTrigger(_configuration.onDoNotShowAgainChange, _element_Dialog_CheckBox_Input.checked);
@@ -60,7 +60,7 @@
     if (_elements_Attributes_Position === _elements_Attributes_Keys.length - 1) {
       var bindingOptions = _elements_Attributes_Json[_elements_Attributes_Keys[_elements_Attributes_Position]];
       onDialogClose();
-      fireCustomTrigger(bindingOptions.onFinish, bindingOptions.element);
+      fireCustomTrigger(bindingOptions.events.onFinish, bindingOptions.element);
     } else {
       removeFocusClassFromLastElement();
       _elements_Attributes_Position++;
@@ -92,7 +92,7 @@
       setDialogText(bindingOptions);
       setDialogPosition(null, bindingOptions);
       buildProcessDots();
-      fireCustomTrigger(bindingOptions.onEnter, bindingOptions.element);
+      fireCustomTrigger(bindingOptions.events.onEnter, bindingOptions.element);
       if (bindingOptions.sendClick) {
         bindingOptions.element.click();
       }
@@ -114,7 +114,7 @@
     var scrollPosition = getScrollPosition();
     if (_element_Dialog.style.display !== "block") {
       _element_Dialog.style.display = "block";
-      fireCustomTrigger(bindingOptions.onOpen, bindingOptions.element);
+      fireCustomTrigger(bindingOptions.events.onOpen, bindingOptions.element);
     }
     if (bindingOptions.attach || bindingOptions.isHint) {
       if (bindingOptions.isHint && bindingOptions.alignHintToClickPosition) {
@@ -146,7 +146,7 @@
         bindingOptions.element.style.position = _element_Focus_Element_PositionStyle;
       }
       if (callCustomTrigger) {
-        fireCustomTrigger(bindingOptions.onLeave, bindingOptions.element);
+        fireCustomTrigger(bindingOptions.events.onLeave, bindingOptions.element);
       }
     }
   }
@@ -313,11 +313,12 @@
     return options;
   }
   function buildAttributeOptionCustomTriggers(options) {
-    options.onEnter = getDefaultFunction(options.onEnter, null);
-    options.onLeave = getDefaultFunction(options.onLeave, null);
-    options.onClose = getDefaultFunction(options.onClose, null);
-    options.onFinish = getDefaultFunction(options.onFinish, null);
-    options.onOpen = getDefaultFunction(options.onOpen, null);
+    options.events = getDefaultObject(options.events, {});
+    options.events.onEnter = getDefaultFunction(options.events.onEnter, null);
+    options.events.onLeave = getDefaultFunction(options.events.onLeave, null);
+    options.events.onClose = getDefaultFunction(options.events.onClose, null);
+    options.events.onFinish = getDefaultFunction(options.events.onFinish, null);
+    options.events.onOpen = getDefaultFunction(options.events.onOpen, null);
     return options;
   }
   function getBrowserUrlParameters() {
