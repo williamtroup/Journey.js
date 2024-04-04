@@ -1,4 +1,4 @@
-/*! Journey.js v1.1.1 - Tagalog | (c) Bunoon 2024 | MIT License */
+/*! Journey.js v1.2.0 - Tagalog | (c) Bunoon 2024 | MIT License */
 $journey.setConfiguration( {
         "backButtonText": "Bumalik",
         "nextButtonText": "Susunod",

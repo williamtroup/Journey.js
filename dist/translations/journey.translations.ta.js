@@ -1,4 +1,4 @@
-/*! Journey.js v1.1.1 - Tamil | (c) Bunoon 2024 | MIT License */
+/*! Journey.js v1.2.0 - Tamil | (c) Bunoon 2024 | MIT License */
 $journey.setConfiguration( {
         "backButtonText": "மீண்டும்",
         "nextButtonText": "அடுத்தது",
