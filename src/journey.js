@@ -69,7 +69,7 @@
         _element_Dialog_Next_Button = null,
 
         // Variables: Attribute Names
-        _attribute_Name_Journey = "data-journey-options";
+        _attribute_Name_Options = "data-journey-js";
 
 
     /*
@@ -375,8 +375,8 @@
     function getElement( element ) {
         var result = true;
 
-        if ( isDefined( element ) && element.hasAttribute( _attribute_Name_Journey ) ) {
-            var bindingOptionsData = element.getAttribute( _attribute_Name_Journey );
+        if ( isDefined( element ) && element.hasAttribute( _attribute_Name_Options ) ) {
+            var bindingOptionsData = element.getAttribute( _attribute_Name_Options );
 
             if ( isDefinedString( bindingOptionsData ) ) {
                 var bindingOptions = getObjectFromString( bindingOptionsData );
@@ -386,14 +386,14 @@
 
                 } else {
                     if ( !_configuration.safeMode ) {
-                        console.error( _configuration.attributeNotValidErrorText.replace( "{{attribute_name}}", _attribute_Name_Journey ) );
+                        console.error( _configuration.attributeNotValidErrorText.replace( "{{attribute_name}}", _attribute_Name_Options ) );
                         result = false;
                     }
                 }
 
             } else {
                 if ( !_configuration.safeMode ) {
-                    console.error( _configuration.attributeNotSetErrorText.replace( "{{attribute_name}}", _attribute_Name_Journey ) );
+                    console.error( _configuration.attributeNotSetErrorText.replace( "{{attribute_name}}", _attribute_Name_Options ) );
                     result = false;
                 }
             }
@@ -413,7 +413,7 @@
                 renderHint( bindingOptions );
             }
 
-            element.removeAttribute( _attribute_Name_Journey );
+            element.removeAttribute( _attribute_Name_Options );
         }
     }
 

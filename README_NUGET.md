@@ -128,12 +128,12 @@ Make sure you include the "DOCTYPE html" tag at the top of your HTML, as follows
 ### 3. DOM Element Binding:
 
 ```markdown
-<button data-journey-options="{ 'title': 'Get Version', 'description': 'Logs the current version of Journey.js to the developers console.', 'order': 6 }" onclick="console.log( $journey.getVersion() );">Get Version</button>
+<button data-journey-js="{ 'title': 'Get Version', 'description': 'Logs the current version of Journey.js to the developers console.', 'order': 6 }" onclick="console.log( $journey.getVersion() );">Get Version</button>
 ```
 
-To see a list of all the available binding options you can use for "data-journey-options", click [here](https://www.william-troup.com/journey-js/documentation/binding-options.html).
+To see a list of all the available binding options you can use for "data-journey-js", click [here](https://www.william-troup.com/journey-js/documentation/binding-options.html).
 
-To see a list of all the available custom triggers you can use for "data-journey-options", click [here](https://www.william-troup.com/journey-js/documentation/binding-options-custom-triggers.html).
+To see a list of all the available custom triggers you can use for "data-journey-js", click [here](https://www.william-troup.com/journey-js/documentation/binding-options-custom-triggers.html).
 
 
 ### 4. Finishing Up:

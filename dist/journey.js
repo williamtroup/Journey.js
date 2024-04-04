@@ -1,7 +1,7 @@
 /*! Journey.js v1.2.0 | (c) Bunoon 2024 | MIT License */
 (function() {
   var _parameter_Document = null, _parameter_Window = null, _parameter_Math = null, _parameter_Json = null, _public = {}, _configuration = {}, _configuration_ShortcutKeysEnabled = true, _enum_KeyCodes = {escape:27, left:37, up:38, right:39, down:40}, _string = {empty:"", space:" "}, _elements_Type = {}, _elements_Attributes_Json = {}, _elements_Attributes_Keys = [], _elements_Attributes_Position = 0, _element_Focus_Element_PositionStyle = null, _element_Disabled_Background = null, _element_Dialog = 
-  null, _element_Dialog_Close_Button = null, _element_Dialog_Title = null, _element_Dialog_Description = null, _element_Dialog_CheckBox_Container = null, _element_Dialog_CheckBox_Input = null, _element_Dialog_ProgressDots = null, _element_Dialog_Buttons = null, _element_Dialog_Back_Button = null, _element_Dialog_Next_Button = null, _attribute_Name_Journey = "data-journey-options";
+  null, _element_Dialog_Close_Button = null, _element_Dialog_Title = null, _element_Dialog_Description = null, _element_Dialog_CheckBox_Container = null, _element_Dialog_CheckBox_Input = null, _element_Dialog_ProgressDots = null, _element_Dialog_Buttons = null, _element_Dialog_Back_Button = null, _element_Dialog_Next_Button = null, _attribute_Name_Options = "data-journey-js";
   function renderDisabledBackground() {
     _element_Disabled_Background = createElement("div", "journey-js-disabled-background");
   }
@@ -204,21 +204,21 @@
   }
   function getElement(element) {
     var result = true;
-    if (isDefined(element) && element.hasAttribute(_attribute_Name_Journey)) {
-      var bindingOptionsData = element.getAttribute(_attribute_Name_Journey);
+    if (isDefined(element) && element.hasAttribute(_attribute_Name_Options)) {
+      var bindingOptionsData = element.getAttribute(_attribute_Name_Options);
       if (isDefinedString(bindingOptionsData)) {
         var bindingOptions = getObjectFromString(bindingOptionsData);
         if (bindingOptions.parsed && isDefinedObject(bindingOptions.result)) {
           setupElement(element, buildAttributeOptions(bindingOptions.result));
         } else {
           if (!_configuration.safeMode) {
-            console.error(_configuration.attributeNotValidErrorText.replace("{{attribute_name}}", _attribute_Name_Journey));
+            console.error(_configuration.attributeNotValidErrorText.replace("{{attribute_name}}", _attribute_Name_Options));
             result = false;
           }
         }
       } else {
         if (!_configuration.safeMode) {
-          console.error(_configuration.attributeNotSetErrorText.replace("{{attribute_name}}", _attribute_Name_Journey));
+          console.error(_configuration.attributeNotSetErrorText.replace("{{attribute_name}}", _attribute_Name_Options));
           result = false;
         }
       }
@@ -234,7 +234,7 @@
       } else {
         renderHint(bindingOptions);
       }
-      element.removeAttribute(_attribute_Name_Journey);
+      element.removeAttribute(_attribute_Name_Options);
     }
   }
   function renderHint(bindingOptions) {
