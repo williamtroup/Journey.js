@@ -58,9 +58,9 @@
     --journey-js-dialog-close-button-active-border-color: var(--journey-js-dialog-close-button-border-color);
 
     // Dialog - CheckBox
-    --journey-js-checkbox-background-color-checked: var(--journey-js-dialog-button-active-background-color);
+    --journey-js-checkbox-background-color-checked: var(--journey-js-dialog-button-border-color);
     --journey-js-checkbox-background-color: var(--journey-js-dialog-button-background-color);
-    --journey-js-checkbox-border-color-checked: --journey-js-checkbox-background-color-checked;
+    --journey-js-checkbox-border-color-checked: var(--journey-js-checkbox-background-color-checked);
     --journey-js-checkbox-border-color: var(--journey-js-dialog-button-border-color);
 
     // Borders
@@ -325,12 +325,12 @@ div.journey-js-dialog {
                 transform: rotate( 45deg );
                 position: absolute;
                 display: none;
-                left: 4.5px;
-                top: 1px;
+                left: 4px;
+                top: 0.5px;
                 width: 6px;
                 height: 11px;
-                border: solid var(--journey-js-color-black);
-                border-width: 0 3px 3px 0;
+                border: solid var(--journey-js-color-white);
+                border-width: 0 2.5px 2.5px 0;
             }
         }
     }
