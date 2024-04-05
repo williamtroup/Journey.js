@@ -319,37 +319,14 @@
     }
 
     function buildProgressDot( keyIndex ) {
-        var bindingOptions = _elements_Attributes_Json[ _elements_Attributes_Keys[ keyIndex ] ];
+        var bindingOptions = _elements_Attributes_Json[ _elements_Attributes_Keys[ keyIndex ] ],
+            dot = null;
 
         if ( keyIndex === _elements_Attributes_Position ) {
-            var activeDot = createElement( "div", "dot-active" );
-            _element_Dialog_ProgressDots.appendChild( activeDot );
-
-            if ( isDefinedString( bindingOptions.tooltip ) ) {
-                addToolTip( activeDot, bindingOptions.tooltip );
-            } else {
-                addToolTip( activeDot, bindingOptions.title );
-            }
-
-            if ( _configuration.showProgressDotNumbers ) {
-                activeDot.className += " dot-number";
-                activeDot.innerHTML = ( keyIndex + 1 ).toString();
-            }
-            
+            dot = createElement( "div", "dot-active" );
         } else {
-            var dot = createElement( "div", "dot" );
-            _element_Dialog_ProgressDots.appendChild( dot );
-
-            if ( isDefinedString( bindingOptions.tooltip ) ) {
-                addToolTip( dot, bindingOptions.tooltip );
-            } else {
-                addToolTip( dot, bindingOptions.title );
-            }
-
-            if ( _configuration.showProgressDotNumbers ) {
-                dot.className += " dot-number";
-                dot.innerHTML = ( keyIndex + 1 ).toString();
-            }
+            
+            dot = createElement( "div", "dot" );
     
             dot.onclick = function() {
                 removeFocusClassFromLastElement();
@@ -358,6 +335,19 @@
 
                 showDialogAndSetPosition();
             };
+        }
+
+        _element_Dialog_ProgressDots.appendChild( dot );
+
+        if ( isDefinedString( bindingOptions.tooltip ) ) {
+            addToolTip( dot, bindingOptions.tooltip );
+        } else {
+            addToolTip( dot, bindingOptions.title );
+        }
+
+        if ( _configuration.showProgressDotNumbers ) {
+            dot.className += " dot-number";
+            dot.innerHTML = ( keyIndex + 1 ).toString();
         }
     }
 
