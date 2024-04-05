@@ -120,6 +120,9 @@
       _element_Dialog.style.display = "block";
       fireCustomTrigger(bindingOptions.events.onOpen, bindingOptions.element);
     }
+    if (_elements_Attributes_Position === 0) {
+      fireCustomTrigger(bindingOptions.events.onStart, bindingOptions.element);
+    }
     if (bindingOptions.attach || bindingOptions.isHint) {
       if (bindingOptions.isHint && bindingOptions.alignHintToClickPosition) {
         showElementAtMousePosition(e, _element_Dialog);
@@ -324,6 +327,7 @@
     options.events.onClose = getDefaultFunction(options.events.onClose, null);
     options.events.onFinish = getDefaultFunction(options.events.onFinish, null);
     options.events.onOpen = getDefaultFunction(options.events.onOpen, null);
+    options.events.onStart = getDefaultFunction(options.events.onStart, null);
     return options;
   }
   function getBrowserUrlParameters() {
