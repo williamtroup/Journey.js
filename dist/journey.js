@@ -70,7 +70,11 @@
   function showDialogAndSetPosition() {
     var bindingOptions = _elements_Attributes_Json[_elements_Attributes_Keys[_elements_Attributes_Position]];
     if (isDefined(bindingOptions) && isDefined(bindingOptions.element)) {
-      showDisabledBackground();
+      if (bindingOptions.showDisabledBackground) {
+        showDisabledBackground();
+      } else {
+        hideDisabledBackground();
+      }
       _element_Dialog_Close_Button.style.display = _configuration.showCloseButton ? "block" : "none";
       _configuration_ShortcutKeysEnabled = true;
       bindingOptions.element.className += _string.space + "journey-js-element-focus";
@@ -304,6 +308,7 @@
     options.alignRight = getDefaultBoolean(options.alignRight, false);
     options.isHint = getDefaultBoolean(options.isHint, false);
     options.alignHintToClickPosition = getDefaultBoolean(options.alignHintToClickPosition, false);
+    options.showDisabledBackground = getDefaultBoolean(options.showDisabledBackground, true);
     options = buildAttributeOptionStrings(options);
     return buildAttributeOptionCustomTriggers(options);
   }
