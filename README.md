@@ -29,6 +29,7 @@ Journey.js
 - Browser URL parameters support (click [here](https://www.william-troup.com/journey-js/documentation/browser-parameters.html) to see the full list).
 - Hints support (not included in the main journey).
 - 51 language translations available!
+- Customizable tooltips.
 <br />
 <br />
 

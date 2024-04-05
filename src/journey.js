@@ -68,6 +68,10 @@
         _element_Dialog_Back_Button = null,
         _element_Dialog_Next_Button = null,
 
+        // Variables: Dialog
+        _element_ToolTip = null,
+        _element_ToolTip_Timer = null,
+
         // Variables: Attribute Names
         _attribute_Name_Options = "data-journey-js";
 
@@ -93,7 +97,7 @@
 
     /*
      * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-     * Dialog
+     * Render:  Dialog
      * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
      */
 
@@ -103,9 +107,10 @@
         _parameter_Document.body.appendChild( _element_Dialog );
 
         _element_Dialog_Close_Button = createElement( "button", "close" );
-        _element_Dialog_Close_Button.title = _configuration.closeButtonToolTipText;
         _element_Dialog_Close_Button.onclick = onDialogClose;
         _element_Dialog.appendChild( _element_Dialog_Close_Button );
+
+        addToolTip( _element_Dialog_Close_Button, _configuration.closeButtonToolTipText );
 
         _element_Dialog_Title = createElement( "div", "title" );
         _element_Dialog.appendChild( _element_Dialog_Title );
@@ -136,8 +141,8 @@
     function onDialogClose() {
         var bindingOptions = _elements_Attributes_Json[ _elements_Attributes_Keys[ _elements_Attributes_Position ] ];
 
-        if ( isDefined( bindingOptions ) && isDefined( bindingOptions.element ) ) {
-            fireCustomTrigger( bindingOptions.events.onClose, bindingOptions.element );
+        if ( isDefined( bindingOptions ) && isDefined( bindingOptions.currentView.element ) ) {
+            fireCustomTrigger( bindingOptions.events.onClose, bindingOptions.currentView.element );
         }
 
         if ( _configuration.showDoNotShowAgain ) {
@@ -146,6 +151,7 @@
 
         removeFocusClassFromLastElement( false );
         hideDisabledBackground();
+        hideToolTip();
 
         _element_Dialog.style.display = "none";
     }
@@ -165,7 +171,7 @@
             var bindingOptions = _elements_Attributes_Json[ _elements_Attributes_Keys[ _elements_Attributes_Position ] ];
 
             onDialogClose();
-            fireCustomTrigger( bindingOptions.events.onFinish, bindingOptions.element );
+            fireCustomTrigger( bindingOptions.events.onFinish, bindingOptions.currentView.element );
 
         } else {
             removeFocusClassFromLastElement();
@@ -179,23 +185,25 @@
     function showDialogAndSetPosition() {
         var bindingOptions = _elements_Attributes_Json[ _elements_Attributes_Keys[ _elements_Attributes_Position ] ];
 
-        if ( isDefined( bindingOptions ) && isDefined( bindingOptions.element ) ) {
+        if ( isDefined( bindingOptions ) && isDefined( bindingOptions.currentView.element ) ) {
             if ( bindingOptions.showDisabledBackground ) {
                 showDisabledBackground();
             } else {
                 hideDisabledBackground();
             }
+
+            hideToolTip();
             
             _element_Dialog_Close_Button.style.display = _configuration.showCloseButton ? "block": "none";
             _configuration_ShortcutKeysEnabled = true;
             
-            bindingOptions.element.className += _string.space + "journey-js-element-focus";
+            bindingOptions.currentView.element.className += _string.space + "journey-js-element-focus";
 
-            var lastPositionStyle = getStyleValueByName( bindingOptions.element, "position" );
+            var lastPositionStyle = getStyleValueByName( bindingOptions.currentView.element, "position" );
 
             if ( lastPositionStyle !== _string.empty && lastPositionStyle.toLowerCase() === "static" ) {
                 _element_Focus_Element_PositionStyle = lastPositionStyle;
-                bindingOptions.element.style.position = "relative";
+                bindingOptions.currentView.element.style.position = "relative";
             }
 
             showElementBasedOnCondition( _element_Dialog_CheckBox_Container, _configuration.showDoNotShowAgain );
@@ -214,10 +222,10 @@
             setDialogText( bindingOptions );
             setDialogPosition( null, bindingOptions );
             buildProcessDots();
-            fireCustomTrigger( bindingOptions.events.onEnter, bindingOptions.element );
+            fireCustomTrigger( bindingOptions.events.onEnter, bindingOptions.currentView.element );
 
             if ( bindingOptions.sendClick ) {
-                bindingOptions.element.click();
+                bindingOptions.currentView.element.click();
             }
         }
     }
@@ -242,11 +250,11 @@
         if ( _element_Dialog.style.display !== "block" ) {
             _element_Dialog.style.display = "block";
 
-            fireCustomTrigger( bindingOptions.events.onOpen, bindingOptions.element );
+            fireCustomTrigger( bindingOptions.events.onOpen, bindingOptions.currentView.element );
         }
 
         if ( _elements_Attributes_Position === 0 ) {
-            fireCustomTrigger( bindingOptions.events.onStart, bindingOptions.element );
+            fireCustomTrigger( bindingOptions.events.onStart, bindingOptions.currentView.element );
         }
 
         if ( bindingOptions.attach || bindingOptions.isHint ) {
@@ -254,17 +262,17 @@
                 showElementAtMousePosition( e, _element_Dialog );
 
             } else {
-                var offset = getOffset( bindingOptions.element ),
-                    top = ( offset.top - scrollPosition.top ) + bindingOptions.element.offsetHeight,
+                var offset = getOffset( bindingOptions.currentView.element ),
+                    top = ( offset.top - scrollPosition.top ) + bindingOptions.currentView.element.offsetHeight,
                     left = ( offset.left - scrollPosition.left );
 
                 if ( left + _element_Dialog.offsetWidth > _parameter_Window.innerWidth || bindingOptions.alignRight ) {
                     left -=  _element_Dialog.offsetWidth;
-                    left += bindingOptions.element.offsetWidth;
+                    left += bindingOptions.currentView.element.offsetWidth;
                 }
         
                 if ( top + _element_Dialog.offsetHeight > _parameter_Window.innerHeight || bindingOptions.alignTop ) {
-                    top -= ( _element_Dialog.offsetHeight + bindingOptions.element.offsetHeight );
+                    top -= ( _element_Dialog.offsetHeight + bindingOptions.currentView.element.offsetHeight );
                 }
 
                 _element_Dialog.style.top = top + "px";
@@ -285,15 +293,15 @@
 
         var bindingOptions = _elements_Attributes_Json[ _elements_Attributes_Keys[ _elements_Attributes_Position ] ];
 
-        if ( isDefined( bindingOptions ) && isDefined( bindingOptions.element ) ) {
-            bindingOptions.element.className = bindingOptions.element.className.replace( _string.space + "journey-js-element-focus", _string.empty );
+        if ( isDefined( bindingOptions ) && isDefined( bindingOptions.currentView.element ) ) {
+            bindingOptions.currentView.element.className = bindingOptions.currentView.element.className.replace( _string.space + "journey-js-element-focus", _string.empty );
 
             if ( isDefined( _element_Focus_Element_PositionStyle ) ) {
-                bindingOptions.element.style.position = _element_Focus_Element_PositionStyle;
+                bindingOptions.currentView.element.style.position = _element_Focus_Element_PositionStyle;
             }
 
             if ( callCustomTrigger ) {
-                fireCustomTrigger( bindingOptions.events.onLeave, bindingOptions.element );
+                fireCustomTrigger( bindingOptions.events.onLeave, bindingOptions.currentView.element );
             }
         }
     }
@@ -315,8 +323,9 @@
 
         if ( keyIndex === _elements_Attributes_Position ) {
             var activeDot = createElement( "div", "dot-active" );
-            activeDot.title = bindingOptions.title;
             _element_Dialog_ProgressDots.appendChild( activeDot );
+
+            addToolTip( activeDot, bindingOptions.title );
 
             if ( _configuration.showProgressDotNumbers ) {
                 activeDot.className += " dot-number";
@@ -325,8 +334,9 @@
             
         } else {
             var dot = createElement( "div", "dot" );
-            dot.title = bindingOptions.title;
             _element_Dialog_ProgressDots.appendChild( dot );
+
+            addToolTip( dot, bindingOptions.title );
 
             if ( _configuration.showProgressDotNumbers ) {
                 dot.className += " dot-number";
@@ -340,6 +350,63 @@
 
                 showDialogAndSetPosition();
             };
+        }
+    }
+
+
+    /*
+     * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+     * Render:  ToolTip
+     * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+     */
+
+    function renderToolTip() {
+        if ( !isDefined( _element_ToolTip ) ) {
+            _element_ToolTip = createElement( "div", "journey-js-tooltip" );
+            _element_ToolTip.style.display = "none";
+
+            _parameter_Document.body.appendChild( _element_ToolTip );
+    
+            _parameter_Document.body.addEventListener( "mousemove", function() {
+                hideToolTip();
+            } );
+    
+            _parameter_Document.addEventListener( "scroll", function() {
+                hideToolTip();
+            } );
+        }
+    }
+
+    function addToolTip( element, text ) {
+        if ( element !== null ) {
+            element.onmousemove = function( e ) {
+                showToolTip( e, text );
+            };
+        }
+    }
+
+    function showToolTip( e, text ) {
+        cancelBubble( e );
+        hideToolTip();
+
+        _element_ToolTip_Timer = setTimeout( function() {
+            _element_ToolTip.innerHTML = text;
+            _element_ToolTip.style.display = "block";
+
+            showElementAtMousePosition( e, _element_ToolTip );
+        }, _configuration.tooltipDelay );
+    }
+
+    function hideToolTip() {
+        if ( isDefined( _element_ToolTip ) ) {
+            if ( isDefined( _element_ToolTip_Timer ) ) {
+                clearTimeout( _element_ToolTip_Timer );
+                _element_ToolTip_Timer = null;
+            }
+    
+            if ( _element_ToolTip.style.display === "block" ) {
+                _element_ToolTip.style.display = "none";
+            }
         }
     }
 
@@ -400,7 +467,8 @@
     }
 
     function setupElement( element, bindingOptions ) {
-        bindingOptions.element = element;
+        bindingOptions.currentView = {};
+        bindingOptions.currentView.element = element;
 
         if ( isDefinedNumber( bindingOptions.order ) && ( isDefinedString( bindingOptions.title ) || isDefinedString( bindingOptions.description ) ) ) {
             if ( !bindingOptions.isHint ) {
@@ -415,14 +483,14 @@
     }
 
     function renderHint( bindingOptions ) {
-        var positionStyle = getStyleValueByName( bindingOptions.element, "position" );
+        var positionStyle = getStyleValueByName( bindingOptions.currentView.element, "position" );
 
         if ( positionStyle !== _string.empty && positionStyle.toLowerCase() === "static" ) {
-            bindingOptions.element.style.position = "relative";
+            bindingOptions.currentView.element.style.position = "relative";
         }
 
         var hint = createElement( "div", "journey-js-hint" );
-        bindingOptions.element.appendChild( hint );
+        bindingOptions.currentView.element.appendChild( hint );
 
         hint.onclick = function( e ) {
             cancelBubble( e );
@@ -1039,6 +1107,7 @@
         _configuration.showProgressDotNumbers = getDefaultBoolean( _configuration.showProgressDotNumbers, false );
         _configuration.showButtons = getDefaultBoolean( _configuration.showButtons, true );
         _configuration.showDoNotShowAgain = getDefaultBoolean( _configuration.showDoNotShowAgain, false );
+        _configuration.tooltipDelay = getDefaultNumber( _configuration.tooltipDelay, 750 );
 
         buildDefaultConfigurationStrings();
         buildDefaultConfigurationCustomTriggers();
@@ -1097,6 +1166,7 @@
         _parameter_Document.addEventListener( "DOMContentLoaded", function() {
             renderDisabledBackground();
             renderDialog();
+            renderToolTip();
             getElements();
             buildDocumentEvents();
 

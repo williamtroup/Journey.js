@@ -6,6 +6,9 @@
  */
 :root {
   --journey-js-default-font: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", "Noto Sans", "Liberation Sans", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  --journey-js-text-bold-weight: 100;
+  --journey-js-title-bold-weight: 700;
+  --journey-js-tooltip-bold-weight: 300;
   --journey-js-color-black: #3b3a3a;
   --journey-js-color-white: #F5F5F5;
   --journey-js-color-gray: #AAAAAA;
@@ -37,11 +40,16 @@
   --journey-js-checkbox-background-color: var(--journey-js-dialog-button-background-color);
   --journey-js-checkbox-border-color-checked: var(--journey-js-checkbox-background-color-checked);
   --journey-js-checkbox-border-color: var(--journey-js-dialog-button-border-color);
+  --journey-js-tooltip-background-color: var(--journey-js-dialog-background-color);
+  --journey-js-tooltip-border-color: var(--journey-js-dialog-border-color);
+  --journey-js-tooltip-text-color: var(--journey-js-color-white);
   --journey-js-border-control-radius: 0.25rem;
   --journey-js-border-radius: 0.5rem;
   --journey-js-border-size: 0.5px;
   --journey-js-spacing: 10px;
+  --journey-js-spacing-font-size: 0.9rem;
   --journey-js-transition: all .3s;
+  --journey-js-animation-length: 0.5s;
 }
 
 /*
@@ -56,6 +64,8 @@ div.journey-js-dialog {
   -o-user-select: none;
   user-select: none;
   cursor: default;
+  box-sizing: border-box;
+  line-height: normal;
   font-family: var(--journey-js-default-font);
   position: absolute;
   display: none;
@@ -64,12 +74,20 @@ div.journey-js-dialog {
   color: var(--journey-js-dialog-text-color);
   border: var(--journey-js-border-size) solid var(--journey-js-dialog-border-color);
   padding: var(--journey-js-spacing);
-  font-size: 0.9rem;
+  font-size: var(--journey-js-spacing-font-size);
   z-index: 1001;
   width: 300px;
   height: auto;
   transition: var(--journey-js-transition);
   transition-property: top, left;
+}
+div.journey-js-dialog * {
+  box-sizing: border-box;
+  line-height: normal;
+}
+div.journey-js-dialog *::before, div.journey-js-dialog *::after {
+  box-sizing: border-box;
+  line-height: normal;
 }
 div.journey-js-dialog button.close {
   position: absolute;
@@ -117,11 +135,11 @@ div.journey-js-dialog div:first-of-type {
 }
 div.journey-js-dialog div.title {
   font-size: large;
-  font-weight: 700;
+  font-weight: var(--journey-js-title-bold-weight);
   margin-bottom: var(--journey-js-spacing);
 }
 div.journey-js-dialog div.description {
-  font-weight: 100;
+  font-weight: var(--journey-js-text-bold-weight);
 }
 div.journey-js-dialog div.checkbox-container {
   margin-top: var(--journey-js-spacing);
@@ -217,7 +235,7 @@ div.journey-js-dialog div.buttons button.next:disabled {
   color: var(--journey-js-color-gray);
 }
 div.journey-js-dialog div.buttons button.next {
-  font-weight: 700;
+  font-weight: var(--journey-js-title-bold-weight);
 }
 
 /*
@@ -249,7 +267,7 @@ div.journey-js-dialog label.checkbox input:disabled ~ span.check-mark {
 }
 div.journey-js-dialog label.checkbox span.check-mark {
   position: absolute;
-  top: 2.5px;
+  top: 1.5px;
   left: 0;
   height: 15px;
   width: 15px;
@@ -317,4 +335,47 @@ div.journey-js-disabled-background {
 
 .journey-js-element-focus {
   z-index: 1001 !important;
+}
+
+/*
+    -------------------------------------------------------------------------
+    Journey.js - ToolTip
+    -------------------------------------------------------------------------
+*/
+div.journey-js-tooltip {
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  -o-user-select: none;
+  user-select: none;
+  cursor: default;
+  box-sizing: border-box;
+  line-height: normal;
+  font-family: var(--journey-js-default-font);
+  animation: fade-in-animation var(--journey-js-animation-length);
+  position: absolute;
+  background-color: var(--journey-js-tooltip-background-color);
+  border: var(--journey-js-border-size) solid var(--journey-js-tooltip-border-color);
+  color: var(--journey-js-tooltip-text-color);
+  border-radius: var(--journey-js-border-radius);
+  z-index: 2000;
+  max-width: 300px;
+  padding: var(--journey-js-spacing);
+  font-size: var(--journey-js-spacing-font-size);
+  font-weight: var(--journey-js-tooltip-bold-weight);
+  display: none;
+}
+
+/*
+    -------------------------------------------------------------------------
+    Journey.js - Animations
+    -------------------------------------------------------------------------
+*/
+@keyframes fade-in-animation {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
 }/*# sourceMappingURL=journey.js.css.map */
