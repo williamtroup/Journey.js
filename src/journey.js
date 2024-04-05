@@ -325,7 +325,11 @@
             var activeDot = createElement( "div", "dot-active" );
             _element_Dialog_ProgressDots.appendChild( activeDot );
 
-            addToolTip( activeDot, bindingOptions.title );
+            if ( isDefinedString( bindingOptions.tooltip ) ) {
+                addToolTip( activeDot, bindingOptions.tooltip );
+            } else {
+                addToolTip( activeDot, bindingOptions.title );
+            }
 
             if ( _configuration.showProgressDotNumbers ) {
                 activeDot.className += " dot-number";
@@ -336,7 +340,11 @@
             var dot = createElement( "div", "dot" );
             _element_Dialog_ProgressDots.appendChild( dot );
 
-            addToolTip( dot, bindingOptions.title );
+            if ( isDefinedString( bindingOptions.tooltip ) ) {
+                addToolTip( dot, bindingOptions.tooltip );
+            } else {
+                addToolTip( dot, bindingOptions.title );
+            }
 
             if ( _configuration.showProgressDotNumbers ) {
                 dot.className += " dot-number";
@@ -602,6 +610,7 @@
     function buildAttributeOptionStrings( options ) {
         options.title = getDefaultString( options.title, null );
         options.description = getDefaultString( options.description, null );
+        options.tooltip = getDefaultString( options.tooltip, null );
 
         return options;
     }
