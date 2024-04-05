@@ -96,6 +96,8 @@ div.journey-js-dialog {
     z-index: 1001;
     width: 300px;
     height: auto;
+    transition: var(--journey-js-transition);
+    transition-property: top, left;
 
     button.close {
         position: absolute;
