@@ -17,7 +17,7 @@
         </div>
 
         <div class="contents">
-            <button class="btn btn-primary" data-journey-js="{ 'title': 'Button 4', 'description': 'This is a description for button 4.', 'order': 4, 'attach': false, 'showDisabledBackground': false }">Test Button 4</button>
+            <button class="btn btn-primary" data-journey-js="{ 'title': 'Button 4', 'description': 'This is a description for button 4.', 'order': 4, 'attach': false, 'showDisabledBackground': false }" id="button-4">Test Button 4</button>
             <button class="btn btn-primary" data-journey-js="{ 'title': 'Button 1', 'description': 'This is a description for button 1.', 'order': 1 }">Test Button 1</button>
             <button class="btn btn-primary" data-journey-js="{ 'title': 'Button 5', 'description': 'This is a description for button 5.', 'order': 5 }">Test Button 5</button>
             <button class="btn btn-primary" data-journey-js="{ 'title': 'Button 3', 'description': 'This is a description for button 3.', 'order': 3 }">Test Button 3</button>
@@ -33,8 +33,10 @@
             <button class="btn btn-primary" data-journey-js="{ 'isHint': true, 'title': 'Is Complete', 'description': 'States if the journey is complete.', 'alignHintToClickPosition': true }" onclick="console.log( $journey.isComplete() );">Is Complete</button>
             <br />
 
-            <h2>Add Step:</h2>
-            <button id="addStep" class="btn btn-primary" onclick="addStepToJourney();">Add Step</button>
+            <h2>Manage Steps:</h2>
+            <button id="add-step" class="btn btn-primary" onclick="addStepToJourney();">Add Step</button>
+            <button class="btn btn-primary" onclick="removeStepFromJourney1();">Remove Step (hint)</button>
+            <button class="btn btn-primary" onclick="removeStepFromJourney2();">Remove Step (step)</button>
             <br />
 
             <h2>Configuration:</h2>
@@ -61,11 +63,19 @@
         }
 
         function addStepToJourney() {
-            $journey.addStep( document.getElementById( "addStep" ), { 
+            $journey.addStep( document.getElementById( "add-step" ), { 
                 isHint: true,
                 title: 'Add Step',
                 description: 'Adds a new step to the journey.'
             } );
+        }
+
+        function removeStepFromJourney1() {
+            $journey.removeStep( document.getElementById( "add-step" ) );
+        }
+
+        function removeStepFromJourney2() {
+            $journey.removeStep( document.getElementById( "button-4" ) );
         }
 
         $journey.setConfiguration( {

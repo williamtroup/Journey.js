@@ -164,12 +164,12 @@
     if (_configuration.showProgressDots) {
       var keysLength = _elements_Attributes_Keys.length;
       for (var keyIndex = 0; keyIndex < keysLength; keyIndex++) {
-        buildProgressDot(keyIndex);
+        buildProgressDot(keyIndex, _elements_Attributes_Keys[keyIndex]);
       }
     }
   }
-  function buildProgressDot(keyIndex) {
-    var bindingOptions = _elements_Attributes_Json[_elements_Attributes_Keys[keyIndex]], dot = null;
+  function buildProgressDot(keyIndex, order) {
+    var bindingOptions = _elements_Attributes_Json[order], dot = null;
     if (keyIndex === _elements_Attributes_Position) {
       dot = createElement("div", "dot-active");
     } else {
@@ -272,14 +272,14 @@
     bindingOptions.currentView = {};
     bindingOptions.currentView.element = element;
     if (isDefinedNumber(bindingOptions.order) && (isDefinedString(bindingOptions.title) || isDefinedString(bindingOptions.description))) {
+      element.removeAttribute(_attribute_Name_Options);
       if (!bindingOptions.isHint) {
         _elements_Attributes_Json[bindingOptions.order] = bindingOptions;
         _elements_Attributes_Keys.push(bindingOptions.order);
+        fireCustomTrigger(bindingOptions.events.onAddStep, element);
       } else {
         renderHint(bindingOptions);
       }
-      fireCustomTrigger(bindingOptions.events.onAddStep, element);
-      element.removeAttribute(_attribute_Name_Options);
     }
   }
   function renderHint(bindingOptions) {
@@ -374,6 +374,7 @@
     options.events.onOpen = getDefaultFunction(options.events.onOpen, null);
     options.events.onStart = getDefaultFunction(options.events.onStart, null);
     options.events.onAddStep = getDefaultFunction(options.events.onAddStep, null);
+    options.events.onRemoveStep = getDefaultFunction(options.events.onRemoveStep, null);
     return options;
   }
   function getBrowserUrlParameters() {
@@ -609,6 +610,32 @@
       if (_public.isOpen()) {
         onDialogClose();
         _elements_Attributes_Position = 0;
+      }
+    }
+    return _public;
+  };
+  _public.removeStep = function(element) {
+    if (isDefinedObject(element)) {
+      var removed = false;
+      for (var order in _elements_Attributes_Json) {
+        if (_elements_Attributes_Json.hasOwnProperty(order)) {
+          var bindingOptions = _elements_Attributes_Json[order];
+          if (bindingOptions.currentView.element === element) {
+            fireCustomTrigger(bindingOptions.events.onRemoveStep, bindingOptions.currentView.element);
+            _elements_Attributes_Keys.splice(_elements_Attributes_Keys.indexOf(bindingOptions.order), 1);
+            delete _elements_Attributes_Json[bindingOptions.order];
+            _elements_Attributes_Keys.sort();
+            removed = true;
+            break;
+          }
+        }
+      }
+      if (!removed) {
+        var elements = element.getElementsByClassName("journey-js-hint");
+        while (elements[0]) {
+          elements[0].parentNode.removeChild(elements[0]);
+          removed = true;
+        }
       }
     }
     return _public;
