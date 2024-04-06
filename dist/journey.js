@@ -181,10 +181,12 @@
       };
     }
     _element_Dialog_ProgressDots.appendChild(dot);
-    if (isDefinedString(bindingOptions.tooltip)) {
-      addToolTip(dot, bindingOptions.tooltip);
-    } else {
-      addToolTip(dot, bindingOptions.title);
+    if (_configuration.showProgressDotToolTips) {
+      if (isDefinedString(bindingOptions.tooltip)) {
+        addToolTip(dot, bindingOptions.tooltip);
+      } else {
+        addToolTip(dot, bindingOptions.title);
+      }
     }
     if (_configuration.showProgressDotNumbers) {
       dot.className += " dot-number";
@@ -631,6 +633,7 @@
     _configuration.showButtons = getDefaultBoolean(_configuration.showButtons, true);
     _configuration.showDoNotShowAgain = getDefaultBoolean(_configuration.showDoNotShowAgain, false);
     _configuration.tooltipDelay = getDefaultNumber(_configuration.tooltipDelay, 750);
+    _configuration.showProgressDotToolTips = getDefaultBoolean(_configuration.showProgressDotToolTips, true);
     buildDefaultConfigurationStrings();
     buildDefaultConfigurationCustomTriggers();
   }
