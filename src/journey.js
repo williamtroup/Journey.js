@@ -1067,14 +1067,16 @@
      * @returns     {Object}                                                The Journey.js class instance.
      */
     _public.addStep = function( element, options ) {
-        setupElement( element, buildAttributeOptions( options ) );
+        if ( isDefinedObject( element ) && isDefinedObject( options ) ) {
+            setupElement( element, buildAttributeOptions( options ) );
 
-        _elements_Attributes_Keys.sort();
-
-        if ( _public.isOpen() ) {
-            onDialogClose();
-
-            _elements_Attributes_Position = 0;
+            _elements_Attributes_Keys.sort();
+    
+            if ( _public.isOpen() ) {
+                onDialogClose();
+    
+                _elements_Attributes_Position = 0;
+            }
         }
 
         return _public;

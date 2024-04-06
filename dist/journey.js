@@ -603,11 +603,13 @@
     return _elements_Attributes_Position >= _elements_Attributes_Keys.length - 1;
   };
   _public.addStep = function(element, options) {
-    setupElement(element, buildAttributeOptions(options));
-    _elements_Attributes_Keys.sort();
-    if (_public.isOpen()) {
-      onDialogClose();
-      _elements_Attributes_Position = 0;
+    if (isDefinedObject(element) && isDefinedObject(options)) {
+      setupElement(element, buildAttributeOptions(options));
+      _elements_Attributes_Keys.sort();
+      if (_public.isOpen()) {
+        onDialogClose();
+        _elements_Attributes_Position = 0;
+      }
     }
     return _public;
   };
