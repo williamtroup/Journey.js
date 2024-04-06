@@ -474,6 +474,7 @@
             if ( !bindingOptions.isHint ) {
                 _elements_Attributes_Json[ bindingOptions.order ] = bindingOptions;
                 _elements_Attributes_Keys.push( bindingOptions.order );
+                
             } else {
                 renderHint( bindingOptions );
             }
