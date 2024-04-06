@@ -278,6 +278,7 @@
       } else {
         renderHint(bindingOptions);
       }
+      fireCustomTrigger(bindingOptions.events.onAddStep, element);
       element.removeAttribute(_attribute_Name_Options);
     }
   }
@@ -372,6 +373,7 @@
     options.events.onFinish = getDefaultFunction(options.events.onFinish, null);
     options.events.onOpen = getDefaultFunction(options.events.onOpen, null);
     options.events.onStart = getDefaultFunction(options.events.onStart, null);
+    options.events.onAddStep = getDefaultFunction(options.events.onAddStep, null);
     return options;
   }
   function getBrowserUrlParameters() {

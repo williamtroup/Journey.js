@@ -474,10 +474,12 @@
             if ( !bindingOptions.isHint ) {
                 _elements_Attributes_Json[ bindingOptions.order ] = bindingOptions;
                 _elements_Attributes_Keys.push( bindingOptions.order );
-                
+
             } else {
                 renderHint( bindingOptions );
             }
+
+            fireCustomTrigger( bindingOptions.events.onAddStep, element );
 
             element.removeAttribute( _attribute_Name_Options );
         }
@@ -616,6 +618,7 @@
         options.events.onFinish = getDefaultFunction( options.events.onFinish, null );
         options.events.onOpen = getDefaultFunction( options.events.onOpen, null );
         options.events.onStart = getDefaultFunction( options.events.onStart, null );
+        options.events.onAddStep = getDefaultFunction( options.events.onAddStep, null );
 
         return options;
     }
@@ -1056,6 +1059,7 @@
      * Adds a new step to the journey for a specific element.
      * 
      * @public
+     * @fires       onAddStep
      * 
      * @param       {Object}   element                                      The element that should be added to the journey.
      * @param       {Object}   options                                      The options to use for this step in the journey (refer to "Binding Options" documentation for properties).
