@@ -524,7 +524,7 @@
     }
 
     function onWindowKeyDown( e ) {
-        if ( _public.isOpen() ) {
+        if ( _public.isOpen() && _configuration.shortcutKeysEnabled ) {
             if ( e.keyCode === _enum_KeyCodes.escape ) {
                 e.preventDefault();
                 onDialogClose();
