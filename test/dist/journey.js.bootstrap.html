@@ -17,7 +17,7 @@
         </div>
 
         <div class="contents">
-            <button class="btn btn-primary" data-journey-js="{ 'title': 'Button 4', 'description': 'This is a description for button 4.', 'order': 4, 'attach': false }">Test Button 4</button>
+            <button class="btn btn-primary" data-journey-js="{ 'title': 'Button 4', 'description': 'This is a description for button 4.', 'order': 4, 'attach': false, 'showDisabledBackground': false }">Test Button 4</button>
             <button class="btn btn-primary" data-journey-js="{ 'title': 'Button 1', 'description': 'This is a description for button 1.', 'order': 1 }">Test Button 1</button>
             <button class="btn btn-primary" data-journey-js="{ 'title': 'Button 5', 'description': 'This is a description for button 5.', 'order': 5 }">Test Button 5</button>
             <button class="btn btn-primary" data-journey-js="{ 'title': 'Button 3', 'description': 'This is a description for button 3.', 'order': 3 }">Test Button 3</button>
@@ -69,7 +69,10 @@
         }
 
         $journey.setConfiguration( {
-            showDoNotShowAgain: true
+            showDoNotShowAgain: true,
+            showProgressDotNumbers: false,
+            shortcutKeysEnabled: true,
+            showProgressDotToolTips: true
         } );
     </script>
 </html>

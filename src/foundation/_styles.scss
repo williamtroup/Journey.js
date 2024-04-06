@@ -6,3 +6,8 @@
     user-select: none;
     cursor: default;
 }
+
+@mixin box-sizing {
+    box-sizing: border-box;
+    line-height: normal;
+}
