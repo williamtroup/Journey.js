@@ -1,4 +1,4 @@
-/*! Journey.js v1.3.0 - Danish | (c) Bunoon 2024 | MIT License */
+/*! Journey.js v1.4.0 - Danish | (c) Bunoon 2024 | MIT License */
 $journey.setConfiguration( {
         "backButtonText": "Tilbage",
         "nextButtonText": "Næste",
