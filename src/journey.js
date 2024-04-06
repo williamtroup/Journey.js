@@ -968,11 +968,15 @@
      * Starts the Journey from the beginning.
      * 
      * @public
+     * 
+     * @returns     {Object}                                                The Journey.js class instance.
      */
     _public.start = function() {
         _elements_Attributes_Position = 0;
 
         showDialogAndSetPosition();
+
+        return _public;
     };
 
     /**
@@ -981,6 +985,8 @@
      * Shows the Journey.js dialog for the element in the last known position (defaults to the start).
      * 
      * @public
+     * 
+     * @returns     {Object}                                                The Journey.js class instance.
      */
     _public.show = function() {
         if ( _elements_Attributes_Position === _elements_Attributes_Keys.length - 1 ) {
@@ -988,6 +994,8 @@
         }
 
         showDialogAndSetPosition();
+
+        return _public;
     };
 
     /**
@@ -996,9 +1004,13 @@
      * Hides the Journey.js dialog.
      * 
      * @public
+     * 
+     * @returns     {Object}                                                The Journey.js class instance.
      */
     _public.hide = function() {
         onDialogClose();
+
+        return _public;
     };
 
     /**

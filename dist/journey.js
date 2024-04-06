@@ -581,15 +581,18 @@
   _public.start = function() {
     _elements_Attributes_Position = 0;
     showDialogAndSetPosition();
+    return _public;
   };
   _public.show = function() {
     if (_elements_Attributes_Position === _elements_Attributes_Keys.length - 1) {
       _elements_Attributes_Position = 0;
     }
     showDialogAndSetPosition();
+    return _public;
   };
   _public.hide = function() {
     onDialogClose();
+    return _public;
   };
   _public.isOpen = function() {
     return isDefined(_element_Dialog) && _element_Dialog.style.display === "block";
