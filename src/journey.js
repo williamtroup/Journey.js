@@ -968,6 +968,7 @@
      * Starts the Journey from the beginning.
      * 
      * @public
+     * @fires       onStart
      * 
      * @returns     {Object}                                                The Journey.js class instance.
      */
@@ -985,6 +986,7 @@
      * Shows the Journey.js dialog for the element in the last known position (defaults to the start).
      * 
      * @public
+     * @fires       onOpen
      * 
      * @returns     {Object}                                                The Journey.js class instance.
      */
@@ -1004,6 +1006,7 @@
      * Hides the Journey.js dialog.
      * 
      * @public
+     * @fires       onClose
      * 
      * @returns     {Object}                                                The Journey.js class instance.
      */
