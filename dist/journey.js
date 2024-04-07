@@ -16,8 +16,10 @@
     _element_Dialog.style.display = "none";
     _parameter_Document.body.appendChild(_element_Dialog);
     _element_Dialog_Close_Button = createElement("button", "close");
-    _element_Dialog_Close_Button.onclick = onDialogClose;
     _element_Dialog.appendChild(_element_Dialog_Close_Button);
+    _element_Dialog_Close_Button.onclick = function() {
+      onDialogClose();
+    };
     addToolTip(_element_Dialog_Close_Button, _configuration.closeButtonToolTipText);
     _element_Dialog_Title = createElement("div", "title");
     _element_Dialog.appendChild(_element_Dialog_Title);
@@ -37,18 +39,27 @@
     _element_Dialog_Next_Button.onclick = onDialogNext;
     _element_Dialog_Buttons.appendChild(_element_Dialog_Next_Button);
   }
-  function onDialogClose() {
-    var bindingOptions = _elements_Attributes_Json[_elements_Attributes_Keys[_elements_Attributes_Position]];
-    if (isDefined(bindingOptions) && isDefined(bindingOptions.currentView.element)) {
-      fireCustomTrigger(bindingOptions.events.onClose, bindingOptions.currentView.element);
+  function onDialogClose(showConfirmationBox) {
+    var confirmed = false;
+    showConfirmationBox = getDefaultBoolean(showConfirmationBox, true);
+    if (isDefinedString(_configuration.closeDialogConfirmationText) && showConfirmationBox) {
+      confirmed = confirm(_configuration.closeDialogConfirmationText);
+    } else {
+      confirmed = true;
     }
-    if (_configuration.showDoNotShowAgain) {
-      fireCustomTrigger(_configuration.onDoNotShowAgainChange, _element_Dialog_CheckBox_Input.checked);
+    if (confirmed) {
+      var bindingOptions = _elements_Attributes_Json[_elements_Attributes_Keys[_elements_Attributes_Position]];
+      if (isDefined(bindingOptions) && isDefined(bindingOptions.currentView.element)) {
+        fireCustomTrigger(bindingOptions.events.onClose, bindingOptions.currentView.element);
+      }
+      if (_configuration.showDoNotShowAgain) {
+        fireCustomTrigger(_configuration.onDoNotShowAgainChange, _element_Dialog_CheckBox_Input.checked);
+      }
+      removeFocusClassFromLastElement(false);
+      hideDisabledBackground();
+      hideToolTip();
+      _element_Dialog.style.display = "none";
     }
-    removeFocusClassFromLastElement(false);
-    hideDisabledBackground();
-    hideToolTip();
-    _element_Dialog.style.display = "none";
   }
   function onDialogBack() {
     if (_elements_Attributes_Position > 0) {
@@ -60,7 +71,7 @@
   function onDialogNext() {
     if (_elements_Attributes_Position === _elements_Attributes_Keys.length - 1) {
       var bindingOptions = _elements_Attributes_Json[_elements_Attributes_Keys[_elements_Attributes_Position]];
-      onDialogClose();
+      onDialogClose(false);
       fireCustomTrigger(bindingOptions.events.onFinish, bindingOptions.currentView.element);
     } else {
       removeFocusClassFromLastElement();
@@ -664,7 +675,7 @@
   };
   function resetDialogPosition() {
     if (_public.isOpen()) {
-      onDialogClose();
+      onDialogClose(false);
       _elements_Attributes_Position = 0;
     }
   }
@@ -708,6 +719,7 @@
     _configuration.objectErrorText = getDefaultString(_configuration.objectErrorText, "Errors in object: {{error_1}}, {{error_2}}");
     _configuration.attributeNotValidErrorText = getDefaultString(_configuration.attributeNotValidErrorText, "The attribute '{{attribute_name}}' is not a valid object.");
     _configuration.attributeNotSetErrorText = getDefaultString(_configuration.attributeNotSetErrorText, "The attribute '{{attribute_name}}' has not been set correctly.");
+    _configuration.closeDialogConfirmationText = getDefaultString(_configuration.closeDialogConfirmationText, null);
   }
   function buildDefaultConfigurationCustomTriggers() {
     _configuration.onDoNotShowAgainChange = getDefaultFunction(_configuration.onDoNotShowAgainChange, null);
