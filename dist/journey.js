@@ -640,6 +640,17 @@
     }
     return _public;
   };
+  _public.clearSteps = function() {
+    for (var order in _elements_Attributes_Json) {
+      if (_elements_Attributes_Json.hasOwnProperty(order)) {
+        var bindingOptions = _elements_Attributes_Json[order];
+        fireCustomTrigger(bindingOptions.events.onRemoveStep, bindingOptions.currentView.element);
+      }
+    }
+    _elements_Attributes_Json = {};
+    _elements_Attributes_Keys = [];
+    return _public;
+  };
   _public.setConfiguration = function(newConfiguration) {
     if (isDefinedObject(newConfiguration)) {
       var configurationHasChanged = false;

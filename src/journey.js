@@ -1131,6 +1131,31 @@
         return _public;
     };
 
+    /**
+     * clearSteps().
+     * 
+     * Clears all the steps from the journey.
+     * 
+     * @public
+     * @fires       onRemoveStep
+     * 
+     * @returns     {Object}                                                The Journey.js class instance.
+     */
+    _public.clearSteps = function() {
+        for ( var order in _elements_Attributes_Json ) {
+            if ( _elements_Attributes_Json.hasOwnProperty( order ) ) {
+                var bindingOptions = _elements_Attributes_Json[ order ];
+
+                fireCustomTrigger( bindingOptions.events.onRemoveStep, bindingOptions.currentView.element );
+            }
+        }
+
+        _elements_Attributes_Json = {};
+        _elements_Attributes_Keys = [];
+
+        return _public;
+    };
+
 
     /*
      * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
