@@ -1084,6 +1084,22 @@
      */
 
     /**
+     * addDocumentSteps().
+     * 
+     * Finds all new elements that contain the binding attribute and adds them as new steps.
+     * 
+     * @public
+     * @fires       onAddStep
+     * 
+     * @returns     {Object}                                                The Journey.js class instance.
+     */
+    _public.addDocumentSteps = function() {
+        getElements();
+
+        return _public;
+    };
+
+    /**
      * addStep().
      * 
      * Adds a new step to the journey for a specific element.

@@ -625,6 +625,10 @@
   _public.isComplete = function() {
     return _elements_Attributes_Position >= _elements_Attributes_Keys.length - 1;
   };
+  _public.addDocumentSteps = function() {
+    getElements();
+    return _public;
+  };
   _public.addStep = function(element, options) {
     if (isDefinedObject(element) && isDefinedObject(options)) {
       setupElement(element, buildAttributeOptions(options));
