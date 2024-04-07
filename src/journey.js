@@ -1188,6 +1188,21 @@
         return _public;
     };
 
+    /**
+     * reverseStepOrder().
+     * 
+     * Reverses the order the steps in the journey should in.
+     * 
+     * @public
+     * 
+     * @returns     {Object}                                                The Journey.js class instance.
+     */
+    _public.reverseStepOrder = function() {
+        _elements_Attributes_Keys.reverse();
+
+        return _public;
+    };
+
 
     /*
      * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------

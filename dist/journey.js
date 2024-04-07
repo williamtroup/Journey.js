@@ -667,6 +667,10 @@
     }
     return _public;
   };
+  _public.reverseStepOrder = function() {
+    _elements_Attributes_Keys.reverse();
+    return _public;
+  };
   _public.setConfiguration = function(newConfiguration) {
     if (isDefinedObject(newConfiguration)) {
       var configurationHasChanged = false;
