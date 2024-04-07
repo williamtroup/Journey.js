@@ -1134,7 +1134,7 @@
     /**
      * clearSteps().
      * 
-     * Clears all the steps from the journey.
+     * Removes all the steps from the journey.
      * 
      * @public
      * @fires       onRemoveStep
@@ -1152,6 +1152,25 @@
 
         _elements_Attributes_Json = {};
         _elements_Attributes_Keys = [];
+
+        return _public;
+    };
+
+    /**
+     * clearHints().
+     * 
+     * Removes all the hints.
+     * 
+     * @public
+     * 
+     * @returns     {Object}                                                The Journey.js class instance.
+     */
+    _public.clearHints = function() {
+        var elements = _parameter_Document.body.getElementsByClassName( "journey-js-hint" );
+
+        while ( elements[ 0 ] ) {
+            elements[ 0 ].parentNode.removeChild( elements[ 0 ] );
+        }
 
         return _public;
     };

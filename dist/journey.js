@@ -651,6 +651,13 @@
     _elements_Attributes_Keys = [];
     return _public;
   };
+  _public.clearHints = function() {
+    var elements = _parameter_Document.body.getElementsByClassName("journey-js-hint");
+    while (elements[0]) {
+      elements[0].parentNode.removeChild(elements[0]);
+    }
+    return _public;
+  };
   _public.setConfiguration = function(newConfiguration) {
     if (isDefinedObject(newConfiguration)) {
       var configurationHasChanged = false;
