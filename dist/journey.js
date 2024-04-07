@@ -1,9 +1,14 @@
-/*! Journey.js v1.3.0 | (c) Bunoon 2024 | MIT License */
+/*! Journey.js v1.4.0 | (c) Bunoon 2024 | MIT License */
 (function() {
   var _parameter_Document = null, _parameter_Window = null, _parameter_Math = null, _parameter_Json = null, _public = {}, _configuration = {}, _configuration_ShortcutKeysEnabled = true, _enum_KeyCodes = {escape:27, left:37, up:38, right:39, down:40}, _string = {empty:"", space:" "}, _elements_Type = {}, _elements_Attributes_Json = {}, _elements_Attributes_Keys = [], _elements_Attributes_Position = 0, _element_Focus_Element_PositionStyle = null, _element_Disabled_Background = null, _element_Dialog = 
   null, _element_Dialog_Close_Button = null, _element_Dialog_Title = null, _element_Dialog_Description = null, _element_Dialog_CheckBox_Container = null, _element_Dialog_CheckBox_Input = null, _element_Dialog_ProgressDots = null, _element_Dialog_Buttons = null, _element_Dialog_Back_Button = null, _element_Dialog_Next_Button = null, _element_ToolTip = null, _element_ToolTip_Timer = null, _attribute_Name_Options = "data-journey-js";
   function renderDisabledBackground() {
     _element_Disabled_Background = createElement("div", "journey-js-disabled-background");
+    _element_Disabled_Background.onclick = function() {
+      if (_configuration.closeDialogOnDisabledBackgroundClick) {
+        onDialogClose();
+      }
+    };
   }
   function showDisabledBackground() {
     addNode(_parameter_Document.body, _element_Disabled_Background);
@@ -16,8 +21,10 @@
     _element_Dialog.style.display = "none";
     _parameter_Document.body.appendChild(_element_Dialog);
     _element_Dialog_Close_Button = createElement("button", "close");
-    _element_Dialog_Close_Button.onclick = onDialogClose;
     _element_Dialog.appendChild(_element_Dialog_Close_Button);
+    _element_Dialog_Close_Button.onclick = function() {
+      onDialogClose();
+    };
     addToolTip(_element_Dialog_Close_Button, _configuration.closeButtonToolTipText);
     _element_Dialog_Title = createElement("div", "title");
     _element_Dialog.appendChild(_element_Dialog_Title);
@@ -37,18 +44,27 @@
     _element_Dialog_Next_Button.onclick = onDialogNext;
     _element_Dialog_Buttons.appendChild(_element_Dialog_Next_Button);
   }
-  function onDialogClose() {
-    var bindingOptions = _elements_Attributes_Json[_elements_Attributes_Keys[_elements_Attributes_Position]];
-    if (isDefined(bindingOptions) && isDefined(bindingOptions.currentView.element)) {
-      fireCustomTrigger(bindingOptions.events.onClose, bindingOptions.currentView.element);
+  function onDialogClose(showConfirmationBox) {
+    var confirmed = false;
+    showConfirmationBox = getDefaultBoolean(showConfirmationBox, true);
+    if (isDefinedString(_configuration.closeDialogConfirmationText) && showConfirmationBox) {
+      confirmed = confirm(_configuration.closeDialogConfirmationText);
+    } else {
+      confirmed = true;
     }
-    if (_configuration.showDoNotShowAgain) {
-      fireCustomTrigger(_configuration.onDoNotShowAgainChange, _element_Dialog_CheckBox_Input.checked);
+    if (confirmed) {
+      var bindingOptions = _elements_Attributes_Json[_elements_Attributes_Keys[_elements_Attributes_Position]];
+      if (isDefined(bindingOptions) && isDefined(bindingOptions.currentView.element)) {
+        fireCustomTrigger(bindingOptions.events.onClose, bindingOptions.currentView.element);
+      }
+      if (_configuration.showDoNotShowAgain) {
+        fireCustomTrigger(_configuration.onDoNotShowAgainChange, _element_Dialog_CheckBox_Input.checked);
+      }
+      removeFocusClassFromLastElement(false);
+      hideDisabledBackground();
+      hideToolTip();
+      _element_Dialog.style.display = "none";
     }
-    removeFocusClassFromLastElement(false);
-    hideDisabledBackground();
-    hideToolTip();
-    _element_Dialog.style.display = "none";
   }
   function onDialogBack() {
     if (_elements_Attributes_Position > 0) {
@@ -60,7 +76,7 @@
   function onDialogNext() {
     if (_elements_Attributes_Position === _elements_Attributes_Keys.length - 1) {
       var bindingOptions = _elements_Attributes_Json[_elements_Attributes_Keys[_elements_Attributes_Position]];
-      onDialogClose();
+      onDialogClose(false);
       fireCustomTrigger(bindingOptions.events.onFinish, bindingOptions.currentView.element);
     } else {
       removeFocusClassFromLastElement();
@@ -117,7 +133,6 @@
     }
   }
   function setDialogPosition(e, bindingOptions) {
-    var scrollPosition = getScrollPosition();
     if (_element_Dialog.style.display !== "block") {
       _element_Dialog.style.display = "block";
       fireCustomTrigger(bindingOptions.events.onOpen, bindingOptions.currentView.element);
@@ -129,7 +144,7 @@
       if (bindingOptions.isHint && bindingOptions.alignHintToClickPosition) {
         showElementAtMousePosition(e, _element_Dialog);
       } else {
-        var offset = getOffset(bindingOptions.currentView.element), top = offset.top - scrollPosition.top + bindingOptions.currentView.element.offsetHeight, left = offset.left - scrollPosition.left;
+        var offset = getOffset(bindingOptions.currentView.element), top = offset.top + bindingOptions.currentView.element.offsetHeight, left = offset.left;
         if (left + _element_Dialog.offsetWidth > _parameter_Window.innerWidth || bindingOptions.alignRight) {
           left -= _element_Dialog.offsetWidth;
           left += bindingOptions.currentView.element.offsetWidth;
@@ -141,7 +156,7 @@
         _element_Dialog.style.left = left + "px";
       }
     } else {
-      var centerLeft = _parameter_Math.max(0, (_parameter_Window.innerWidth - _element_Dialog.offsetWidth) / 2 + scrollPosition.left), centerTop = _parameter_Math.max(0, (_parameter_Window.innerHeight - _element_Dialog.offsetHeight) / 2 + scrollPosition.top);
+      var scrollPosition = getScrollPosition(), centerLeft = _parameter_Math.max(0, (_parameter_Window.innerWidth - _element_Dialog.offsetWidth) / 2 + scrollPosition.left), centerTop = _parameter_Math.max(0, (_parameter_Window.innerHeight - _element_Dialog.offsetHeight) / 2 + scrollPosition.top);
       _element_Dialog.style.left = centerLeft + "px";
       _element_Dialog.style.top = centerTop + "px";
     }
@@ -164,12 +179,12 @@
     if (_configuration.showProgressDots) {
       var keysLength = _elements_Attributes_Keys.length;
       for (var keyIndex = 0; keyIndex < keysLength; keyIndex++) {
-        buildProgressDot(keyIndex);
+        buildProgressDot(keyIndex, _elements_Attributes_Keys[keyIndex]);
       }
     }
   }
-  function buildProgressDot(keyIndex) {
-    var bindingOptions = _elements_Attributes_Json[_elements_Attributes_Keys[keyIndex]], dot = null;
+  function buildProgressDot(keyIndex, order) {
+    var bindingOptions = _elements_Attributes_Json[order], dot = null;
     if (keyIndex === _elements_Attributes_Position) {
       dot = createElement("div", "dot-active");
     } else {
@@ -272,13 +287,14 @@
     bindingOptions.currentView = {};
     bindingOptions.currentView.element = element;
     if (isDefinedNumber(bindingOptions.order) && (isDefinedString(bindingOptions.title) || isDefinedString(bindingOptions.description))) {
+      element.removeAttribute(_attribute_Name_Options);
       if (!bindingOptions.isHint) {
         _elements_Attributes_Json[bindingOptions.order] = bindingOptions;
         _elements_Attributes_Keys.push(bindingOptions.order);
+        fireCustomTrigger(bindingOptions.events.onAddStep, element);
       } else {
         renderHint(bindingOptions);
       }
-      element.removeAttribute(_attribute_Name_Options);
     }
   }
   function renderHint(bindingOptions) {
@@ -372,6 +388,8 @@
     options.events.onFinish = getDefaultFunction(options.events.onFinish, null);
     options.events.onOpen = getDefaultFunction(options.events.onOpen, null);
     options.events.onStart = getDefaultFunction(options.events.onStart, null);
+    options.events.onAddStep = getDefaultFunction(options.events.onAddStep, null);
+    options.events.onRemoveStep = getDefaultFunction(options.events.onRemoveStep, null);
     return options;
   }
   function getBrowserUrlParameters() {
@@ -522,6 +540,12 @@
     label.appendChild(text);
     return {input:input, label:label};
   }
+  function clearElementsByClassName(container, className) {
+    var elements = container.getElementsByClassName(className);
+    while (elements[0]) {
+      elements[0].parentNode.removeChild(elements[0]);
+    }
+  }
   function fireCustomTrigger(triggerFunction) {
     if (isDefinedFunction(triggerFunction)) {
       triggerFunction.apply(null, [].slice.call(arguments, 1));
@@ -581,15 +605,18 @@
   _public.start = function() {
     _elements_Attributes_Position = 0;
     showDialogAndSetPosition();
+    return _public;
   };
   _public.show = function() {
     if (_elements_Attributes_Position === _elements_Attributes_Keys.length - 1) {
       _elements_Attributes_Position = 0;
     }
     showDialogAndSetPosition();
+    return _public;
   };
   _public.hide = function() {
     onDialogClose();
+    return _public;
   };
   _public.isOpen = function() {
     return isDefined(_element_Dialog) && _element_Dialog.style.display === "block";
@@ -597,15 +624,69 @@
   _public.isComplete = function() {
     return _elements_Attributes_Position >= _elements_Attributes_Keys.length - 1;
   };
+  _public.addDocumentSteps = function() {
+    getElements();
+    return _public;
+  };
   _public.addStep = function(element, options) {
-    setupElement(element, buildAttributeOptions(options));
-    _elements_Attributes_Keys.sort();
-    if (_public.isOpen()) {
-      onDialogClose();
-      _elements_Attributes_Position = 0;
+    if (isDefinedObject(element) && isDefinedObject(options)) {
+      setupElement(element, buildAttributeOptions(options));
+      _elements_Attributes_Keys.sort();
+      resetDialogPosition();
     }
     return _public;
   };
+  _public.removeStep = function(element) {
+    if (isDefinedObject(element)) {
+      var removed = false;
+      for (var order in _elements_Attributes_Json) {
+        if (_elements_Attributes_Json.hasOwnProperty(order)) {
+          var bindingOptions = _elements_Attributes_Json[order];
+          if (bindingOptions.currentView.element === element) {
+            fireCustomTrigger(bindingOptions.events.onRemoveStep, bindingOptions.currentView.element);
+            _elements_Attributes_Keys.splice(_elements_Attributes_Keys.indexOf(bindingOptions.order), 1);
+            delete _elements_Attributes_Json[bindingOptions.order];
+            _elements_Attributes_Keys.sort();
+            removed = true;
+            break;
+          }
+        }
+      }
+      if (!removed) {
+        clearElementsByClassName(element, "journey-js-hint");
+      } else {
+        resetDialogPosition();
+      }
+    }
+    return _public;
+  };
+  _public.clearSteps = function() {
+    resetDialogPosition();
+    for (var order in _elements_Attributes_Json) {
+      if (_elements_Attributes_Json.hasOwnProperty(order)) {
+        var bindingOptions = _elements_Attributes_Json[order];
+        fireCustomTrigger(bindingOptions.events.onRemoveStep, bindingOptions.currentView.element);
+      }
+    }
+    _elements_Attributes_Json = {};
+    _elements_Attributes_Keys = [];
+    return _public;
+  };
+  _public.clearHints = function() {
+    clearElementsByClassName(_parameter_Document.body, "journey-js-hint");
+    return _public;
+  };
+  _public.reverseStepOrder = function() {
+    _elements_Attributes_Keys.reverse();
+    resetDialogPosition();
+    return _public;
+  };
+  function resetDialogPosition() {
+    if (_public.isOpen()) {
+      onDialogClose(false);
+      _elements_Attributes_Position = 0;
+    }
+  }
   _public.setConfiguration = function(newConfiguration) {
     if (isDefinedObject(newConfiguration)) {
       var configurationHasChanged = false;
@@ -634,6 +715,7 @@
     _configuration.showDoNotShowAgain = getDefaultBoolean(_configuration.showDoNotShowAgain, false);
     _configuration.tooltipDelay = getDefaultNumber(_configuration.tooltipDelay, 750);
     _configuration.showProgressDotToolTips = getDefaultBoolean(_configuration.showProgressDotToolTips, true);
+    _configuration.closeDialogOnDisabledBackgroundClick = getDefaultBoolean(_configuration.closeDialogOnDisabledBackgroundClick, false);
     buildDefaultConfigurationStrings();
     buildDefaultConfigurationCustomTriggers();
   }
@@ -646,12 +728,13 @@
     _configuration.objectErrorText = getDefaultString(_configuration.objectErrorText, "Errors in object: {{error_1}}, {{error_2}}");
     _configuration.attributeNotValidErrorText = getDefaultString(_configuration.attributeNotValidErrorText, "The attribute '{{attribute_name}}' is not a valid object.");
     _configuration.attributeNotSetErrorText = getDefaultString(_configuration.attributeNotSetErrorText, "The attribute '{{attribute_name}}' has not been set correctly.");
+    _configuration.closeDialogConfirmationText = getDefaultString(_configuration.closeDialogConfirmationText, null);
   }
   function buildDefaultConfigurationCustomTriggers() {
     _configuration.onDoNotShowAgainChange = getDefaultFunction(_configuration.onDoNotShowAgainChange, null);
   }
   _public.getVersion = function() {
-    return "1.3.0";
+    return "1.4.0";
   };
   (function(documentObject, windowObject, mathObject, jsonObject) {
     _parameter_Document = documentObject;

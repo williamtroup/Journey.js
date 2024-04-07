@@ -4,7 +4,7 @@
  * A lightweight, easy-to-use JavaScript library to create interactive, customizable, accessible guided tours across your websites or web apps!
  * 
  * @file        journey.js
- * @version     v1.3.0
+ * @version     v1.4.0
  * @author      Bunoon
  * @license     MIT License
  * @copyright   Bunoon 2024
@@ -84,6 +84,12 @@
 
     function renderDisabledBackground() {
         _element_Disabled_Background = createElement( "div", "journey-js-disabled-background" );
+
+        _element_Disabled_Background.onclick = function() {
+            if ( _configuration.closeDialogOnDisabledBackgroundClick ) {
+                onDialogClose();
+            }
+        };
     }
 
     function showDisabledBackground() {
@@ -107,8 +113,11 @@
         _parameter_Document.body.appendChild( _element_Dialog );
 
         _element_Dialog_Close_Button = createElement( "button", "close" );
-        _element_Dialog_Close_Button.onclick = onDialogClose;
         _element_Dialog.appendChild( _element_Dialog_Close_Button );
+
+        _element_Dialog_Close_Button.onclick = function() {
+            onDialogClose();
+        };
 
         addToolTip( _element_Dialog_Close_Button, _configuration.closeButtonToolTipText );
 
@@ -138,22 +147,34 @@
         _element_Dialog_Buttons.appendChild( _element_Dialog_Next_Button );
     }
 
-    function onDialogClose() {
-        var bindingOptions = _elements_Attributes_Json[ _elements_Attributes_Keys[ _elements_Attributes_Position ] ];
+    function onDialogClose( showConfirmationBox ) {
+        var confirmed = false;
 
-        if ( isDefined( bindingOptions ) && isDefined( bindingOptions.currentView.element ) ) {
-            fireCustomTrigger( bindingOptions.events.onClose, bindingOptions.currentView.element );
+        showConfirmationBox = getDefaultBoolean( showConfirmationBox, true );
+
+        if ( isDefinedString( _configuration.closeDialogConfirmationText ) && showConfirmationBox ) {
+            confirmed = confirm( _configuration.closeDialogConfirmationText );
+        } else {
+            confirmed = true;
         }
 
-        if ( _configuration.showDoNotShowAgain ) {
-            fireCustomTrigger( _configuration.onDoNotShowAgainChange, _element_Dialog_CheckBox_Input.checked );
+        if ( confirmed ) {
+            var bindingOptions = _elements_Attributes_Json[ _elements_Attributes_Keys[ _elements_Attributes_Position ] ];
+
+            if ( isDefined( bindingOptions ) && isDefined( bindingOptions.currentView.element ) ) {
+                fireCustomTrigger( bindingOptions.events.onClose, bindingOptions.currentView.element );
+            }
+    
+            if ( _configuration.showDoNotShowAgain ) {
+                fireCustomTrigger( _configuration.onDoNotShowAgainChange, _element_Dialog_CheckBox_Input.checked );
+            }
+    
+            removeFocusClassFromLastElement( false );
+            hideDisabledBackground();
+            hideToolTip();
+    
+            _element_Dialog.style.display = "none";
         }
-
-        removeFocusClassFromLastElement( false );
-        hideDisabledBackground();
-        hideToolTip();
-
-        _element_Dialog.style.display = "none";
     }
 
     function onDialogBack() {
@@ -170,7 +191,7 @@
         if ( _elements_Attributes_Position === _elements_Attributes_Keys.length - 1 ) {
             var bindingOptions = _elements_Attributes_Json[ _elements_Attributes_Keys[ _elements_Attributes_Position ] ];
 
-            onDialogClose();
+            onDialogClose( false );
             fireCustomTrigger( bindingOptions.events.onFinish, bindingOptions.currentView.element );
 
         } else {
@@ -245,8 +266,6 @@
     }
 
     function setDialogPosition( e, bindingOptions ) {
-        var scrollPosition = getScrollPosition();
-
         if ( _element_Dialog.style.display !== "block" ) {
             _element_Dialog.style.display = "block";
 
@@ -263,8 +282,8 @@
 
             } else {
                 var offset = getOffset( bindingOptions.currentView.element ),
-                    top = ( offset.top - scrollPosition.top ) + bindingOptions.currentView.element.offsetHeight,
-                    left = ( offset.left - scrollPosition.left );
+                    top = ( offset.top ) + bindingOptions.currentView.element.offsetHeight,
+                    left = ( offset.left );
 
                 if ( left + _element_Dialog.offsetWidth > _parameter_Window.innerWidth || bindingOptions.alignRight ) {
                     left -=  _element_Dialog.offsetWidth;
@@ -280,7 +299,8 @@
             }
 
         } else {
-            var centerLeft = _parameter_Math.max( 0, ( ( _parameter_Window.innerWidth - _element_Dialog.offsetWidth ) / 2 ) + scrollPosition.left ),
+            var scrollPosition = getScrollPosition(),
+                centerLeft = _parameter_Math.max( 0, ( ( _parameter_Window.innerWidth - _element_Dialog.offsetWidth ) / 2 ) + scrollPosition.left ),
                 centerTop = _parameter_Math.max( 0, ( ( _parameter_Window.innerHeight - _element_Dialog.offsetHeight ) / 2 ) + scrollPosition.top );
 
             _element_Dialog.style.left = centerLeft + "px";
@@ -313,13 +333,13 @@
             var keysLength = _elements_Attributes_Keys.length;
 
             for ( var keyIndex = 0; keyIndex < keysLength; keyIndex++ ) {
-                buildProgressDot( keyIndex );
+                buildProgressDot( keyIndex, _elements_Attributes_Keys[ keyIndex ] );
             }
         }
     }
 
-    function buildProgressDot( keyIndex ) {
-        var bindingOptions = _elements_Attributes_Json[ _elements_Attributes_Keys[ keyIndex ] ],
+    function buildProgressDot( keyIndex, order ) {
+        var bindingOptions = _elements_Attributes_Json[ order ],
             dot = null;
 
         if ( keyIndex === _elements_Attributes_Position ) {
@@ -471,14 +491,17 @@
         bindingOptions.currentView.element = element;
 
         if ( isDefinedNumber( bindingOptions.order ) && ( isDefinedString( bindingOptions.title ) || isDefinedString( bindingOptions.description ) ) ) {
+            element.removeAttribute( _attribute_Name_Options );
+            
             if ( !bindingOptions.isHint ) {
                 _elements_Attributes_Json[ bindingOptions.order ] = bindingOptions;
                 _elements_Attributes_Keys.push( bindingOptions.order );
+
+                fireCustomTrigger( bindingOptions.events.onAddStep, element );
+
             } else {
                 renderHint( bindingOptions );
             }
-
-            element.removeAttribute( _attribute_Name_Options );
         }
     }
 
@@ -615,6 +638,8 @@
         options.events.onFinish = getDefaultFunction( options.events.onFinish, null );
         options.events.onOpen = getDefaultFunction( options.events.onOpen, null );
         options.events.onStart = getDefaultFunction( options.events.onStart, null );
+        options.events.onAddStep = getDefaultFunction( options.events.onAddStep, null );
+        options.events.onRemoveStep = getDefaultFunction( options.events.onRemoveStep, null );
 
         return options;
     }
@@ -862,6 +887,14 @@
         };
     }
 
+    function clearElementsByClassName( container, className ) {
+        var elements = container.getElementsByClassName( className );
+
+        while ( elements[ 0 ] ) {
+            elements[ 0 ].parentNode.removeChild( elements[ 0 ] );
+        }
+    }
+
 
     /*
      * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -968,11 +1001,16 @@
      * Starts the Journey from the beginning.
      * 
      * @public
+     * @fires       onStart
+     * 
+     * @returns     {Object}                                                The Journey.js class instance.
      */
     _public.start = function() {
         _elements_Attributes_Position = 0;
 
         showDialogAndSetPosition();
+
+        return _public;
     };
 
     /**
@@ -981,6 +1019,9 @@
      * Shows the Journey.js dialog for the element in the last known position (defaults to the start).
      * 
      * @public
+     * @fires       onOpen
+     * 
+     * @returns     {Object}                                                The Journey.js class instance.
      */
     _public.show = function() {
         if ( _elements_Attributes_Position === _elements_Attributes_Keys.length - 1 ) {
@@ -988,6 +1029,8 @@
         }
 
         showDialogAndSetPosition();
+
+        return _public;
     };
 
     /**
@@ -996,9 +1039,14 @@
      * Hides the Journey.js dialog.
      * 
      * @public
+     * @fires       onClose
+     * 
+     * @returns     {Object}                                                The Journey.js class instance.
      */
     _public.hide = function() {
         onDialogClose();
+
+        return _public;
     };
 
     /**
@@ -1030,9 +1078,25 @@
 
     /*
      * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-     * Public Functions:  Adding Steps
+     * Public Functions:  Managing Steps
      * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
      */
+
+    /**
+     * addDocumentSteps().
+     * 
+     * Finds all new elements that contain the binding attribute and adds them as new steps.
+     * 
+     * @public
+     * @fires       onAddStep
+     * 
+     * @returns     {Object}                                                The Journey.js class instance.
+     */
+    _public.addDocumentSteps = function() {
+        getElements();
+
+        return _public;
+    };
 
     /**
      * addStep().
@@ -1040,6 +1104,7 @@
      * Adds a new step to the journey for a specific element.
      * 
      * @public
+     * @fires       onAddStep
      * 
      * @param       {Object}   element                                      The element that should be added to the journey.
      * @param       {Object}   options                                      The options to use for this step in the journey (refer to "Binding Options" documentation for properties).
@@ -1047,18 +1112,128 @@
      * @returns     {Object}                                                The Journey.js class instance.
      */
     _public.addStep = function( element, options ) {
-        setupElement( element, buildAttributeOptions( options ) );
+        if ( isDefinedObject( element ) && isDefinedObject( options ) ) {
+            setupElement( element, buildAttributeOptions( options ) );
 
-        _elements_Attributes_Keys.sort();
-
-        if ( _public.isOpen() ) {
-            onDialogClose();
-
-            _elements_Attributes_Position = 0;
+            _elements_Attributes_Keys.sort();
+    
+            resetDialogPosition();
         }
 
         return _public;
     };
+
+    /**
+     * removeStep().
+     * 
+     * Removes a step from the journey, or a hint.
+     * 
+     * @public
+     * @fires       onRemoveStep
+     * 
+     * @param       {Object}   element                                      The element that should be removed.
+     * 
+     * @returns     {Object}                                                The Journey.js class instance.
+     */
+    _public.removeStep = function( element ) {
+        if ( isDefinedObject( element ) ) {
+            var removed = false;
+
+            for ( var order in _elements_Attributes_Json ) {
+                if ( _elements_Attributes_Json.hasOwnProperty( order ) ) {
+                    var bindingOptions = _elements_Attributes_Json[ order ];
+
+                    if ( bindingOptions.currentView.element === element ) {
+                        fireCustomTrigger( bindingOptions.events.onRemoveStep, bindingOptions.currentView.element );
+
+                        _elements_Attributes_Keys.splice( _elements_Attributes_Keys.indexOf( bindingOptions.order ), 1 );
+
+                        delete _elements_Attributes_Json[ bindingOptions.order ];
+
+                        _elements_Attributes_Keys.sort();
+    
+                        removed = true;
+                        break;
+                    }
+                }
+            }
+
+            if ( !removed ) {
+                clearElementsByClassName( element, "journey-js-hint" );
+            } else {
+                resetDialogPosition();
+            }
+        }
+
+        return _public;
+    };
+
+    /**
+     * clearSteps().
+     * 
+     * Removes all the steps from the journey.
+     * 
+     * @public
+     * @fires       onRemoveStep
+     * 
+     * @returns     {Object}                                                The Journey.js class instance.
+     */
+    _public.clearSteps = function() {
+        resetDialogPosition();
+        
+        for ( var order in _elements_Attributes_Json ) {
+            if ( _elements_Attributes_Json.hasOwnProperty( order ) ) {
+                var bindingOptions = _elements_Attributes_Json[ order ];
+
+                fireCustomTrigger( bindingOptions.events.onRemoveStep, bindingOptions.currentView.element );
+            }
+        }
+
+        _elements_Attributes_Json = {};
+        _elements_Attributes_Keys = [];
+
+        return _public;
+    };
+
+    /**
+     * clearHints().
+     * 
+     * Removes all the hints.
+     * 
+     * @public
+     * 
+     * @returns     {Object}                                                The Journey.js class instance.
+     */
+    _public.clearHints = function() {
+        clearElementsByClassName( _parameter_Document.body, "journey-js-hint" );
+
+        return _public;
+    };
+
+    /**
+     * reverseStepOrder().
+     * 
+     * Reverses the order the steps in the journey should in.
+     * 
+     * @public
+     * 
+     * @returns     {Object}                                                The Journey.js class instance.
+     */
+    _public.reverseStepOrder = function() {
+        _elements_Attributes_Keys.reverse();
+
+        resetDialogPosition();
+
+        return _public;
+    };
+
+    function resetDialogPosition() {
+        if ( _public.isOpen() ) {
+            onDialogClose( false );
+
+            _elements_Attributes_Position = 0;
+        }
+    }
 
 
     /*
@@ -1110,6 +1285,7 @@
         _configuration.showDoNotShowAgain = getDefaultBoolean( _configuration.showDoNotShowAgain, false );
         _configuration.tooltipDelay = getDefaultNumber( _configuration.tooltipDelay, 750 );
         _configuration.showProgressDotToolTips = getDefaultBoolean( _configuration.showProgressDotToolTips, true );
+        _configuration.closeDialogOnDisabledBackgroundClick = getDefaultBoolean( _configuration.closeDialogOnDisabledBackgroundClick, false );
 
         buildDefaultConfigurationStrings();
         buildDefaultConfigurationCustomTriggers();
@@ -1124,6 +1300,7 @@
         _configuration.objectErrorText = getDefaultString( _configuration.objectErrorText, "Errors in object: {{error_1}}, {{error_2}}" );
         _configuration.attributeNotValidErrorText = getDefaultString( _configuration.attributeNotValidErrorText, "The attribute '{{attribute_name}}' is not a valid object." );
         _configuration.attributeNotSetErrorText = getDefaultString( _configuration.attributeNotSetErrorText, "The attribute '{{attribute_name}}' has not been set correctly." );
+        _configuration.closeDialogConfirmationText = getDefaultString( _configuration.closeDialogConfirmationText, null );
     }
 
     function buildDefaultConfigurationCustomTriggers() {
@@ -1147,7 +1324,7 @@
      * @returns     {string}                                                The version number.
      */
     _public.getVersion = function() {
-        return "1.3.0";
+        return "1.4.0";
     };
 
 
