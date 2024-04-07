@@ -133,7 +133,6 @@
     }
   }
   function setDialogPosition(e, bindingOptions) {
-    var scrollPosition = getScrollPosition();
     if (_element_Dialog.style.display !== "block") {
       _element_Dialog.style.display = "block";
       fireCustomTrigger(bindingOptions.events.onOpen, bindingOptions.currentView.element);
@@ -145,7 +144,7 @@
       if (bindingOptions.isHint && bindingOptions.alignHintToClickPosition) {
         showElementAtMousePosition(e, _element_Dialog);
       } else {
-        var offset = getOffset(bindingOptions.currentView.element), top = offset.top - scrollPosition.top + bindingOptions.currentView.element.offsetHeight, left = offset.left - scrollPosition.left;
+        var offset = getOffset(bindingOptions.currentView.element), top = offset.top + bindingOptions.currentView.element.offsetHeight, left = offset.left;
         if (left + _element_Dialog.offsetWidth > _parameter_Window.innerWidth || bindingOptions.alignRight) {
           left -= _element_Dialog.offsetWidth;
           left += bindingOptions.currentView.element.offsetWidth;
@@ -157,7 +156,7 @@
         _element_Dialog.style.left = left + "px";
       }
     } else {
-      var centerLeft = _parameter_Math.max(0, (_parameter_Window.innerWidth - _element_Dialog.offsetWidth) / 2 + scrollPosition.left), centerTop = _parameter_Math.max(0, (_parameter_Window.innerHeight - _element_Dialog.offsetHeight) / 2 + scrollPosition.top);
+      var scrollPosition = getScrollPosition(), centerLeft = _parameter_Math.max(0, (_parameter_Window.innerWidth - _element_Dialog.offsetWidth) / 2 + scrollPosition.left), centerTop = _parameter_Math.max(0, (_parameter_Window.innerHeight - _element_Dialog.offsetHeight) / 2 + scrollPosition.top);
       _element_Dialog.style.left = centerLeft + "px";
       _element_Dialog.style.top = centerTop + "px";
     }
