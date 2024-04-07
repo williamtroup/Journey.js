@@ -1125,6 +1125,13 @@
                     elements[ 0 ].parentNode.removeChild( elements[ 0 ] );
                     removed = true;
                 }
+
+            } else {
+                if ( _public.isOpen() ) {
+                    onDialogClose();
+        
+                    _elements_Attributes_Position = 0;
+                }
             }
         }
 
@@ -1142,6 +1149,12 @@
      * @returns     {Object}                                                The Journey.js class instance.
      */
     _public.clearSteps = function() {
+        if ( _public.isOpen() ) {
+            onDialogClose();
+
+            _elements_Attributes_Position = 0;
+        }
+        
         for ( var order in _elements_Attributes_Json ) {
             if ( _elements_Attributes_Json.hasOwnProperty( order ) ) {
                 var bindingOptions = _elements_Attributes_Json[ order ];
