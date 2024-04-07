@@ -30,6 +30,7 @@ Journey.js
 - Hints support (not included in the main journey).
 - 51 language translations available!
 - Customizable tooltips.
+- Show progress dots, or a progress bar ... or both!
 <br />
 <br />
 

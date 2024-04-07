@@ -1,7 +1,7 @@
 /*! Journey.js v1.5.0 | (c) Bunoon 2024 | MIT License */
 (function() {
   var _parameter_Document = null, _parameter_Window = null, _parameter_Math = null, _parameter_Json = null, _public = {}, _configuration = {}, _configuration_ShortcutKeysEnabled = true, _enum_KeyCodes = {escape:27, left:37, up:38, right:39, down:40}, _string = {empty:"", space:" "}, _elements_Type = {}, _elements_Attributes_Json = {}, _elements_Attributes_Keys = [], _elements_Attributes_Position = 0, _element_Focus_Element_PositionStyle = null, _element_Disabled_Background = null, _element_Dialog = 
-  null, _element_Dialog_Close_Button = null, _element_Dialog_Title = null, _element_Dialog_Description = null, _element_Dialog_CheckBox_Container = null, _element_Dialog_CheckBox_Input = null, _element_Dialog_ProgressDots = null, _element_Dialog_Buttons = null, _element_Dialog_Back_Button = null, _element_Dialog_Next_Button = null, _element_ToolTip = null, _element_ToolTip_Timer = null, _attribute_Name_Options = "data-journey-js";
+  null, _element_Dialog_Close_Button = null, _element_Dialog_Title = null, _element_Dialog_Description = null, _element_Dialog_CheckBox_Container = null, _element_Dialog_CheckBox_Input = null, _element_Dialog_ProgressDots = null, _element_Dialog_ProgressDots_Percentage = null, _element_Dialog_ProgressBar = null, _element_Dialog_Buttons = null, _element_Dialog_Back_Button = null, _element_Dialog_Next_Button = null, _element_ToolTip = null, _element_ToolTip_Timer = null, _attribute_Name_Options = "data-journey-js";
   function renderDisabledBackground() {
     _element_Disabled_Background = createElement("div", "journey-js-disabled-background");
     _element_Disabled_Background.onclick = function() {
@@ -35,6 +35,10 @@
     _element_Dialog_CheckBox_Input = buildCheckBox(_element_Dialog_CheckBox_Container, _configuration.doNotShowAgainText).input;
     _element_Dialog_ProgressDots = createElement("div", "progress-dots");
     _element_Dialog.appendChild(_element_Dialog_ProgressDots);
+    _element_Dialog_ProgressBar = createElement("div", "progress-bar");
+    _element_Dialog.appendChild(_element_Dialog_ProgressBar);
+    _element_Dialog_ProgressDots_Percentage = createElement("div", "progress-bar-percentage");
+    _element_Dialog_ProgressBar.appendChild(_element_Dialog_ProgressDots_Percentage);
     _element_Dialog_Buttons = createElement("div", "buttons");
     _element_Dialog.appendChild(_element_Dialog_Buttons);
     _element_Dialog_Back_Button = createElement("button", "back");
@@ -103,6 +107,7 @@
       }
       showElementBasedOnCondition(_element_Dialog_CheckBox_Container, _configuration.showDoNotShowAgain);
       showElementBasedOnCondition(_element_Dialog_ProgressDots, _configuration.showProgressDots && _elements_Attributes_Keys.length > 1);
+      showElementBasedOnCondition(_element_Dialog_ProgressBar, _configuration.showProgressBar && _elements_Attributes_Keys.length > 1);
       showElementBasedOnCondition(_element_Dialog_Buttons, _configuration.showButtons);
       _element_Dialog_Back_Button.innerHTML = _configuration.backButtonText;
       _element_Dialog_Back_Button.disabled = _elements_Attributes_Position === 0;
@@ -114,6 +119,7 @@
       setDialogText(bindingOptions);
       setDialogPosition(null, bindingOptions);
       buildProcessDots();
+      setProgressBarPosition();
       fireCustomTrigger(bindingOptions.events.onEnter, bindingOptions.currentView.element);
       if (bindingOptions.sendClick) {
         bindingOptions.currentView.element.click();
@@ -206,6 +212,12 @@
     if (_configuration.showProgressDotNumbers) {
       dot.className += " dot-number";
       dot.innerHTML = (keyIndex + 1).toString();
+    }
+  }
+  function setProgressBarPosition() {
+    if (_configuration.showProgressBar) {
+      var pixelsPerStage = _element_Dialog_ProgressDots.offsetWidth / _elements_Attributes_Keys.length, width = (_elements_Attributes_Position + 1) * pixelsPerStage;
+      _element_Dialog_ProgressDots_Percentage.style.width = width + "px";
     }
   }
   function renderToolTip() {
@@ -716,6 +728,7 @@
     _configuration.tooltipDelay = getDefaultNumber(_configuration.tooltipDelay, 750);
     _configuration.showProgressDotToolTips = getDefaultBoolean(_configuration.showProgressDotToolTips, true);
     _configuration.closeDialogOnDisabledBackgroundClick = getDefaultBoolean(_configuration.closeDialogOnDisabledBackgroundClick, false);
+    _configuration.showProgressBar = getDefaultBoolean(_configuration.showProgressBar, false);
     buildDefaultConfigurationStrings();
     buildDefaultConfigurationCustomTriggers();
   }
