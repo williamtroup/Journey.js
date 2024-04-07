@@ -1,4 +1,4 @@
-/*! Journey.js v1.4.0 - Sinhalese | (c) Bunoon 2024 | MIT License */
+/*! Journey.js v1.5.0 - Sinhalese | (c) Bunoon 2024 | MIT License */
 $journey.setConfiguration( {
         "backButtonText": "ආපසු",
         "nextButtonText": "ඊළඟ",
