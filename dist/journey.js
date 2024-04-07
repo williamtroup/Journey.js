@@ -4,6 +4,11 @@
   null, _element_Dialog_Close_Button = null, _element_Dialog_Title = null, _element_Dialog_Description = null, _element_Dialog_CheckBox_Container = null, _element_Dialog_CheckBox_Input = null, _element_Dialog_ProgressDots = null, _element_Dialog_Buttons = null, _element_Dialog_Back_Button = null, _element_Dialog_Next_Button = null, _element_ToolTip = null, _element_ToolTip_Timer = null, _attribute_Name_Options = "data-journey-js";
   function renderDisabledBackground() {
     _element_Disabled_Background = createElement("div", "journey-js-disabled-background");
+    _element_Disabled_Background.onclick = function() {
+      if (_configuration.closeDialogOnDisabledBackgroundClick) {
+        onDialogClose();
+      }
+    };
   }
   function showDisabledBackground() {
     addNode(_parameter_Document.body, _element_Disabled_Background);
@@ -707,6 +712,7 @@
     _configuration.showDoNotShowAgain = getDefaultBoolean(_configuration.showDoNotShowAgain, false);
     _configuration.tooltipDelay = getDefaultNumber(_configuration.tooltipDelay, 750);
     _configuration.showProgressDotToolTips = getDefaultBoolean(_configuration.showProgressDotToolTips, true);
+    _configuration.closeDialogOnDisabledBackgroundClick = getDefaultBoolean(_configuration.closeDialogOnDisabledBackgroundClick, false);
     buildDefaultConfigurationStrings();
     buildDefaultConfigurationCustomTriggers();
   }

@@ -84,6 +84,12 @@
 
     function renderDisabledBackground() {
         _element_Disabled_Background = createElement( "div", "journey-js-disabled-background" );
+
+        _element_Disabled_Background.onclick = function() {
+            if ( _configuration.closeDialogOnDisabledBackgroundClick ) {
+                onDialogClose();
+            }
+        };
     }
 
     function showDisabledBackground() {
@@ -1264,6 +1270,7 @@
         _configuration.showDoNotShowAgain = getDefaultBoolean( _configuration.showDoNotShowAgain, false );
         _configuration.tooltipDelay = getDefaultNumber( _configuration.tooltipDelay, 750 );
         _configuration.showProgressDotToolTips = getDefaultBoolean( _configuration.showProgressDotToolTips, true );
+        _configuration.closeDialogOnDisabledBackgroundClick = getDefaultBoolean( _configuration.closeDialogOnDisabledBackgroundClick, false );
 
         buildDefaultConfigurationStrings();
         buildDefaultConfigurationCustomTriggers();
