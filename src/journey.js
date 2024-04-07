@@ -867,6 +867,14 @@
         };
     }
 
+    function clearElementsByClassName( container, className ) {
+        var elements = container.getElementsByClassName( className );
+
+        while ( elements[ 0 ] ) {
+            elements[ 0 ].parentNode.removeChild( elements[ 0 ] );
+        }
+    }
+
 
     /*
      * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -1073,11 +1081,7 @@
 
             _elements_Attributes_Keys.sort();
     
-            if ( _public.isOpen() ) {
-                onDialogClose();
-    
-                _elements_Attributes_Position = 0;
-            }
+            resetDialogPosition();
         }
 
         return _public;
@@ -1119,19 +1123,9 @@
             }
 
             if ( !removed ) {
-                var elements = element.getElementsByClassName( "journey-js-hint" );
-
-                while ( elements[ 0 ] ) {
-                    elements[ 0 ].parentNode.removeChild( elements[ 0 ] );
-                    removed = true;
-                }
-
+                clearElementsByClassName( element, "journey-js-hint" );
             } else {
-                if ( _public.isOpen() ) {
-                    onDialogClose();
-        
-                    _elements_Attributes_Position = 0;
-                }
+                resetDialogPosition();
             }
         }
 
@@ -1149,11 +1143,7 @@
      * @returns     {Object}                                                The Journey.js class instance.
      */
     _public.clearSteps = function() {
-        if ( _public.isOpen() ) {
-            onDialogClose();
-
-            _elements_Attributes_Position = 0;
-        }
+        resetDialogPosition();
         
         for ( var order in _elements_Attributes_Json ) {
             if ( _elements_Attributes_Json.hasOwnProperty( order ) ) {
@@ -1179,11 +1169,7 @@
      * @returns     {Object}                                                The Journey.js class instance.
      */
     _public.clearHints = function() {
-        var elements = _parameter_Document.body.getElementsByClassName( "journey-js-hint" );
-
-        while ( elements[ 0 ] ) {
-            elements[ 0 ].parentNode.removeChild( elements[ 0 ] );
-        }
+        clearElementsByClassName( _parameter_Document.body, "journey-js-hint" );
 
         return _public;
     };
@@ -1200,8 +1186,18 @@
     _public.reverseStepOrder = function() {
         _elements_Attributes_Keys.reverse();
 
+        resetDialogPosition();
+
         return _public;
     };
+
+    function resetDialogPosition() {
+        if ( _public.isOpen() ) {
+            onDialogClose();
+
+            _elements_Attributes_Position = 0;
+        }
+    }
 
 
     /*

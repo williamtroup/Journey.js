@@ -525,6 +525,12 @@
     label.appendChild(text);
     return {input:input, label:label};
   }
+  function clearElementsByClassName(container, className) {
+    var elements = container.getElementsByClassName(className);
+    while (elements[0]) {
+      elements[0].parentNode.removeChild(elements[0]);
+    }
+  }
   function fireCustomTrigger(triggerFunction) {
     if (isDefinedFunction(triggerFunction)) {
       triggerFunction.apply(null, [].slice.call(arguments, 1));
@@ -607,10 +613,7 @@
     if (isDefinedObject(element) && isDefinedObject(options)) {
       setupElement(element, buildAttributeOptions(options));
       _elements_Attributes_Keys.sort();
-      if (_public.isOpen()) {
-        onDialogClose();
-        _elements_Attributes_Position = 0;
-      }
+      resetDialogPosition();
     }
     return _public;
   };
@@ -631,25 +634,15 @@
         }
       }
       if (!removed) {
-        var elements = element.getElementsByClassName("journey-js-hint");
-        while (elements[0]) {
-          elements[0].parentNode.removeChild(elements[0]);
-          removed = true;
-        }
+        clearElementsByClassName(element, "journey-js-hint");
       } else {
-        if (_public.isOpen()) {
-          onDialogClose();
-          _elements_Attributes_Position = 0;
-        }
+        resetDialogPosition();
       }
     }
     return _public;
   };
   _public.clearSteps = function() {
-    if (_public.isOpen()) {
-      onDialogClose();
-      _elements_Attributes_Position = 0;
-    }
+    resetDialogPosition();
     for (var order in _elements_Attributes_Json) {
       if (_elements_Attributes_Json.hasOwnProperty(order)) {
         var bindingOptions = _elements_Attributes_Json[order];
@@ -661,16 +654,20 @@
     return _public;
   };
   _public.clearHints = function() {
-    var elements = _parameter_Document.body.getElementsByClassName("journey-js-hint");
-    while (elements[0]) {
-      elements[0].parentNode.removeChild(elements[0]);
-    }
+    clearElementsByClassName(_parameter_Document.body, "journey-js-hint");
     return _public;
   };
   _public.reverseStepOrder = function() {
     _elements_Attributes_Keys.reverse();
+    resetDialogPosition();
     return _public;
   };
+  function resetDialogPosition() {
+    if (_public.isOpen()) {
+      onDialogClose();
+      _elements_Attributes_Position = 0;
+    }
+  }
   _public.setConfiguration = function(newConfiguration) {
     if (isDefinedObject(newConfiguration)) {
       var configurationHasChanged = false;
