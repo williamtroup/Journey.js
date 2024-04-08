@@ -333,6 +333,9 @@
       _configuration_ShortcutKeysEnabled = false;
       setDialogText(bindingOptions);
       setDialogPosition(e, bindingOptions);
+      if (bindingOptions.removeHintWhenViewed) {
+        clearElementsByClassName(bindingOptions.currentView.element, "journey-js-hint");
+      }
     };
   }
   function buildDocumentEvents(addEvents) {
@@ -392,6 +395,7 @@
     options.isHint = getDefaultBoolean(options.isHint, false);
     options.alignHintToClickPosition = getDefaultBoolean(options.alignHintToClickPosition, false);
     options.showDisabledBackground = getDefaultBoolean(options.showDisabledBackground, true);
+    options.removeHintWhenViewed = getDefaultBoolean(options.removeHintWhenViewed, false);
     options = buildAttributeOptionStrings(options);
     return buildAttributeOptionCustomTriggers(options);
   }
