@@ -64,8 +64,8 @@
         _element_Dialog_CheckBox_Container = null,
         _element_Dialog_CheckBox_Input = null,
         _element_Dialog_ProgressDots = null,
-        _element_Dialog_ProgressDots_Percentage = null,
         _element_Dialog_ProgressBar = null,
+        _element_Dialog_ProgressBar_Percentage = null,
         _element_Dialog_Buttons = null,
         _element_Dialog_Back_Button = null,
         _element_Dialog_Next_Button = null,
@@ -140,8 +140,8 @@
         _element_Dialog_ProgressBar = createElement( "div", "progress-bar" );
         _element_Dialog.appendChild( _element_Dialog_ProgressBar );
 
-        _element_Dialog_ProgressDots_Percentage = createElement( "div", "progress-bar-percentage" );
-        _element_Dialog_ProgressBar.appendChild( _element_Dialog_ProgressDots_Percentage );
+        _element_Dialog_ProgressBar_Percentage = createElement( "div", "progress-bar-percentage" );
+        _element_Dialog_ProgressBar.appendChild( _element_Dialog_ProgressBar_Percentage );
 
         _element_Dialog_Buttons = createElement( "div", "buttons" );
         _element_Dialog.appendChild( _element_Dialog_Buttons );
@@ -392,7 +392,7 @@
             var pixelsPerStage = _element_Dialog_ProgressDots.offsetWidth / _elements_Attributes_Keys.length,
                 width = ( _elements_Attributes_Position + 1 ) * pixelsPerStage;
 
-            _element_Dialog_ProgressDots_Percentage.style.width = width + "px";
+            _element_Dialog_ProgressBar_Percentage.style.width = width + "px";
         }
     }
 
