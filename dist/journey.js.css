@@ -228,12 +228,19 @@ div.journey-js-dialog div.progress-bar {
   overflow: hidden;
 }
 div.journey-js-dialog div.progress-bar div.progress-bar-percentage {
-  height: 10px;
+  min-height: 10px;
   background-color: var(--journey-js-dialog-button-border-color);
   transition: var(--journey-js-transition);
   transition-property: width;
+  text-align: center;
   padding: 0 !important;
   margin: 0 !important;
+}
+div.journey-js-dialog div.progress-bar div.progress-bar-percentage p.progress-bar-percentage-text {
+  padding: calc(var(--journey-js-spacing) / 2) !important;
+  font-size: smaller;
+  margin: 0 !important;
+  color: var(--journey-js-color-white);
 }
 
 /*

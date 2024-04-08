@@ -66,6 +66,7 @@
         _element_Dialog_ProgressDots = null,
         _element_Dialog_ProgressBar = null,
         _element_Dialog_ProgressBar_Percentage = null,
+        _element_Dialog_ProgressBar_Percentage_Text = null,
         _element_Dialog_Buttons = null,
         _element_Dialog_Back_Button = null,
         _element_Dialog_Next_Button = null,
@@ -142,6 +143,9 @@
 
         _element_Dialog_ProgressBar_Percentage = createElement( "div", "progress-bar-percentage" );
         _element_Dialog_ProgressBar.appendChild( _element_Dialog_ProgressBar_Percentage );
+
+        _element_Dialog_ProgressBar_Percentage_Text = createElement( "p", "progress-bar-percentage-text" );
+        _element_Dialog_ProgressBar_Percentage.appendChild( _element_Dialog_ProgressBar_Percentage_Text );
 
         _element_Dialog_Buttons = createElement( "div", "buttons" );
         _element_Dialog.appendChild( _element_Dialog_Buttons );
@@ -242,6 +246,7 @@
             showElementBasedOnCondition( _element_Dialog_CheckBox_Container, _configuration.showDoNotShowAgain );
             showElementBasedOnCondition( _element_Dialog_ProgressDots, _configuration.showProgressDots && _elements_Attributes_Keys.length > 1 );
             showElementBasedOnCondition( _element_Dialog_ProgressBar, _configuration.showProgressBar && _elements_Attributes_Keys.length > 1 );
+            showElementBasedOnCondition( _element_Dialog_ProgressBar_Percentage_Text, _configuration.showProgressBarText );
             showElementBasedOnCondition( _element_Dialog_Buttons, _configuration.showButtons );
 
             _element_Dialog_Back_Button.innerHTML = _configuration.backButtonText;
@@ -390,9 +395,11 @@
     function setProgressBarPosition() {
         if ( _configuration.showProgressBar ) {
             var pixelsPerStage = _element_Dialog_ProgressDots.offsetWidth / _elements_Attributes_Keys.length,
-                width = ( _elements_Attributes_Position + 1 ) * pixelsPerStage;
+                width = ( _elements_Attributes_Position + 1 ) * pixelsPerStage,
+                percentageComplete = _parameter_Math.ceil( ( ( _elements_Attributes_Position + 1 ) / _elements_Attributes_Keys.length ) * 100 );
 
             _element_Dialog_ProgressBar_Percentage.style.width = width + "px";
+            _element_Dialog_ProgressBar_Percentage_Text.innerHTML = percentageComplete + "%";
         }
     }
 
@@ -1311,6 +1318,7 @@
         _configuration.showProgressDotToolTips = getDefaultBoolean( _configuration.showProgressDotToolTips, true );
         _configuration.closeDialogOnDisabledBackgroundClick = getDefaultBoolean( _configuration.closeDialogOnDisabledBackgroundClick, false );
         _configuration.showProgressBar = getDefaultBoolean( _configuration.showProgressBar, false );
+        _configuration.showProgressBarText = getDefaultBoolean( _configuration.showProgressBarText, false );
         _configuration.scrollToElements = getDefaultBoolean( _configuration.scrollToElements, false );
 
         buildDefaultConfigurationStrings();
