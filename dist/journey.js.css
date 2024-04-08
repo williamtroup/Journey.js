@@ -232,6 +232,8 @@ div.journey-js-dialog div.progress-bar div.progress-bar-percentage {
   background-color: var(--journey-js-dialog-button-border-color);
   transition: var(--journey-js-transition);
   transition-property: width;
+  padding: 0 !important;
+  margin: 0 !important;
 }
 
 /*

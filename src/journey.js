@@ -543,6 +543,7 @@
 
             _element_Dialog_CheckBox_Container.style.display = "none";
             _element_Dialog_ProgressDots.style.display = "none";
+            _element_Dialog_ProgressBar.style.display = "none";
             _element_Dialog_Buttons.style.display = "none";
             _configuration_ShortcutKeysEnabled = false;
 
