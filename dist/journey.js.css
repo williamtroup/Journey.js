@@ -205,6 +205,8 @@ div.journey-js-dialog div.progress-dots div.dot-number {
   color: var(--journey-js-color-gray) !important;
 }
 div.journey-js-dialog div.progress-dots div.dot-active {
+  transition: var(--journey-js-transition);
+  transition-property: width;
   border-radius: 10px;
   height: 10px;
   width: 15px;
