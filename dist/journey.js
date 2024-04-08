@@ -100,6 +100,9 @@
       _element_Dialog_Close_Button.style.display = _configuration.showCloseButton ? "block" : "none";
       _configuration_ShortcutKeysEnabled = true;
       bindingOptions.currentView.element.className += _string.space + "journey-js-element-focus";
+      if (_configuration.scrollToElements) {
+        bindingOptions.currentView.element.scrollIntoView();
+      }
       var lastPositionStyle = getStyleValueByName(bindingOptions.currentView.element, "position");
       if (lastPositionStyle !== _string.empty && lastPositionStyle.toLowerCase() === "static") {
         _element_Focus_Element_PositionStyle = lastPositionStyle;
@@ -729,6 +732,7 @@
     _configuration.showProgressDotToolTips = getDefaultBoolean(_configuration.showProgressDotToolTips, true);
     _configuration.closeDialogOnDisabledBackgroundClick = getDefaultBoolean(_configuration.closeDialogOnDisabledBackgroundClick, false);
     _configuration.showProgressBar = getDefaultBoolean(_configuration.showProgressBar, false);
+    _configuration.scrollToElements = getDefaultBoolean(_configuration.scrollToElements, false);
     buildDefaultConfigurationStrings();
     buildDefaultConfigurationCustomTriggers();
   }

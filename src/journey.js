@@ -228,6 +228,10 @@
             
             bindingOptions.currentView.element.className += _string.space + "journey-js-element-focus";
 
+            if ( _configuration.scrollToElements ) {
+                bindingOptions.currentView.element.scrollIntoView();
+            }
+
             var lastPositionStyle = getStyleValueByName( bindingOptions.currentView.element, "position" );
 
             if ( lastPositionStyle !== _string.empty && lastPositionStyle.toLowerCase() === "static" ) {
@@ -1306,6 +1310,7 @@
         _configuration.showProgressDotToolTips = getDefaultBoolean( _configuration.showProgressDotToolTips, true );
         _configuration.closeDialogOnDisabledBackgroundClick = getDefaultBoolean( _configuration.closeDialogOnDisabledBackgroundClick, false );
         _configuration.showProgressBar = getDefaultBoolean( _configuration.showProgressBar, false );
+        _configuration.scrollToElements = getDefaultBoolean( _configuration.scrollToElements, false );
 
         buildDefaultConfigurationStrings();
         buildDefaultConfigurationCustomTriggers();
