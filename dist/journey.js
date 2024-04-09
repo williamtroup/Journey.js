@@ -1,8 +1,8 @@
 /*! Journey.js v1.6.0 | (c) Bunoon 2024 | MIT License */
 (function() {
   var _parameter_Document = null, _parameter_Window = null, _parameter_Math = null, _parameter_Json = null, _public = {}, _configuration = {}, _configuration_ShortcutKeysEnabled = true, _enum_KeyCodes = {escape:27, left:37, up:38, right:39, down:40}, _string = {empty:"", space:" "}, _elements_Type = {}, _elements_Attributes_Json = {}, _elements_Attributes_Keys = [], _elements_Attributes_Position = 0, _element_Focus_Element_PositionStyle = null, _element_Disabled_Background = null, _element_Dialog = 
-  null, _element_Dialog_Close_Button = null, _element_Dialog_Title = null, _element_Dialog_Description = null, _element_Dialog_CheckBox_Container = null, _element_Dialog_CheckBox_Input = null, _element_Dialog_ProgressDots = null, _element_Dialog_ProgressBar = null, _element_Dialog_ProgressBar_Percentage = null, _element_Dialog_ProgressBar_Percentage_Text = null, _element_Dialog_Buttons = null, _element_Dialog_Back_Button = null, _element_Dialog_Next_Button = null, _element_ToolTip = null, _element_ToolTip_Timer = 
-  null, _attribute_Name_Options = "data-journey-js";
+  null, _element_Dialog_Close_Button = null, _element_Dialog_Title = null, _element_Dialog_Description = null, _element_Dialog_CheckBox_Container = null, _element_Dialog_CheckBox_Input = null, _element_Dialog_ProgressDots = null, _element_Dialog_ProgressBar = null, _element_Dialog_ProgressBar_Percentage = null, _element_Dialog_ProgressBar_Percentage_Text = null, _element_Dialog_Buttons = null, _element_Dialog_Buttons_Back_Button = null, _element_Dialog_Buttons_Next_Button = null, _element_ToolTip = 
+  null, _element_ToolTip_Timer = null, _attribute_Name_Options = "data-journey-js";
   function renderDisabledBackground() {
     _element_Disabled_Background = createElement("div", "journey-js-disabled-background");
     _element_Disabled_Background.onclick = function() {
@@ -44,12 +44,12 @@
     _element_Dialog_ProgressBar_Percentage.appendChild(_element_Dialog_ProgressBar_Percentage_Text);
     _element_Dialog_Buttons = createElement("div", "buttons");
     _element_Dialog.appendChild(_element_Dialog_Buttons);
-    _element_Dialog_Back_Button = createElement("button", "back");
-    _element_Dialog_Back_Button.onclick = onDialogBack;
-    _element_Dialog_Buttons.appendChild(_element_Dialog_Back_Button);
-    _element_Dialog_Next_Button = createElement("button", "next");
-    _element_Dialog_Next_Button.onclick = onDialogNext;
-    _element_Dialog_Buttons.appendChild(_element_Dialog_Next_Button);
+    _element_Dialog_Buttons_Back_Button = createElement("button", "back");
+    _element_Dialog_Buttons_Back_Button.onclick = onDialogBack;
+    _element_Dialog_Buttons.appendChild(_element_Dialog_Buttons_Back_Button);
+    _element_Dialog_Buttons_Next_Button = createElement("button", "next");
+    _element_Dialog_Buttons_Next_Button.onclick = onDialogNext;
+    _element_Dialog_Buttons.appendChild(_element_Dialog_Buttons_Next_Button);
   }
   function onDialogClose(showConfirmationBox) {
     var confirmed = false;
@@ -116,12 +116,12 @@
       showElementBasedOnCondition(_element_Dialog_ProgressBar, _configuration.showProgressBar && _elements_Attributes_Keys.length > 1);
       showElementBasedOnCondition(_element_Dialog_ProgressBar_Percentage_Text, _configuration.showProgressBarText);
       showElementBasedOnCondition(_element_Dialog_Buttons, _configuration.showButtons);
-      _element_Dialog_Back_Button.innerHTML = _configuration.backButtonText;
-      _element_Dialog_Back_Button.disabled = _elements_Attributes_Position === 0;
+      _element_Dialog_Buttons_Back_Button.innerHTML = _configuration.backButtonText;
+      _element_Dialog_Buttons_Back_Button.disabled = _elements_Attributes_Position === 0;
       if (_elements_Attributes_Position >= _elements_Attributes_Keys.length - 1) {
-        _element_Dialog_Next_Button.innerHTML = _configuration.finishButtonText;
+        _element_Dialog_Buttons_Next_Button.innerHTML = _configuration.finishButtonText;
       } else {
-        _element_Dialog_Next_Button.innerHTML = _configuration.nextButtonText;
+        _element_Dialog_Buttons_Next_Button.innerHTML = _configuration.nextButtonText;
       }
       setDialogText(bindingOptions);
       setDialogPosition(null, bindingOptions);

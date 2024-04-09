@@ -68,8 +68,8 @@
         _element_Dialog_ProgressBar_Percentage = null,
         _element_Dialog_ProgressBar_Percentage_Text = null,
         _element_Dialog_Buttons = null,
-        _element_Dialog_Back_Button = null,
-        _element_Dialog_Next_Button = null,
+        _element_Dialog_Buttons_Back_Button = null,
+        _element_Dialog_Buttons_Next_Button = null,
 
         // Variables: Dialog
         _element_ToolTip = null,
@@ -150,13 +150,13 @@
         _element_Dialog_Buttons = createElement( "div", "buttons" );
         _element_Dialog.appendChild( _element_Dialog_Buttons );
 
-        _element_Dialog_Back_Button = createElement( "button", "back" );
-        _element_Dialog_Back_Button.onclick = onDialogBack;
-        _element_Dialog_Buttons.appendChild( _element_Dialog_Back_Button );
+        _element_Dialog_Buttons_Back_Button = createElement( "button", "back" );
+        _element_Dialog_Buttons_Back_Button.onclick = onDialogBack;
+        _element_Dialog_Buttons.appendChild( _element_Dialog_Buttons_Back_Button );
 
-        _element_Dialog_Next_Button = createElement( "button", "next" );
-        _element_Dialog_Next_Button.onclick = onDialogNext;
-        _element_Dialog_Buttons.appendChild( _element_Dialog_Next_Button );
+        _element_Dialog_Buttons_Next_Button = createElement( "button", "next" );
+        _element_Dialog_Buttons_Next_Button.onclick = onDialogNext;
+        _element_Dialog_Buttons.appendChild( _element_Dialog_Buttons_Next_Button );
     }
 
     function onDialogClose( showConfirmationBox ) {
@@ -249,13 +249,13 @@
             showElementBasedOnCondition( _element_Dialog_ProgressBar_Percentage_Text, _configuration.showProgressBarText );
             showElementBasedOnCondition( _element_Dialog_Buttons, _configuration.showButtons );
 
-            _element_Dialog_Back_Button.innerHTML = _configuration.backButtonText;
-            _element_Dialog_Back_Button.disabled = _elements_Attributes_Position === 0;
+            _element_Dialog_Buttons_Back_Button.innerHTML = _configuration.backButtonText;
+            _element_Dialog_Buttons_Back_Button.disabled = _elements_Attributes_Position === 0;
             
             if ( _elements_Attributes_Position >= _elements_Attributes_Keys.length - 1 ) {
-                _element_Dialog_Next_Button.innerHTML = _configuration.finishButtonText;
+                _element_Dialog_Buttons_Next_Button.innerHTML = _configuration.finishButtonText;
             } else {
-                _element_Dialog_Next_Button.innerHTML = _configuration.nextButtonText;
+                _element_Dialog_Buttons_Next_Button.innerHTML = _configuration.nextButtonText;
             }
 
             setDialogText( bindingOptions );
