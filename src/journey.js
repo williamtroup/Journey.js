@@ -1323,7 +1323,6 @@
         _configuration.showProgressDotToolTips = getDefaultBoolean( _configuration.showProgressDotToolTips, true );
         _configuration.closeDialogOnDisabledBackgroundClick = getDefaultBoolean( _configuration.closeDialogOnDisabledBackgroundClick, false );
         _configuration.showProgressBar = getDefaultBoolean( _configuration.showProgressBar, false );
-        _configuration.showProgressBarText = getDefaultBoolean( _configuration.showProgressBarText, false );
         _configuration.scrollToElements = getDefaultBoolean( _configuration.scrollToElements, false );
 
         buildDefaultConfigurationStrings();
@@ -1340,6 +1339,7 @@
         _configuration.attributeNotValidErrorText = getDefaultString( _configuration.attributeNotValidErrorText, "The attribute '{{attribute_name}}' is not a valid object." );
         _configuration.attributeNotSetErrorText = getDefaultString( _configuration.attributeNotSetErrorText, "The attribute '{{attribute_name}}' has not been set correctly." );
         _configuration.closeDialogConfirmationText = getDefaultString( _configuration.closeDialogConfirmationText, null );
+        _configuration.showProgressBarText = getDefaultBoolean( _configuration.showProgressBarText, false );
     }
 
     function buildDefaultConfigurationCustomTriggers() {
