@@ -44,6 +44,6 @@ div.contents {
     padding: 10px;
 }
 
-button {
+div.contents button {
     margin: 3px !important;
 }

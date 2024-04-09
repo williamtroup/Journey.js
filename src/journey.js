@@ -4,7 +4,7 @@
  * A lightweight, easy-to-use JavaScript library to create interactive, customizable, accessible guided tours across your websites or web apps!
  * 
  * @file        journey.js
- * @version     v1.4.0
+ * @version     v1.5.0
  * @author      Bunoon
  * @license     MIT License
  * @copyright   Bunoon 2024
@@ -64,6 +64,9 @@
         _element_Dialog_CheckBox_Container = null,
         _element_Dialog_CheckBox_Input = null,
         _element_Dialog_ProgressDots = null,
+        _element_Dialog_ProgressBar = null,
+        _element_Dialog_ProgressBar_Percentage = null,
+        _element_Dialog_ProgressBar_Percentage_Text = null,
         _element_Dialog_Buttons = null,
         _element_Dialog_Back_Button = null,
         _element_Dialog_Next_Button = null,
@@ -134,6 +137,15 @@
 
         _element_Dialog_ProgressDots = createElement( "div", "progress-dots" );
         _element_Dialog.appendChild( _element_Dialog_ProgressDots );
+
+        _element_Dialog_ProgressBar = createElement( "div", "progress-bar" );
+        _element_Dialog.appendChild( _element_Dialog_ProgressBar );
+
+        _element_Dialog_ProgressBar_Percentage = createElement( "div", "progress-bar-percentage" );
+        _element_Dialog_ProgressBar.appendChild( _element_Dialog_ProgressBar_Percentage );
+
+        _element_Dialog_ProgressBar_Percentage_Text = createElement( "p", "progress-bar-percentage-text" );
+        _element_Dialog_ProgressBar_Percentage.appendChild( _element_Dialog_ProgressBar_Percentage_Text );
 
         _element_Dialog_Buttons = createElement( "div", "buttons" );
         _element_Dialog.appendChild( _element_Dialog_Buttons );
@@ -220,6 +232,10 @@
             
             bindingOptions.currentView.element.className += _string.space + "journey-js-element-focus";
 
+            if ( _configuration.scrollToElements ) {
+                bindingOptions.currentView.element.scrollIntoView();
+            }
+
             var lastPositionStyle = getStyleValueByName( bindingOptions.currentView.element, "position" );
 
             if ( lastPositionStyle !== _string.empty && lastPositionStyle.toLowerCase() === "static" ) {
@@ -229,6 +245,8 @@
 
             showElementBasedOnCondition( _element_Dialog_CheckBox_Container, _configuration.showDoNotShowAgain );
             showElementBasedOnCondition( _element_Dialog_ProgressDots, _configuration.showProgressDots && _elements_Attributes_Keys.length > 1 );
+            showElementBasedOnCondition( _element_Dialog_ProgressBar, _configuration.showProgressBar && _elements_Attributes_Keys.length > 1 );
+            showElementBasedOnCondition( _element_Dialog_ProgressBar_Percentage_Text, _configuration.showProgressBarText );
             showElementBasedOnCondition( _element_Dialog_Buttons, _configuration.showButtons );
 
             _element_Dialog_Back_Button.innerHTML = _configuration.backButtonText;
@@ -243,6 +261,7 @@
             setDialogText( bindingOptions );
             setDialogPosition( null, bindingOptions );
             buildProcessDots();
+            setProgressBarPosition();
             fireCustomTrigger( bindingOptions.events.onEnter, bindingOptions.currentView.element );
 
             if ( bindingOptions.sendClick ) {
@@ -370,6 +389,17 @@
         if ( _configuration.showProgressDotNumbers ) {
             dot.className += " dot-number";
             dot.innerHTML = ( keyIndex + 1 ).toString();
+        }
+    }
+
+    function setProgressBarPosition() {
+        if ( _configuration.showProgressBar ) {
+            var pixelsPerStage = _element_Dialog_ProgressDots.offsetWidth / _elements_Attributes_Keys.length,
+                width = ( _elements_Attributes_Position + 1 ) * pixelsPerStage,
+                percentageComplete = _parameter_Math.ceil( ( ( _elements_Attributes_Position + 1 ) / _elements_Attributes_Keys.length ) * 100 );
+
+            _element_Dialog_ProgressBar_Percentage.style.width = width + "px";
+            _element_Dialog_ProgressBar_Percentage_Text.innerHTML = percentageComplete + "%";
         }
     }
 
@@ -520,11 +550,16 @@
 
             _element_Dialog_CheckBox_Container.style.display = "none";
             _element_Dialog_ProgressDots.style.display = "none";
+            _element_Dialog_ProgressBar.style.display = "none";
             _element_Dialog_Buttons.style.display = "none";
             _configuration_ShortcutKeysEnabled = false;
 
             setDialogText( bindingOptions );
             setDialogPosition( e, bindingOptions );
+
+            if ( bindingOptions.removeHintWhenViewed ) {
+                clearElementsByClassName( bindingOptions.currentView.element, "journey-js-hint" );
+            }
         };
     }
 
@@ -616,6 +651,7 @@
         options.isHint = getDefaultBoolean( options.isHint, false );
         options.alignHintToClickPosition = getDefaultBoolean( options.alignHintToClickPosition, false );
         options.showDisabledBackground = getDefaultBoolean( options.showDisabledBackground, true );
+        options.removeHintWhenViewed = getDefaultBoolean( options.removeHintWhenViewed, false );
 
         options = buildAttributeOptionStrings( options );
 
@@ -1286,6 +1322,8 @@
         _configuration.tooltipDelay = getDefaultNumber( _configuration.tooltipDelay, 750 );
         _configuration.showProgressDotToolTips = getDefaultBoolean( _configuration.showProgressDotToolTips, true );
         _configuration.closeDialogOnDisabledBackgroundClick = getDefaultBoolean( _configuration.closeDialogOnDisabledBackgroundClick, false );
+        _configuration.showProgressBar = getDefaultBoolean( _configuration.showProgressBar, false );
+        _configuration.scrollToElements = getDefaultBoolean( _configuration.scrollToElements, false );
 
         buildDefaultConfigurationStrings();
         buildDefaultConfigurationCustomTriggers();
@@ -1301,6 +1339,7 @@
         _configuration.attributeNotValidErrorText = getDefaultString( _configuration.attributeNotValidErrorText, "The attribute '{{attribute_name}}' is not a valid object." );
         _configuration.attributeNotSetErrorText = getDefaultString( _configuration.attributeNotSetErrorText, "The attribute '{{attribute_name}}' has not been set correctly." );
         _configuration.closeDialogConfirmationText = getDefaultString( _configuration.closeDialogConfirmationText, null );
+        _configuration.showProgressBarText = getDefaultBoolean( _configuration.showProgressBarText, false );
     }
 
     function buildDefaultConfigurationCustomTriggers() {
@@ -1324,7 +1363,7 @@
      * @returns     {string}                                                The version number.
      */
     _public.getVersion = function() {
-        return "1.4.0";
+        return "1.5.0";
     };
 
 
