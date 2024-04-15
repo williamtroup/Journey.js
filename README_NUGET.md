@@ -23,6 +23,7 @@
 - 51 language translations available!
 - Customizable tooltips.
 - Show progress dots, or a progress bar, or both!
+- Group your steps into separate journeys!
 
 
 ## Where can I find the documentation?
