@@ -34,6 +34,11 @@
     _element_Dialog_CheckBox_Container = createElement("div", "checkbox-container");
     _element_Dialog.appendChild(_element_Dialog_CheckBox_Container);
     _element_Dialog_CheckBox_Input = buildCheckBox(_element_Dialog_CheckBox_Container, _configuration.doNotShowAgainText).input;
+    _element_Dialog_CheckBox_Input.onchange = function() {
+      if (_configuration.showDoNotShowAgain) {
+        fireCustomTrigger(_configuration.onDoNotShowAgainChange, _element_Dialog_CheckBox_Input.checked);
+      }
+    };
     _element_Dialog_ProgressDots = createElement("div", "progress-dots");
     _element_Dialog.appendChild(_element_Dialog_ProgressDots);
     _element_Dialog_ProgressBar = createElement("div", "progress-bar");
@@ -63,9 +68,6 @@
       var bindingOptions = _elements_Attributes_Json[_elements_Attributes_Keys[_elements_Attributes_Position]];
       if (isDefined(bindingOptions) && isDefined(bindingOptions.currentView.element)) {
         fireCustomTrigger(bindingOptions.events.onClose, bindingOptions.currentView.element);
-      }
-      if (_configuration.showDoNotShowAgain) {
-        fireCustomTrigger(_configuration.onDoNotShowAgainChange, _element_Dialog_CheckBox_Input.checked);
       }
       removeFocusClassFromLastElement(false);
       hideDisabledBackground();

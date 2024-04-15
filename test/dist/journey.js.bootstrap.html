@@ -81,6 +81,10 @@
             $journey.removeStep( document.getElementById( "button-4" ) );
         }
 
+        function onDoNotShowAgainChange( flag ) {
+            console.log( "Flag was changed to: " + flag.toString() );
+        }
+
         $journey.setConfiguration( {
             showDoNotShowAgain: true,
             showProgressDotNumbers: false,
@@ -88,7 +92,8 @@
             showProgressDotToolTips: true,
             closeDialogOnDisabledBackgroundClick: false,
             showProgressBar: false,
-            showProgressBarText: false
+            showProgressBarText: false,
+            onDoNotShowAgainChange: onDoNotShowAgainChange
         } );
     </script>
 </html>
