@@ -1,4 +1,4 @@
-/*! Journey.js v1.5.1 - Polish | (c) Bunoon 2024 | MIT License */
+/*! Journey.js v1.6.0 - Polish | (c) Bunoon 2024 | MIT License */
 $journey.setConfiguration( {
         "backButtonText": "Voltar",
         "nextButtonText": "Próximo",

@@ -17,23 +17,31 @@
         </div>
 
         <div class="contents">
+            <h2>Journey Step Buttons:</h2>
             <button class="btn btn-primary" data-journey-js="{ 'title': 'Button 4', 'description': 'This is a description for button 4.', 'order': 4, 'attach': false, 'showDisabledBackground': false }" id="button-4">Test Button 4</button>
             <button class="btn btn-primary" data-journey-js="{ 'title': 'Button 1', 'description': 'This is a description for button 1.', 'order': 1 }">Test Button 1</button>
             <button class="btn btn-primary" data-journey-js="{ 'title': 'Button 5', 'description': 'This is a description for button 5.', 'order': 5 }">Test Button 5</button>
             <button class="btn btn-primary" data-journey-js="{ 'title': 'Button 3', 'description': 'This is a description for button 3.', 'order': 3 }">Test Button 3</button>
             <button class="btn btn-primary" data-journey-js="{ 'title': 'Button 2', 'description': 'This is a description for button 2.', 'order': 2, 'alignRight': true }">Test Button 2</button>
+            <br>
+
+            <h2>Journey Step Buttons (in a separate journey group):</h2>
+            <button class="btn btn-primary" data-journey-js="{ 'group': 'group name', 'title': 'Button 2', 'description': 'This is a description for button 2 - using a separate group.', 'order': 2 }" id="button-4">Test Button 2</button>
+            <button class="btn btn-primary" data-journey-js="{ 'group': 'group name', 'title': 'Button 1', 'description': 'This is a description for button 1 - using a separate group.', 'order': 1 }">Test Button 1</button>
+            <button class="btn btn-primary" data-journey-js="{ 'group': 'group name', 'title': 'Button 3', 'description': 'This is a description for button 3 - using a separate group.', 'order': 3 }">Test Button 3</button>
         </div>
 
         <div class="contents" style="margin-bottom: 500px">
-            <h2>Show/Hide:</h2>
+            <h3>Show/Hide:</h3>
             <button class="btn btn-primary" onclick="$journey.start()">Start</button>
+            <button class="btn btn-primary" onclick="$journey.start( 'group name' )">Start (Separate Group)</button>
             <button class="btn btn-primary" onclick="$journey.show()">Show</button>
             <button class="btn btn-primary" data-journey-js="{ 'isHint': true, 'removeHintWhenViewed': true, 'title': 'Hide', 'description': 'Hides the journey dialog.' }" onclick="$journey.hide()">Hide</button>
             <button class="btn btn-primary" onclick="console.log( $journey.isOpen() );">Is Open</button>
             <button class="btn btn-primary" data-journey-js="{ 'isHint': true, 'title': 'Is Complete', 'description': 'States if the journey is complete.', 'alignHintToClickPosition': true }" onclick="console.log( $journey.isComplete() );">Is Complete</button>
             <br />
 
-            <h2>Manage Steps:</h2>
+            <h3>Manage Steps:</h3>
             <button id="add-step" class="btn btn-primary" onclick="addStepToJourney();">Add Step</button>
             <button class="btn btn-primary" onclick="removeStepFromJourney1();">Remove Step (hint)</button>
             <button class="btn btn-primary" onclick="removeStepFromJourney2();">Remove Step (step)</button>
@@ -42,11 +50,11 @@
             <button class="btn btn-primary" onclick="$journey.reverseStepOrder();">Reverse Step Order</button>
             <br />
 
-            <h2>Configuration:</h2>
+            <h3>Configuration:</h3>
             <button class="btn btn-primary" data-journey-js="{ 'title': 'Configuration', 'description': 'Sets the configuration that should be used in Journey.js.', 'order': 7, 'alignTop': true }" onclick="setupConfiguration();">Set Configuration</button>
             <br />
 
-            <h2>Additional Data:</h2>
+            <h3>Additional Data:</h3>
             <button class="btn btn-primary" data-journey-js="{ 'title': 'Get Version', 'description': 'Logs the current version of Journey.js to the developers console.', 'order': 6 }" onclick="console.log( $journey.getVersion() );">Get Version</button>
         </div>
     </body>
@@ -81,6 +89,10 @@
             $journey.removeStep( document.getElementById( "button-4" ) );
         }
 
+        function onDoNotShowAgainChange( flag ) {
+            console.log( "Flag was changed to: " + flag.toString() );
+        }
+
         $journey.setConfiguration( {
             showDoNotShowAgain: true,
             showProgressDotNumbers: false,
@@ -88,7 +100,8 @@
             showProgressDotToolTips: true,
             closeDialogOnDisabledBackgroundClick: false,
             showProgressBar: false,
-            showProgressBarText: false
+            showProgressBarText: false,
+            onDoNotShowAgainChange: onDoNotShowAgainChange
         } );
     </script>
 </html>

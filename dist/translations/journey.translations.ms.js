@@ -1,4 +1,4 @@
-/*! Journey.js v1.5.1 - Malay | (c) Bunoon 2024 | MIT License */
+/*! Journey.js v1.6.0 - Malay | (c) Bunoon 2024 | MIT License */
 $journey.setConfiguration( {
         "backButtonText": "belakang",
         "nextButtonText": "Seterusnya",

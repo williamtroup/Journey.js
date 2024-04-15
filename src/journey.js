@@ -4,7 +4,7 @@
  * A lightweight, easy-to-use JavaScript library to create interactive, customizable, accessible guided tours across your websites or web apps!
  * 
  * @file        journey.js
- * @version     v1.5.1
+ * @version     v1.6.0
  * @author      Bunoon
  * @license     MIT License
  * @copyright   Bunoon 2024
@@ -46,9 +46,11 @@
 
         // Variables: Elements
         _elements_Type = {},
-        _elements_Attributes_Json = {},
-        _elements_Attributes_Keys = [],
-        _elements_Attributes_Position = 0,
+
+        // Variables: Groups
+        _groups_Default = "default",
+        _groups_Current = _groups_Default,
+        _groups = {},
 
         // Variables: Focus Element
         _element_Focus_Element_PositionStyle = null,
@@ -68,8 +70,8 @@
         _element_Dialog_ProgressBar_Percentage = null,
         _element_Dialog_ProgressBar_Percentage_Text = null,
         _element_Dialog_Buttons = null,
-        _element_Dialog_Back_Button = null,
-        _element_Dialog_Next_Button = null,
+        _element_Dialog_Buttons_Back_Button = null,
+        _element_Dialog_Buttons_Next_Button = null,
 
         // Variables: Dialog
         _element_ToolTip = null,
@@ -77,6 +79,37 @@
 
         // Variables: Attribute Names
         _attribute_Name_Options = "data-journey-js";
+
+
+    /*
+     * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+     * Groups
+     * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+     */
+
+    function setupDefaultGroup() {
+        _groups = {};
+
+        _groups[ _groups_Default ] = {
+            json: {},
+            keys: [],
+            position: 0
+        };
+    }
+
+    function setupNewGroup( group ) {
+        if ( !_groups.hasOwnProperty( group ) ) {
+            _groups[ group ] = {
+                json: {},
+                keys: [],
+                position: 0
+            };
+        }
+    }
+
+    function getGroupBindingOptions() {
+        return _groups[ _groups_Current ].json[ _groups[ _groups_Current ].keys[ _groups[ _groups_Current ].position ] ];
+    }
 
 
     /*
@@ -134,6 +167,12 @@
         _element_Dialog.appendChild( _element_Dialog_CheckBox_Container );
 
         _element_Dialog_CheckBox_Input = buildCheckBox( _element_Dialog_CheckBox_Container, _configuration.doNotShowAgainText ).input;
+        
+        _element_Dialog_CheckBox_Input.onchange = function() {
+            if ( _configuration.showDoNotShowAgain ) {
+                fireCustomTrigger( _configuration.onDoNotShowAgainChange, _element_Dialog_CheckBox_Input.checked );
+            }
+        };
 
         _element_Dialog_ProgressDots = createElement( "div", "progress-dots" );
         _element_Dialog.appendChild( _element_Dialog_ProgressDots );
@@ -150,13 +189,13 @@
         _element_Dialog_Buttons = createElement( "div", "buttons" );
         _element_Dialog.appendChild( _element_Dialog_Buttons );
 
-        _element_Dialog_Back_Button = createElement( "button", "back" );
-        _element_Dialog_Back_Button.onclick = onDialogBack;
-        _element_Dialog_Buttons.appendChild( _element_Dialog_Back_Button );
+        _element_Dialog_Buttons_Back_Button = createElement( "button", "back" );
+        _element_Dialog_Buttons_Back_Button.onclick = onDialogBack;
+        _element_Dialog_Buttons.appendChild( _element_Dialog_Buttons_Back_Button );
 
-        _element_Dialog_Next_Button = createElement( "button", "next" );
-        _element_Dialog_Next_Button.onclick = onDialogNext;
-        _element_Dialog_Buttons.appendChild( _element_Dialog_Next_Button );
+        _element_Dialog_Buttons_Next_Button = createElement( "button", "next" );
+        _element_Dialog_Buttons_Next_Button.onclick = onDialogNext;
+        _element_Dialog_Buttons.appendChild( _element_Dialog_Buttons_Next_Button );
     }
 
     function onDialogClose( showConfirmationBox ) {
@@ -171,14 +210,10 @@
         }
 
         if ( confirmed ) {
-            var bindingOptions = _elements_Attributes_Json[ _elements_Attributes_Keys[ _elements_Attributes_Position ] ];
+            var bindingOptions = getGroupBindingOptions();
 
             if ( isDefined( bindingOptions ) && isDefined( bindingOptions.currentView.element ) ) {
                 fireCustomTrigger( bindingOptions.events.onClose, bindingOptions.currentView.element );
-            }
-    
-            if ( _configuration.showDoNotShowAgain ) {
-                fireCustomTrigger( _configuration.onDoNotShowAgainChange, _element_Dialog_CheckBox_Input.checked );
             }
     
             removeFocusClassFromLastElement( false );
@@ -190,18 +225,18 @@
     }
 
     function onDialogBack() {
-        if ( _elements_Attributes_Position > 0 ) {
+        if ( _groups[ _groups_Current ].position > 0 ) {
             removeFocusClassFromLastElement();
 
-            _elements_Attributes_Position--;
+            _groups[ _groups_Current ].position--;
 
             showDialogAndSetPosition();
         }        
     }
 
     function onDialogNext() {
-        if ( _elements_Attributes_Position === _elements_Attributes_Keys.length - 1 ) {
-            var bindingOptions = _elements_Attributes_Json[ _elements_Attributes_Keys[ _elements_Attributes_Position ] ];
+        if ( _groups[ _groups_Current ].position === _groups[ _groups_Current ].keys.length - 1 ) {
+            var bindingOptions = getGroupBindingOptions();
 
             onDialogClose( false );
             fireCustomTrigger( bindingOptions.events.onFinish, bindingOptions.currentView.element );
@@ -209,14 +244,14 @@
         } else {
             removeFocusClassFromLastElement();
 
-            _elements_Attributes_Position++;
+            _groups[ _groups_Current ].position++;
 
             showDialogAndSetPosition();
         }
     }
 
     function showDialogAndSetPosition() {
-        var bindingOptions = _elements_Attributes_Json[ _elements_Attributes_Keys[ _elements_Attributes_Position ] ];
+        var bindingOptions = getGroupBindingOptions();
 
         if ( isDefined( bindingOptions ) && isDefined( bindingOptions.currentView.element ) ) {
             if ( bindingOptions.showDisabledBackground ) {
@@ -244,18 +279,18 @@
             }
 
             showElementBasedOnCondition( _element_Dialog_CheckBox_Container, _configuration.showDoNotShowAgain );
-            showElementBasedOnCondition( _element_Dialog_ProgressDots, _configuration.showProgressDots && _elements_Attributes_Keys.length > 1 );
-            showElementBasedOnCondition( _element_Dialog_ProgressBar, _configuration.showProgressBar && _elements_Attributes_Keys.length > 1 );
+            showElementBasedOnCondition( _element_Dialog_ProgressDots, _configuration.showProgressDots && _groups[ _groups_Current ].keys.length > 1 );
+            showElementBasedOnCondition( _element_Dialog_ProgressBar, _configuration.showProgressBar && _groups[ _groups_Current ].keys.length > 1 );
             showElementBasedOnCondition( _element_Dialog_ProgressBar_Percentage_Text, _configuration.showProgressBarText );
             showElementBasedOnCondition( _element_Dialog_Buttons, _configuration.showButtons );
 
-            _element_Dialog_Back_Button.innerHTML = _configuration.backButtonText;
-            _element_Dialog_Back_Button.disabled = _elements_Attributes_Position === 0;
+            _element_Dialog_Buttons_Back_Button.innerHTML = _configuration.backButtonText;
+            _element_Dialog_Buttons_Back_Button.disabled = _groups[ _groups_Current ].position === 0;
             
-            if ( _elements_Attributes_Position >= _elements_Attributes_Keys.length - 1 ) {
-                _element_Dialog_Next_Button.innerHTML = _configuration.finishButtonText;
+            if ( _groups[ _groups_Current ].position >= _groups[ _groups_Current ].keys.length - 1 ) {
+                _element_Dialog_Buttons_Next_Button.innerHTML = _configuration.finishButtonText;
             } else {
-                _element_Dialog_Next_Button.innerHTML = _configuration.nextButtonText;
+                _element_Dialog_Buttons_Next_Button.innerHTML = _configuration.nextButtonText;
             }
 
             setDialogText( bindingOptions );
@@ -291,7 +326,7 @@
             fireCustomTrigger( bindingOptions.events.onOpen, bindingOptions.currentView.element );
         }
 
-        if ( _elements_Attributes_Position === 0 ) {
+        if ( _groups[ _groups_Current ].position === 0 ) {
             fireCustomTrigger( bindingOptions.events.onStart, bindingOptions.currentView.element );
         }
 
@@ -330,7 +365,7 @@
     function removeFocusClassFromLastElement( callCustomTrigger ) {
         callCustomTrigger = isDefined( callCustomTrigger ) ? callCustomTrigger : true;
 
-        var bindingOptions = _elements_Attributes_Json[ _elements_Attributes_Keys[ _elements_Attributes_Position ] ];
+        var bindingOptions = getGroupBindingOptions();
 
         if ( isDefined( bindingOptions ) && isDefined( bindingOptions.currentView.element ) ) {
             bindingOptions.currentView.element.className = bindingOptions.currentView.element.className.replace( _string.space + "journey-js-element-focus", _string.empty );
@@ -349,19 +384,19 @@
         _element_Dialog_ProgressDots.innerHTML = _string.empty;
 
         if ( _configuration.showProgressDots ) {
-            var keysLength = _elements_Attributes_Keys.length;
+            var keysLength = _groups[ _groups_Current ].keys.length;
 
             for ( var keyIndex = 0; keyIndex < keysLength; keyIndex++ ) {
-                buildProgressDot( keyIndex, _elements_Attributes_Keys[ keyIndex ] );
+                buildProgressDot( keyIndex, _groups[ _groups_Current ].keys[ keyIndex ] );
             }
         }
     }
 
     function buildProgressDot( keyIndex, order ) {
-        var bindingOptions = _elements_Attributes_Json[ order ],
+        var bindingOptions = _groups[ _groups_Current ].json[ order ],
             dot = null;
 
-        if ( keyIndex === _elements_Attributes_Position ) {
+        if ( keyIndex === _groups[ _groups_Current ].position ) {
             dot = createElement( "div", "dot-active" );
         } else {
             
@@ -370,7 +405,7 @@
             dot.onclick = function() {
                 removeFocusClassFromLastElement();
 
-                _elements_Attributes_Position = keyIndex;
+                _groups[ _groups_Current ].position = keyIndex;
 
                 showDialogAndSetPosition();
             };
@@ -394,9 +429,9 @@
 
     function setProgressBarPosition() {
         if ( _configuration.showProgressBar ) {
-            var pixelsPerStage = _element_Dialog_ProgressBar.offsetWidth / _elements_Attributes_Keys.length,
-                width = ( _elements_Attributes_Position + 1 ) * pixelsPerStage,
-                percentageComplete = _parameter_Math.ceil( ( ( _elements_Attributes_Position + 1 ) / _elements_Attributes_Keys.length ) * 100 );
+            var pixelsPerStage = _element_Dialog_ProgressBar.offsetWidth / _groups[ _groups_Current ].keys.length,
+                width = ( _groups[ _groups_Current ].position + 1 ) * pixelsPerStage,
+                percentageComplete = _parameter_Math.ceil( ( ( _groups[ _groups_Current ].position + 1 ) / _groups[ _groups_Current ].keys.length ) * 100 );
 
             _element_Dialog_ProgressBar_Percentage.style.width = width + "px";
             _element_Dialog_ProgressBar_Percentage_Text.innerHTML = percentageComplete + "%";
@@ -483,7 +518,7 @@
             }
         }
 
-        _elements_Attributes_Keys.sort();
+        _groups[ _groups_Current ].keys.sort();
     }
 
     function getElement( element ) {
@@ -524,8 +559,10 @@
             element.removeAttribute( _attribute_Name_Options );
             
             if ( !bindingOptions.isHint ) {
-                _elements_Attributes_Json[ bindingOptions.order ] = bindingOptions;
-                _elements_Attributes_Keys.push( bindingOptions.order );
+                setupNewGroup( bindingOptions.group );
+
+                _groups[ bindingOptions.group ].json[ bindingOptions.order ] = bindingOptions;
+                _groups[ bindingOptions.group ].keys.push( bindingOptions.order );
 
                 fireCustomTrigger( bindingOptions.events.onAddStep, element );
 
@@ -615,20 +652,20 @@
     }
 
     function onWindowKeyCodeUp() {
-        if ( _elements_Attributes_Position !== 0 ) {
+        if ( _groups[ _groups_Current ].position !== 0 ) {
             removeFocusClassFromLastElement();
 
-            _elements_Attributes_Position = 0;
+            _groups[ _groups_Current ].position = 0;
     
             showDialogAndSetPosition();
         }
     }
 
     function onWindowKeyCodeDown() {
-        if ( _elements_Attributes_Position !== _elements_Attributes_Keys.length - 1 ) {
+        if ( _groups[ _groups_Current ].position !== _groups[ _groups_Current ].keys.length - 1 ) {
             removeFocusClassFromLastElement();
 
-            _elements_Attributes_Position = _elements_Attributes_Keys.length - 1;
+            _groups[ _groups_Current ].position = _groups[ _groups_Current ].keys.length - 1;
     
             showDialogAndSetPosition();
         }
@@ -652,6 +689,7 @@
         options.alignHintToClickPosition = getDefaultBoolean( options.alignHintToClickPosition, false );
         options.showDisabledBackground = getDefaultBoolean( options.showDisabledBackground, true );
         options.removeHintWhenViewed = getDefaultBoolean( options.removeHintWhenViewed, false );
+        options.group = getDefaultString( options.group, _groups_Default );
 
         options = buildAttributeOptionStrings( options );
 
@@ -697,8 +735,8 @@
             if ( isDefined( urlArguments.sjOrderId ) ) {
                 var orderId = parseInt( urlArguments.sjOrderId, 10 );
 
-                if ( !isNaN( orderId ) && orderId <= _elements_Attributes_Keys.length - 1 ) {
-                    _elements_Attributes_Position = orderId;
+                if ( !isNaN( orderId ) && orderId <= _groups[ _groups_Current ].keys.length - 1 ) {
+                    _groups[ _groups_Current ].position = orderId;
                 }
             }
 
@@ -1039,12 +1077,18 @@
      * @public
      * @fires       onStart
      * 
+     * @param       {string}   [group]                                      States the group of steps you want to start the journey for (defaults to "default").
+     * 
      * @returns     {Object}                                                The Journey.js class instance.
      */
-    _public.start = function() {
-        _elements_Attributes_Position = 0;
+    _public.start = function( group ) {
+        _groups_Current = getDefaultString( group, _groups_Default );
 
-        showDialogAndSetPosition();
+        if ( _groups.hasOwnProperty( _groups_Current ) ) {
+            _groups[ _groups_Current ].position = 0;
+
+            showDialogAndSetPosition();
+        }
 
         return _public;
     };
@@ -1057,14 +1101,20 @@
      * @public
      * @fires       onOpen
      * 
+     * @param       {string}   [group]                                      States the group of steps you want to show the dialog for (defaults to the last group used).
+     * 
      * @returns     {Object}                                                The Journey.js class instance.
      */
-    _public.show = function() {
-        if ( _elements_Attributes_Position === _elements_Attributes_Keys.length - 1 ) {
-            _elements_Attributes_Position = 0;
-        }
+    _public.show = function( group ) {
+        _groups_Current = getDefaultString( group, _groups_Current );
 
-        showDialogAndSetPosition();
+        if ( _groups.hasOwnProperty( _groups_Current ) ) {
+            if ( _groups[ _groups_Current ].position === _groups[ _groups_Current ].keys.length - 1 ) {
+                _groups[ _groups_Current ].position = 0;
+            }
+    
+            showDialogAndSetPosition();
+        }
 
         return _public;
     };
@@ -1108,7 +1158,7 @@
      * @returns     {boolean}                                               The flag that states if the full journey has been completed.
      */
     _public.isComplete = function() {
-        return _elements_Attributes_Position >= _elements_Attributes_Keys.length - 1;
+        return _groups[ _groups_Current ].position >= _groups[ _groups_Current ].keys.length - 1;
     };
 
 
@@ -1151,7 +1201,7 @@
         if ( isDefinedObject( element ) && isDefinedObject( options ) ) {
             setupElement( element, buildAttributeOptions( options ) );
 
-            _elements_Attributes_Keys.sort();
+            _groups[ _groups_Current ].keys.sort();
     
             resetDialogPosition();
         }
@@ -1175,21 +1225,25 @@
         if ( isDefinedObject( element ) ) {
             var removed = false;
 
-            for ( var order in _elements_Attributes_Json ) {
-                if ( _elements_Attributes_Json.hasOwnProperty( order ) ) {
-                    var bindingOptions = _elements_Attributes_Json[ order ];
-
-                    if ( bindingOptions.currentView.element === element ) {
-                        fireCustomTrigger( bindingOptions.events.onRemoveStep, bindingOptions.currentView.element );
-
-                        _elements_Attributes_Keys.splice( _elements_Attributes_Keys.indexOf( bindingOptions.order ), 1 );
-
-                        delete _elements_Attributes_Json[ bindingOptions.order ];
-
-                        _elements_Attributes_Keys.sort();
-    
-                        removed = true;
-                        break;
+            for ( var group in _groups ) {
+                if ( _groups.hasOwnProperty( group ) ) {
+                    for ( var order in _groups[ group ].json ) {
+                        if ( _groups[ group ].json.hasOwnProperty( order ) ) {
+                            var bindingOptions = _groups[ group ].json[ order ];
+        
+                            if ( bindingOptions.currentView.element === element ) {
+                                fireCustomTrigger( bindingOptions.events.onRemoveStep, bindingOptions.currentView.element );
+        
+                                _groups[ group ].keys.splice( _groups[ group ].keys.indexOf( bindingOptions.order ), 1 );
+        
+                                delete _groups[ group ].json[ bindingOptions.order ];
+        
+                                _groups[ group ].keys.sort();
+            
+                                removed = true;
+                                break;
+                            }
+                        }
                     }
                 }
             }
@@ -1216,17 +1270,20 @@
      */
     _public.clearSteps = function() {
         resetDialogPosition();
-        
-        for ( var order in _elements_Attributes_Json ) {
-            if ( _elements_Attributes_Json.hasOwnProperty( order ) ) {
-                var bindingOptions = _elements_Attributes_Json[ order ];
 
-                fireCustomTrigger( bindingOptions.events.onRemoveStep, bindingOptions.currentView.element );
+        for ( var group in _groups ) {
+            if ( _groups.hasOwnProperty( group ) ) {
+                for ( var order in _groups[ group ].json ) {
+                    if ( _groups[ group ].json.hasOwnProperty( order ) ) {
+                        var bindingOptions = _groups[ group ].json[ order ];
+    
+                        fireCustomTrigger( bindingOptions.events.onRemoveStep, bindingOptions.currentView.element );
+                    }
+                }
             }
         }
 
-        _elements_Attributes_Json = {};
-        _elements_Attributes_Keys = [];
+        setupDefaultGroup();
 
         return _public;
     };
@@ -1256,7 +1313,7 @@
      * @returns     {Object}                                                The Journey.js class instance.
      */
     _public.reverseStepOrder = function() {
-        _elements_Attributes_Keys.reverse();
+        _groups[ _groups_Current ].keys.reverse();
 
         resetDialogPosition();
 
@@ -1267,7 +1324,7 @@
         if ( _public.isOpen() ) {
             onDialogClose( false );
 
-            _elements_Attributes_Position = 0;
+            _groups[ _groups_Current ].position = 0;
         }
     }
 
@@ -1363,7 +1420,7 @@
      * @returns     {string}                                                The version number.
      */
     _public.getVersion = function() {
-        return "1.5.1";
+        return "1.6.0";
     };
 
 
@@ -1382,6 +1439,7 @@
         buildDefaultConfiguration();
 
         _parameter_Document.addEventListener( "DOMContentLoaded", function() {
+            setupDefaultGroup();
             renderDisabledBackground();
             renderDialog();
             renderToolTip();
