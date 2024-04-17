@@ -1,5 +1,5 @@
 /*
- * Journey.js Library v1.6.0
+ * Journey.js Library v1.6.1
  *
  * Copyright 2024 Bunoon
  * Released under the MIT License
@@ -65,6 +65,7 @@
     --journey-js-checkbox-background-color: var(--journey-js-dialog-button-background-color);
     --journey-js-checkbox-border-color-checked: var(--journey-js-checkbox-background-color-checked);
     --journey-js-checkbox-border-color: var(--journey-js-dialog-button-border-color);
+    --journey-js-checkbox-border-hover-color: var(--journey-js-dialog-button-hover-background-color);
 
     // ToolTip
     --journey-js-tooltip-background-color: var(--journey-js-dialog-background-color);
@@ -78,7 +79,7 @@
 
     // Sizes
     --journey-js-spacing: 10px;
-    --journey-js-spacing-font-size: 0.9rem;
+    --journey-js-spacing-font-size: 0.85rem;
 
     // Transitions
     --journey-js-transition: all .3s;
@@ -133,15 +134,6 @@ div.journey-js-dialog {
 
     div.description {
         font-weight: var(--journey-js-text-bold-weight);
-    }
-
-    div.checkbox-container {
-        margin-top: var(--journey-js-spacing);
-        margin-bottom: var(--journey-js-spacing);
-
-        input {
-            margin-right: var(--journey-js-spacing);
-        }
     }
 }
 
@@ -216,13 +208,11 @@ div.journey-js-dialog {
     div.progress-dots {
         margin-top: var(--journey-js-spacing);
         margin-bottom: var(--journey-js-spacing);
-        text-wrap: nowrap;
         text-align: center;
 
         div.dot,
         div.dot-active {
-            margin-right: 2.5px;
-            margin-left: 2.5px;
+            margin: 2.5px;
             display: inline-block;
             padding: 0 !important;
         }
@@ -267,7 +257,7 @@ div.journey-js-dialog {
             transition-property: width;
             border-radius: 10px;
             height: 10px;
-            width: 15px;
+            width: 20px;
             background-color: var(--journey-js-dialog-button-border-color);
             border: var(--journey-js-border-size) solid var(--journey-js-dialog-button-border-color);
             color: var(--journey-js-color-white) !important;
@@ -319,56 +309,65 @@ div.journey-js-dialog {
 */
 
 div.journey-js-dialog {
-    label.checkbox {
-        display: inline-block;
-        position: relative;
-        padding-left: 25px;
-        color: var(--journey-js-color-white);
+    div.checkbox-container {
+        margin-top: var(--journey-js-spacing);
+        margin-bottom: var(--journey-js-spacing);
 
-        input {
-            display: none !important;
-
-            &:checked ~ span.check-mark {
-                background-color: var(--journey-js-checkbox-background-color-checked);
-                border: var(--journey-js-border-size) solid var(--journey-js-checkbox-border-color-checked);
+        label.checkbox {
+            display: inline-block;
+            position: relative;
+            padding-left: 25px;
+            color: var(--journey-js-color-white);
+    
+            input {
+                display: none !important;
+    
+                &:checked ~ span.check-mark {
+                    background-color: var(--journey-js-checkbox-background-color-checked);
+                    border: var(--journey-js-border-size) solid var(--journey-js-checkbox-border-color-checked);
+                }
+    
+                &:checked ~ span.check-mark::before {
+                    display: block;
+                }
+    
+                &:disabled ~ span.check-mark,
+                &:disabled ~ span.text {
+                    opacity: 0.5;
+                }
+                
+                &:disabled ~ span.check-mark {
+                    border: var(--journey-js-border-size) solid var(--journey-js-color-black) !important;
+                }
             }
-
-            &:checked ~ span.check-mark::before {
-                display: block;
-            }
-
-            &:disabled ~ span.check-mark,
-            &:disabled ~ span.text {
-                opacity: 0.5;
-            }
-            
-            &:disabled ~ span.check-mark {
-                border: var(--journey-js-border-size) solid var(--journey-js-color-black) !important;
-            }
-        }
-
-        span.check-mark {
-            position: absolute;
-            top: 1.5px;
-            left: 0;
-            height: 15px;
-            width: 15px;
-            background-color: var(--journey-js-checkbox-background-color);
-            border-radius: var(--journey-js-border-control-radius);
-            border: var(--journey-js-border-size) solid var(--journey-js-checkbox-border-color);
-            transition: var(--journey-js-transition);
-
-            &::before {
-                content: "";
-                transform: rotate( 45deg );
+    
+            span.check-mark {
                 position: absolute;
-                display: none;
-                left: 4px;
                 top: 0.5px;
-                width: 6px;
-                height: 11px;
-                border: solid var(--journey-js-color-white);
-                border-width: 0 2.5px 2.5px 0;
+                left: 0;
+                height: 15px;
+                width: 15px;
+                background-color: var(--journey-js-checkbox-background-color);
+                border-radius: var(--journey-js-border-control-radius);
+                border: var(--journey-js-border-size) solid var(--journey-js-checkbox-border-color);
+                transition: var(--journey-js-transition);
+    
+                &::before {
+                    content: "";
+                    transform: rotate( 45deg );
+                    position: absolute;
+                    display: none;
+                    left: 4px;
+                    top: 0.5px;
+                    width: 6px;
+                    height: 11px;
+                    border: solid var(--journey-js-color-white);
+                    border-width: 0 2.5px 2.5px 0;
+                }
+            }
+    
+            &:hover span.check-mark {
+                border: var(--journey-js-border-size) solid var(--journey-js-checkbox-border-hover-color);
             }
         }
     }
@@ -383,8 +382,14 @@ div.journey-js-dialog {
 
 div.journey-js-dialog {
     div.buttons {
-        margin-top: var(--journey-js-spacing);
+        margin-top: calc( var(--journey-js-spacing) * 2 );
         text-align: right;
+        border-top: var(--journey-js-border-size) dotted var(--journey-js-dialog-button-border-color);
+        padding-top: var(--journey-js-spacing);
+
+        button:first-child {
+            margin-left: 0 !important;
+        }
 
         button.back,
         button.next {
@@ -417,8 +422,13 @@ div.journey-js-dialog {
             }
         }
 
+        button.back {
+            float: left;
+        }
+
         button.next {
             font-weight: var(--journey-js-title-bold-weight);
+            float: right;
         }
     }
 }

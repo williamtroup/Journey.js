@@ -1,4 +1,4 @@
-/*! Journey.js v1.6.0 - Frisian | (c) Bunoon 2024 | MIT License */
+/*! Journey.js v1.6.1 - Frisian | (c) Bunoon 2024 | MIT License */
 $journey.setConfiguration( {
         "backButtonText": "Efter",
         "nextButtonText": "Folgjende",
