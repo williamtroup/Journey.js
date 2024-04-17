@@ -210,7 +210,7 @@ div.journey-js-dialog div.progress-dots div.dot-active {
   transition-property: width;
   border-radius: 10px;
   height: 10px;
-  width: 15px;
+  width: 20px;
   background-color: var(--journey-js-dialog-button-border-color);
   border: var(--journey-js-border-size) solid var(--journey-js-dialog-button-border-color);
   color: var(--journey-js-color-white) !important;
