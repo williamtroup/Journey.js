@@ -390,6 +390,8 @@ div.journey-js-dialog {
     div.buttons {
         margin-top: calc( var(--journey-js-spacing) * 2 );
         text-align: right;
+        border-top: var(--journey-js-border-size) dotted var(--journey-js-dialog-button-border-color);
+        padding-top: var(--journey-js-spacing);
 
         button:first-child {
             margin-left: 0 !important;
