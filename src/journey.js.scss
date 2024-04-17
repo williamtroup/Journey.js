@@ -388,8 +388,12 @@ div.journey-js-dialog {
 
 div.journey-js-dialog {
     div.buttons {
-        margin-top: var(--journey-js-spacing);
+        margin-top: calc( var(--journey-js-spacing) * 2 );
         text-align: right;
+
+        button:first-child {
+            margin-left: 0 !important;
+        }
 
         button.back,
         button.next {
@@ -422,8 +426,13 @@ div.journey-js-dialog {
             }
         }
 
+        button.back {
+            float: left;
+        }
+
         button.next {
             font-weight: var(--journey-js-title-bold-weight);
+            float: right;
         }
     }
 }

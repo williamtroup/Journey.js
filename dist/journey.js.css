@@ -306,8 +306,11 @@ div.journey-js-dialog label.checkbox:hover span.check-mark {
     -------------------------------------------------------------------------
 */
 div.journey-js-dialog div.buttons {
-  margin-top: var(--journey-js-spacing);
+  margin-top: calc(var(--journey-js-spacing) * 2);
   text-align: right;
+}
+div.journey-js-dialog div.buttons button:first-child {
+  margin-left: 0 !important;
 }
 div.journey-js-dialog div.buttons button.back,
 div.journey-js-dialog div.buttons button.next {
@@ -339,8 +342,12 @@ div.journey-js-dialog div.buttons button.next:disabled {
   background-color: var(--journey-js-dialog-button-disabled-background-color) !important;
   color: var(--journey-js-color-gray);
 }
+div.journey-js-dialog div.buttons button.back {
+  float: left;
+}
 div.journey-js-dialog div.buttons button.next {
   font-weight: var(--journey-js-title-bold-weight);
+  float: right;
 }
 
 /*
