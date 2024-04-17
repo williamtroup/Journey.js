@@ -164,13 +164,11 @@ div.journey-js-dialog button.close:hover::before, div.journey-js-dialog button.c
 div.journey-js-dialog div.progress-dots {
   margin-top: var(--journey-js-spacing);
   margin-bottom: var(--journey-js-spacing);
-  text-wrap: nowrap;
   text-align: center;
 }
 div.journey-js-dialog div.progress-dots div.dot,
 div.journey-js-dialog div.progress-dots div.dot-active {
-  margin-right: 2.5px;
-  margin-left: 2.5px;
+  margin: 2.5px;
   display: inline-block;
   padding: 0 !important;
 }

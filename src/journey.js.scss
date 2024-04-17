@@ -217,13 +217,11 @@ div.journey-js-dialog {
     div.progress-dots {
         margin-top: var(--journey-js-spacing);
         margin-bottom: var(--journey-js-spacing);
-        text-wrap: nowrap;
         text-align: center;
 
         div.dot,
         div.dot-active {
-            margin-right: 2.5px;
-            margin-left: 2.5px;
+            margin: 2.5px;
             display: inline-block;
             padding: 0 !important;
         }
