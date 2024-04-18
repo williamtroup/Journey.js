@@ -1,4 +1,4 @@
-/*! Journey.js v1.6.1 - Latvian | (c) Bunoon 2024 | MIT License */
+/*! Journey.js v1.6.2 - Latvian | (c) Bunoon 2024 | MIT License */
 $journey.setConfiguration( {
         "backButtonText": "Atpakaļ",
         "nextButtonText": "Nākamais",

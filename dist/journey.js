@@ -1,4 +1,4 @@
-/*! Journey.js v1.6.1 | (c) Bunoon 2024 | MIT License */
+/*! Journey.js v1.6.2 | (c) Bunoon 2024 | MIT License */
 (function() {
   var _parameter_Document = null, _parameter_Window = null, _parameter_Math = null, _parameter_Json = null, _public = {}, _configuration = {}, _configuration_ShortcutKeysEnabled = true, _enum_KeyCodes = {escape:27, left:37, up:38, right:39, down:40}, _string = {empty:"", space:" "}, _elements_Type = {}, _groups_Default = "default", _groups_Current = _groups_Default, _groups = {}, _element_Focus_Element_PositionStyle = null, _element_Disabled_Background = null, _element_Dialog = null, _element_Dialog_Close_Button = 
   null, _element_Dialog_Title = null, _element_Dialog_Description = null, _element_Dialog_CheckBox_Container = null, _element_Dialog_CheckBox_Input = null, _element_Dialog_ProgressDots = null, _element_Dialog_ProgressBar = null, _element_Dialog_ProgressBar_Percentage = null, _element_Dialog_ProgressBar_Percentage_Text = null, _element_Dialog_Buttons = null, _element_Dialog_Buttons_Back_Button = null, _element_Dialog_Buttons_Next_Button = null, _element_ToolTip = null, _element_ToolTip_Timer = null, 
@@ -791,7 +791,7 @@
     _configuration.onDoNotShowAgainChange = getDefaultFunction(_configuration.onDoNotShowAgainChange, null);
   }
   _public.getVersion = function() {
-    return "1.6.1";
+    return "1.6.2";
   };
   (function(documentObject, windowObject, mathObject, jsonObject) {
     _parameter_Document = documentObject;
