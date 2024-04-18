@@ -253,6 +253,7 @@ div.journey-js-dialog {
         }
 
         div.dot-active {
+            position: relative;
             transition: var(--journey-js-transition);
             transition-property: width;
             border-radius: 10px;
@@ -261,6 +262,17 @@ div.journey-js-dialog {
             background-color: var(--journey-js-dialog-button-border-color);
             border: var(--journey-js-border-size) solid var(--journey-js-dialog-button-border-color);
             color: var(--journey-js-color-white) !important;
+
+            &::after {
+                content: "";
+                position: absolute;
+                width: 15px;
+                height: 1px;
+                background-color: var(--journey-js-dialog-button-border-color);
+                bottom: -5px;
+                left: 50%;
+                transform: translate( -50% );
+            }
         }
     }
 }
