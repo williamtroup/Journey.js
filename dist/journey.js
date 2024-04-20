@@ -245,15 +245,9 @@
     }
   }
   function makeDialogMovable() {
-    _element_Dialog_Title.onmousedown = function(e) {
-      onMoveTitleBarMouseDown(e);
-    };
-    _element_Dialog_Title.onmouseup = function() {
-      onMoveTitleBarMouseUp();
-    };
-    _element_Dialog_Title.oncontextmenu = function() {
-      onMoveTitleBarMouseUp();
-    };
+    _element_Dialog_Title.onmousedown = onMoveTitleBarMouseDown;
+    _element_Dialog_Title.onmouseup = onMoveTitleBarMouseUp;
+    _element_Dialog_Title.oncontextmenu = onMoveTitleBarMouseUp;
     _parameter_Document.body.addEventListener("mousemove", onMoveDocumentMouseMove);
     _parameter_Document.body.addEventListener("mouseleave", onMoveDocumentMouseLeave);
   }
