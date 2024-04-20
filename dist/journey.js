@@ -754,14 +754,16 @@
     }
     return _public;
   };
-  _public.clearSteps = function() {
+  _public.clearSteps = function(group) {
     resetDialogPosition();
-    for (var group in _groups) {
-      if (_groups.hasOwnProperty(group)) {
-        for (var order in _groups[group].json) {
-          if (_groups[group].json.hasOwnProperty(order)) {
-            var bindingOptions = _groups[group].json[order];
-            fireCustomTrigger(bindingOptions.events.onRemoveStep, bindingOptions.currentView.element);
+    for (var groupName in _groups) {
+      if (_groups.hasOwnProperty(groupName)) {
+        if (!isDefinedString(group) || group === groupName) {
+          for (var order in _groups[groupName].json) {
+            if (_groups[groupName].json.hasOwnProperty(order)) {
+              var bindingOptions = _groups[groupName].json[order];
+              fireCustomTrigger(bindingOptions.events.onRemoveStep, bindingOptions.currentView.element);
+            }
           }
         }
       }
