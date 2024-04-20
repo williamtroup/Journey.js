@@ -1,4 +1,4 @@
-/*! Journey.js v1.6.2 - Ukrainian | (c) Bunoon 2024 | MIT License */
+/*! Journey.js v1.7.0 - Ukrainian | (c) Bunoon 2024 | MIT License */
 $journey.setConfiguration( {
         "backButtonText": "Назад",
         "nextButtonText": "Далі",
