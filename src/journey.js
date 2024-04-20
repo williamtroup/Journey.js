@@ -95,8 +95,8 @@
      * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
      */
 
-    function setupDefaultGroup() {
-        _groups = {};
+    function setupDefaultGroup( groups ) {
+        _groups = getDefaultObject( groups, {} );
 
         _groups[ _groups_Default ] = {
             json: {},
@@ -1354,7 +1354,18 @@
             }
         }
 
-        setupDefaultGroup();
+        if ( isDefinedString( group ) ) {
+            if ( _groups.hasOwnProperty( group ) ) {
+                delete _groups[ group ];
+            }
+
+        } else {
+            _groups = {};
+        }
+
+        if ( !isDefinedString( group ) || group === _groups_Default ) {
+            setupDefaultGroup( _groups );
+        }
 
         return _public;
     };
