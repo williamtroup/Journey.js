@@ -32,6 +32,7 @@ Journey.js
 - Customizable tooltips.
 - Show progress dots, or a progress bar, or both!
 - Group your steps into separate journeys!
+- Dialog moving support!
 <br />
 <br />
 

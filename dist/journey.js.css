@@ -102,6 +102,11 @@ div.journey-js-dialog div.description {
   font-weight: var(--journey-js-text-bold-weight);
 }
 
+div.journey-js-dialog-moving {
+  transition: none !important;
+  transition-property: none !important;
+}
+
 /*
     -------------------------------------------------------------------------
     Journey.js - Dialog - Close Button
