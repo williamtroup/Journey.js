@@ -4,7 +4,7 @@
  * A lightweight, easy-to-use JavaScript library to create interactive, customizable, accessible guided tours across your websites or web apps!
  * 
  * @file        journey.js
- * @version     v1.6.1
+ * @version     v1.7.0
  * @author      Bunoon
  * @license     MIT License
  * @copyright   Bunoon 2024
@@ -72,6 +72,14 @@
         _element_Dialog_Buttons = null,
         _element_Dialog_Buttons_Back_Button = null,
         _element_Dialog_Buttons_Next_Button = null,
+        _element_Dialog_IsHint = false,
+
+        // Variables: Dialog - Move
+        _element_Dialog_Move_Original_X = 0,
+        _element_Dialog_Move_Original_Y = 0,
+        _element_Dialog_Move_IsMoving = false,
+        _element_Dialog_Move_X = 0,
+        _element_Dialog_Move_Y = 0,
 
         // Variables: Dialog
         _element_ToolTip = null,
@@ -87,8 +95,8 @@
      * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
      */
 
-    function setupDefaultGroup() {
-        _groups = {};
+    function setupDefaultGroup( groups ) {
+        _groups = getDefaultObject( groups, {} );
 
         _groups[ _groups_Default ] = {
             json: {},
@@ -196,6 +204,8 @@
         _element_Dialog_Buttons_Next_Button = createElement( "button", "next" );
         _element_Dialog_Buttons_Next_Button.onclick = onDialogNext;
         _element_Dialog_Buttons.appendChild( _element_Dialog_Buttons_Next_Button );
+
+        makeDialogMovable();
     }
 
     function onDialogClose( showConfirmationBox ) {
@@ -330,6 +340,8 @@
             fireCustomTrigger( bindingOptions.events.onStart, bindingOptions.currentView.element );
         }
 
+        _element_Dialog_IsHint = bindingOptions.isHint === true;
+
         if ( bindingOptions.attach || bindingOptions.isHint ) {
             if ( bindingOptions.isHint && bindingOptions.alignHintToClickPosition ) {
                 showElementAtMousePosition( e, _element_Dialog );
@@ -435,6 +447,61 @@
 
             _element_Dialog_ProgressBar_Percentage.style.width = width + "px";
             _element_Dialog_ProgressBar_Percentage_Text.innerHTML = percentageComplete + "%";
+        }
+    }
+
+
+    /*
+     * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+     * Render:  Dialog - Move
+     * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+     */
+
+    function makeDialogMovable() {
+        _element_Dialog_Title.onmousedown = onMoveTitleBarMouseDown;
+        _element_Dialog_Title.onmouseup = onMoveTitleBarMouseUp;
+        _element_Dialog_Title.oncontextmenu = onMoveTitleBarMouseUp;
+
+        _parameter_Document.body.addEventListener( "mousemove", onMoveDocumentMouseMove );
+        _parameter_Document.body.addEventListener( "mouseleave", onMoveDocumentMouseLeave );
+    }
+
+    function onMoveTitleBarMouseDown( e ) {
+        if ( !_element_Dialog_Move_IsMoving && !_element_Dialog_IsHint && _configuration.dialogMovingEnabled ) {
+            _element_Dialog.className += " journey-js-dialog-moving";
+            _element_Dialog_Move_IsMoving = true;
+            _element_Dialog_Move_X = e.pageX - _element_Dialog.offsetLeft;
+            _element_Dialog_Move_Y = e.pageY - _element_Dialog.offsetTop;
+            _element_Dialog_Move_Original_X = _element_Dialog.offsetLeft;
+            _element_Dialog_Move_Original_Y = _element_Dialog.offsetTop;
+        }
+    }
+
+    function onMoveTitleBarMouseUp() {
+        if ( _element_Dialog_Move_IsMoving ) {
+            _element_Dialog_Move_IsMoving = false;
+            _element_Dialog_Move_Original_X = 0;
+            _element_Dialog_Move_Original_Y = 0;
+            _element_Dialog.className = "journey-js-dialog";
+        }
+    }
+
+    function onMoveDocumentMouseMove( e ) {
+        if ( _element_Dialog_Move_IsMoving ) {
+            _element_Dialog.style.left = ( e.pageX - _element_Dialog_Move_X ) + "px";
+            _element_Dialog.style.top = ( e.pageY - _element_Dialog_Move_Y ) + "px";
+        }
+    }
+
+    function onMoveDocumentMouseLeave() {
+        if ( _element_Dialog_Move_IsMoving ) {
+            _element_Dialog.style.left = _element_Dialog_Move_Original_X + "px";
+            _element_Dialog.style.top = _element_Dialog_Move_Original_Y + "px";
+
+            _element_Dialog_Move_IsMoving = false;
+            _element_Dialog_Move_Original_X = 0;
+            _element_Dialog_Move_Original_Y = 0;
+            _element_Dialog.className = "journey-js-dialog";
         }
     }
 
@@ -1266,24 +1333,39 @@
      * @public
      * @fires       onRemoveStep
      * 
+     * @param       {string}   [group]                                      States the group of steps you want to remove (defaults to all groups).
+     * 
      * @returns     {Object}                                                The Journey.js class instance.
      */
-    _public.clearSteps = function() {
+    _public.clearSteps = function( group ) {
         resetDialogPosition();
 
-        for ( var group in _groups ) {
-            if ( _groups.hasOwnProperty( group ) ) {
-                for ( var order in _groups[ group ].json ) {
-                    if ( _groups[ group ].json.hasOwnProperty( order ) ) {
-                        var bindingOptions = _groups[ group ].json[ order ];
-    
-                        fireCustomTrigger( bindingOptions.events.onRemoveStep, bindingOptions.currentView.element );
+        for ( var groupName in _groups ) {
+            if ( _groups.hasOwnProperty( groupName ) ) {
+                if ( !isDefinedString( group ) || group === groupName ) {
+                    for ( var order in _groups[ groupName ].json ) {
+                        if ( _groups[ groupName ].json.hasOwnProperty( order ) ) {
+                            var bindingOptions = _groups[ groupName ].json[ order ];
+        
+                            fireCustomTrigger( bindingOptions.events.onRemoveStep, bindingOptions.currentView.element );
+                        }
                     }
                 }
             }
         }
 
-        setupDefaultGroup();
+        if ( isDefinedString( group ) ) {
+            if ( _groups.hasOwnProperty( group ) ) {
+                delete _groups[ group ];
+            }
+
+        } else {
+            _groups = {};
+        }
+
+        if ( !isDefinedString( group ) || group === _groups_Default ) {
+            setupDefaultGroup( _groups );
+        }
 
         return _public;
     };
@@ -1381,6 +1463,7 @@
         _configuration.closeDialogOnDisabledBackgroundClick = getDefaultBoolean( _configuration.closeDialogOnDisabledBackgroundClick, false );
         _configuration.showProgressBar = getDefaultBoolean( _configuration.showProgressBar, false );
         _configuration.scrollToElements = getDefaultBoolean( _configuration.scrollToElements, false );
+        _configuration.dialogMovingEnabled = getDefaultBoolean( _configuration.dialogMovingEnabled, false );
 
         buildDefaultConfigurationStrings();
         buildDefaultConfigurationCustomTriggers();
@@ -1420,7 +1503,7 @@
      * @returns     {string}                                                The version number.
      */
     _public.getVersion = function() {
-        return "1.6.1";
+        return "1.7.0";
     };
 
 
