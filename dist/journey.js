@@ -409,18 +409,22 @@
       if (e.keyCode === _enum_KeyCodes.escape) {
         e.preventDefault();
         onDialogClose();
-      } else if (e.keyCode === _enum_KeyCodes.left && _configuration_ShortcutKeysEnabled) {
-        e.preventDefault();
-        onDialogBack();
-      } else if (e.keyCode === _enum_KeyCodes.right && _configuration_ShortcutKeysEnabled) {
-        e.preventDefault();
-        onDialogNext();
-      } else if (e.keyCode === _enum_KeyCodes.up && _configuration_ShortcutKeysEnabled) {
-        e.preventDefault();
-        onWindowKeyCodeUp();
-      } else if (e.keyCode === _enum_KeyCodes.down && _configuration_ShortcutKeysEnabled) {
-        e.preventDefault();
-        onWindowKeyCodeDown();
+      } else {
+        if (_configuration_ShortcutKeysEnabled) {
+          if (e.keyCode === _enum_KeyCodes.left) {
+            e.preventDefault();
+            onDialogBack();
+          } else if (e.keyCode === _enum_KeyCodes.right) {
+            e.preventDefault();
+            onDialogNext();
+          } else if (e.keyCode === _enum_KeyCodes.up) {
+            e.preventDefault();
+            onWindowKeyCodeUp();
+          } else if (e.keyCode === _enum_KeyCodes.down) {
+            e.preventDefault();
+            onWindowKeyCodeDown();
+          }
+        }
       }
     }
   }
