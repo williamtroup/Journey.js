@@ -687,25 +687,31 @@
     return {parsed:parsed, result:result};
   }
   _public.start = function(group) {
-    _groups_Current = getDefaultString(group, _groups_Default);
-    if (_groups.hasOwnProperty(_groups_Current)) {
-      _groups[_groups_Current].position = 0;
-      showDialogAndSetPosition();
+    if (!_public.isOpen()) {
+      _groups_Current = getDefaultString(group, _groups_Default);
+      if (_groups.hasOwnProperty(_groups_Current)) {
+        _groups[_groups_Current].position = 0;
+        showDialogAndSetPosition();
+      }
     }
     return _public;
   };
   _public.show = function(group) {
-    _groups_Current = getDefaultString(group, _groups_Current);
-    if (_groups.hasOwnProperty(_groups_Current)) {
-      if (_groups[_groups_Current].position === _groups[_groups_Current].keys.length - 1) {
-        _groups[_groups_Current].position = 0;
+    if (!_public.isOpen()) {
+      _groups_Current = getDefaultString(group, _groups_Current);
+      if (_groups.hasOwnProperty(_groups_Current)) {
+        if (_groups[_groups_Current].position === _groups[_groups_Current].keys.length - 1) {
+          _groups[_groups_Current].position = 0;
+        }
+        showDialogAndSetPosition();
       }
-      showDialogAndSetPosition();
     }
     return _public;
   };
   _public.hide = function() {
-    onDialogClose();
+    if (_public.isOpen()) {
+      onDialogClose();
+    }
     return _public;
   };
   _public.isOpen = function() {

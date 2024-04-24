@@ -1149,12 +1149,14 @@
      * @returns     {Object}                                                The Journey.js class instance.
      */
     _public.start = function( group ) {
-        _groups_Current = getDefaultString( group, _groups_Default );
+        if ( !_public.isOpen() ) {
+            _groups_Current = getDefaultString( group, _groups_Default );
 
-        if ( _groups.hasOwnProperty( _groups_Current ) ) {
-            _groups[ _groups_Current ].position = 0;
-
-            showDialogAndSetPosition();
+            if ( _groups.hasOwnProperty( _groups_Current ) ) {
+                _groups[ _groups_Current ].position = 0;
+    
+                showDialogAndSetPosition();
+            }
         }
 
         return _public;
@@ -1173,14 +1175,16 @@
      * @returns     {Object}                                                The Journey.js class instance.
      */
     _public.show = function( group ) {
-        _groups_Current = getDefaultString( group, _groups_Current );
+        if ( !_public.isOpen() ) {
+            _groups_Current = getDefaultString( group, _groups_Current );
 
-        if ( _groups.hasOwnProperty( _groups_Current ) ) {
-            if ( _groups[ _groups_Current ].position === _groups[ _groups_Current ].keys.length - 1 ) {
-                _groups[ _groups_Current ].position = 0;
+            if ( _groups.hasOwnProperty( _groups_Current ) ) {
+                if ( _groups[ _groups_Current ].position === _groups[ _groups_Current ].keys.length - 1 ) {
+                    _groups[ _groups_Current ].position = 0;
+                }
+        
+                showDialogAndSetPosition();
             }
-    
-            showDialogAndSetPosition();
         }
 
         return _public;
@@ -1197,7 +1201,9 @@
      * @returns     {Object}                                                The Journey.js class instance.
      */
     _public.hide = function() {
-        onDialogClose();
+        if ( _public.isOpen() ) {
+            onDialogClose();
+        }
 
         return _public;
     };
