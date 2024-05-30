@@ -639,6 +639,9 @@
       triggerFunction.apply(null, [].slice.call(arguments, 1));
     }
   }
+  function getDefaultAnyString(value, defaultValue) {
+    return typeof value === "string" ? value : defaultValue;
+  }
   function getDefaultString(value, defaultValue) {
     return isDefinedString(value) ? value : defaultValue;
   }
@@ -837,20 +840,20 @@
     _configuration.showProgressBar = getDefaultBoolean(_configuration.showProgressBar, false);
     _configuration.scrollToElements = getDefaultBoolean(_configuration.scrollToElements, false);
     _configuration.dialogMovingEnabled = getDefaultBoolean(_configuration.dialogMovingEnabled, false);
+    _configuration.showProgressBarText = getDefaultBoolean(_configuration.showProgressBarText, false);
     buildDefaultConfigurationStrings();
     buildDefaultConfigurationCustomTriggers();
   }
   function buildDefaultConfigurationStrings() {
-    _configuration.backButtonText = getDefaultString(_configuration.backButtonText, "Back");
-    _configuration.nextButtonText = getDefaultString(_configuration.nextButtonText, "Next");
-    _configuration.finishButtonText = getDefaultString(_configuration.finishButtonText, "Finish");
-    _configuration.closeButtonToolTipText = getDefaultString(_configuration.closeButtonToolTipText, "Close");
-    _configuration.doNotShowAgainText = getDefaultString(_configuration.doNotShowAgainText, "Do not show again");
-    _configuration.objectErrorText = getDefaultString(_configuration.objectErrorText, "Errors in object: {{error_1}}, {{error_2}}");
-    _configuration.attributeNotValidErrorText = getDefaultString(_configuration.attributeNotValidErrorText, "The attribute '{{attribute_name}}' is not a valid object.");
-    _configuration.attributeNotSetErrorText = getDefaultString(_configuration.attributeNotSetErrorText, "The attribute '{{attribute_name}}' has not been set correctly.");
-    _configuration.closeDialogConfirmationText = getDefaultString(_configuration.closeDialogConfirmationText, null);
-    _configuration.showProgressBarText = getDefaultBoolean(_configuration.showProgressBarText, false);
+    _configuration.backButtonText = getDefaultAnyString(_configuration.backButtonText, "Back");
+    _configuration.nextButtonText = getDefaultAnyString(_configuration.nextButtonText, "Next");
+    _configuration.finishButtonText = getDefaultAnyString(_configuration.finishButtonText, "Finish");
+    _configuration.closeButtonToolTipText = getDefaultAnyString(_configuration.closeButtonToolTipText, "Close");
+    _configuration.doNotShowAgainText = getDefaultAnyString(_configuration.doNotShowAgainText, "Do not show again");
+    _configuration.objectErrorText = getDefaultAnyString(_configuration.objectErrorText, "Errors in object: {{error_1}}, {{error_2}}");
+    _configuration.attributeNotValidErrorText = getDefaultAnyString(_configuration.attributeNotValidErrorText, "The attribute '{{attribute_name}}' is not a valid object.");
+    _configuration.attributeNotSetErrorText = getDefaultAnyString(_configuration.attributeNotSetErrorText, "The attribute '{{attribute_name}}' has not been set correctly.");
+    _configuration.closeDialogConfirmationText = getDefaultAnyString(_configuration.closeDialogConfirmationText, null);
   }
   function buildDefaultConfigurationCustomTriggers() {
     _configuration.onDoNotShowAgainChange = getDefaultFunction(_configuration.onDoNotShowAgainChange, null);
