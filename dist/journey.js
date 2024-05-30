@@ -1,4 +1,4 @@
-/*! Journey.js v1.7.0 | (c) Bunoon 2024 | MIT License */
+/*! Journey.js v1.7.1 | (c) Bunoon 2024 | MIT License */
 (function() {
   var _parameter_Document = null, _parameter_Window = null, _parameter_Math = null, _parameter_Json = null, _public = {}, _configuration = {}, _configuration_ShortcutKeysEnabled = true, _enum_KeyCodes = {escape:27, left:37, up:38, right:39, down:40}, _string = {empty:"", space:" "}, _elements_Type = {}, _groups_Default = "default", _groups_Current = _groups_Default, _groups = {}, _element_Focus_Element_PositionStyle = null, _element_Disabled_Background = null, _element_Dialog = null, _element_Dialog_Close_Button = 
   null, _element_Dialog_Title = null, _element_Dialog_Description = null, _element_Dialog_CheckBox_Container = null, _element_Dialog_CheckBox_Input = null, _element_Dialog_ProgressDots = null, _element_Dialog_ProgressBar = null, _element_Dialog_ProgressBar_Percentage = null, _element_Dialog_ProgressBar_Percentage_Text = null, _element_Dialog_Buttons = null, _element_Dialog_Buttons_Back_Button = null, _element_Dialog_Buttons_Next_Button = null, _element_Dialog_IsHint = false, _element_Dialog_Move_Original_X = 
@@ -409,18 +409,22 @@
       if (e.keyCode === _enum_KeyCodes.escape) {
         e.preventDefault();
         onDialogClose();
-      } else if (e.keyCode === _enum_KeyCodes.left && _configuration_ShortcutKeysEnabled) {
-        e.preventDefault();
-        onDialogBack();
-      } else if (e.keyCode === _enum_KeyCodes.right && _configuration_ShortcutKeysEnabled) {
-        e.preventDefault();
-        onDialogNext();
-      } else if (e.keyCode === _enum_KeyCodes.up && _configuration_ShortcutKeysEnabled) {
-        e.preventDefault();
-        onWindowKeyCodeUp();
-      } else if (e.keyCode === _enum_KeyCodes.down && _configuration_ShortcutKeysEnabled) {
-        e.preventDefault();
-        onWindowKeyCodeDown();
+      } else {
+        if (_configuration_ShortcutKeysEnabled) {
+          if (e.keyCode === _enum_KeyCodes.left) {
+            e.preventDefault();
+            onDialogBack();
+          } else if (e.keyCode === _enum_KeyCodes.right) {
+            e.preventDefault();
+            onDialogNext();
+          } else if (e.keyCode === _enum_KeyCodes.up) {
+            e.preventDefault();
+            onWindowKeyCodeUp();
+          } else if (e.keyCode === _enum_KeyCodes.down) {
+            e.preventDefault();
+            onWindowKeyCodeDown();
+          }
+        }
       }
     }
   }
@@ -635,6 +639,9 @@
       triggerFunction.apply(null, [].slice.call(arguments, 1));
     }
   }
+  function getDefaultAnyString(value, defaultValue) {
+    return typeof value === "string" ? value : defaultValue;
+  }
   function getDefaultString(value, defaultValue) {
     return isDefinedString(value) ? value : defaultValue;
   }
@@ -687,25 +694,31 @@
     return {parsed:parsed, result:result};
   }
   _public.start = function(group) {
-    _groups_Current = getDefaultString(group, _groups_Default);
-    if (_groups.hasOwnProperty(_groups_Current)) {
-      _groups[_groups_Current].position = 0;
-      showDialogAndSetPosition();
+    if (!_public.isOpen()) {
+      _groups_Current = getDefaultString(group, _groups_Default);
+      if (_groups.hasOwnProperty(_groups_Current)) {
+        _groups[_groups_Current].position = 0;
+        showDialogAndSetPosition();
+      }
     }
     return _public;
   };
   _public.show = function(group) {
-    _groups_Current = getDefaultString(group, _groups_Current);
-    if (_groups.hasOwnProperty(_groups_Current)) {
-      if (_groups[_groups_Current].position === _groups[_groups_Current].keys.length - 1) {
-        _groups[_groups_Current].position = 0;
+    if (!_public.isOpen()) {
+      _groups_Current = getDefaultString(group, _groups_Current);
+      if (_groups.hasOwnProperty(_groups_Current)) {
+        if (_groups[_groups_Current].position === _groups[_groups_Current].keys.length - 1) {
+          _groups[_groups_Current].position = 0;
+        }
+        showDialogAndSetPosition();
       }
-      showDialogAndSetPosition();
     }
     return _public;
   };
   _public.hide = function() {
-    onDialogClose();
+    if (_public.isOpen()) {
+      onDialogClose();
+    }
     return _public;
   };
   _public.isOpen = function() {
@@ -827,26 +840,26 @@
     _configuration.showProgressBar = getDefaultBoolean(_configuration.showProgressBar, false);
     _configuration.scrollToElements = getDefaultBoolean(_configuration.scrollToElements, false);
     _configuration.dialogMovingEnabled = getDefaultBoolean(_configuration.dialogMovingEnabled, false);
+    _configuration.showProgressBarText = getDefaultBoolean(_configuration.showProgressBarText, false);
     buildDefaultConfigurationStrings();
     buildDefaultConfigurationCustomTriggers();
   }
   function buildDefaultConfigurationStrings() {
-    _configuration.backButtonText = getDefaultString(_configuration.backButtonText, "Back");
-    _configuration.nextButtonText = getDefaultString(_configuration.nextButtonText, "Next");
-    _configuration.finishButtonText = getDefaultString(_configuration.finishButtonText, "Finish");
-    _configuration.closeButtonToolTipText = getDefaultString(_configuration.closeButtonToolTipText, "Close");
-    _configuration.doNotShowAgainText = getDefaultString(_configuration.doNotShowAgainText, "Do not show again");
-    _configuration.objectErrorText = getDefaultString(_configuration.objectErrorText, "Errors in object: {{error_1}}, {{error_2}}");
-    _configuration.attributeNotValidErrorText = getDefaultString(_configuration.attributeNotValidErrorText, "The attribute '{{attribute_name}}' is not a valid object.");
-    _configuration.attributeNotSetErrorText = getDefaultString(_configuration.attributeNotSetErrorText, "The attribute '{{attribute_name}}' has not been set correctly.");
-    _configuration.closeDialogConfirmationText = getDefaultString(_configuration.closeDialogConfirmationText, null);
-    _configuration.showProgressBarText = getDefaultBoolean(_configuration.showProgressBarText, false);
+    _configuration.backButtonText = getDefaultAnyString(_configuration.backButtonText, "Back");
+    _configuration.nextButtonText = getDefaultAnyString(_configuration.nextButtonText, "Next");
+    _configuration.finishButtonText = getDefaultAnyString(_configuration.finishButtonText, "Finish");
+    _configuration.closeButtonToolTipText = getDefaultAnyString(_configuration.closeButtonToolTipText, "Close");
+    _configuration.doNotShowAgainText = getDefaultAnyString(_configuration.doNotShowAgainText, "Do not show again");
+    _configuration.objectErrorText = getDefaultAnyString(_configuration.objectErrorText, "Errors in object: {{error_1}}, {{error_2}}");
+    _configuration.attributeNotValidErrorText = getDefaultAnyString(_configuration.attributeNotValidErrorText, "The attribute '{{attribute_name}}' is not a valid object.");
+    _configuration.attributeNotSetErrorText = getDefaultAnyString(_configuration.attributeNotSetErrorText, "The attribute '{{attribute_name}}' has not been set correctly.");
+    _configuration.closeDialogConfirmationText = getDefaultAnyString(_configuration.closeDialogConfirmationText, null);
   }
   function buildDefaultConfigurationCustomTriggers() {
     _configuration.onDoNotShowAgainChange = getDefaultFunction(_configuration.onDoNotShowAgainChange, null);
   }
   _public.getVersion = function() {
-    return "1.7.0";
+    return "1.7.1";
   };
   (function(documentObject, windowObject, mathObject, jsonObject) {
     _parameter_Document = documentObject;

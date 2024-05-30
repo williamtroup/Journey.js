@@ -1,4 +1,4 @@
-/*! Journey.js v1.7.0 - Spanish | (c) Bunoon 2024 | MIT License */
+/*! Journey.js v1.7.1 - Spanish | (c) Bunoon 2024 | MIT License */
 $journey.setConfiguration( {
         "backButtonText": "Atrás",
         "nextButtonText": "Próximo",

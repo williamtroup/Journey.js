@@ -4,7 +4,7 @@
  * A lightweight, easy-to-use JavaScript library to create interactive, customizable, accessible guided tours across your websites or web apps!
  * 
  * @file        journey.js
- * @version     v1.7.0
+ * @version     v1.7.1
  * @author      Bunoon
  * @license     MIT License
  * @copyright   Bunoon 2024
@@ -692,22 +692,26 @@
             if ( e.keyCode === _enum_KeyCodes.escape ) {
                 e.preventDefault();
                 onDialogClose();
+            } else {
 
-            } else if ( e.keyCode === _enum_KeyCodes.left && _configuration_ShortcutKeysEnabled ) {
-                e.preventDefault();
-                onDialogBack();
-
-            } else if ( e.keyCode === _enum_KeyCodes.right && _configuration_ShortcutKeysEnabled ) {
-                e.preventDefault();
-                onDialogNext();
-
-            } else if ( e.keyCode === _enum_KeyCodes.up && _configuration_ShortcutKeysEnabled ) {
-                e.preventDefault();
-                onWindowKeyCodeUp();
-
-            } else if ( e.keyCode === _enum_KeyCodes.down && _configuration_ShortcutKeysEnabled ) {
-                e.preventDefault();
-                onWindowKeyCodeDown();
+                if ( _configuration_ShortcutKeysEnabled ) {
+                    if ( e.keyCode === _enum_KeyCodes.left ) {
+                        e.preventDefault();
+                        onDialogBack();
+        
+                    } else if ( e.keyCode === _enum_KeyCodes.right ) {
+                        e.preventDefault();
+                        onDialogNext();
+        
+                    } else if ( e.keyCode === _enum_KeyCodes.up ) {
+                        e.preventDefault();
+                        onWindowKeyCodeUp();
+        
+                    } else if ( e.keyCode === _enum_KeyCodes.down ) {
+                        e.preventDefault();
+                        onWindowKeyCodeDown();
+                    }
+                }
             }
         }
     }
@@ -1056,6 +1060,10 @@
      * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
      */
 
+    function getDefaultAnyString( value, defaultValue ) {
+        return typeof value === "string" ? value : defaultValue;
+    }
+
     function getDefaultString( value, defaultValue ) {
         return isDefinedString( value ) ? value : defaultValue;
     }
@@ -1149,12 +1157,14 @@
      * @returns     {Object}                                                The Journey.js class instance.
      */
     _public.start = function( group ) {
-        _groups_Current = getDefaultString( group, _groups_Default );
+        if ( !_public.isOpen() ) {
+            _groups_Current = getDefaultString( group, _groups_Default );
 
-        if ( _groups.hasOwnProperty( _groups_Current ) ) {
-            _groups[ _groups_Current ].position = 0;
-
-            showDialogAndSetPosition();
+            if ( _groups.hasOwnProperty( _groups_Current ) ) {
+                _groups[ _groups_Current ].position = 0;
+    
+                showDialogAndSetPosition();
+            }
         }
 
         return _public;
@@ -1173,14 +1183,16 @@
      * @returns     {Object}                                                The Journey.js class instance.
      */
     _public.show = function( group ) {
-        _groups_Current = getDefaultString( group, _groups_Current );
+        if ( !_public.isOpen() ) {
+            _groups_Current = getDefaultString( group, _groups_Current );
 
-        if ( _groups.hasOwnProperty( _groups_Current ) ) {
-            if ( _groups[ _groups_Current ].position === _groups[ _groups_Current ].keys.length - 1 ) {
-                _groups[ _groups_Current ].position = 0;
+            if ( _groups.hasOwnProperty( _groups_Current ) ) {
+                if ( _groups[ _groups_Current ].position === _groups[ _groups_Current ].keys.length - 1 ) {
+                    _groups[ _groups_Current ].position = 0;
+                }
+        
+                showDialogAndSetPosition();
             }
-    
-            showDialogAndSetPosition();
         }
 
         return _public;
@@ -1197,7 +1209,9 @@
      * @returns     {Object}                                                The Journey.js class instance.
      */
     _public.hide = function() {
-        onDialogClose();
+        if ( _public.isOpen() ) {
+            onDialogClose();
+        }
 
         return _public;
     };
@@ -1464,22 +1478,22 @@
         _configuration.showProgressBar = getDefaultBoolean( _configuration.showProgressBar, false );
         _configuration.scrollToElements = getDefaultBoolean( _configuration.scrollToElements, false );
         _configuration.dialogMovingEnabled = getDefaultBoolean( _configuration.dialogMovingEnabled, false );
+        _configuration.showProgressBarText = getDefaultBoolean( _configuration.showProgressBarText, false );
 
         buildDefaultConfigurationStrings();
         buildDefaultConfigurationCustomTriggers();
     }
 
     function buildDefaultConfigurationStrings() {
-        _configuration.backButtonText = getDefaultString( _configuration.backButtonText, "Back" );
-        _configuration.nextButtonText = getDefaultString( _configuration.nextButtonText, "Next" );
-        _configuration.finishButtonText = getDefaultString( _configuration.finishButtonText, "Finish" );
-        _configuration.closeButtonToolTipText = getDefaultString( _configuration.closeButtonToolTipText, "Close" );
-        _configuration.doNotShowAgainText = getDefaultString( _configuration.doNotShowAgainText, "Do not show again" );
-        _configuration.objectErrorText = getDefaultString( _configuration.objectErrorText, "Errors in object: {{error_1}}, {{error_2}}" );
-        _configuration.attributeNotValidErrorText = getDefaultString( _configuration.attributeNotValidErrorText, "The attribute '{{attribute_name}}' is not a valid object." );
-        _configuration.attributeNotSetErrorText = getDefaultString( _configuration.attributeNotSetErrorText, "The attribute '{{attribute_name}}' has not been set correctly." );
-        _configuration.closeDialogConfirmationText = getDefaultString( _configuration.closeDialogConfirmationText, null );
-        _configuration.showProgressBarText = getDefaultBoolean( _configuration.showProgressBarText, false );
+        _configuration.backButtonText = getDefaultAnyString( _configuration.backButtonText, "Back" );
+        _configuration.nextButtonText = getDefaultAnyString( _configuration.nextButtonText, "Next" );
+        _configuration.finishButtonText = getDefaultAnyString( _configuration.finishButtonText, "Finish" );
+        _configuration.closeButtonToolTipText = getDefaultAnyString( _configuration.closeButtonToolTipText, "Close" );
+        _configuration.doNotShowAgainText = getDefaultAnyString( _configuration.doNotShowAgainText, "Do not show again" );
+        _configuration.objectErrorText = getDefaultAnyString( _configuration.objectErrorText, "Errors in object: {{error_1}}, {{error_2}}" );
+        _configuration.attributeNotValidErrorText = getDefaultAnyString( _configuration.attributeNotValidErrorText, "The attribute '{{attribute_name}}' is not a valid object." );
+        _configuration.attributeNotSetErrorText = getDefaultAnyString( _configuration.attributeNotSetErrorText, "The attribute '{{attribute_name}}' has not been set correctly." );
+        _configuration.closeDialogConfirmationText = getDefaultAnyString( _configuration.closeDialogConfirmationText, null );
     }
 
     function buildDefaultConfigurationCustomTriggers() {
@@ -1503,7 +1517,7 @@
      * @returns     {string}                                                The version number.
      */
     _public.getVersion = function() {
-        return "1.7.0";
+        return "1.7.1";
     };
 
 
