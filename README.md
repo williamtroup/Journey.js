@@ -21,6 +21,7 @@ Journey.js
 <h1>What features does Journey.js have?</h1>
 
 - Zero-dependencies and extremely lightweight!
+- Exportable for use in other frameworks!
 - Full API available via public functions.
 - Fully styled in CSS/SASS and compatible with the Bootstrap library.
 - Full CSS theme support (using :root variables, with a default dark-mode theme).
