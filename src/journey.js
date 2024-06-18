@@ -4,7 +4,7 @@
  * A lightweight, easy-to-use JavaScript library to create interactive, customizable, accessible guided tours across your websites or web apps!
  * 
  * @file        journey.js
- * @version     v1.7.1
+ * @version     v1.7.2
  * @author      Bunoon
  * @license     MIT License
  * @copyright   Bunoon 2024
@@ -1517,7 +1517,7 @@
      * @returns     {string}                                                The version number.
      */
     _public.getVersion = function() {
-        return "1.7.1";
+        return "1.7.2";
     };
 
 

@@ -1,4 +1,4 @@
-/*! Journey.js v1.7.1 - Catalan | (c) Bunoon 2024 | MIT License */
+/*! Journey.js v1.7.2 - Catalan | (c) Bunoon 2024 | MIT License */
 $journey.setConfiguration( {
         "backButtonText": "esquena",
         "nextButtonText": "Pròxim",

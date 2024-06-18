@@ -1,4 +1,4 @@
-/*! Journey.js v1.7.1 - Chinese (simplified) | (c) Bunoon 2024 | MIT License */
+/*! Journey.js v1.7.2 - Chinese (simplified) | (c) Bunoon 2024 | MIT License */
 $journey.setConfiguration( {
         "backButtonText": "后退",
         "nextButtonText": "下一个",

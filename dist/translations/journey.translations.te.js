@@ -1,4 +1,4 @@
-/*! Journey.js v1.7.1 - Telugu | (c) Bunoon 2024 | MIT License */
+/*! Journey.js v1.7.2 - Telugu | (c) Bunoon 2024 | MIT License */
 $journey.setConfiguration( {
         "backButtonText": "వెనుకకు",
         "nextButtonText": "తరువాత",

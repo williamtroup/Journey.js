@@ -1,8 +1,8 @@
-# Journey.js v1.7.1
+# Journey.js v1.7.2
 
 [![Tweet](https://img.shields.io/twitter/url/http/shields.io.svg?style=social)](https://twitter.com/intent/tweet?text=Journey.js%2C%20a%20free%20JavaScript%journey%builder&url=https://github.com/williamtroup/Journey.js&hashtags=javascript,html,journey,guide)
-[![npm](https://img.shields.io/badge/npmjs-v1.7.1-blue)](https://www.npmjs.com/package/jjourney.js)
-[![nuget](https://img.shields.io/badge/nuget-v1.7.1-purple)](https://www.nuget.org/packages/jJourney.js/)
+[![npm](https://img.shields.io/badge/npmjs-v1.7.2-blue)](https://www.npmjs.com/package/jjourney.js)
+[![nuget](https://img.shields.io/badge/nuget-v1.7.2-purple)](https://www.nuget.org/packages/jJourney.js/)
 [![license](https://img.shields.io/badge/license-MIT-green)](https://github.com/williamtroup/Journey.js/blob/main/LICENSE.txt)
 [![discussions Welcome](https://img.shields.io/badge/discussions-Welcome-red)](https://github.com/williamtroup/Journey.js/discussions)
 [![coded by William Troup](https://img.shields.io/badge/coded_by-William_Troup-yellow)](https://www.william-troup.com/)
@@ -13,6 +13,7 @@
 ## What features does Journey.js have?
 
 - Zero-dependencies and extremely lightweight!
+- Exportable for use in other frameworks!
 - Full API available via public functions.
 - Fully styled in CSS/SASS and compatible with the Bootstrap library.
 - Full CSS theme support (using :root variables, with a default dark-mode theme).
