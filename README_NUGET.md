@@ -110,6 +110,13 @@ npm install jjourney.js
 
 Or, you can download the latest zipped up version [here](https://www.william-troup.com/journey-js/download.html).
 
+Or, you can also use the following CDN links:
+
+```markdown
+https://cdn.jsdelivr.net/gh/williamtroup/Journey.js@main/dist/journey.min.js
+https://cdn.jsdelivr.net/gh/williamtroup/Journey.js@main/dist/journey.js.min.css
+```
+
 
 ## How do I get started?
 
