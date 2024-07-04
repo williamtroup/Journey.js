@@ -32,7 +32,7 @@ type StringToJson = {
 };
 
 type Groups = Record<string, {
-    json: BindingOptions;
+    json: Record<number, BindingOptions>;
     keys: number[];
     position: number;
 }>;
@@ -1115,7 +1115,7 @@ type Groups = Record<string, {
          * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
          */
 
-        setConfiguration: function ( newConfiguration: Configuration ) : PublicApi {
+        setConfiguration: function ( newConfiguration: any ) : PublicApi {
             if ( Is.definedObject( newConfiguration ) ) {
                 let configurationHasChanged: boolean = false;
             
