@@ -15,12 +15,13 @@ import {
     type Configuration,
     type BindingOptions,
     type Events, 
-    CurrentView} from "./ts/type";
+    type CurrentView } from "./ts/type";
 
 import { Char, KeyCode } from "./ts/enum";
 import { Constants } from "./ts/constant";
 import { PublicApi } from "./ts/api";
 import { Is } from "./ts/is";
+import { Data } from "./ts/data";
 
 
 type StringToJson = {
@@ -87,7 +88,7 @@ type Position = {
      */
 
     function setupDefaultGroup( groups: any = null ) : void {
-        _groups = getDefaultObject( groups, {} );
+        _groups = Data.getDefaultObject( groups, {} );
 
         _groups[ _groups_Default ] = {
             json: {},
@@ -736,16 +737,16 @@ type Position = {
 
     function buildAttributeOptions( newOptions: any ) {
         let options: BindingOptions = !Is.definedObject( newOptions ) ? {} as BindingOptions : newOptions;
-        options.order = getDefaultNumber( options.order, 0 );
-        options.attach = getDefaultBoolean( options.attach, true );
-        options.sendClick = getDefaultBoolean( options.sendClick, false );
-        options.alignTop = getDefaultBoolean( options.alignTop, false );
-        options.alignRight = getDefaultBoolean( options.alignRight, false );
-        options.isHint = getDefaultBoolean( options.isHint, false );
-        options.alignHintToClickPosition = getDefaultBoolean( options.alignHintToClickPosition, false );
-        options.showDisabledBackground = getDefaultBoolean( options.showDisabledBackground, true );
-        options.removeHintWhenViewed = getDefaultBoolean( options.removeHintWhenViewed, false );
-        options.group = getDefaultString( options.group, _groups_Default );
+        options.order = Data.getDefaultNumber( options.order, 0 );
+        options.attach = Data.getDefaultBoolean( options.attach, true );
+        options.sendClick = Data.getDefaultBoolean( options.sendClick, false );
+        options.alignTop = Data.getDefaultBoolean( options.alignTop, false );
+        options.alignRight = Data.getDefaultBoolean( options.alignRight, false );
+        options.isHint = Data.getDefaultBoolean( options.isHint, false );
+        options.alignHintToClickPosition = Data.getDefaultBoolean( options.alignHintToClickPosition, false );
+        options.showDisabledBackground = Data.getDefaultBoolean( options.showDisabledBackground, true );
+        options.removeHintWhenViewed = Data.getDefaultBoolean( options.removeHintWhenViewed, false );
+        options.group = Data.getDefaultString( options.group, _groups_Default );
 
         options = buildAttributeOptionStrings( options );
 
@@ -753,23 +754,23 @@ type Position = {
     }
 
     function buildAttributeOptionStrings( options: BindingOptions ) : BindingOptions {
-        options.title = getDefaultString( options.title, null );
-        options.description = getDefaultString( options.description, null );
-        options.tooltip = getDefaultString( options.tooltip, null );
+        options.title = Data.getDefaultString( options.title, null );
+        options.description = Data.getDefaultString( options.description, null );
+        options.tooltip = Data.getDefaultString( options.tooltip, null );
 
         return options;
     }
 
     function buildAttributeOptionCustomTriggers( options: BindingOptions ) : BindingOptions {
-        options.events = getDefaultObject( options.events, {} as Events );
-        options.events.onEnter = getDefaultFunction( options.events.onEnter, null );
-        options.events.onLeave = getDefaultFunction( options.events.onLeave, null );
-        options.events.onClose = getDefaultFunction( options.events.onClose, null );
-        options.events.onFinish = getDefaultFunction( options.events.onFinish, null );
-        options.events.onOpen = getDefaultFunction( options.events.onOpen, null );
-        options.events.onStart = getDefaultFunction( options.events.onStart, null );
-        options.events.onAddStep = getDefaultFunction( options.events.onAddStep, null );
-        options.events.onRemoveStep = getDefaultFunction( options.events.onRemoveStep, null );
+        options.events = Data.getDefaultObject( options.events, {} as Events );
+        options.events.onEnter = Data.getDefaultFunction( options.events.onEnter, null );
+        options.events.onLeave = Data.getDefaultFunction( options.events.onLeave, null );
+        options.events.onClose = Data.getDefaultFunction( options.events.onClose, null );
+        options.events.onFinish = Data.getDefaultFunction( options.events.onFinish, null );
+        options.events.onOpen = Data.getDefaultFunction( options.events.onOpen, null );
+        options.events.onStart = Data.getDefaultFunction( options.events.onStart, null );
+        options.events.onAddStep = Data.getDefaultFunction( options.events.onAddStep, null );
+        options.events.onRemoveStep = Data.getDefaultFunction( options.events.onRemoveStep, null );
 
         return options;
     }
@@ -1000,53 +1001,6 @@ type Position = {
      * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
      */
 
-    function getDefaultAnyString( value: any, defaultValue: string ) : string {
-        return typeof value === "string" ? value : defaultValue;
-    }
-
-    function getDefaultString( value: any, defaultValue: string ) : string {
-        return Is.definedString( value ) ? value : defaultValue;
-    }
-
-    function getDefaultBoolean( value: any, defaultValue: boolean ) : boolean {
-        return Is.definedBoolean( value ) ? value : defaultValue;
-    }
-
-    function getDefaultNumber( value: any, defaultValue: number ) : number {
-        return Is.definedNumber( value ) ? value : defaultValue;
-    }
-
-    function getDefaultFunction( value: any, defaultValue: object ) : any {
-        return Is.definedFunction( value ) ? value : defaultValue;
-    }
-
-    function getDefaultObject( value: any, defaultValue: object ) : object {
-        return Is.definedObject( value ) ? value : defaultValue;
-    }
-
-    function getDefaultArray( value: any, defaultValue: any[] ) : any[] {
-        return Is.definedArray( value ) ? value : defaultValue;
-    }
-
-    function getDefaultStringOrArray( value: any, defaultValue: any[] ) : any[] {
-        let result: any[] = defaultValue;
-
-        if ( Is.definedString( value ) ) {
-            const values: string[] = value.toString().split( Char.space );
-
-            if ( values.length === 0 ) {
-                value = defaultValue;
-            } else {
-                result = values;
-            }
-
-        } else {
-            result = getDefaultArray( value, defaultValue );
-        }
-
-        return result;
-    }
-
     function getObjectFromString( objectString: any ) : StringToJson {
         const result: StringToJson = {
             parsed: true,
@@ -1102,42 +1056,42 @@ type Position = {
 	 */
 
     function buildDefaultConfiguration( newConfiguration: Configuration = null ) : void {
-        _configuration = getDefaultObject( newConfiguration, {} as Configuration );
-        _configuration.safeMode = getDefaultBoolean( _configuration.safeMode, true );
-        _configuration.domElementTypes = getDefaultStringOrArray( _configuration.domElementTypes, [ "*" ] );
-        _configuration.showCloseButton = getDefaultBoolean( _configuration.showCloseButton, true );
-        _configuration.shortcutKeysEnabled = getDefaultBoolean( _configuration.shortcutKeysEnabled, true );
-        _configuration.showProgressDots = getDefaultBoolean( _configuration.showProgressDots, true );
-        _configuration.browserUrlParametersEnabled = getDefaultBoolean( _configuration.browserUrlParametersEnabled, true );
-        _configuration.showProgressDotNumbers = getDefaultBoolean( _configuration.showProgressDotNumbers, false );
-        _configuration.showButtons = getDefaultBoolean( _configuration.showButtons, true );
-        _configuration.showDoNotShowAgain = getDefaultBoolean( _configuration.showDoNotShowAgain, false );
-        _configuration.tooltipDelay = getDefaultNumber( _configuration.tooltipDelay, 750 );
-        _configuration.showProgressDotToolTips = getDefaultBoolean( _configuration.showProgressDotToolTips, true );
-        _configuration.closeDialogOnDisabledBackgroundClick = getDefaultBoolean( _configuration.closeDialogOnDisabledBackgroundClick, false );
-        _configuration.showProgressBar = getDefaultBoolean( _configuration.showProgressBar, false );
-        _configuration.scrollToElements = getDefaultBoolean( _configuration.scrollToElements, false );
-        _configuration.dialogMovingEnabled = getDefaultBoolean( _configuration.dialogMovingEnabled, false );
-        _configuration.showProgressBarText = getDefaultBoolean( _configuration.showProgressBarText, false );
+        _configuration = Data.getDefaultObject( newConfiguration, {} as Configuration );
+        _configuration.safeMode = Data.getDefaultBoolean( _configuration.safeMode, true );
+        _configuration.domElementTypes = Data.getDefaultStringOrArray( _configuration.domElementTypes, [ "*" ] );
+        _configuration.showCloseButton = Data.getDefaultBoolean( _configuration.showCloseButton, true );
+        _configuration.shortcutKeysEnabled = Data.getDefaultBoolean( _configuration.shortcutKeysEnabled, true );
+        _configuration.showProgressDots = Data.getDefaultBoolean( _configuration.showProgressDots, true );
+        _configuration.browserUrlParametersEnabled = Data.getDefaultBoolean( _configuration.browserUrlParametersEnabled, true );
+        _configuration.showProgressDotNumbers = Data.getDefaultBoolean( _configuration.showProgressDotNumbers, false );
+        _configuration.showButtons = Data.getDefaultBoolean( _configuration.showButtons, true );
+        _configuration.showDoNotShowAgain = Data.getDefaultBoolean( _configuration.showDoNotShowAgain, false );
+        _configuration.tooltipDelay = Data.getDefaultNumber( _configuration.tooltipDelay, 750 );
+        _configuration.showProgressDotToolTips = Data.getDefaultBoolean( _configuration.showProgressDotToolTips, true );
+        _configuration.closeDialogOnDisabledBackgroundClick = Data.getDefaultBoolean( _configuration.closeDialogOnDisabledBackgroundClick, false );
+        _configuration.showProgressBar = Data.getDefaultBoolean( _configuration.showProgressBar, false );
+        _configuration.scrollToElements = Data.getDefaultBoolean( _configuration.scrollToElements, false );
+        _configuration.dialogMovingEnabled = Data.getDefaultBoolean( _configuration.dialogMovingEnabled, false );
+        _configuration.showProgressBarText = Data.getDefaultBoolean( _configuration.showProgressBarText, false );
 
         buildDefaultConfigurationStrings();
         buildDefaultConfigurationCustomTriggers();
     }
 
     function buildDefaultConfigurationStrings() : void {
-        _configuration.backButtonText = getDefaultAnyString( _configuration.backButtonText, "Back" );
-        _configuration.nextButtonText = getDefaultAnyString( _configuration.nextButtonText, "Next" );
-        _configuration.finishButtonText = getDefaultAnyString( _configuration.finishButtonText, "Finish" );
-        _configuration.closeButtonToolTipText = getDefaultAnyString( _configuration.closeButtonToolTipText, "Close" );
-        _configuration.doNotShowAgainText = getDefaultAnyString( _configuration.doNotShowAgainText, "Do not show again" );
-        _configuration.objectErrorText = getDefaultAnyString( _configuration.objectErrorText, "Errors in object: {{error_1}}, {{error_2}}" );
-        _configuration.attributeNotValidErrorText = getDefaultAnyString( _configuration.attributeNotValidErrorText, "The attribute '{{attribute_name}}' is not a valid object." );
-        _configuration.attributeNotSetErrorText = getDefaultAnyString( _configuration.attributeNotSetErrorText, "The attribute '{{attribute_name}}' has not been set correctly." );
-        _configuration.closeDialogConfirmationText = getDefaultAnyString( _configuration.closeDialogConfirmationText, null );
+        _configuration.backButtonText = Data.getDefaultAnyString( _configuration.backButtonText, "Back" );
+        _configuration.nextButtonText = Data.getDefaultAnyString( _configuration.nextButtonText, "Next" );
+        _configuration.finishButtonText = Data.getDefaultAnyString( _configuration.finishButtonText, "Finish" );
+        _configuration.closeButtonToolTipText = Data.getDefaultAnyString( _configuration.closeButtonToolTipText, "Close" );
+        _configuration.doNotShowAgainText = Data.getDefaultAnyString( _configuration.doNotShowAgainText, "Do not show again" );
+        _configuration.objectErrorText = Data.getDefaultAnyString( _configuration.objectErrorText, "Errors in object: {{error_1}}, {{error_2}}" );
+        _configuration.attributeNotValidErrorText = Data.getDefaultAnyString( _configuration.attributeNotValidErrorText, "The attribute '{{attribute_name}}' is not a valid object." );
+        _configuration.attributeNotSetErrorText = Data.getDefaultAnyString( _configuration.attributeNotSetErrorText, "The attribute '{{attribute_name}}' has not been set correctly." );
+        _configuration.closeDialogConfirmationText = Data.getDefaultAnyString( _configuration.closeDialogConfirmationText, null );
     }
 
     function buildDefaultConfigurationCustomTriggers() : void {
-        _configuration.onDoNotShowAgainChange = getDefaultFunction( _configuration.onDoNotShowAgainChange, null );
+        _configuration.onDoNotShowAgainChange = Data.getDefaultFunction( _configuration.onDoNotShowAgainChange, null );
     }
 
 
@@ -1156,7 +1110,7 @@ type Position = {
 
         start: function ( group: string = null ) : PublicApi {
             if ( !_public.isOpen() ) {
-                _groups_Current = getDefaultString( group, _groups_Default );
+                _groups_Current = Data.getDefaultString( group, _groups_Default );
     
                 if ( _groups.hasOwnProperty( _groups_Current ) ) {
                     _groups[ _groups_Current ].position = 0;
@@ -1170,7 +1124,7 @@ type Position = {
 
         show: function ( group: string = null ) : PublicApi {
             if ( !_public.isOpen() ) {
-                _groups_Current = getDefaultString( group, _groups_Current );
+                _groups_Current = Data.getDefaultString( group, _groups_Current );
     
                 if ( _groups.hasOwnProperty( _groups_Current ) ) {
                     if ( _groups[ _groups_Current ].position === _groups[ _groups_Current ].keys.length - 1 ) {

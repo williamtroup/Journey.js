@@ -37,6 +37,54 @@ var Is;
     e.definedArray = s;
 })(Is || (Is = {}));
 
+var Data;
+
+(e => {
+    function t(e, t) {
+        return typeof e === "string" ? e : t;
+    }
+    e.getDefaultAnyString = t;
+    function o(e, t) {
+        return Is.definedString(e) ? e : t;
+    }
+    e.getDefaultString = o;
+    function n(e, t) {
+        return Is.definedBoolean(e) ? e : t;
+    }
+    e.getDefaultBoolean = n;
+    function i(e, t) {
+        return Is.definedNumber(e) ? e : t;
+    }
+    e.getDefaultNumber = i;
+    function l(e, t) {
+        return Is.definedFunction(e) ? e : t;
+    }
+    e.getDefaultFunction = l;
+    function r(e, t) {
+        return Is.definedObject(e) ? e : t;
+    }
+    e.getDefaultObject = r;
+    function s(e, t) {
+        return Is.definedArray(e) ? e : t;
+    }
+    e.getDefaultArray = s;
+    function a(e, t) {
+        let o = t;
+        if (Is.definedString(e)) {
+            const n = e.toString().split(" ");
+            if (n.length === 0) {
+                e = t;
+            } else {
+                o = n;
+            }
+        } else {
+            o = s(e, t);
+        }
+        return o;
+    }
+    e.getDefaultStringOrArray = a;
+})(Data || (Data = {}));
+
 (() => {
     let _configuration = {};
     let _configuration_ShortcutKeysEnabled = true;
@@ -67,7 +115,7 @@ var Is;
     let _element_ToolTip = null;
     let _element_ToolTip_Timer = 0;
     function setupDefaultGroup(e = null) {
-        _groups = getDefaultObject(e, {});
+        _groups = Data.getDefaultObject(e, {});
         _groups[_groups_Default] = {
             json: {},
             keys: [],
@@ -528,35 +576,35 @@ var Is;
     }
     function buildAttributeOptions(e) {
         let t = !Is.definedObject(e) ? {} : e;
-        t.order = getDefaultNumber(t.order, 0);
-        t.attach = getDefaultBoolean(t.attach, true);
-        t.sendClick = getDefaultBoolean(t.sendClick, false);
-        t.alignTop = getDefaultBoolean(t.alignTop, false);
-        t.alignRight = getDefaultBoolean(t.alignRight, false);
-        t.isHint = getDefaultBoolean(t.isHint, false);
-        t.alignHintToClickPosition = getDefaultBoolean(t.alignHintToClickPosition, false);
-        t.showDisabledBackground = getDefaultBoolean(t.showDisabledBackground, true);
-        t.removeHintWhenViewed = getDefaultBoolean(t.removeHintWhenViewed, false);
-        t.group = getDefaultString(t.group, _groups_Default);
+        t.order = Data.getDefaultNumber(t.order, 0);
+        t.attach = Data.getDefaultBoolean(t.attach, true);
+        t.sendClick = Data.getDefaultBoolean(t.sendClick, false);
+        t.alignTop = Data.getDefaultBoolean(t.alignTop, false);
+        t.alignRight = Data.getDefaultBoolean(t.alignRight, false);
+        t.isHint = Data.getDefaultBoolean(t.isHint, false);
+        t.alignHintToClickPosition = Data.getDefaultBoolean(t.alignHintToClickPosition, false);
+        t.showDisabledBackground = Data.getDefaultBoolean(t.showDisabledBackground, true);
+        t.removeHintWhenViewed = Data.getDefaultBoolean(t.removeHintWhenViewed, false);
+        t.group = Data.getDefaultString(t.group, _groups_Default);
         t = buildAttributeOptionStrings(t);
         return buildAttributeOptionCustomTriggers(t);
     }
     function buildAttributeOptionStrings(e) {
-        e.title = getDefaultString(e.title, null);
-        e.description = getDefaultString(e.description, null);
-        e.tooltip = getDefaultString(e.tooltip, null);
+        e.title = Data.getDefaultString(e.title, null);
+        e.description = Data.getDefaultString(e.description, null);
+        e.tooltip = Data.getDefaultString(e.tooltip, null);
         return e;
     }
     function buildAttributeOptionCustomTriggers(e) {
-        e.events = getDefaultObject(e.events, {});
-        e.events.onEnter = getDefaultFunction(e.events.onEnter, null);
-        e.events.onLeave = getDefaultFunction(e.events.onLeave, null);
-        e.events.onClose = getDefaultFunction(e.events.onClose, null);
-        e.events.onFinish = getDefaultFunction(e.events.onFinish, null);
-        e.events.onOpen = getDefaultFunction(e.events.onOpen, null);
-        e.events.onStart = getDefaultFunction(e.events.onStart, null);
-        e.events.onAddStep = getDefaultFunction(e.events.onAddStep, null);
-        e.events.onRemoveStep = getDefaultFunction(e.events.onRemoveStep, null);
+        e.events = Data.getDefaultObject(e.events, {});
+        e.events.onEnter = Data.getDefaultFunction(e.events.onEnter, null);
+        e.events.onLeave = Data.getDefaultFunction(e.events.onLeave, null);
+        e.events.onClose = Data.getDefaultFunction(e.events.onClose, null);
+        e.events.onFinish = Data.getDefaultFunction(e.events.onFinish, null);
+        e.events.onOpen = Data.getDefaultFunction(e.events.onOpen, null);
+        e.events.onStart = Data.getDefaultFunction(e.events.onStart, null);
+        e.events.onAddStep = Data.getDefaultFunction(e.events.onAddStep, null);
+        e.events.onRemoveStep = Data.getDefaultFunction(e.events.onRemoveStep, null);
         return e;
     }
     function createElement(e, t = "") {
@@ -710,41 +758,6 @@ var Is;
         }
         return t;
     }
-    function getDefaultAnyString(e, t) {
-        return typeof e === "string" ? e : t;
-    }
-    function getDefaultString(e, t) {
-        return Is.definedString(e) ? e : t;
-    }
-    function getDefaultBoolean(e, t) {
-        return Is.definedBoolean(e) ? e : t;
-    }
-    function getDefaultNumber(e, t) {
-        return Is.definedNumber(e) ? e : t;
-    }
-    function getDefaultFunction(e, t) {
-        return Is.definedFunction(e) ? e : t;
-    }
-    function getDefaultObject(e, t) {
-        return Is.definedObject(e) ? e : t;
-    }
-    function getDefaultArray(e, t) {
-        return Is.definedArray(e) ? e : t;
-    }
-    function getDefaultStringOrArray(e, t) {
-        let o = t;
-        if (Is.definedString(e)) {
-            const n = e.toString().split(" ");
-            if (n.length === 0) {
-                e = t;
-            } else {
-                o = n;
-            }
-        } else {
-            o = getDefaultArray(e, t);
-        }
-        return o;
-    }
     function getObjectFromString(objectString) {
         const result = {
             parsed: true,
@@ -777,44 +790,44 @@ var Is;
         }
     }
     function buildDefaultConfiguration(e = null) {
-        _configuration = getDefaultObject(e, {});
-        _configuration.safeMode = getDefaultBoolean(_configuration.safeMode, true);
-        _configuration.domElementTypes = getDefaultStringOrArray(_configuration.domElementTypes, [ "*" ]);
-        _configuration.showCloseButton = getDefaultBoolean(_configuration.showCloseButton, true);
-        _configuration.shortcutKeysEnabled = getDefaultBoolean(_configuration.shortcutKeysEnabled, true);
-        _configuration.showProgressDots = getDefaultBoolean(_configuration.showProgressDots, true);
-        _configuration.browserUrlParametersEnabled = getDefaultBoolean(_configuration.browserUrlParametersEnabled, true);
-        _configuration.showProgressDotNumbers = getDefaultBoolean(_configuration.showProgressDotNumbers, false);
-        _configuration.showButtons = getDefaultBoolean(_configuration.showButtons, true);
-        _configuration.showDoNotShowAgain = getDefaultBoolean(_configuration.showDoNotShowAgain, false);
-        _configuration.tooltipDelay = getDefaultNumber(_configuration.tooltipDelay, 750);
-        _configuration.showProgressDotToolTips = getDefaultBoolean(_configuration.showProgressDotToolTips, true);
-        _configuration.closeDialogOnDisabledBackgroundClick = getDefaultBoolean(_configuration.closeDialogOnDisabledBackgroundClick, false);
-        _configuration.showProgressBar = getDefaultBoolean(_configuration.showProgressBar, false);
-        _configuration.scrollToElements = getDefaultBoolean(_configuration.scrollToElements, false);
-        _configuration.dialogMovingEnabled = getDefaultBoolean(_configuration.dialogMovingEnabled, false);
-        _configuration.showProgressBarText = getDefaultBoolean(_configuration.showProgressBarText, false);
+        _configuration = Data.getDefaultObject(e, {});
+        _configuration.safeMode = Data.getDefaultBoolean(_configuration.safeMode, true);
+        _configuration.domElementTypes = Data.getDefaultStringOrArray(_configuration.domElementTypes, [ "*" ]);
+        _configuration.showCloseButton = Data.getDefaultBoolean(_configuration.showCloseButton, true);
+        _configuration.shortcutKeysEnabled = Data.getDefaultBoolean(_configuration.shortcutKeysEnabled, true);
+        _configuration.showProgressDots = Data.getDefaultBoolean(_configuration.showProgressDots, true);
+        _configuration.browserUrlParametersEnabled = Data.getDefaultBoolean(_configuration.browserUrlParametersEnabled, true);
+        _configuration.showProgressDotNumbers = Data.getDefaultBoolean(_configuration.showProgressDotNumbers, false);
+        _configuration.showButtons = Data.getDefaultBoolean(_configuration.showButtons, true);
+        _configuration.showDoNotShowAgain = Data.getDefaultBoolean(_configuration.showDoNotShowAgain, false);
+        _configuration.tooltipDelay = Data.getDefaultNumber(_configuration.tooltipDelay, 750);
+        _configuration.showProgressDotToolTips = Data.getDefaultBoolean(_configuration.showProgressDotToolTips, true);
+        _configuration.closeDialogOnDisabledBackgroundClick = Data.getDefaultBoolean(_configuration.closeDialogOnDisabledBackgroundClick, false);
+        _configuration.showProgressBar = Data.getDefaultBoolean(_configuration.showProgressBar, false);
+        _configuration.scrollToElements = Data.getDefaultBoolean(_configuration.scrollToElements, false);
+        _configuration.dialogMovingEnabled = Data.getDefaultBoolean(_configuration.dialogMovingEnabled, false);
+        _configuration.showProgressBarText = Data.getDefaultBoolean(_configuration.showProgressBarText, false);
         buildDefaultConfigurationStrings();
         buildDefaultConfigurationCustomTriggers();
     }
     function buildDefaultConfigurationStrings() {
-        _configuration.backButtonText = getDefaultAnyString(_configuration.backButtonText, "Back");
-        _configuration.nextButtonText = getDefaultAnyString(_configuration.nextButtonText, "Next");
-        _configuration.finishButtonText = getDefaultAnyString(_configuration.finishButtonText, "Finish");
-        _configuration.closeButtonToolTipText = getDefaultAnyString(_configuration.closeButtonToolTipText, "Close");
-        _configuration.doNotShowAgainText = getDefaultAnyString(_configuration.doNotShowAgainText, "Do not show again");
-        _configuration.objectErrorText = getDefaultAnyString(_configuration.objectErrorText, "Errors in object: {{error_1}}, {{error_2}}");
-        _configuration.attributeNotValidErrorText = getDefaultAnyString(_configuration.attributeNotValidErrorText, "The attribute '{{attribute_name}}' is not a valid object.");
-        _configuration.attributeNotSetErrorText = getDefaultAnyString(_configuration.attributeNotSetErrorText, "The attribute '{{attribute_name}}' has not been set correctly.");
-        _configuration.closeDialogConfirmationText = getDefaultAnyString(_configuration.closeDialogConfirmationText, null);
+        _configuration.backButtonText = Data.getDefaultAnyString(_configuration.backButtonText, "Back");
+        _configuration.nextButtonText = Data.getDefaultAnyString(_configuration.nextButtonText, "Next");
+        _configuration.finishButtonText = Data.getDefaultAnyString(_configuration.finishButtonText, "Finish");
+        _configuration.closeButtonToolTipText = Data.getDefaultAnyString(_configuration.closeButtonToolTipText, "Close");
+        _configuration.doNotShowAgainText = Data.getDefaultAnyString(_configuration.doNotShowAgainText, "Do not show again");
+        _configuration.objectErrorText = Data.getDefaultAnyString(_configuration.objectErrorText, "Errors in object: {{error_1}}, {{error_2}}");
+        _configuration.attributeNotValidErrorText = Data.getDefaultAnyString(_configuration.attributeNotValidErrorText, "The attribute '{{attribute_name}}' is not a valid object.");
+        _configuration.attributeNotSetErrorText = Data.getDefaultAnyString(_configuration.attributeNotSetErrorText, "The attribute '{{attribute_name}}' has not been set correctly.");
+        _configuration.closeDialogConfirmationText = Data.getDefaultAnyString(_configuration.closeDialogConfirmationText, null);
     }
     function buildDefaultConfigurationCustomTriggers() {
-        _configuration.onDoNotShowAgainChange = getDefaultFunction(_configuration.onDoNotShowAgainChange, null);
+        _configuration.onDoNotShowAgainChange = Data.getDefaultFunction(_configuration.onDoNotShowAgainChange, null);
     }
     const _public = {
         start: function(e = null) {
             if (!_public.isOpen()) {
-                _groups_Current = getDefaultString(e, _groups_Default);
+                _groups_Current = Data.getDefaultString(e, _groups_Default);
                 if (_groups.hasOwnProperty(_groups_Current)) {
                     _groups[_groups_Current].position = 0;
                     showDialogAndSetPosition();
@@ -824,7 +837,7 @@ var Is;
         },
         show: function(e = null) {
             if (!_public.isOpen()) {
-                _groups_Current = getDefaultString(e, _groups_Current);
+                _groups_Current = Data.getDefaultString(e, _groups_Current);
                 if (_groups.hasOwnProperty(_groups_Current)) {
                     if (_groups[_groups_Current].position === _groups[_groups_Current].keys.length - 1) {
                         _groups[_groups_Current].position = 0;
