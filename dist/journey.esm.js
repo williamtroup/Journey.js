@@ -107,7 +107,7 @@ var require_journey = __commonJS({
                 _element_Dialog.appendChild(_element_Dialog_Description);
                 _element_Dialog_CheckBox_Container = createElement("div", "checkbox-container");
                 _element_Dialog.appendChild(_element_Dialog_CheckBox_Container);
-                _element_Dialog_CheckBox_Input = buildCheckBox(_element_Dialog_CheckBox_Container, _configuration.doNotShowAgainText).input;
+                _element_Dialog_CheckBox_Input = buildCheckBox(_element_Dialog_CheckBox_Container, _configuration.doNotShowAgainText);
                 _element_Dialog_CheckBox_Input.onchange = () => {
                     if (_configuration.showDoNotShowAgain) {
                         fireCustomTriggerEvent(_configuration.onDoNotShowAgainChange, _element_Dialog_CheckBox_Input.checked);
@@ -560,26 +560,24 @@ var require_journey = __commonJS({
                 return i;
             }
             function getOffset(e) {
-                let t = 0;
-                let o = 0;
+                const t = {
+                    left: 0,
+                    top: 0
+                };
                 while (e && !isNaN(e.offsetLeft) && !isNaN(e.offsetTop)) {
-                    t += e.offsetLeft - e.scrollLeft;
-                    o += e.offsetTop - e.scrollTop;
+                    t.left += e.offsetLeft - e.scrollLeft;
+                    t.top += e.offsetTop - e.scrollTop;
                     e = e.offsetParent;
                 }
-                return {
-                    left: t,
-                    top: o
-                };
+                return t;
             }
             function getScrollPosition() {
                 const e = document.documentElement;
-                const t = (window.pageXOffset || e.scrollLeft) - (e.clientLeft || 0);
-                const o = (window.pageYOffset || e.scrollTop) - (e.clientTop || 0);
-                return {
-                    left: t,
-                    top: o
+                const t = {
+                    left: (window.pageXOffset || e.scrollLeft) - (e.clientLeft || 0),
+                    top: (window.pageYOffset || e.scrollTop) - (e.clientTop || 0)
                 };
+                return t;
             }
             function getStyleValueByName(e, t) {
                 let o = null;
@@ -660,10 +658,7 @@ var require_journey = __commonJS({
                 l.innerHTML = t;
                 n.appendChild(r);
                 n.appendChild(l);
-                return {
-                    input: i,
-                    label: n
-                };
+                return i;
             }
             function clearElementsByClassName(e, t) {
                 let o = e.getElementsByClassName(t);

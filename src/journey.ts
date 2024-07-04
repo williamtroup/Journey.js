@@ -27,6 +27,11 @@ type StringToJson = {
     object: any;
 };
 
+type Position = {
+    left: number;
+    top: number;
+};
+
 
 ( () => {
     // Variables: Configuration
@@ -159,7 +164,7 @@ type StringToJson = {
         _element_Dialog_CheckBox_Container = createElement( "div", "checkbox-container" );
         _element_Dialog.appendChild( _element_Dialog_CheckBox_Container );
 
-        _element_Dialog_CheckBox_Input = buildCheckBox( _element_Dialog_CheckBox_Container, _configuration.doNotShowAgainText ).input;
+        _element_Dialog_CheckBox_Input = buildCheckBox( _element_Dialog_CheckBox_Container, _configuration.doNotShowAgainText );
         
         _element_Dialog_CheckBox_Input.onchange = () => {
             if ( _configuration.showDoNotShowAgain ) {
@@ -330,7 +335,7 @@ type StringToJson = {
                 showElementAtMousePosition( e, _element_Dialog );
 
             } else {
-                const offset: any = getOffset( bindingOptions._currentView.element );
+                const offset: Position = getOffset( bindingOptions._currentView.element );
                 let top: number = ( offset.top ) + bindingOptions._currentView.element.offsetHeight;
                 let left: number = ( offset.left );
 
@@ -348,7 +353,7 @@ type StringToJson = {
             }
 
         } else {
-            const scrollPosition: any = getScrollPosition();
+            const scrollPosition: Position = getScrollPosition();
             const centerLeft: number = Math.max( 0, ( ( window.innerWidth - _element_Dialog.offsetWidth ) / 2 ) + scrollPosition.left );
             const centerTop: number = Math.max( 0, ( ( window.innerHeight - _element_Dialog.offsetHeight ) / 2 ) + scrollPosition.top );
 
@@ -788,32 +793,31 @@ type StringToJson = {
         return result;
     }
 
-    function getOffset( element: HTMLElement ) : any {
-        let left: number = 0;
-        let top: number = 0;
+    function getOffset( element: HTMLElement ) : Position {
+        const result: Position = {
+            left: 0,
+            top: 0
+        } as Position;
 
         while ( element && !isNaN( element.offsetLeft ) && !isNaN( element.offsetTop ) ) {
-            left += element.offsetLeft - element.scrollLeft;
-            top += element.offsetTop - element.scrollTop;
+            result.left += element.offsetLeft - element.scrollLeft;
+            result.top += element.offsetTop - element.scrollTop;
 
             element = element.offsetParent as HTMLElement;
         }
 
-        return {
-            left: left,
-            top: top
-        };
+        return result;
     }
 
-    function getScrollPosition() : any {
+    function getScrollPosition() : Position {
         const doc: HTMLElement = document.documentElement;
-        const left: number = ( window.pageXOffset || doc.scrollLeft )  - ( doc.clientLeft || 0 );
-        const top: number = ( window.pageYOffset || doc.scrollTop ) - ( doc.clientTop || 0 );
 
-        return {
-            left: left,
-            top: top
-        };
+        const result: Position = {
+            left: ( window.pageXOffset || doc.scrollLeft )  - ( doc.clientLeft || 0 ),
+            top: ( window.pageYOffset || doc.scrollTop ) - ( doc.clientTop || 0 )
+        } as Position;
+
+        return result;
     }
 
     function getStyleValueByName( element: any, stylePropertyName: string ) : any {
@@ -856,7 +860,7 @@ type StringToJson = {
     function showElementAtMousePosition( e: MouseEvent, element: HTMLElement ) : void {
         let left: number = e.pageX;
         let top: number = e.pageY;
-        const scrollPosition: any = getScrollPosition();
+        const scrollPosition: Position = getScrollPosition();
 
         element.style.display = "block";
 
@@ -897,7 +901,7 @@ type StringToJson = {
         }
     }
 
-    function buildCheckBox( container: HTMLElement, labelText: string ) : any {
+    function buildCheckBox( container: HTMLElement, labelText: string ) : HTMLInputElement {
         const lineContainer: HTMLElement = createElement( "div" );
         const label: HTMLElement = createElement( "label", "checkbox" );
         const input: HTMLInputElement = createElement( "input" ) as HTMLInputElement;
@@ -916,10 +920,7 @@ type StringToJson = {
         label.appendChild( checkMark );
         label.appendChild( text );
 
-        return {
-            input: input,
-            label: label
-        };
+        return input;
     }
 
     function clearElementsByClassName( container: HTMLElement, className: string ) : void {
