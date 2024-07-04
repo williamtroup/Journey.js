@@ -28,7 +28,7 @@ var require_journey = __commonJS({
     "src/journey.ts"(exports, module) {
         init_enum();
         init_constant();
-        () => {
+        (() => {
             let _configuration = {};
             let _configuration_ShortcutKeysEnabled = true;
             const _groups_Default = "default";
@@ -955,7 +955,7 @@ var require_journey = __commonJS({
                     window.$journey = _public;
                 }
             })();
-        };
+        })();
     }
 });
 

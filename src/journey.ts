@@ -1381,4 +1381,4 @@ type StringToJson = {
             window.$journey = _public;
         }
     } ) ();
-} );
+} ) ();

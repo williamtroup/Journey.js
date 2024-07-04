@@ -4,7 +4,7 @@ var Constants;
     e.JOURNEY_JS_ATTRIBUTE_NAME = "data-journey-js";
 })(Constants || (Constants = {}));
 
-() => {
+(() => {
     let _configuration = {};
     let _configuration_ShortcutKeysEnabled = true;
     const _groups_Default = "default";
@@ -931,4 +931,4 @@ var Constants;
             window.$journey = _public;
         }
     })();
-};//# sourceMappingURL=journey.js.map
+})();//# sourceMappingURL=journey.js.map
