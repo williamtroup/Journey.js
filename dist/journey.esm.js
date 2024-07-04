@@ -11,13 +11,16 @@ var __commonJS = (e, t) => function o() {
 };
 
 var init_enum = __esm({
-    "src/ts/enum.ts"() {}
+    "src/ts/enum.ts"() {
+        "use strict";
+    }
 });
 
 var Constants;
 
 var init_constant = __esm({
     "src/ts/constant.ts"() {
+        "use strict";
         (e => {
             e.JOURNEY_JS_ATTRIBUTE_NAME = "data-journey-js";
         })(Constants || (Constants = {}));
@@ -28,6 +31,7 @@ var Is;
 
 var init_is = __esm({
     "src/ts/is.ts"() {
+        "use strict";
         init_enum();
         (e => {
             function t(e) {
@@ -66,6 +70,7 @@ var Data;
 
 var init_data = __esm({
     "src/ts/data.ts"() {
+        "use strict";
         init_enum();
         init_is();
         (e => {
@@ -120,6 +125,7 @@ var DomElement;
 
 var init_dom = __esm({
     "src/ts/dom.ts"() {
+        "use strict";
         init_enum();
         init_is();
         (e => {
