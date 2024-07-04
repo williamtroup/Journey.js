@@ -15,23 +15,20 @@ import {
     type Configuration,
     type BindingOptions,
     type Events, 
-    type CurrentView } from "./ts/type";
+    type CurrentView, 
+    type Position} from "./ts/type";
 
 import { Char, KeyCode } from "./ts/enum";
 import { Constants } from "./ts/constant";
 import { PublicApi } from "./ts/api";
 import { Is } from "./ts/is";
 import { Data } from "./ts/data";
+import { DomElement } from "./ts/dom";
 
 
 type StringToJson = {
     parsed: boolean;
     object: any;
-};
-
-type Position = {
-    left: number;
-    top: number;
 };
 
 
@@ -119,7 +116,7 @@ type Position = {
      */
 
     function renderDisabledBackground() : void {
-        _element_Disabled_Background = createElement( "div", "journey-js-disabled-background" );
+        _element_Disabled_Background = DomElement.create( "div", "journey-js-disabled-background" );
 
         _element_Disabled_Background.onclick = () => {
             if ( _configuration.closeDialogOnDisabledBackgroundClick ) {
@@ -129,11 +126,11 @@ type Position = {
     }
 
     function showDisabledBackground() : void {
-        addNode( document.body, _element_Disabled_Background );
+        DomElement.addNode( document.body, _element_Disabled_Background );
     }
 
     function hideDisabledBackground() : void {
-        removeNode( document.body, _element_Disabled_Background );
+        DomElement.removeNode( document.body, _element_Disabled_Background );
     }
 
 
@@ -144,11 +141,11 @@ type Position = {
      */
 
     function renderDialog() : void {
-        _element_Dialog = createElement( "div", "journey-js-dialog" );
+        _element_Dialog = DomElement.create( "div", "journey-js-dialog" );
         _element_Dialog.style.display = "none";
         document.body.appendChild( _element_Dialog );
 
-        _element_Dialog_Close_Button = createElement( "button", "close" );
+        _element_Dialog_Close_Button = DomElement.create( "button", "close" );
         _element_Dialog.appendChild( _element_Dialog_Close_Button );
 
         _element_Dialog_Close_Button.onclick = () => {
@@ -157,16 +154,16 @@ type Position = {
 
         addToolTip( _element_Dialog_Close_Button, _configuration.closeButtonToolTipText );
 
-        _element_Dialog_Title = createElement( "div", "title" );
+        _element_Dialog_Title = DomElement.create( "div", "title" );
         _element_Dialog.appendChild( _element_Dialog_Title );
 
-        _element_Dialog_Description = createElement( "div", "description" );
+        _element_Dialog_Description = DomElement.create( "div", "description" );
         _element_Dialog.appendChild( _element_Dialog_Description );
 
-        _element_Dialog_CheckBox_Container = createElement( "div", "checkbox-container" );
+        _element_Dialog_CheckBox_Container = DomElement.create( "div", "checkbox-container" );
         _element_Dialog.appendChild( _element_Dialog_CheckBox_Container );
 
-        _element_Dialog_CheckBox_Input = buildCheckBox( _element_Dialog_CheckBox_Container, _configuration.doNotShowAgainText );
+        _element_Dialog_CheckBox_Input = DomElement.createCheckBox( _element_Dialog_CheckBox_Container, _configuration.doNotShowAgainText );
         
         _element_Dialog_CheckBox_Input.onchange = () => {
             if ( _configuration.showDoNotShowAgain ) {
@@ -174,26 +171,26 @@ type Position = {
             }
         };
 
-        _element_Dialog_ProgressDots = createElement( "div", "progress-dots" );
+        _element_Dialog_ProgressDots = DomElement.create( "div", "progress-dots" );
         _element_Dialog.appendChild( _element_Dialog_ProgressDots );
 
-        _element_Dialog_ProgressBar = createElement( "div", "progress-bar" );
+        _element_Dialog_ProgressBar = DomElement.create( "div", "progress-bar" );
         _element_Dialog.appendChild( _element_Dialog_ProgressBar );
 
-        _element_Dialog_ProgressBar_Percentage = createElement( "div", "progress-bar-percentage" );
+        _element_Dialog_ProgressBar_Percentage = DomElement.create( "div", "progress-bar-percentage" );
         _element_Dialog_ProgressBar.appendChild( _element_Dialog_ProgressBar_Percentage );
 
-        _element_Dialog_ProgressBar_Percentage_Text = createElement( "p", "progress-bar-percentage-text" );
+        _element_Dialog_ProgressBar_Percentage_Text = DomElement.create( "p", "progress-bar-percentage-text" );
         _element_Dialog_ProgressBar_Percentage.appendChild( _element_Dialog_ProgressBar_Percentage_Text );
 
-        _element_Dialog_Buttons = createElement( "div", "buttons" );
+        _element_Dialog_Buttons = DomElement.create( "div", "buttons" );
         _element_Dialog.appendChild( _element_Dialog_Buttons );
 
-        _element_Dialog_Buttons_Back_Button = createElement( "button", "back" ) as HTMLInputElement;
+        _element_Dialog_Buttons_Back_Button = DomElement.create( "button", "back" ) as HTMLInputElement;
         _element_Dialog_Buttons_Back_Button.onclick = onDialogBack;
         _element_Dialog_Buttons.appendChild( _element_Dialog_Buttons_Back_Button );
 
-        _element_Dialog_Buttons_Next_Button = createElement( "button", "next" ) as HTMLInputElement;
+        _element_Dialog_Buttons_Next_Button = DomElement.create( "button", "next" ) as HTMLInputElement;
         _element_Dialog_Buttons_Next_Button.onclick = onDialogNext;
         _element_Dialog_Buttons.appendChild( _element_Dialog_Buttons_Next_Button );
 
@@ -271,18 +268,18 @@ type Position = {
                 bindingOptions._currentView.element.scrollIntoView();
             }
 
-            const lastPositionStyle: string = getStyleValueByName( bindingOptions._currentView.element, "position" );
+            const lastPositionStyle: string = DomElement.getStyleValueByName( bindingOptions._currentView.element, "position" );
 
             if ( lastPositionStyle !== Char.empty && lastPositionStyle.toLowerCase() === "static" ) {
                 _element_Focus_Element_PositionStyle = lastPositionStyle;
                 bindingOptions._currentView.element.style.position = "relative";
             }
 
-            showElementBasedOnCondition( _element_Dialog_CheckBox_Container, _configuration.showDoNotShowAgain );
-            showElementBasedOnCondition( _element_Dialog_ProgressDots, _configuration.showProgressDots && _groups[ _groups_Current ].keys.length > 1 );
-            showElementBasedOnCondition( _element_Dialog_ProgressBar, _configuration.showProgressBar && _groups[ _groups_Current ].keys.length > 1 );
-            showElementBasedOnCondition( _element_Dialog_ProgressBar_Percentage_Text, _configuration.showProgressBarText );
-            showElementBasedOnCondition( _element_Dialog_Buttons, _configuration.showButtons );
+            DomElement.showElementBasedOnCondition( _element_Dialog_CheckBox_Container, _configuration.showDoNotShowAgain );
+            DomElement.showElementBasedOnCondition( _element_Dialog_ProgressDots, _configuration.showProgressDots && _groups[ _groups_Current ].keys.length > 1 );
+            DomElement.showElementBasedOnCondition( _element_Dialog_ProgressBar, _configuration.showProgressBar && _groups[ _groups_Current ].keys.length > 1 );
+            DomElement.showElementBasedOnCondition( _element_Dialog_ProgressBar_Percentage_Text, _configuration.showProgressBarText );
+            DomElement.showElementBasedOnCondition( _element_Dialog_Buttons, _configuration.showButtons );
 
             _element_Dialog_Buttons_Back_Button.innerHTML = _configuration.backButtonText;
             _element_Dialog_Buttons_Back_Button.disabled = _groups[ _groups_Current ].position === 0;
@@ -334,10 +331,10 @@ type Position = {
 
         if ( bindingOptions.attach || bindingOptions.isHint ) {
             if ( bindingOptions.isHint && bindingOptions.alignHintToClickPosition ) {
-                showElementAtMousePosition( e, _element_Dialog );
+                DomElement.showElementAtMousePosition( e, _element_Dialog );
 
             } else {
-                const offset: Position = getOffset( bindingOptions._currentView.element );
+                const offset: Position = DomElement.getOffset( bindingOptions._currentView.element );
                 let top: number = ( offset.top ) + bindingOptions._currentView.element.offsetHeight;
                 let left: number = ( offset.left );
 
@@ -355,7 +352,7 @@ type Position = {
             }
 
         } else {
-            const scrollPosition: Position = getScrollPosition();
+            const scrollPosition: Position = DomElement.getScrollPosition();
             const centerLeft: number = Math.max( 0, ( ( window.innerWidth - _element_Dialog.offsetWidth ) / 2 ) + scrollPosition.left );
             const centerTop: number = Math.max( 0, ( ( window.innerHeight - _element_Dialog.offsetHeight ) / 2 ) + scrollPosition.top );
 
@@ -397,10 +394,10 @@ type Position = {
         let dot: HTMLElement = null;
 
         if ( keyIndex === _groups[ _groups_Current ].position ) {
-            dot = createElement( "div", "dot-active" );
+            dot = DomElement.create( "div", "dot-active" );
         } else {
             
-            dot = createElement( "div", "dot" );
+            dot = DomElement.create( "div", "dot" );
     
             dot.onclick = () => {
                 removeFocusClassFromLastElement();
@@ -502,7 +499,7 @@ type Position = {
 
     function renderToolTip() : void {
         if ( !Is.defined( _element_ToolTip ) ) {
-            _element_ToolTip = createElement( "div", "journey-js-tooltip" );
+            _element_ToolTip = DomElement.create( "div", "journey-js-tooltip" );
             _element_ToolTip.style.display = "none";
 
             document.body.appendChild( _element_ToolTip );
@@ -526,14 +523,14 @@ type Position = {
     }
 
     function showToolTip( e: any, text: string ) : void {
-        cancelBubble( e );
+        DomElement.cancelBubble( e );
         hideToolTip();
 
         _element_ToolTip_Timer = setTimeout( () => {
             _element_ToolTip.innerHTML = text;
             _element_ToolTip.style.display = "block";
 
-            showElementAtMousePosition( e, _element_ToolTip );
+            DomElement.showElementAtMousePosition( e, _element_ToolTip );
         }, _configuration.tooltipDelay );
     }
 
@@ -628,17 +625,17 @@ type Position = {
     }
 
     function renderHint( bindingOptions: BindingOptions ) : void {
-        const positionStyle: string = getStyleValueByName( bindingOptions._currentView.element, "position" );
+        const positionStyle: string = DomElement.getStyleValueByName( bindingOptions._currentView.element, "position" );
 
         if ( positionStyle !== Char.empty && positionStyle.toLowerCase() === "static" ) {
             bindingOptions._currentView.element.style.position = "relative";
         }
 
-        const hint: HTMLElement = createElement( "div", "journey-js-hint" );
+        const hint: HTMLElement = DomElement.create( "div", "journey-js-hint" );
         bindingOptions._currentView.element.appendChild( hint );
 
         hint.onclick = ( e: MouseEvent ) => {
-            cancelBubble( e );
+            DomElement.cancelBubble( e );
 
             _element_Dialog_CheckBox_Container.style.display = "none";
             _element_Dialog_ProgressDots.style.display = "none";
@@ -650,7 +647,7 @@ type Position = {
             setDialogPosition( e, bindingOptions );
 
             if ( bindingOptions.removeHintWhenViewed ) {
-                clearElementsByClassName( bindingOptions._currentView.element, "journey-js-hint" );
+                DomElement.clearElementsByClassName( bindingOptions._currentView.element, "journey-js-hint" );
             }
         };
     }
@@ -773,164 +770,6 @@ type Position = {
         options.events.onRemoveStep = Data.getDefaultFunction( options.events.onRemoveStep, null );
 
         return options;
-    }
-
-
-    /*
-     * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-     * Element Handling
-     * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-     */
-
-    function createElement( type: string, className: string = Char.empty ) : HTMLElement {
-        const nodeType: string = type.toLowerCase();
-        const isText: boolean = nodeType === "text";
-
-        let result: any = isText ? document.createTextNode( Char.empty ) : document.createElement( nodeType );
-
-        if ( Is.defined( className ) ) {
-            result.className = className;
-        }
-
-        return result;
-    }
-
-    function getOffset( element: HTMLElement ) : Position {
-        const result: Position = {
-            left: 0,
-            top: 0
-        } as Position;
-
-        while ( element && !isNaN( element.offsetLeft ) && !isNaN( element.offsetTop ) ) {
-            result.left += element.offsetLeft - element.scrollLeft;
-            result.top += element.offsetTop - element.scrollTop;
-
-            element = element.offsetParent as HTMLElement;
-        }
-
-        return result;
-    }
-
-    function getScrollPosition() : Position {
-        const doc: HTMLElement = document.documentElement;
-
-        const result: Position = {
-            left: ( window.pageXOffset || doc.scrollLeft )  - ( doc.clientLeft || 0 ),
-            top: ( window.pageYOffset || doc.scrollTop ) - ( doc.clientTop || 0 )
-        } as Position;
-
-        return result;
-    }
-
-    function getStyleValueByName( element: any, stylePropertyName: string ) : any {
-        let value: any = null;
-        
-        if ( document.defaultView.getComputedStyle ) {
-            value = document.defaultView.getComputedStyle( element, null ).getPropertyValue( stylePropertyName ); 
-        } else if ( element.currentStyle ) {
-            value = element.currentStyle[ stylePropertyName ];
-        }   
-
-        return value;
-    }
-
-    function addNode( parent: HTMLElement, node: HTMLElement ) : void {
-        try {
-            if ( !parent.contains( node ) ) {
-                parent.appendChild( node );
-            }
-        } catch ( e ) {
-            console.warn( e.message );
-        }
-    }
-
-    function removeNode( parent: HTMLElement, node: HTMLElement ) : void {
-        try {
-            if ( parent.contains( node ) ) {
-                parent.removeChild( node );
-            }
-        } catch ( e ) {
-            console.warn( e.message );
-        }
-    }
-
-    function cancelBubble( e: any ) : void {
-        e.preventDefault();
-        e.cancelBubble = true;
-    }
-
-    function showElementAtMousePosition( e: MouseEvent, element: HTMLElement ) : void {
-        let left: number = e.pageX;
-        let top: number = e.pageY;
-        const scrollPosition: Position = getScrollPosition();
-
-        element.style.display = "block";
-
-        if ( left + element.offsetWidth > window.innerWidth ) {
-            left -= element.offsetWidth;
-        } else {
-            left++;
-        }
-
-        if ( top + element.offsetHeight > window.innerHeight ) {
-            top -= element.offsetHeight;
-        } else {
-            top++;
-        }
-
-        if ( left < scrollPosition.left ) {
-            left = e.pageX + 1;
-        }
-
-        if ( top < scrollPosition.top ) {
-            top = e.pageY + 1;
-        }
-        
-        element.style.left = left + "px";
-        element.style.top = top + "px";
-    }
-
-    function showElementBasedOnCondition( element: HTMLElement, condition: boolean ) : void {
-        if ( condition ) {
-            if ( element.style.display !== "block" ) {
-                element.style.display = "block";
-            }
-            
-        } else {
-            if ( element.style.display !== "none" ) {
-                element.style.display = "none";
-            }
-        }
-    }
-
-    function buildCheckBox( container: HTMLElement, labelText: string ) : HTMLInputElement {
-        const lineContainer: HTMLElement = createElement( "div" );
-        const label: HTMLElement = createElement( "label", "checkbox" );
-        const input: HTMLInputElement = createElement( "input" ) as HTMLInputElement;
-
-        container.appendChild( lineContainer );
-        lineContainer.appendChild( label );
-        label.appendChild( input );
-
-        input.type = "checkbox";
-
-        const checkMark: HTMLElement = createElement( "span", "check-mark" );
-        const text: HTMLElement = createElement( "span", "text" );
-
-        text.innerHTML = labelText;
-        
-        label.appendChild( checkMark );
-        label.appendChild( text );
-
-        return input;
-    }
-
-    function clearElementsByClassName( container: HTMLElement, className: string ) : void {
-        let elements: HTMLCollectionOf<Element> = container.getElementsByClassName( className );
-
-        while ( elements[ 0 ] ) {
-            elements[ 0 ].parentNode.removeChild( elements[ 0 ] );
-        }
     }
 
 
@@ -1207,7 +1046,7 @@ type Position = {
                 }
     
                 if ( !removed ) {
-                    clearElementsByClassName( element, "journey-js-hint" );
+                    DomElement.clearElementsByClassName( element, "journey-js-hint" );
                 } else {
                     resetDialogPosition();
                 }
@@ -1250,7 +1089,7 @@ type Position = {
         },
 
         clearHints: function () : PublicApi {
-            clearElementsByClassName( document.body, "journey-js-hint" );
+            DomElement.clearElementsByClassName( document.body, "journey-js-hint" );
 
             return _public;
         },

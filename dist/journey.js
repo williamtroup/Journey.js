@@ -85,6 +85,138 @@ var Data;
     e.getDefaultStringOrArray = a;
 })(Data || (Data = {}));
 
+var DomElement;
+
+(e => {
+    function t(e, t = "") {
+        const o = e.toLowerCase();
+        const n = o === "text";
+        let i = n ? document.createTextNode("") : document.createElement(o);
+        if (Is.defined(t)) {
+            i.className = t;
+        }
+        return i;
+    }
+    e.create = t;
+    function o(e) {
+        const t = {
+            left: 0,
+            top: 0
+        };
+        while (e && !isNaN(e.offsetLeft) && !isNaN(e.offsetTop)) {
+            t.left += e.offsetLeft - e.scrollLeft;
+            t.top += e.offsetTop - e.scrollTop;
+            e = e.offsetParent;
+        }
+        return t;
+    }
+    e.getOffset = o;
+    function n() {
+        const e = document.documentElement;
+        const t = {
+            left: (window.pageXOffset || e.scrollLeft) - (e.clientLeft || 0),
+            top: (window.pageYOffset || e.scrollTop) - (e.clientTop || 0)
+        };
+        return t;
+    }
+    e.getScrollPosition = n;
+    function i(e, t) {
+        let o = null;
+        if (document.defaultView.getComputedStyle) {
+            o = document.defaultView.getComputedStyle(e, null).getPropertyValue(t);
+        } else if (e.currentStyle) {
+            o = e.currentStyle[t];
+        }
+        return o;
+    }
+    e.getStyleValueByName = i;
+    function l(e, t) {
+        try {
+            if (!e.contains(t)) {
+                e.appendChild(t);
+            }
+        } catch (e) {
+            console.warn(e.message);
+        }
+    }
+    e.addNode = l;
+    function r(e, t) {
+        try {
+            if (e.contains(t)) {
+                e.removeChild(t);
+            }
+        } catch (e) {
+            console.warn(e.message);
+        }
+    }
+    e.removeNode = r;
+    function s(e) {
+        e.preventDefault();
+        e.cancelBubble = true;
+    }
+    e.cancelBubble = s;
+    function a(e, t) {
+        let o = e.pageX;
+        let i = e.pageY;
+        const l = n();
+        t.style.display = "block";
+        if (o + t.offsetWidth > window.innerWidth) {
+            o -= t.offsetWidth;
+        } else {
+            o++;
+        }
+        if (i + t.offsetHeight > window.innerHeight) {
+            i -= t.offsetHeight;
+        } else {
+            i++;
+        }
+        if (o < l.left) {
+            o = e.pageX + 1;
+        }
+        if (i < l.top) {
+            i = e.pageY + 1;
+        }
+        t.style.left = o + "px";
+        t.style.top = i + "px";
+    }
+    e.showElementAtMousePosition = a;
+    function u(e, t) {
+        if (t) {
+            if (e.style.display !== "block") {
+                e.style.display = "block";
+            }
+        } else {
+            if (e.style.display !== "none") {
+                e.style.display = "none";
+            }
+        }
+    }
+    e.showElementBasedOnCondition = u;
+    function _(e, o) {
+        const n = t("div");
+        const i = t("label", "checkbox");
+        const l = t("input");
+        e.appendChild(n);
+        n.appendChild(i);
+        i.appendChild(l);
+        l.type = "checkbox";
+        const r = t("span", "check-mark");
+        const s = t("span", "text");
+        s.innerHTML = o;
+        i.appendChild(r);
+        i.appendChild(s);
+        return l;
+    }
+    e.createCheckBox = _;
+    function g(e, t) {
+        let o = e.getElementsByClassName(t);
+        while (o[0]) {
+            o[0].parentNode.removeChild(o[0]);
+        }
+    }
+    e.clearElementsByClassName = g;
+})(DomElement || (DomElement = {}));
+
 (() => {
     let _configuration = {};
     let _configuration_ShortcutKeysEnabled = true;
@@ -135,7 +267,7 @@ var Data;
         return _groups[_groups_Current].json[_groups[_groups_Current].keys[_groups[_groups_Current].position]];
     }
     function renderDisabledBackground() {
-        _element_Disabled_Background = createElement("div", "journey-js-disabled-background");
+        _element_Disabled_Background = DomElement.create("div", "journey-js-disabled-background");
         _element_Disabled_Background.onclick = () => {
             if (_configuration.closeDialogOnDisabledBackgroundClick) {
                 onDialogClose();
@@ -143,47 +275,47 @@ var Data;
         };
     }
     function showDisabledBackground() {
-        addNode(document.body, _element_Disabled_Background);
+        DomElement.addNode(document.body, _element_Disabled_Background);
     }
     function hideDisabledBackground() {
-        removeNode(document.body, _element_Disabled_Background);
+        DomElement.removeNode(document.body, _element_Disabled_Background);
     }
     function renderDialog() {
-        _element_Dialog = createElement("div", "journey-js-dialog");
+        _element_Dialog = DomElement.create("div", "journey-js-dialog");
         _element_Dialog.style.display = "none";
         document.body.appendChild(_element_Dialog);
-        _element_Dialog_Close_Button = createElement("button", "close");
+        _element_Dialog_Close_Button = DomElement.create("button", "close");
         _element_Dialog.appendChild(_element_Dialog_Close_Button);
         _element_Dialog_Close_Button.onclick = () => {
             onDialogClose();
         };
         addToolTip(_element_Dialog_Close_Button, _configuration.closeButtonToolTipText);
-        _element_Dialog_Title = createElement("div", "title");
+        _element_Dialog_Title = DomElement.create("div", "title");
         _element_Dialog.appendChild(_element_Dialog_Title);
-        _element_Dialog_Description = createElement("div", "description");
+        _element_Dialog_Description = DomElement.create("div", "description");
         _element_Dialog.appendChild(_element_Dialog_Description);
-        _element_Dialog_CheckBox_Container = createElement("div", "checkbox-container");
+        _element_Dialog_CheckBox_Container = DomElement.create("div", "checkbox-container");
         _element_Dialog.appendChild(_element_Dialog_CheckBox_Container);
-        _element_Dialog_CheckBox_Input = buildCheckBox(_element_Dialog_CheckBox_Container, _configuration.doNotShowAgainText);
+        _element_Dialog_CheckBox_Input = DomElement.createCheckBox(_element_Dialog_CheckBox_Container, _configuration.doNotShowAgainText);
         _element_Dialog_CheckBox_Input.onchange = () => {
             if (_configuration.showDoNotShowAgain) {
                 fireCustomTriggerEvent(_configuration.onDoNotShowAgainChange, _element_Dialog_CheckBox_Input.checked);
             }
         };
-        _element_Dialog_ProgressDots = createElement("div", "progress-dots");
+        _element_Dialog_ProgressDots = DomElement.create("div", "progress-dots");
         _element_Dialog.appendChild(_element_Dialog_ProgressDots);
-        _element_Dialog_ProgressBar = createElement("div", "progress-bar");
+        _element_Dialog_ProgressBar = DomElement.create("div", "progress-bar");
         _element_Dialog.appendChild(_element_Dialog_ProgressBar);
-        _element_Dialog_ProgressBar_Percentage = createElement("div", "progress-bar-percentage");
+        _element_Dialog_ProgressBar_Percentage = DomElement.create("div", "progress-bar-percentage");
         _element_Dialog_ProgressBar.appendChild(_element_Dialog_ProgressBar_Percentage);
-        _element_Dialog_ProgressBar_Percentage_Text = createElement("p", "progress-bar-percentage-text");
+        _element_Dialog_ProgressBar_Percentage_Text = DomElement.create("p", "progress-bar-percentage-text");
         _element_Dialog_ProgressBar_Percentage.appendChild(_element_Dialog_ProgressBar_Percentage_Text);
-        _element_Dialog_Buttons = createElement("div", "buttons");
+        _element_Dialog_Buttons = DomElement.create("div", "buttons");
         _element_Dialog.appendChild(_element_Dialog_Buttons);
-        _element_Dialog_Buttons_Back_Button = createElement("button", "back");
+        _element_Dialog_Buttons_Back_Button = DomElement.create("button", "back");
         _element_Dialog_Buttons_Back_Button.onclick = onDialogBack;
         _element_Dialog_Buttons.appendChild(_element_Dialog_Buttons_Back_Button);
-        _element_Dialog_Buttons_Next_Button = createElement("button", "next");
+        _element_Dialog_Buttons_Next_Button = DomElement.create("button", "next");
         _element_Dialog_Buttons_Next_Button.onclick = onDialogNext;
         _element_Dialog_Buttons.appendChild(_element_Dialog_Buttons_Next_Button);
         makeDialogMovable();
@@ -239,16 +371,16 @@ var Data;
             if (_configuration.scrollToElements) {
                 e._currentView.element.scrollIntoView();
             }
-            const t = getStyleValueByName(e._currentView.element, "position");
+            const t = DomElement.getStyleValueByName(e._currentView.element, "position");
             if (t !== "" && t.toLowerCase() === "static") {
                 _element_Focus_Element_PositionStyle = t;
                 e._currentView.element.style.position = "relative";
             }
-            showElementBasedOnCondition(_element_Dialog_CheckBox_Container, _configuration.showDoNotShowAgain);
-            showElementBasedOnCondition(_element_Dialog_ProgressDots, _configuration.showProgressDots && _groups[_groups_Current].keys.length > 1);
-            showElementBasedOnCondition(_element_Dialog_ProgressBar, _configuration.showProgressBar && _groups[_groups_Current].keys.length > 1);
-            showElementBasedOnCondition(_element_Dialog_ProgressBar_Percentage_Text, _configuration.showProgressBarText);
-            showElementBasedOnCondition(_element_Dialog_Buttons, _configuration.showButtons);
+            DomElement.showElementBasedOnCondition(_element_Dialog_CheckBox_Container, _configuration.showDoNotShowAgain);
+            DomElement.showElementBasedOnCondition(_element_Dialog_ProgressDots, _configuration.showProgressDots && _groups[_groups_Current].keys.length > 1);
+            DomElement.showElementBasedOnCondition(_element_Dialog_ProgressBar, _configuration.showProgressBar && _groups[_groups_Current].keys.length > 1);
+            DomElement.showElementBasedOnCondition(_element_Dialog_ProgressBar_Percentage_Text, _configuration.showProgressBarText);
+            DomElement.showElementBasedOnCondition(_element_Dialog_Buttons, _configuration.showButtons);
             _element_Dialog_Buttons_Back_Button.innerHTML = _configuration.backButtonText;
             _element_Dialog_Buttons_Back_Button.disabled = _groups[_groups_Current].position === 0;
             if (_groups[_groups_Current].position >= _groups[_groups_Current].keys.length - 1) {
@@ -289,9 +421,9 @@ var Data;
         _element_Dialog_IsHint = t.isHint === true;
         if (t.attach || t.isHint) {
             if (t.isHint && t.alignHintToClickPosition) {
-                showElementAtMousePosition(e, _element_Dialog);
+                DomElement.showElementAtMousePosition(e, _element_Dialog);
             } else {
-                const e = getOffset(t._currentView.element);
+                const e = DomElement.getOffset(t._currentView.element);
                 let o = e.top + t._currentView.element.offsetHeight;
                 let n = e.left;
                 if (n + _element_Dialog.offsetWidth > window.innerWidth || t.alignRight) {
@@ -305,7 +437,7 @@ var Data;
                 _element_Dialog.style.left = n + "px";
             }
         } else {
-            const e = getScrollPosition();
+            const e = DomElement.getScrollPosition();
             const t = Math.max(0, (window.innerWidth - _element_Dialog.offsetWidth) / 2 + e.left);
             const o = Math.max(0, (window.innerHeight - _element_Dialog.offsetHeight) / 2 + e.top);
             _element_Dialog.style.left = t + "px";
@@ -337,9 +469,9 @@ var Data;
         const o = _groups[_groups_Current].json[t];
         let n = null;
         if (e === _groups[_groups_Current].position) {
-            n = createElement("div", "dot-active");
+            n = DomElement.create("div", "dot-active");
         } else {
-            n = createElement("div", "dot");
+            n = DomElement.create("div", "dot");
             n.onclick = () => {
                 removeFocusClassFromLastElement();
                 _groups[_groups_Current].position = e;
@@ -411,7 +543,7 @@ var Data;
     }
     function renderToolTip() {
         if (!Is.defined(_element_ToolTip)) {
-            _element_ToolTip = createElement("div", "journey-js-tooltip");
+            _element_ToolTip = DomElement.create("div", "journey-js-tooltip");
             _element_ToolTip.style.display = "none";
             document.body.appendChild(_element_ToolTip);
             document.body.addEventListener("mousemove", (() => {
@@ -430,12 +562,12 @@ var Data;
         }
     }
     function showToolTip(e, t) {
-        cancelBubble(e);
+        DomElement.cancelBubble(e);
         hideToolTip();
         _element_ToolTip_Timer = setTimeout((() => {
             _element_ToolTip.innerHTML = t;
             _element_ToolTip.style.display = "block";
-            showElementAtMousePosition(e, _element_ToolTip);
+            DomElement.showElementAtMousePosition(e, _element_ToolTip);
         }), _configuration.tooltipDelay);
     }
     function hideToolTip() {
@@ -503,14 +635,14 @@ var Data;
         }
     }
     function renderHint(e) {
-        const t = getStyleValueByName(e._currentView.element, "position");
+        const t = DomElement.getStyleValueByName(e._currentView.element, "position");
         if (t !== "" && t.toLowerCase() === "static") {
             e._currentView.element.style.position = "relative";
         }
-        const o = createElement("div", "journey-js-hint");
+        const o = DomElement.create("div", "journey-js-hint");
         e._currentView.element.appendChild(o);
         o.onclick = t => {
-            cancelBubble(t);
+            DomElement.cancelBubble(t);
             _element_Dialog_CheckBox_Container.style.display = "none";
             _element_Dialog_ProgressDots.style.display = "none";
             _element_Dialog_ProgressBar.style.display = "none";
@@ -519,7 +651,7 @@ var Data;
             setDialogText(e);
             setDialogPosition(t, e);
             if (e.removeHintWhenViewed) {
-                clearElementsByClassName(e._currentView.element, "journey-js-hint");
+                DomElement.clearElementsByClassName(e._currentView.element, "journey-js-hint");
             }
         };
     }
@@ -606,122 +738,6 @@ var Data;
         e.events.onAddStep = Data.getDefaultFunction(e.events.onAddStep, null);
         e.events.onRemoveStep = Data.getDefaultFunction(e.events.onRemoveStep, null);
         return e;
-    }
-    function createElement(e, t = "") {
-        const o = e.toLowerCase();
-        const n = o === "text";
-        let i = n ? document.createTextNode("") : document.createElement(o);
-        if (Is.defined(t)) {
-            i.className = t;
-        }
-        return i;
-    }
-    function getOffset(e) {
-        const t = {
-            left: 0,
-            top: 0
-        };
-        while (e && !isNaN(e.offsetLeft) && !isNaN(e.offsetTop)) {
-            t.left += e.offsetLeft - e.scrollLeft;
-            t.top += e.offsetTop - e.scrollTop;
-            e = e.offsetParent;
-        }
-        return t;
-    }
-    function getScrollPosition() {
-        const e = document.documentElement;
-        const t = {
-            left: (window.pageXOffset || e.scrollLeft) - (e.clientLeft || 0),
-            top: (window.pageYOffset || e.scrollTop) - (e.clientTop || 0)
-        };
-        return t;
-    }
-    function getStyleValueByName(e, t) {
-        let o = null;
-        if (document.defaultView.getComputedStyle) {
-            o = document.defaultView.getComputedStyle(e, null).getPropertyValue(t);
-        } else if (e.currentStyle) {
-            o = e.currentStyle[t];
-        }
-        return o;
-    }
-    function addNode(e, t) {
-        try {
-            if (!e.contains(t)) {
-                e.appendChild(t);
-            }
-        } catch (e) {
-            console.warn(e.message);
-        }
-    }
-    function removeNode(e, t) {
-        try {
-            if (e.contains(t)) {
-                e.removeChild(t);
-            }
-        } catch (e) {
-            console.warn(e.message);
-        }
-    }
-    function cancelBubble(e) {
-        e.preventDefault();
-        e.cancelBubble = true;
-    }
-    function showElementAtMousePosition(e, t) {
-        let o = e.pageX;
-        let n = e.pageY;
-        const i = getScrollPosition();
-        t.style.display = "block";
-        if (o + t.offsetWidth > window.innerWidth) {
-            o -= t.offsetWidth;
-        } else {
-            o++;
-        }
-        if (n + t.offsetHeight > window.innerHeight) {
-            n -= t.offsetHeight;
-        } else {
-            n++;
-        }
-        if (o < i.left) {
-            o = e.pageX + 1;
-        }
-        if (n < i.top) {
-            n = e.pageY + 1;
-        }
-        t.style.left = o + "px";
-        t.style.top = n + "px";
-    }
-    function showElementBasedOnCondition(e, t) {
-        if (t) {
-            if (e.style.display !== "block") {
-                e.style.display = "block";
-            }
-        } else {
-            if (e.style.display !== "none") {
-                e.style.display = "none";
-            }
-        }
-    }
-    function buildCheckBox(e, t) {
-        const o = createElement("div");
-        const n = createElement("label", "checkbox");
-        const i = createElement("input");
-        e.appendChild(o);
-        o.appendChild(n);
-        n.appendChild(i);
-        i.type = "checkbox";
-        const l = createElement("span", "check-mark");
-        const r = createElement("span", "text");
-        r.innerHTML = t;
-        n.appendChild(l);
-        n.appendChild(r);
-        return i;
-    }
-    function clearElementsByClassName(e, t) {
-        let o = e.getElementsByClassName(t);
-        while (o[0]) {
-            o[0].parentNode.removeChild(o[0]);
-        }
     }
     function fireCustomTriggerEvent(e, ...t) {
         if (Is.definedFunction(e)) {
@@ -892,7 +908,7 @@ var Data;
                     }
                 }
                 if (!t) {
-                    clearElementsByClassName(e, "journey-js-hint");
+                    DomElement.clearElementsByClassName(e, "journey-js-hint");
                 } else {
                     resetDialogPosition();
                 }
@@ -926,7 +942,7 @@ var Data;
             return _public;
         },
         clearHints: function() {
-            clearElementsByClassName(document.body, "journey-js-hint");
+            DomElement.clearElementsByClassName(document.body, "journey-js-hint");
             return _public;
         },
         reverseStepOrder: function() {
