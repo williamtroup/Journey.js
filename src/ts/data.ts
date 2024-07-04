@@ -19,11 +19,11 @@ export namespace Data {
         return Is.definedNumber( value ) ? value : defaultValue;
     }
 
-    export function getDefaultFunction( value: any, defaultValue: object ) : any {
+    export function getDefaultFunction( value: any, defaultValue: any ) : any {
         return Is.definedFunction( value ) ? value : defaultValue;
     }
 
-    export function getDefaultObject( value: any, defaultValue: object ) : any {
+    export function getDefaultObject( value: any, defaultValue: any ) : any {
         return Is.definedObject( value ) ? value : defaultValue;
     }
 
