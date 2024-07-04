@@ -1188,23 +1188,49 @@ type StringToJson = {
          */
 
         start: function ( group: string = null ) : PublicApi {
-            throw new Error("Function not implemented.");
+            if ( !_public.isOpen() ) {
+                _groups_Current = getDefaultString( group, _groups_Default );
+    
+                if ( _groups.hasOwnProperty( _groups_Current ) ) {
+                    _groups[ _groups_Current ].position = 0;
+        
+                    showDialogAndSetPosition();
+                }
+            }
+    
+            return _public;
         },
 
         show: function ( group: string = null ) : PublicApi {
-            throw new Error("Function not implemented.");
+            if ( !_public.isOpen() ) {
+                _groups_Current = getDefaultString( group, _groups_Current );
+    
+                if ( _groups.hasOwnProperty( _groups_Current ) ) {
+                    if ( _groups[ _groups_Current ].position === _groups[ _groups_Current ].keys.length - 1 ) {
+                        _groups[ _groups_Current ].position = 0;
+                    }
+            
+                    showDialogAndSetPosition();
+                }
+            }
+    
+            return _public;
         },
 
         hide: function () : PublicApi {
-            throw new Error("Function not implemented.");
+            if ( _public.isOpen() ) {
+                onDialogClose();
+            }
+    
+            return _public;
         },
 
         isOpen: function () : boolean {
-            throw new Error("Function not implemented.");
+            return isDefined( _element_Dialog ) && _element_Dialog.style.display === "block";
         },
 
         isComplete: function () : boolean {
-            throw new Error("Function not implemented.");
+            return _groups[ _groups_Current ].position >= _groups[ _groups_Current ].keys.length - 1;
         },
 
 

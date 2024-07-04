@@ -806,19 +806,38 @@ var Constants;
     }
     const _public = {
         start: function(e = null) {
-            throw new Error("Function not implemented.");
+            if (!_public.isOpen()) {
+                _groups_Current = getDefaultString(e, _groups_Default);
+                if (_groups.hasOwnProperty(_groups_Current)) {
+                    _groups[_groups_Current].position = 0;
+                    showDialogAndSetPosition();
+                }
+            }
+            return _public;
         },
         show: function(e = null) {
-            throw new Error("Function not implemented.");
+            if (!_public.isOpen()) {
+                _groups_Current = getDefaultString(e, _groups_Current);
+                if (_groups.hasOwnProperty(_groups_Current)) {
+                    if (_groups[_groups_Current].position === _groups[_groups_Current].keys.length - 1) {
+                        _groups[_groups_Current].position = 0;
+                    }
+                    showDialogAndSetPosition();
+                }
+            }
+            return _public;
         },
         hide: function() {
-            throw new Error("Function not implemented.");
+            if (_public.isOpen()) {
+                onDialogClose();
+            }
+            return _public;
         },
         isOpen: function() {
-            throw new Error("Function not implemented.");
+            return isDefined(_element_Dialog) && _element_Dialog.style.display === "block";
         },
         isComplete: function() {
-            throw new Error("Function not implemented.");
+            return _groups[_groups_Current].position >= _groups[_groups_Current].keys.length - 1;
         },
         addDocumentSteps: function() {
             getElements();
