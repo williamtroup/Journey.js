@@ -22,6 +22,124 @@ var require_journey = __commonJS({
             const _groups_Default = "default";
             let _groups_Current = _groups_Default;
             const _groups = {};
+            function createElement(e, t = "") {
+                const n = e.toLowerCase();
+                const r = n === "text";
+                let o = r ? document.createTextNode("") : document.createElement(n);
+                if (isDefined(t)) {
+                    o.className = t;
+                }
+                return o;
+            }
+            function getOffset(e) {
+                let t = 0;
+                let n = 0;
+                while (e && !isNaN(e.offsetLeft) && !isNaN(e.offsetTop)) {
+                    t += e.offsetLeft - e.scrollLeft;
+                    n += e.offsetTop - e.scrollTop;
+                    e = e.offsetParent;
+                }
+                return {
+                    left: t,
+                    top: n
+                };
+            }
+            function getScrollPosition() {
+                const e = document.documentElement;
+                const t = (window.pageXOffset || e.scrollLeft) - (e.clientLeft || 0);
+                const n = (window.pageYOffset || e.scrollTop) - (e.clientTop || 0);
+                return {
+                    left: t,
+                    top: n
+                };
+            }
+            function getStyleValueByName(e, t) {
+                let n = null;
+                if (document.defaultView.getComputedStyle) {
+                    n = document.defaultView.getComputedStyle(e, null).getPropertyValue(t);
+                } else if (e.currentStyle) {
+                    n = e.currentStyle[t];
+                }
+                return n;
+            }
+            function addNode(e, t) {
+                try {
+                    if (!e.contains(t)) {
+                        e.appendChild(t);
+                    }
+                } catch (e) {
+                    console.warn(e.message);
+                }
+            }
+            function removeNode(e, t) {
+                try {
+                    if (e.contains(t)) {
+                        e.removeChild(t);
+                    }
+                } catch (e) {
+                    console.warn(e.message);
+                }
+            }
+            function cancelBubble(e) {
+                e.preventDefault();
+                e.cancelBubble = true;
+            }
+            function showElementAtMousePosition(e, t) {
+                var n = e.pageX, r = e.pageY, o = getScrollPosition();
+                t.style.display = "block";
+                if (n + t.offsetWidth > window.innerWidth) {
+                    n -= t.offsetWidth;
+                } else {
+                    n++;
+                }
+                if (r + t.offsetHeight > window.innerHeight) {
+                    r -= t.offsetHeight;
+                } else {
+                    r++;
+                }
+                if (n < o.left) {
+                    n = e.pageX + 1;
+                }
+                if (r < o.top) {
+                    r = e.pageY + 1;
+                }
+                t.style.left = n + "px";
+                t.style.top = r + "px";
+            }
+            function showElementBasedOnCondition(e, t) {
+                if (t) {
+                    if (e.style.display !== "block") {
+                        e.style.display = "block";
+                    }
+                } else {
+                    if (e.style.display !== "none") {
+                        e.style.display = "none";
+                    }
+                }
+            }
+            function buildCheckBox(e, t) {
+                const n = createElement("div");
+                const r = createElement("label", "checkbox");
+                const o = createElement("input");
+                e.appendChild(n);
+                n.appendChild(r);
+                r.appendChild(o);
+                o.type = "checkbox";
+                var i = createElement("span", "check-mark"), s = createElement("span", "text");
+                s.innerHTML = t;
+                r.appendChild(i);
+                r.appendChild(s);
+                return {
+                    input: o,
+                    label: r
+                };
+            }
+            function clearElementsByClassName(e, t) {
+                let n = e.getElementsByClassName(t);
+                while (n[0]) {
+                    n[0].parentNode.removeChild(n[0]);
+                }
+            }
             function fireCustomTriggerEvent(e, ...t) {
                 if (isDefinedFunction(e)) {
                     e.apply(null, [].slice.call(t, 0));
@@ -49,8 +167,8 @@ var require_journey = __commonJS({
                 const n = e.split("?");
                 if (n.length > 1) {
                     const e = n[1].split("&");
-                    const i = e.length;
-                    for (var r = 0; r < i; r++) {
+                    const o = e.length;
+                    for (var r = 0; r < o; r++) {
                         const n = e[r].split("=");
                         t[n[0]] = n[1];
                     }

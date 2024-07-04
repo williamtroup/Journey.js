@@ -37,6 +37,168 @@ type StringToJson = {
 
     /*
      * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+     * Element Handling
+     * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+     */
+
+    function createElement( type: string, className: string = Char.empty ) : HTMLElement {
+        const nodeType: string = type.toLowerCase();
+        const isText: boolean = nodeType === "text";
+
+        let result: any = isText ? document.createTextNode( Char.empty ) : document.createElement( nodeType );
+
+        if ( isDefined( className ) ) {
+            result.className = className;
+        }
+
+        return result;
+    }
+
+    function getOffset( element: HTMLElement ) : any {
+        let left: number = 0;
+        let top: number = 0;
+
+        while ( element && !isNaN( element.offsetLeft ) && !isNaN( element.offsetTop ) ) {
+            left += element.offsetLeft - element.scrollLeft;
+            top += element.offsetTop - element.scrollTop;
+
+            element = element.offsetParent as HTMLElement;
+        }
+
+        return {
+            left: left,
+            top: top
+        };
+    }
+
+    function getScrollPosition() : any {
+        const doc: HTMLElement = document.documentElement;
+        const left: number = ( window.pageXOffset || doc.scrollLeft )  - ( doc.clientLeft || 0 );
+        const top: number = ( window.pageYOffset || doc.scrollTop ) - ( doc.clientTop || 0 );
+
+        return {
+            left: left,
+            top: top
+        };
+    }
+
+    function getStyleValueByName( element: any, stylePropertyName: string ) : any {
+        let value: any = null;
+        
+        if ( document.defaultView.getComputedStyle ) {
+            value = document.defaultView.getComputedStyle( element, null ).getPropertyValue( stylePropertyName ); 
+        } else if ( element.currentStyle ) {
+            value = element.currentStyle[ stylePropertyName ];
+        }   
+
+        return value;
+    }
+
+    function addNode( parent: HTMLElement, node: HTMLElement ) : void {
+        try {
+            if ( !parent.contains( node ) ) {
+                parent.appendChild( node );
+            }
+        } catch ( e ) {
+            console.warn( e.message );
+        }
+    }
+
+    function removeNode( parent: HTMLElement, node: HTMLElement ) : void {
+        try {
+            if ( parent.contains( node ) ) {
+                parent.removeChild( node );
+            }
+        } catch ( e ) {
+            console.warn( e.message );
+        }
+    }
+
+    function cancelBubble( e: any ) : void {
+        e.preventDefault();
+        e.cancelBubble = true;
+    }
+
+    function showElementAtMousePosition( e: MouseEvent, element: HTMLElement ) : void {
+        var left = e.pageX,
+            top = e.pageY,
+            scrollPosition = getScrollPosition();
+
+        element.style.display = "block";
+
+        if ( left + element.offsetWidth > window.innerWidth ) {
+            left -= element.offsetWidth;
+        } else {
+            left++;
+        }
+
+        if ( top + element.offsetHeight > window.innerHeight ) {
+            top -= element.offsetHeight;
+        } else {
+            top++;
+        }
+
+        if ( left < scrollPosition.left ) {
+            left = e.pageX + 1;
+        }
+
+        if ( top < scrollPosition.top ) {
+            top = e.pageY + 1;
+        }
+        
+        element.style.left = left + "px";
+        element.style.top = top + "px";
+    }
+
+    function showElementBasedOnCondition( element: HTMLElement, condition: boolean ) : void {
+        if ( condition ) {
+            if ( element.style.display !== "block" ) {
+                element.style.display = "block";
+            }
+            
+        } else {
+            if ( element.style.display !== "none" ) {
+                element.style.display = "none";
+            }
+        }
+    }
+
+    function buildCheckBox( container: HTMLElement, labelText: string ) : any {
+        const lineContainer: HTMLElement = createElement( "div" );
+        const label: HTMLElement = createElement( "label", "checkbox" );
+        const input: HTMLInputElement = createElement( "input" ) as HTMLInputElement;
+
+        container.appendChild( lineContainer );
+        lineContainer.appendChild( label );
+        label.appendChild( input );
+
+        input.type = "checkbox";
+
+        var checkMark = createElement( "span", "check-mark" ),
+            text = createElement( "span", "text" );
+
+        text.innerHTML = labelText;
+        
+        label.appendChild( checkMark );
+        label.appendChild( text );
+
+        return {
+            input: input,
+            label: label
+        };
+    }
+
+    function clearElementsByClassName( container: HTMLElement, className: string ) : void {
+        let elements: HTMLCollectionOf<Element> = container.getElementsByClassName( className );
+
+        while ( elements[ 0 ] ) {
+            elements[ 0 ].parentNode.removeChild( elements[ 0 ] );
+        }
+    }
+
+
+    /*
+     * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
      * Triggering Custom Events
      * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
      */

@@ -3,6 +3,124 @@
     const _groups_Default = "default";
     let _groups_Current = _groups_Default;
     const _groups = {};
+    function createElement(e, t = "") {
+        const n = e.toLowerCase();
+        const i = n === "text";
+        let r = i ? document.createTextNode("") : document.createElement(n);
+        if (isDefined(t)) {
+            r.className = t;
+        }
+        return r;
+    }
+    function getOffset(e) {
+        let t = 0;
+        let n = 0;
+        while (e && !isNaN(e.offsetLeft) && !isNaN(e.offsetTop)) {
+            t += e.offsetLeft - e.scrollLeft;
+            n += e.offsetTop - e.scrollTop;
+            e = e.offsetParent;
+        }
+        return {
+            left: t,
+            top: n
+        };
+    }
+    function getScrollPosition() {
+        const e = document.documentElement;
+        const t = (window.pageXOffset || e.scrollLeft) - (e.clientLeft || 0);
+        const n = (window.pageYOffset || e.scrollTop) - (e.clientTop || 0);
+        return {
+            left: t,
+            top: n
+        };
+    }
+    function getStyleValueByName(e, t) {
+        let n = null;
+        if (document.defaultView.getComputedStyle) {
+            n = document.defaultView.getComputedStyle(e, null).getPropertyValue(t);
+        } else if (e.currentStyle) {
+            n = e.currentStyle[t];
+        }
+        return n;
+    }
+    function addNode(e, t) {
+        try {
+            if (!e.contains(t)) {
+                e.appendChild(t);
+            }
+        } catch (e) {
+            console.warn(e.message);
+        }
+    }
+    function removeNode(e, t) {
+        try {
+            if (e.contains(t)) {
+                e.removeChild(t);
+            }
+        } catch (e) {
+            console.warn(e.message);
+        }
+    }
+    function cancelBubble(e) {
+        e.preventDefault();
+        e.cancelBubble = true;
+    }
+    function showElementAtMousePosition(e, t) {
+        var n = e.pageX, i = e.pageY, r = getScrollPosition();
+        t.style.display = "block";
+        if (n + t.offsetWidth > window.innerWidth) {
+            n -= t.offsetWidth;
+        } else {
+            n++;
+        }
+        if (i + t.offsetHeight > window.innerHeight) {
+            i -= t.offsetHeight;
+        } else {
+            i++;
+        }
+        if (n < r.left) {
+            n = e.pageX + 1;
+        }
+        if (i < r.top) {
+            i = e.pageY + 1;
+        }
+        t.style.left = n + "px";
+        t.style.top = i + "px";
+    }
+    function showElementBasedOnCondition(e, t) {
+        if (t) {
+            if (e.style.display !== "block") {
+                e.style.display = "block";
+            }
+        } else {
+            if (e.style.display !== "none") {
+                e.style.display = "none";
+            }
+        }
+    }
+    function buildCheckBox(e, t) {
+        const n = createElement("div");
+        const i = createElement("label", "checkbox");
+        const r = createElement("input");
+        e.appendChild(n);
+        n.appendChild(i);
+        i.appendChild(r);
+        r.type = "checkbox";
+        var o = createElement("span", "check-mark"), s = createElement("span", "text");
+        s.innerHTML = t;
+        i.appendChild(o);
+        i.appendChild(s);
+        return {
+            input: r,
+            label: i
+        };
+    }
+    function clearElementsByClassName(e, t) {
+        let n = e.getElementsByClassName(t);
+        while (n[0]) {
+            n[0].parentNode.removeChild(n[0]);
+        }
+    }
     function fireCustomTriggerEvent(e, ...t) {
         if (isDefinedFunction(e)) {
             e.apply(null, [].slice.call(t, 0));
@@ -30,9 +148,9 @@
         const n = e.split("?");
         if (n.length > 1) {
             const e = n[1].split("&");
-            const i = e.length;
-            for (var r = 0; r < i; r++) {
-                const n = e[r].split("=");
+            const r = e.length;
+            for (var i = 0; i < r; i++) {
+                const n = e[i].split("=");
                 t[n[0]] = n[1];
             }
         }
@@ -83,11 +201,11 @@
     function getDefaultStringOrArray(e, t) {
         let n = t;
         if (isDefinedString(e)) {
-            const r = e.toString().split(" ");
-            if (r.length === 0) {
+            const i = e.toString().split(" ");
+            if (i.length === 0) {
                 e = t;
             } else {
-                n = r;
+                n = i;
             }
         } else {
             n = getDefaultArray(e, t);
