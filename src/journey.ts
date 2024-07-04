@@ -1118,16 +1118,17 @@ type Groups = Record<string, {
         setConfiguration: function ( newConfiguration: any ) : PublicApi {
             if ( Is.definedObject( newConfiguration ) ) {
                 let configurationHasChanged: boolean = false;
-            
+                const newInternalConfiguration: any = _configuration;
+
                 for ( let propertyName in newConfiguration ) {
-                    if ( newConfiguration.hasOwnProperty( propertyName ) && _configuration.hasOwnProperty( propertyName ) && _configuration[ propertyName ] !== newConfiguration[ propertyName ] ) {
-                        _configuration[ propertyName ] = newConfiguration[ propertyName ];
+                    if ( newConfiguration.hasOwnProperty( propertyName ) && _configuration.hasOwnProperty( propertyName ) && newInternalConfiguration[ propertyName ] !== newConfiguration[ propertyName ] ) {
+                        newInternalConfiguration[ propertyName ] = newConfiguration[ propertyName ];
                         configurationHasChanged = true;
                     }
                 }
         
                 if ( configurationHasChanged ) {
-                    buildDefaultConfiguration( _configuration );
+                    buildDefaultConfiguration( newInternalConfiguration );
                 }
             }
     

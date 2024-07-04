@@ -953,14 +953,15 @@ var DomElement;
         setConfiguration: function(e) {
             if (Is.definedObject(e)) {
                 let t = false;
-                for (let o in e) {
-                    if (e.hasOwnProperty(o) && _configuration.hasOwnProperty(o) && _configuration[o] !== e[o]) {
-                        _configuration[o] = e[o];
+                const o = _configuration;
+                for (let n in e) {
+                    if (e.hasOwnProperty(n) && _configuration.hasOwnProperty(n) && o[n] !== e[n]) {
+                        o[n] = e[n];
                         t = true;
                     }
                 }
                 if (t) {
-                    buildDefaultConfiguration(_configuration);
+                    buildDefaultConfiguration(o);
                 }
             }
             return _public;
