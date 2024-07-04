@@ -24,9 +24,11 @@ export type Configuration = {
     attributeNotValidErrorText?: string;
     attributeNotSetErrorText?: string;
     closeDialogConfirmationText?: string;
+    onDoNotShowAgainChange?: ( flag: boolean ) => void;
 };
 
 export type BindingOptions = {
+    _currentView: CurrentView;
     order?: number;
     attach?: boolean;
     sendClick: boolean;
@@ -41,6 +43,10 @@ export type BindingOptions = {
     description?: string;
     tooltip?: string;
     events?: Events;
+};
+
+export type CurrentView = {
+    element: HTMLElement;
 };
 
 export type Events = {
