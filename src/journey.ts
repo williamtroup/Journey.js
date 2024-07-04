@@ -668,25 +668,25 @@ type StringToJson = {
 
     function onWindowKeyDown( e: KeyboardEvent ) : void {
         if ( _public.isOpen() && _configuration.shortcutKeysEnabled ) {
-            if ( e.keyCode === KeyCode.escape ) {
+            if ( e.code === KeyCode.escape ) {
                 e.preventDefault();
                 onDialogClose();
             } else {
 
                 if ( _configuration_ShortcutKeysEnabled ) {
-                    if ( e.keyCode === KeyCode.left ) {
+                    if ( e.code === KeyCode.left ) {
                         e.preventDefault();
                         onDialogBack();
         
-                    } else if ( e.keyCode === KeyCode.right ) {
+                    } else if ( e.code === KeyCode.right ) {
                         e.preventDefault();
                         onDialogNext();
         
-                    } else if ( e.keyCode === KeyCode.up ) {
+                    } else if ( e.code === KeyCode.up ) {
                         e.preventDefault();
                         onWindowKeyCodeUp();
         
-                    } else if ( e.keyCode === KeyCode.down ) {
+                    } else if ( e.code === KeyCode.down ) {
                         e.preventDefault();
                         onWindowKeyCodeDown();
                     }

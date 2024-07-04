@@ -476,21 +476,21 @@ var require_journey = __commonJS({
             }
             function onWindowKeyDown(e) {
                 if (_public.isOpen() && _configuration.shortcutKeysEnabled) {
-                    if (e.keyCode === 27) {
+                    if (e.code === "Escape") {
                         e.preventDefault();
                         onDialogClose();
                     } else {
                         if (_configuration_ShortcutKeysEnabled) {
-                            if (e.keyCode === 37) {
+                            if (e.code === "ArrowLeft") {
                                 e.preventDefault();
                                 onDialogBack();
-                            } else if (e.keyCode === 39) {
+                            } else if (e.code === "ArrowRight") {
                                 e.preventDefault();
                                 onDialogNext();
-                            } else if (e.keyCode === 38) {
+                            } else if (e.code === "ArrowUp") {
                                 e.preventDefault();
                                 onWindowKeyCodeUp();
-                            } else if (e.keyCode === 40) {
+                            } else if (e.code === "ArrowDown") {
                                 e.preventDefault();
                                 onWindowKeyCodeDown();
                             }
