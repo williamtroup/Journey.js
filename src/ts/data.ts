@@ -23,7 +23,7 @@ export namespace Data {
         return Is.definedFunction( value ) ? value : defaultValue;
     }
 
-    export function getDefaultObject( value: any, defaultValue: object ) : object {
+    export function getDefaultObject( value: any, defaultValue: object ) : any {
         return Is.definedObject( value ) ? value : defaultValue;
     }
 

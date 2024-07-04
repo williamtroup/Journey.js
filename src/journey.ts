@@ -31,6 +31,12 @@ type StringToJson = {
     object: any;
 };
 
+type Groups = Record<string, {
+    json: BindingOptions;
+    keys: number[];
+    position: number;
+}>;
+
 
 ( () => {
     // Variables: Configuration
@@ -42,7 +48,7 @@ type StringToJson = {
     // Variables: Groups
     const _groups_Default: string = "default";
     let _groups_Current: string = _groups_Default;
-    let _groups: object = {};
+    let _groups: Groups = {} as Groups;
 
     // Variables: Focus Element
     let _element_Focus_Element_PositionStyle: string = null;
@@ -85,10 +91,10 @@ type StringToJson = {
      */
 
     function setupDefaultGroup( groups: any = null ) : void {
-        _groups = Data.getDefaultObject( groups, {} );
+        _groups = Data.getDefaultObject( groups, {} as Groups );
 
         _groups[ _groups_Default ] = {
-            json: {},
+            json: {} as BindingOptions,
             keys: [],
             position: 0
         };
@@ -97,7 +103,7 @@ type StringToJson = {
     function setupNewGroup( group: string ) : void {
         if ( !_groups.hasOwnProperty( group ) ) {
             _groups[ group ] = {
-                json: {},
+                json: {} as BindingOptions,
                 keys: [],
                 position: 0
             };
@@ -1078,7 +1084,7 @@ type StringToJson = {
                 }
     
             } else {
-                _groups = {};
+                _groups = {} as Groups;
             }
     
             if ( !Is.definedString( group ) || group === _groups_Default ) {
