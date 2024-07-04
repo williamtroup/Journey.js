@@ -1,0 +1,27 @@
+export type Configuration = {
+    safeMode?: boolean;
+    domElementTypes?: string[] | string;
+    showCloseButton?: boolean;
+    shortcutKeysEnabled?: boolean;
+    showProgressDots?: boolean;
+    browserUrlParametersEnabled?: boolean;
+    showProgressDotNumbers?: boolean;
+    showButtons?: boolean;
+    showDoNotShowAgain?: boolean;
+    tooltipDelay?: number;
+    showProgressDotToolTips?: boolean;
+    closeDialogOnDisabledBackgroundClick?: boolean;
+    showProgressBar?: boolean;
+    scrollToElements?: boolean;
+    dialogMovingEnabled?: boolean;
+    showProgressBarText?: boolean;
+    backButtonText?: string;
+    nextButtonText?: string;
+    finishButtonText?: string;
+    closeButtonToolTipText?: string;
+    doNotShowAgainText?: string;
+    objectErrorText?: string;
+    attributeNotValidErrorText?: string;
+    attributeNotSetErrorText?: string;
+    closeDialogConfirmationText?: string;
+};

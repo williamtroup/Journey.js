@@ -11,6 +11,9 @@
  */
 
 
+import { type Configuration } from "./ts/type";
+
+
 ( () => {
 
     /*
