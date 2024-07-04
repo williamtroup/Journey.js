@@ -79,7 +79,7 @@ var require_journey = __commonJS({
             }
             function renderDisabledBackground() {
                 _element_Disabled_Background = createElement("div", "journey-js-disabled-background");
-                _element_Disabled_Background.onclick = function() {
+                _element_Disabled_Background.onclick = () => {
                     if (_configuration.closeDialogOnDisabledBackgroundClick) {
                         onDialogClose();
                     }
@@ -97,7 +97,7 @@ var require_journey = __commonJS({
                 document.body.appendChild(_element_Dialog);
                 _element_Dialog_Close_Button = createElement("button", "close");
                 _element_Dialog.appendChild(_element_Dialog_Close_Button);
-                _element_Dialog_Close_Button.onclick = function() {
+                _element_Dialog_Close_Button.onclick = () => {
                     onDialogClose();
                 };
                 addToolTip(_element_Dialog_Close_Button, _configuration.closeButtonToolTipText);
@@ -108,7 +108,7 @@ var require_journey = __commonJS({
                 _element_Dialog_CheckBox_Container = createElement("div", "checkbox-container");
                 _element_Dialog.appendChild(_element_Dialog_CheckBox_Container);
                 _element_Dialog_CheckBox_Input = buildCheckBox(_element_Dialog_CheckBox_Container, _configuration.doNotShowAgainText).input;
-                _element_Dialog_CheckBox_Input.onchange = function() {
+                _element_Dialog_CheckBox_Input.onchange = () => {
                     if (_configuration.showDoNotShowAgain) {
                         fireCustomTriggerEvent(_configuration.onDoNotShowAgainChange, _element_Dialog_CheckBox_Input.checked);
                     }
@@ -283,7 +283,7 @@ var require_journey = __commonJS({
                     n = createElement("div", "dot-active");
                 } else {
                     n = createElement("div", "dot");
-                    n.onclick = function() {
+                    n.onclick = () => {
                         removeFocusClassFromLastElement();
                         _groups[_groups_Current].position = e;
                         showDialogAndSetPosition();
@@ -357,17 +357,17 @@ var require_journey = __commonJS({
                     _element_ToolTip = createElement("div", "journey-js-tooltip");
                     _element_ToolTip.style.display = "none";
                     document.body.appendChild(_element_ToolTip);
-                    document.body.addEventListener("mousemove", (function() {
+                    document.body.addEventListener("mousemove", (() => {
                         hideToolTip();
                     }));
-                    document.addEventListener("scroll", (function() {
+                    document.addEventListener("scroll", (() => {
                         hideToolTip();
                     }));
                 }
             }
             function addToolTip(e, t) {
                 if (e !== null) {
-                    e.onmousemove = function(e) {
+                    e.onmousemove = e => {
                         showToolTip(e, t);
                     };
                 }
@@ -375,7 +375,7 @@ var require_journey = __commonJS({
             function showToolTip(e, t) {
                 cancelBubble(e);
                 hideToolTip();
-                _element_ToolTip_Timer = setTimeout((function() {
+                _element_ToolTip_Timer = setTimeout((() => {
                     _element_ToolTip.innerHTML = t;
                     _element_ToolTip.style.display = "block";
                     showElementAtMousePosition(e, _element_ToolTip);
@@ -452,7 +452,7 @@ var require_journey = __commonJS({
                 }
                 const o = createElement("div", "journey-js-hint");
                 e._currentView.element.appendChild(o);
-                o.onclick = function(t) {
+                o.onclick = t => {
                     cancelBubble(t);
                     _element_Dialog_CheckBox_Container.style.display = "none";
                     _element_Dialog_ProgressDots.style.display = "none";
@@ -959,7 +959,7 @@ var require_journey = __commonJS({
             };
             (() => {
                 buildDefaultConfiguration();
-                document.addEventListener("DOMContentLoaded", (function() {
+                document.addEventListener("DOMContentLoaded", (() => {
                     setupDefaultGroup();
                     renderDisabledBackground();
                     renderDialog();

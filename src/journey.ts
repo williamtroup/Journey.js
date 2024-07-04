@@ -114,7 +114,7 @@ type StringToJson = {
     function renderDisabledBackground() : void {
         _element_Disabled_Background = createElement( "div", "journey-js-disabled-background" );
 
-        _element_Disabled_Background.onclick = function() {
+        _element_Disabled_Background.onclick = () => {
             if ( _configuration.closeDialogOnDisabledBackgroundClick ) {
                 onDialogClose();
             }
@@ -144,7 +144,7 @@ type StringToJson = {
         _element_Dialog_Close_Button = createElement( "button", "close" );
         _element_Dialog.appendChild( _element_Dialog_Close_Button );
 
-        _element_Dialog_Close_Button.onclick = function() {
+        _element_Dialog_Close_Button.onclick = () => {
             onDialogClose();
         };
 
@@ -161,7 +161,7 @@ type StringToJson = {
 
         _element_Dialog_CheckBox_Input = buildCheckBox( _element_Dialog_CheckBox_Container, _configuration.doNotShowAgainText ).input;
         
-        _element_Dialog_CheckBox_Input.onchange = function() {
+        _element_Dialog_CheckBox_Input.onchange = () => {
             if ( _configuration.showDoNotShowAgain ) {
                 fireCustomTriggerEvent( _configuration.onDoNotShowAgainChange, _element_Dialog_CheckBox_Input.checked );
             }
@@ -395,7 +395,7 @@ type StringToJson = {
             
             dot = createElement( "div", "dot" );
     
-            dot.onclick = function() {
+            dot.onclick = () => {
                 removeFocusClassFromLastElement();
 
                 _groups[ _groups_Current ].position = keyIndex;
@@ -500,11 +500,11 @@ type StringToJson = {
 
             document.body.appendChild( _element_ToolTip );
     
-            document.body.addEventListener( "mousemove", function() {
+            document.body.addEventListener( "mousemove", () => {
                 hideToolTip();
             } );
     
-            document.addEventListener( "scroll", function() {
+            document.addEventListener( "scroll", () => {
                 hideToolTip();
             } );
         }
@@ -512,7 +512,7 @@ type StringToJson = {
 
     function addToolTip( element: HTMLElement, text: string ) : void {
         if ( element !== null ) {
-            element.onmousemove = function( e ) {
+            element.onmousemove = ( e: MouseEvent ) => {
                 showToolTip( e, text );
             };
         }
@@ -522,7 +522,7 @@ type StringToJson = {
         cancelBubble( e );
         hideToolTip();
 
-        _element_ToolTip_Timer = setTimeout( function() {
+        _element_ToolTip_Timer = setTimeout( () => {
             _element_ToolTip.innerHTML = text;
             _element_ToolTip.style.display = "block";
 
@@ -630,7 +630,7 @@ type StringToJson = {
         const hint: HTMLElement = createElement( "div", "journey-js-hint" );
         bindingOptions._currentView.element.appendChild( hint );
 
-        hint.onclick = function( e ) {
+        hint.onclick = ( e: MouseEvent ) => {
             cancelBubble( e );
 
             _element_Dialog_CheckBox_Container.style.display = "none";
@@ -1390,7 +1390,7 @@ type StringToJson = {
     ( () => {
         buildDefaultConfiguration();
 
-        document.addEventListener( "DOMContentLoaded", function() {
+        document.addEventListener( "DOMContentLoaded", () => {
             setupDefaultGroup();
             renderDisabledBackground();
             renderDialog();
