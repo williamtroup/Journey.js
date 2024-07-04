@@ -1,8 +1,32 @@
 () => {
     let _configuration = {};
+    let _configuration_ShortcutKeysEnabled = true;
     const _groups_Default = "default";
     let _groups_Current = _groups_Default;
     const _groups = {};
+    let _element_Focus_Element_PositionStyle = null;
+    let _element_Disabled_Background = null;
+    let _element_Dialog = null;
+    let _element_Dialog_Close_Button = null;
+    let _element_Dialog_Title = null;
+    let _element_Dialog_Description = null;
+    let _element_Dialog_CheckBox_Container = null;
+    let _element_Dialog_CheckBox_Input = null;
+    let _element_Dialog_ProgressDots = null;
+    let _element_Dialog_ProgressBar = null;
+    let _element_Dialog_ProgressBar_Percentage = null;
+    let _element_Dialog_ProgressBar_Percentage_Text = null;
+    let _element_Dialog_Buttons = null;
+    let _element_Dialog_Buttons_Back_Button = null;
+    let _element_Dialog_Buttons_Next_Button = null;
+    let _element_Dialog_IsHint = false;
+    let _element_Dialog_Move_Original_X = 0;
+    let _element_Dialog_Move_Original_Y = 0;
+    let _element_Dialog_Move_IsMoving = false;
+    let _element_Dialog_Move_X = 0;
+    let _element_Dialog_Move_Y = 0;
+    let _element_ToolTip = null;
+    let _element_ToolTip_Timer = 0;
     function buildAttributeOptions(e) {
         let t = !isDefinedObject(e) ? {} : e;
         t.order = getDefaultNumber(t.order, 0);
@@ -38,12 +62,12 @@
     }
     function createElement(e, t = "") {
         const n = e.toLowerCase();
-        const o = n === "text";
-        let i = o ? document.createTextNode("") : document.createElement(n);
+        const l = n === "text";
+        let o = l ? document.createTextNode("") : document.createElement(n);
         if (isDefined(t)) {
-            i.className = t;
+            o.className = t;
         }
-        return i;
+        return o;
     }
     function getOffset(e) {
         let t = 0;
@@ -99,26 +123,26 @@
         e.cancelBubble = true;
     }
     function showElementAtMousePosition(e, t) {
-        var n = e.pageX, o = e.pageY, i = getScrollPosition();
+        var n = e.pageX, l = e.pageY, o = getScrollPosition();
         t.style.display = "block";
         if (n + t.offsetWidth > window.innerWidth) {
             n -= t.offsetWidth;
         } else {
             n++;
         }
-        if (o + t.offsetHeight > window.innerHeight) {
-            o -= t.offsetHeight;
+        if (l + t.offsetHeight > window.innerHeight) {
+            l -= t.offsetHeight;
         } else {
-            o++;
+            l++;
         }
-        if (n < i.left) {
+        if (n < o.left) {
             n = e.pageX + 1;
         }
-        if (o < i.top) {
-            o = e.pageY + 1;
+        if (l < o.top) {
+            l = e.pageY + 1;
         }
         t.style.left = n + "px";
-        t.style.top = o + "px";
+        t.style.top = l + "px";
     }
     function showElementBasedOnCondition(e, t) {
         if (t) {
@@ -133,19 +157,19 @@
     }
     function buildCheckBox(e, t) {
         const n = createElement("div");
-        const o = createElement("label", "checkbox");
-        const i = createElement("input");
+        const l = createElement("label", "checkbox");
+        const o = createElement("input");
         e.appendChild(n);
-        n.appendChild(o);
-        o.appendChild(i);
-        i.type = "checkbox";
-        var l = createElement("span", "check-mark"), r = createElement("span", "text");
+        n.appendChild(l);
+        l.appendChild(o);
+        o.type = "checkbox";
+        var i = createElement("span", "check-mark"), r = createElement("span", "text");
         r.innerHTML = t;
-        o.appendChild(l);
-        o.appendChild(r);
+        l.appendChild(i);
+        l.appendChild(r);
         return {
-            input: i,
-            label: o
+            input: o,
+            label: l
         };
     }
     function clearElementsByClassName(e, t) {
@@ -181,9 +205,9 @@
         const n = e.split("?");
         if (n.length > 1) {
             const e = n[1].split("&");
-            const i = e.length;
-            for (var o = 0; o < i; o++) {
-                const n = e[o].split("=");
+            const o = e.length;
+            for (var l = 0; l < o; l++) {
+                const n = e[l].split("=");
                 t[n[0]] = n[1];
             }
         }
@@ -234,11 +258,11 @@
     function getDefaultStringOrArray(e, t) {
         let n = t;
         if (isDefinedString(e)) {
-            const o = e.toString().split(" ");
-            if (o.length === 0) {
+            const l = e.toString().split(" ");
+            if (l.length === 0) {
                 e = t;
             } else {
-                n = o;
+                n = l;
             }
         } else {
             n = getDefaultArray(e, t);

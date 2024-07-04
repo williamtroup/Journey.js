@@ -16,7 +16,7 @@ import {
     type BindingOptions,
     type Events } from "./ts/type";
 
-import { Char } from "./ts/enum";
+import { Char, KeyCode } from "./ts/enum";
 
 
 type StringToJson = {
@@ -29,10 +29,46 @@ type StringToJson = {
     // Variables: Configuration
     let _configuration: Configuration = {} as Configuration;
 
+    // Variables: Configuration (overrides)
+    let _configuration_ShortcutKeysEnabled: boolean = true;
+
     // Variables: Groups
     const _groups_Default: string = "default";
     let _groups_Current: string = _groups_Default;
     const _groups: object = {};
+
+    // Variables: Focus Element
+    let _element_Focus_Element_PositionStyle: string = null;
+
+    // Variables: Disabled Background
+    let _element_Disabled_Background: HTMLElement = null;
+
+    // Variables: Dialog
+    let _element_Dialog: HTMLElement = null;
+    let _element_Dialog_Close_Button: HTMLElement = null;
+    let _element_Dialog_Title: HTMLElement = null;
+    let _element_Dialog_Description: HTMLElement = null;
+    let _element_Dialog_CheckBox_Container: HTMLElement = null;
+    let _element_Dialog_CheckBox_Input: HTMLElement = null;
+    let _element_Dialog_ProgressDots: HTMLElement = null;
+    let _element_Dialog_ProgressBar: HTMLElement = null;
+    let _element_Dialog_ProgressBar_Percentage: HTMLElement = null;
+    let _element_Dialog_ProgressBar_Percentage_Text: HTMLElement = null;
+    let _element_Dialog_Buttons: HTMLElement = null;
+    let _element_Dialog_Buttons_Back_Button: HTMLElement = null;
+    let _element_Dialog_Buttons_Next_Button: HTMLElement = null;
+    let _element_Dialog_IsHint: boolean = false;
+
+    // Variables: Dialog - Move
+    let _element_Dialog_Move_Original_X: number = 0;
+    let _element_Dialog_Move_Original_Y: number = 0;
+    let _element_Dialog_Move_IsMoving: boolean = false;
+    let _element_Dialog_Move_X: number = 0;
+    let _element_Dialog_Move_Y: number = 0;
+
+    // Variables: Dialog
+    let _element_ToolTip = null;
+    let _element_ToolTip_Timer: number = 0;
 
 
     /*
