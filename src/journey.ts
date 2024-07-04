@@ -158,7 +158,7 @@ type Groups = Record<string, {
             onDialogClose();
         };
 
-        addToolTip( _element_Dialog_Close_Button, _configuration.closeButtonToolTipText as string );
+        addToolTip( _element_Dialog_Close_Button, _configuration.closeButtonToolTipText! );
 
         _element_Dialog_Title = DomElement.create( "div", "title" );
         _element_Dialog.appendChild( _element_Dialog_Title );
@@ -169,7 +169,7 @@ type Groups = Record<string, {
         _element_Dialog_CheckBox_Container = DomElement.create( "div", "checkbox-container" );
         _element_Dialog.appendChild( _element_Dialog_CheckBox_Container );
 
-        _element_Dialog_CheckBox_Input = DomElement.createCheckBox( _element_Dialog_CheckBox_Container, _configuration.doNotShowAgainText as string );
+        _element_Dialog_CheckBox_Input = DomElement.createCheckBox( _element_Dialog_CheckBox_Container, _configuration.doNotShowAgainText! );
         
         _element_Dialog_CheckBox_Input.onchange = () => {
             if ( _configuration.showDoNotShowAgain ) {
@@ -216,7 +216,7 @@ type Groups = Record<string, {
             const bindingOptions: BindingOptions = getGroupBindingOptions();
 
             if ( Is.defined( bindingOptions ) && Is.defined( bindingOptions._currentView.element ) ) {
-                fireCustomTriggerEvent( bindingOptions.events.onClose, bindingOptions._currentView.element );
+                fireCustomTriggerEvent( bindingOptions.events!.onClose!, bindingOptions._currentView.element );
             }
     
             removeFocusClassFromLastElement( false );
@@ -242,7 +242,7 @@ type Groups = Record<string, {
             const bindingOptions: BindingOptions = getGroupBindingOptions();
 
             onDialogClose( false );
-            fireCustomTriggerEvent( bindingOptions.events.onFinish, bindingOptions._currentView.element );
+            fireCustomTriggerEvent( bindingOptions.events!.onFinish, bindingOptions._currentView.element );
 
         } else {
             removeFocusClassFromLastElement();
@@ -287,20 +287,20 @@ type Groups = Record<string, {
             DomElement.showElementBasedOnCondition( _element_Dialog_ProgressBar_Percentage_Text, _configuration.showProgressBarText as boolean );
             DomElement.showElementBasedOnCondition( _element_Dialog_Buttons, _configuration.showButtons as boolean );
 
-            _element_Dialog_Buttons_Back_Button.innerHTML = _configuration.backButtonText as string;
+            _element_Dialog_Buttons_Back_Button.innerHTML = _configuration.backButtonText!;
             _element_Dialog_Buttons_Back_Button.disabled = _groups[ _groups_Current ].position === 0;
             
             if ( _groups[ _groups_Current ].position >= _groups[ _groups_Current ].keys.length - 1 ) {
-                _element_Dialog_Buttons_Next_Button.innerHTML = _configuration.finishButtonText as string;
+                _element_Dialog_Buttons_Next_Button.innerHTML = _configuration.finishButtonText!;
             } else {
-                _element_Dialog_Buttons_Next_Button.innerHTML = _configuration.nextButtonText as string;
+                _element_Dialog_Buttons_Next_Button.innerHTML = _configuration.nextButtonText!;
             }
 
             setDialogText( bindingOptions );
             setDialogPosition( null, bindingOptions );
             buildProcessDots();
             setProgressBarPosition();
-            fireCustomTriggerEvent( bindingOptions.events.onEnter, bindingOptions._currentView.element );
+            fireCustomTriggerEvent( bindingOptions.events!.onEnter, bindingOptions._currentView.element );
 
             if ( bindingOptions.sendClick ) {
                 bindingOptions._currentView.element.click();
@@ -310,13 +310,13 @@ type Groups = Record<string, {
 
     function setDialogText( bindingOptions: BindingOptions ) : void {
         if ( Is.definedString( bindingOptions.title ) ) {
-            _element_Dialog_Title.innerHTML = bindingOptions.title as string;
+            _element_Dialog_Title.innerHTML = bindingOptions.title!;
         } else {
             _element_Dialog_Title.innerHTML = Char.empty;
         }
 
         if ( Is.definedString( bindingOptions.description ) ) {
-            _element_Dialog_Description.innerHTML = bindingOptions.description as string;
+            _element_Dialog_Description.innerHTML = bindingOptions.description!;
         } else {
             _element_Dialog_Description.innerHTML = Char.empty;
         }
@@ -326,11 +326,11 @@ type Groups = Record<string, {
         if ( _element_Dialog.style.display !== "block" ) {
             _element_Dialog.style.display = "block";
 
-            fireCustomTriggerEvent( bindingOptions.events.onOpen, bindingOptions._currentView.element );
+            fireCustomTriggerEvent( bindingOptions.events!.onOpen, bindingOptions._currentView.element );
         }
 
         if ( _groups[ _groups_Current ].position === 0 ) {
-            fireCustomTriggerEvent( bindingOptions.events.onStart, bindingOptions._currentView.element );
+            fireCustomTriggerEvent( bindingOptions.events!.onStart, bindingOptions._currentView.element );
         }
 
         _element_Dialog_IsHint = bindingOptions.isHint === true;
@@ -378,7 +378,7 @@ type Groups = Record<string, {
             }
 
             if ( callCustomTrigger ) {
-                fireCustomTriggerEvent( bindingOptions.events.onLeave, bindingOptions._currentView.element );
+                fireCustomTriggerEvent( bindingOptions.events!.onLeave, bindingOptions._currentView.element );
             }
         }
     }
@@ -418,9 +418,9 @@ type Groups = Record<string, {
 
         if ( _configuration.showProgressDotToolTips ) {
             if ( Is.definedString( bindingOptions.tooltip ) ) {
-                addToolTip( dot, bindingOptions.tooltip as string );
+                addToolTip( dot, bindingOptions.tooltip! );
             } else {
-                addToolTip( dot, bindingOptions.title as string );
+                addToolTip( dot, bindingOptions.title! );
             }
         }
 
@@ -583,7 +583,7 @@ type Groups = Record<string, {
         let result: boolean = true;
 
         if ( Is.defined( element ) && element.hasAttribute( Constants.JOURNEY_JS_ATTRIBUTE_NAME ) ) {
-            const bindingOptionsData: string = element.getAttribute( Constants.JOURNEY_JS_ATTRIBUTE_NAME ) as string;
+            const bindingOptionsData: string = element.getAttribute( Constants.JOURNEY_JS_ATTRIBUTE_NAME )!;
 
             if ( Is.definedString( bindingOptionsData ) ) {
                 const bindingOptions: StringToJson = getObjectFromString( bindingOptionsData );
@@ -593,14 +593,14 @@ type Groups = Record<string, {
 
                 } else {
                     if ( !_configuration.safeMode ) {
-                        console.error( _configuration.attributeNotValidErrorText.replace( "{{attribute_name}}", Constants.JOURNEY_JS_ATTRIBUTE_NAME ) );
+                        console.error( _configuration.attributeNotValidErrorText!.replace( "{{attribute_name}}", Constants.JOURNEY_JS_ATTRIBUTE_NAME ) );
                         result = false;
                     }
                 }
 
             } else {
                 if ( !_configuration.safeMode ) {
-                    console.error( _configuration.attributeNotSetErrorText.replace( "{{attribute_name}}", Constants.JOURNEY_JS_ATTRIBUTE_NAME ) );
+                    console.error( _configuration.attributeNotSetErrorText!.replace( "{{attribute_name}}", Constants.JOURNEY_JS_ATTRIBUTE_NAME ) );
                     result = false;
                 }
             }
@@ -617,12 +617,12 @@ type Groups = Record<string, {
             element.removeAttribute( Constants.JOURNEY_JS_ATTRIBUTE_NAME );
             
             if ( !bindingOptions.isHint ) {
-                setupNewGroup( bindingOptions.group as string );
+                setupNewGroup( bindingOptions.group! );
 
-                _groups[ bindingOptions.group as string ].json[ bindingOptions.order as number ] = bindingOptions;
-                _groups[ bindingOptions.group as string ].keys.push( bindingOptions.order as number );
+                _groups[ bindingOptions.group! ].json[ bindingOptions.order! ] = bindingOptions;
+                _groups[ bindingOptions.group! ].keys.push( bindingOptions.order! );
 
-                fireCustomTriggerEvent( bindingOptions.events.onAddStep, element );
+                fireCustomTriggerEvent( bindingOptions.events!.onAddStep, element );
 
             } else {
                 renderHint( bindingOptions );
@@ -766,14 +766,14 @@ type Groups = Record<string, {
 
     function buildAttributeOptionCustomTriggers( options: BindingOptions ) : BindingOptions {
         options.events = Data.getDefaultObject( options.events, {} as Events );
-        options.events.onEnter = Data.getDefaultFunction( options.events.onEnter, null );
-        options.events.onLeave = Data.getDefaultFunction( options.events.onLeave, null );
-        options.events.onClose = Data.getDefaultFunction( options.events.onClose, null );
-        options.events.onFinish = Data.getDefaultFunction( options.events.onFinish, null );
-        options.events.onOpen = Data.getDefaultFunction( options.events.onOpen, null );
-        options.events.onStart = Data.getDefaultFunction( options.events.onStart, null );
-        options.events.onAddStep = Data.getDefaultFunction( options.events.onAddStep, null );
-        options.events.onRemoveStep = Data.getDefaultFunction( options.events.onRemoveStep, null );
+        options.events!.onEnter = Data.getDefaultFunction( options.events!.onEnter, null );
+        options.events!.onLeave = Data.getDefaultFunction( options.events!.onLeave, null );
+        options.events!.onClose = Data.getDefaultFunction( options.events!.onClose, null );
+        options.events!.onFinish = Data.getDefaultFunction( options.events!.onFinish, null );
+        options.events!.onOpen = Data.getDefaultFunction( options.events!.onOpen, null );
+        options.events!.onStart = Data.getDefaultFunction( options.events!.onStart, null );
+        options.events!.onAddStep = Data.getDefaultFunction( options.events!.onAddStep, null );
+        options.events!.onRemoveStep = Data.getDefaultFunction( options.events!.onRemoveStep, null );
 
         return options;
     }
@@ -867,7 +867,7 @@ type Groups = Record<string, {
                 
             } catch ( e2: any ) {
                 if ( !_configuration.safeMode ) {
-                    console.error( _configuration.objectErrorText.replace( "{{error_1}}",  e1.message ).replace( "{{error_2}}",  e2.message ) );
+                    console.error( _configuration.objectErrorText!.replace( "{{error_1}}",  e1.message ).replace( "{{error_2}}",  e2.message ) );
                     result.parsed = false;
                 }
                 
@@ -1035,11 +1035,11 @@ type Groups = Record<string, {
                                 const bindingOptions: BindingOptions = _groups[ group ].json[ order ];
             
                                 if ( bindingOptions._currentView.element === element ) {
-                                    fireCustomTriggerEvent( bindingOptions.events.onRemoveStep, bindingOptions._currentView.element );
+                                    fireCustomTriggerEvent( bindingOptions.events!.onRemoveStep, bindingOptions._currentView.element );
             
-                                    _groups[ group ].keys.splice( _groups[ group ].keys.indexOf( bindingOptions.order ), 1 );
+                                    _groups[ group ].keys.splice( _groups[ group ].keys.indexOf( bindingOptions.order! ), 1 );
             
-                                    delete _groups[ group ].json[ bindingOptions.order ];
+                                    delete _groups[ group ].json[ bindingOptions.order! ];
             
                                     _groups[ group ].keys.sort();
                 
@@ -1071,7 +1071,7 @@ type Groups = Record<string, {
                             if ( _groups[ groupName ].json.hasOwnProperty( order ) ) {
                                 const bindingOptions: BindingOptions = _groups[ groupName ].json[ order ];
             
-                                fireCustomTriggerEvent( bindingOptions.events.onRemoveStep, bindingOptions._currentView.element );
+                                fireCustomTriggerEvent( bindingOptions.events!.onRemoveStep, bindingOptions._currentView.element );
                             }
                         }
                     }
