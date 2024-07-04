@@ -13,10 +13,15 @@
     "url": "https://github.com/williamtroup/Journey.js"
   },
   "keywords": [
+    "typescript",
     "javascript",
     "css",
     "html5",
-    "Journey.js"
+    "Journey.js",
+    "walk-through",
+    "guided-tour",
+    "tour",
+    "steps"
   ],
   "bugs": {
     "url": "https://github.com/williamtroup/Journey.js/issues"
