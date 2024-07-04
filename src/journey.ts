@@ -20,6 +20,7 @@ import {
 import { Char, KeyCode } from "./ts/enum";
 import { Constants } from "./ts/constant";
 import { PublicApi } from "./ts/api";
+import { Is } from "./ts/is";
 
 
 type StringToJson = {
@@ -201,7 +202,7 @@ type Position = {
     function onDialogClose( showConfirmationBox: boolean = true ) : void {
         let confirmed: boolean = false;
 
-        if ( isDefinedString( _configuration.closeDialogConfirmationText ) && showConfirmationBox ) {
+        if ( Is.definedString( _configuration.closeDialogConfirmationText ) && showConfirmationBox ) {
             confirmed = confirm( _configuration.closeDialogConfirmationText );
         } else {
             confirmed = true;
@@ -210,7 +211,7 @@ type Position = {
         if ( confirmed ) {
             const bindingOptions: BindingOptions = getGroupBindingOptions();
 
-            if ( isDefined( bindingOptions ) && isDefined( bindingOptions._currentView.element ) ) {
+            if ( Is.defined( bindingOptions ) && Is.defined( bindingOptions._currentView.element ) ) {
                 fireCustomTriggerEvent( bindingOptions.events.onClose, bindingOptions._currentView.element );
             }
     
@@ -251,7 +252,7 @@ type Position = {
     function showDialogAndSetPosition() : void {
         const bindingOptions: BindingOptions = getGroupBindingOptions();
 
-        if ( isDefined( bindingOptions ) && isDefined( bindingOptions._currentView.element ) ) {
+        if ( Is.defined( bindingOptions ) && Is.defined( bindingOptions._currentView.element ) ) {
             if ( bindingOptions.showDisabledBackground ) {
                 showDisabledBackground();
             } else {
@@ -304,13 +305,13 @@ type Position = {
     }
 
     function setDialogText( bindingOptions: BindingOptions ) : void {
-        if ( isDefinedString( bindingOptions.title ) ) {
+        if ( Is.definedString( bindingOptions.title ) ) {
             _element_Dialog_Title.innerHTML = bindingOptions.title;
         } else {
             _element_Dialog_Title.innerHTML = Char.empty;
         }
 
-        if ( isDefinedString( bindingOptions.description ) ) {
+        if ( Is.definedString( bindingOptions.description ) ) {
             _element_Dialog_Description.innerHTML = bindingOptions.description;
         } else {
             _element_Dialog_Description.innerHTML = Char.empty;
@@ -365,10 +366,10 @@ type Position = {
     function removeFocusClassFromLastElement( callCustomTrigger: boolean = true ) : void {
         const bindingOptions: BindingOptions = getGroupBindingOptions();
 
-        if ( isDefined( bindingOptions ) && isDefined( bindingOptions._currentView.element ) ) {
+        if ( Is.defined( bindingOptions ) && Is.defined( bindingOptions._currentView.element ) ) {
             bindingOptions._currentView.element.className = bindingOptions._currentView.element.className.replace( Char.space + "journey-js-element-focus", Char.empty );
 
-            if ( isDefined( _element_Focus_Element_PositionStyle ) ) {
+            if ( Is.defined( _element_Focus_Element_PositionStyle ) ) {
                 bindingOptions._currentView.element.style.position = _element_Focus_Element_PositionStyle;
             }
 
@@ -412,7 +413,7 @@ type Position = {
         _element_Dialog_ProgressDots.appendChild( dot );
 
         if ( _configuration.showProgressDotToolTips ) {
-            if ( isDefinedString( bindingOptions.tooltip ) ) {
+            if ( Is.definedString( bindingOptions.tooltip ) ) {
                 addToolTip( dot, bindingOptions.tooltip );
             } else {
                 addToolTip( dot, bindingOptions.title );
@@ -499,7 +500,7 @@ type Position = {
      */
 
     function renderToolTip() : void {
-        if ( !isDefined( _element_ToolTip ) ) {
+        if ( !Is.defined( _element_ToolTip ) ) {
             _element_ToolTip = createElement( "div", "journey-js-tooltip" );
             _element_ToolTip.style.display = "none";
 
@@ -536,7 +537,7 @@ type Position = {
     }
 
     function hideToolTip() : void {
-        if ( isDefined( _element_ToolTip ) ) {
+        if ( Is.defined( _element_ToolTip ) ) {
             if ( _element_ToolTip_Timer !== 0 ) {
                 clearTimeout( _element_ToolTip_Timer );
                 _element_ToolTip_Timer = 0;
@@ -577,13 +578,13 @@ type Position = {
     function getElement( element: HTMLElement ) : boolean {
         let result: boolean = true;
 
-        if ( isDefined( element ) && element.hasAttribute( Constants.JOURNEY_JS_ATTRIBUTE_NAME ) ) {
+        if ( Is.defined( element ) && element.hasAttribute( Constants.JOURNEY_JS_ATTRIBUTE_NAME ) ) {
             const bindingOptionsData: string = element.getAttribute( Constants.JOURNEY_JS_ATTRIBUTE_NAME );
 
-            if ( isDefinedString( bindingOptionsData ) ) {
+            if ( Is.definedString( bindingOptionsData ) ) {
                 const bindingOptions: StringToJson = getObjectFromString( bindingOptionsData );
 
-                if ( bindingOptions.parsed && isDefinedObject( bindingOptions.object ) ) {
+                if ( bindingOptions.parsed && Is.definedObject( bindingOptions.object ) ) {
                     setupElement( element, buildAttributeOptions( bindingOptions.object ) );
 
                 } else {
@@ -608,7 +609,7 @@ type Position = {
         bindingOptions._currentView = {} as CurrentView;
         bindingOptions._currentView.element = element;
 
-        if ( isDefinedNumber( bindingOptions.order ) && ( isDefinedString( bindingOptions.title ) || isDefinedString( bindingOptions.description ) ) ) {
+        if ( Is.definedNumber( bindingOptions.order ) && ( Is.definedString( bindingOptions.title ) || Is.definedString( bindingOptions.description ) ) ) {
             element.removeAttribute( Constants.JOURNEY_JS_ATTRIBUTE_NAME );
             
             if ( !bindingOptions.isHint ) {
@@ -734,7 +735,7 @@ type Position = {
      */
 
     function buildAttributeOptions( newOptions: any ) {
-        let options: BindingOptions = !isDefinedObject( newOptions ) ? {} as BindingOptions : newOptions;
+        let options: BindingOptions = !Is.definedObject( newOptions ) ? {} as BindingOptions : newOptions;
         options.order = getDefaultNumber( options.order, 0 );
         options.attach = getDefaultBoolean( options.attach, true );
         options.sendClick = getDefaultBoolean( options.sendClick, false );
@@ -786,7 +787,7 @@ type Position = {
 
         let result: any = isText ? document.createTextNode( Char.empty ) : document.createElement( nodeType );
 
-        if ( isDefined( className ) ) {
+        if ( Is.defined( className ) ) {
             result.className = className;
         }
 
@@ -939,7 +940,7 @@ type Position = {
      */
 
     function fireCustomTriggerEvent( triggerFunction: Function, ...args : any[] ) : void {
-        if ( isDefinedFunction( triggerFunction ) ) {
+        if ( Is.definedFunction( triggerFunction ) ) {
             triggerFunction.apply( null, [].slice.call( args, 0 ) );
         }
     }
@@ -958,7 +959,7 @@ type Position = {
             const url: string = window.location.href;
             const urlArguments: any = getBrowserUrlArguments( url );
 
-            if ( isDefined( urlArguments.sjOrderId ) ) {
+            if ( Is.defined( urlArguments.sjOrderId ) ) {
                 const orderId: number = parseInt( urlArguments.sjOrderId, 10 );
 
                 if ( !isNaN( orderId ) && orderId <= _groups[ _groups_Current ].keys.length - 1 ) {
@@ -966,7 +967,7 @@ type Position = {
                 }
             }
 
-            if ( isDefined( urlArguments.sjShow ) ) {
+            if ( Is.defined( urlArguments.sjShow ) ) {
                 show = urlArguments.sjShow === "true";
             }
         }
@@ -995,41 +996,6 @@ type Position = {
 
     /*
      * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-     * Validation
-     * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-     */
-
-    function isDefined( value: any ) : boolean {
-        return value !== null && value !== undefined && value !== Char.empty;
-    }
-
-    function isDefinedObject( object: any ) : boolean {
-        return isDefined( object ) && typeof object === "object";
-    }
-
-    function isDefinedBoolean( object: any ) : boolean {
-        return isDefined( object ) && typeof object === "boolean";
-    }
-
-    function isDefinedString( object: any ) : boolean {
-        return isDefined( object ) && typeof object === "string";
-    }
-
-    function isDefinedFunction( object: any ) : boolean {
-        return isDefined( object ) && typeof object === "function";
-    }
-
-    function isDefinedNumber( object: any ) : boolean {
-        return isDefined( object ) && typeof object === "number";
-    }
-
-    function isDefinedArray( object: any ) : boolean {
-        return isDefinedObject( object ) && object instanceof Array;
-    }
-
-
-    /*
-     * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
      * Default Parameter/Option Handling
      * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
      */
@@ -1039,33 +1005,33 @@ type Position = {
     }
 
     function getDefaultString( value: any, defaultValue: string ) : string {
-        return isDefinedString( value ) ? value : defaultValue;
+        return Is.definedString( value ) ? value : defaultValue;
     }
 
     function getDefaultBoolean( value: any, defaultValue: boolean ) : boolean {
-        return isDefinedBoolean( value ) ? value : defaultValue;
+        return Is.definedBoolean( value ) ? value : defaultValue;
     }
 
     function getDefaultNumber( value: any, defaultValue: number ) : number {
-        return isDefinedNumber( value ) ? value : defaultValue;
+        return Is.definedNumber( value ) ? value : defaultValue;
     }
 
     function getDefaultFunction( value: any, defaultValue: object ) : any {
-        return isDefinedFunction( value ) ? value : defaultValue;
+        return Is.definedFunction( value ) ? value : defaultValue;
     }
 
     function getDefaultObject( value: any, defaultValue: object ) : object {
-        return isDefinedObject( value ) ? value : defaultValue;
+        return Is.definedObject( value ) ? value : defaultValue;
     }
 
     function getDefaultArray( value: any, defaultValue: any[] ) : any[] {
-        return isDefinedArray( value ) ? value : defaultValue;
+        return Is.definedArray( value ) ? value : defaultValue;
     }
 
     function getDefaultStringOrArray( value: any, defaultValue: any[] ) : any[] {
         let result: any[] = defaultValue;
 
-        if ( isDefinedString( value ) ) {
+        if ( Is.definedString( value ) ) {
             const values: string[] = value.toString().split( Char.space );
 
             if ( values.length === 0 ) {
@@ -1088,7 +1054,7 @@ type Position = {
         } as StringToJson;
 
         try {
-            if ( isDefinedString( objectString ) ) {
+            if ( Is.definedString( objectString ) ) {
                 result.object = JSON.parse( objectString );
             }
 
@@ -1096,7 +1062,7 @@ type Position = {
             try {
                 result.object = eval( "(" + objectString + ")" );
 
-                if ( isDefinedFunction( result.object ) ) {
+                if ( Is.definedFunction( result.object ) ) {
                     result.object = result.object();
                 }
                 
@@ -1227,7 +1193,7 @@ type Position = {
         },
 
         isOpen: function () : boolean {
-            return isDefined( _element_Dialog ) && _element_Dialog.style.display === "block";
+            return Is.defined( _element_Dialog ) && _element_Dialog.style.display === "block";
         },
 
         isComplete: function () : boolean {
@@ -1248,7 +1214,7 @@ type Position = {
         },
 
         addStep: function ( element: HTMLElement, options: BindingOptions ) : PublicApi {
-            if ( isDefinedObject( element ) && isDefinedObject( options ) ) {
+            if ( Is.definedObject( element ) && Is.definedObject( options ) ) {
                 setupElement( element, buildAttributeOptions( options ) );
     
                 _groups[ _groups_Current ].keys.sort();
@@ -1260,7 +1226,7 @@ type Position = {
         },
 
         removeStep: function ( element: HTMLElement ) : PublicApi {
-            if ( isDefinedObject( element ) ) {
+            if ( Is.definedObject( element ) ) {
                 let removed: boolean = false;
     
                 for ( let group in _groups ) {
@@ -1301,7 +1267,7 @@ type Position = {
 
             for ( let groupName in _groups ) {
                 if ( _groups.hasOwnProperty( groupName ) ) {
-                    if ( !isDefinedString( group ) || group === groupName ) {
+                    if ( !Is.definedString( group ) || group === groupName ) {
                         for ( let order in _groups[ groupName ].json ) {
                             if ( _groups[ groupName ].json.hasOwnProperty( order ) ) {
                                 const bindingOptions: BindingOptions = _groups[ groupName ].json[ order ];
@@ -1313,7 +1279,7 @@ type Position = {
                 }
             }
     
-            if ( isDefinedString( group ) ) {
+            if ( Is.definedString( group ) ) {
                 if ( _groups.hasOwnProperty( group ) ) {
                     delete _groups[ group ];
                 }
@@ -1322,7 +1288,7 @@ type Position = {
                 _groups = {};
             }
     
-            if ( !isDefinedString( group ) || group === _groups_Default ) {
+            if ( !Is.definedString( group ) || group === _groups_Default ) {
                 setupDefaultGroup( _groups );
             }
     
@@ -1351,7 +1317,7 @@ type Position = {
          */
 
         setConfiguration: function ( newConfiguration: Configuration ) : PublicApi {
-            if ( isDefinedObject( newConfiguration ) ) {
+            if ( Is.definedObject( newConfiguration ) ) {
                 let configurationHasChanged: boolean = false;
             
                 for ( let propertyName in newConfiguration ) {
@@ -1404,7 +1370,7 @@ type Position = {
             }
         } );
 
-        if ( !isDefined( window.$journey ) ) {
+        if ( !Is.defined( window.$journey ) ) {
             window.$journey = _public;
         }
     } ) ();

@@ -4,6 +4,39 @@ var Constants;
     e.JOURNEY_JS_ATTRIBUTE_NAME = "data-journey-js";
 })(Constants || (Constants = {}));
 
+var Is;
+
+(e => {
+    function t(e) {
+        return e !== null && e !== void 0 && e !== "";
+    }
+    e.defined = t;
+    function o(e) {
+        return t(e) && typeof e === "object";
+    }
+    e.definedObject = o;
+    function n(e) {
+        return t(e) && typeof e === "boolean";
+    }
+    e.definedBoolean = n;
+    function i(e) {
+        return t(e) && typeof e === "string";
+    }
+    e.definedString = i;
+    function l(e) {
+        return t(e) && typeof e === "function";
+    }
+    e.definedFunction = l;
+    function r(e) {
+        return t(e) && typeof e === "number";
+    }
+    e.definedNumber = r;
+    function s(e) {
+        return o(e) && e instanceof Array;
+    }
+    e.definedArray = s;
+})(Is || (Is = {}));
+
 (() => {
     let _configuration = {};
     let _configuration_ShortcutKeysEnabled = true;
@@ -109,14 +142,14 @@ var Constants;
     }
     function onDialogClose(e = true) {
         let t = false;
-        if (isDefinedString(_configuration.closeDialogConfirmationText) && e) {
+        if (Is.definedString(_configuration.closeDialogConfirmationText) && e) {
             t = confirm(_configuration.closeDialogConfirmationText);
         } else {
             t = true;
         }
         if (t) {
             const e = getGroupBindingOptions();
-            if (isDefined(e) && isDefined(e._currentView.element)) {
+            if (Is.defined(e) && Is.defined(e._currentView.element)) {
                 fireCustomTriggerEvent(e.events.onClose, e._currentView.element);
             }
             removeFocusClassFromLastElement(false);
@@ -145,7 +178,7 @@ var Constants;
     }
     function showDialogAndSetPosition() {
         const e = getGroupBindingOptions();
-        if (isDefined(e) && isDefined(e._currentView.element)) {
+        if (Is.defined(e) && Is.defined(e._currentView.element)) {
             if (e.showDisabledBackground) {
                 showDisabledBackground();
             } else {
@@ -186,12 +219,12 @@ var Constants;
         }
     }
     function setDialogText(e) {
-        if (isDefinedString(e.title)) {
+        if (Is.definedString(e.title)) {
             _element_Dialog_Title.innerHTML = e.title;
         } else {
             _element_Dialog_Title.innerHTML = "";
         }
-        if (isDefinedString(e.description)) {
+        if (Is.definedString(e.description)) {
             _element_Dialog_Description.innerHTML = e.description;
         } else {
             _element_Dialog_Description.innerHTML = "";
@@ -233,9 +266,9 @@ var Constants;
     }
     function removeFocusClassFromLastElement(e = true) {
         const t = getGroupBindingOptions();
-        if (isDefined(t) && isDefined(t._currentView.element)) {
+        if (Is.defined(t) && Is.defined(t._currentView.element)) {
             t._currentView.element.className = t._currentView.element.className.replace(" " + "journey-js-element-focus", "");
-            if (isDefined(_element_Focus_Element_PositionStyle)) {
+            if (Is.defined(_element_Focus_Element_PositionStyle)) {
                 t._currentView.element.style.position = _element_Focus_Element_PositionStyle;
             }
             if (e) {
@@ -267,7 +300,7 @@ var Constants;
         }
         _element_Dialog_ProgressDots.appendChild(n);
         if (_configuration.showProgressDotToolTips) {
-            if (isDefinedString(o.tooltip)) {
+            if (Is.definedString(o.tooltip)) {
                 addToolTip(n, o.tooltip);
             } else {
                 addToolTip(n, o.title);
@@ -329,7 +362,7 @@ var Constants;
         }
     }
     function renderToolTip() {
-        if (!isDefined(_element_ToolTip)) {
+        if (!Is.defined(_element_ToolTip)) {
             _element_ToolTip = createElement("div", "journey-js-tooltip");
             _element_ToolTip.style.display = "none";
             document.body.appendChild(_element_ToolTip);
@@ -358,7 +391,7 @@ var Constants;
         }), _configuration.tooltipDelay);
     }
     function hideToolTip() {
-        if (isDefined(_element_ToolTip)) {
+        if (Is.defined(_element_ToolTip)) {
             if (_element_ToolTip_Timer !== 0) {
                 clearTimeout(_element_ToolTip_Timer);
                 _element_ToolTip_Timer = 0;
@@ -385,11 +418,11 @@ var Constants;
     }
     function getElement(e) {
         let t = true;
-        if (isDefined(e) && e.hasAttribute(Constants.JOURNEY_JS_ATTRIBUTE_NAME)) {
+        if (Is.defined(e) && e.hasAttribute(Constants.JOURNEY_JS_ATTRIBUTE_NAME)) {
             const o = e.getAttribute(Constants.JOURNEY_JS_ATTRIBUTE_NAME);
-            if (isDefinedString(o)) {
+            if (Is.definedString(o)) {
                 const n = getObjectFromString(o);
-                if (n.parsed && isDefinedObject(n.object)) {
+                if (n.parsed && Is.definedObject(n.object)) {
                     setupElement(e, buildAttributeOptions(n.object));
                 } else {
                     if (!_configuration.safeMode) {
@@ -409,7 +442,7 @@ var Constants;
     function setupElement(e, t) {
         t._currentView = {};
         t._currentView.element = e;
-        if (isDefinedNumber(t.order) && (isDefinedString(t.title) || isDefinedString(t.description))) {
+        if (Is.definedNumber(t.order) && (Is.definedString(t.title) || Is.definedString(t.description))) {
             e.removeAttribute(Constants.JOURNEY_JS_ATTRIBUTE_NAME);
             if (!t.isHint) {
                 setupNewGroup(t.group);
@@ -494,7 +527,7 @@ var Constants;
         }
     }
     function buildAttributeOptions(e) {
-        let t = !isDefinedObject(e) ? {} : e;
+        let t = !Is.definedObject(e) ? {} : e;
         t.order = getDefaultNumber(t.order, 0);
         t.attach = getDefaultBoolean(t.attach, true);
         t.sendClick = getDefaultBoolean(t.sendClick, false);
@@ -530,7 +563,7 @@ var Constants;
         const o = e.toLowerCase();
         const n = o === "text";
         let i = n ? document.createTextNode("") : document.createElement(o);
-        if (isDefined(t)) {
+        if (Is.defined(t)) {
             i.className = t;
         }
         return i;
@@ -643,7 +676,7 @@ var Constants;
         }
     }
     function fireCustomTriggerEvent(e, ...t) {
-        if (isDefinedFunction(e)) {
+        if (Is.definedFunction(e)) {
             e.apply(null, [].slice.call(t, 0));
         }
     }
@@ -652,13 +685,13 @@ var Constants;
         if (_configuration.browserUrlParametersEnabled) {
             const t = window.location.href;
             const o = getBrowserUrlArguments(t);
-            if (isDefined(o.sjOrderId)) {
+            if (Is.defined(o.sjOrderId)) {
                 const e = parseInt(o.sjOrderId, 10);
                 if (!isNaN(e) && e <= _groups[_groups_Current].keys.length - 1) {
                     _groups[_groups_Current].position = e;
                 }
             }
-            if (isDefined(o.sjShow)) {
+            if (Is.defined(o.sjShow)) {
                 e = o.sjShow === "true";
             }
         }
@@ -677,51 +710,30 @@ var Constants;
         }
         return t;
     }
-    function isDefined(e) {
-        return e !== null && e !== void 0 && e !== "";
-    }
-    function isDefinedObject(e) {
-        return isDefined(e) && typeof e === "object";
-    }
-    function isDefinedBoolean(e) {
-        return isDefined(e) && typeof e === "boolean";
-    }
-    function isDefinedString(e) {
-        return isDefined(e) && typeof e === "string";
-    }
-    function isDefinedFunction(e) {
-        return isDefined(e) && typeof e === "function";
-    }
-    function isDefinedNumber(e) {
-        return isDefined(e) && typeof e === "number";
-    }
-    function isDefinedArray(e) {
-        return isDefinedObject(e) && e instanceof Array;
-    }
     function getDefaultAnyString(e, t) {
         return typeof e === "string" ? e : t;
     }
     function getDefaultString(e, t) {
-        return isDefinedString(e) ? e : t;
+        return Is.definedString(e) ? e : t;
     }
     function getDefaultBoolean(e, t) {
-        return isDefinedBoolean(e) ? e : t;
+        return Is.definedBoolean(e) ? e : t;
     }
     function getDefaultNumber(e, t) {
-        return isDefinedNumber(e) ? e : t;
+        return Is.definedNumber(e) ? e : t;
     }
     function getDefaultFunction(e, t) {
-        return isDefinedFunction(e) ? e : t;
+        return Is.definedFunction(e) ? e : t;
     }
     function getDefaultObject(e, t) {
-        return isDefinedObject(e) ? e : t;
+        return Is.definedObject(e) ? e : t;
     }
     function getDefaultArray(e, t) {
-        return isDefinedArray(e) ? e : t;
+        return Is.definedArray(e) ? e : t;
     }
     function getDefaultStringOrArray(e, t) {
         let o = t;
-        if (isDefinedString(e)) {
+        if (Is.definedString(e)) {
             const n = e.toString().split(" ");
             if (n.length === 0) {
                 e = t;
@@ -739,13 +751,13 @@ var Constants;
             object: null
         };
         try {
-            if (isDefinedString(objectString)) {
+            if (Is.definedString(objectString)) {
                 result.object = JSON.parse(objectString);
             }
         } catch (e1) {
             try {
                 result.object = eval("(" + objectString + ")");
-                if (isDefinedFunction(result.object)) {
+                if (Is.definedFunction(result.object)) {
                     result.object = result.object();
                 }
             } catch (e) {
@@ -829,7 +841,7 @@ var Constants;
             return _public;
         },
         isOpen: function() {
-            return isDefined(_element_Dialog) && _element_Dialog.style.display === "block";
+            return Is.defined(_element_Dialog) && _element_Dialog.style.display === "block";
         },
         isComplete: function() {
             return _groups[_groups_Current].position >= _groups[_groups_Current].keys.length - 1;
@@ -839,7 +851,7 @@ var Constants;
             return _public;
         },
         addStep: function(e, t) {
-            if (isDefinedObject(e) && isDefinedObject(t)) {
+            if (Is.definedObject(e) && Is.definedObject(t)) {
                 setupElement(e, buildAttributeOptions(t));
                 _groups[_groups_Current].keys.sort();
                 resetDialogPosition();
@@ -847,7 +859,7 @@ var Constants;
             return _public;
         },
         removeStep: function(e) {
-            if (isDefinedObject(e)) {
+            if (Is.definedObject(e)) {
                 let t = false;
                 for (let o in _groups) {
                     if (_groups.hasOwnProperty(o)) {
@@ -878,7 +890,7 @@ var Constants;
             resetDialogPosition();
             for (let t in _groups) {
                 if (_groups.hasOwnProperty(t)) {
-                    if (!isDefinedString(e) || e === t) {
+                    if (!Is.definedString(e) || e === t) {
                         for (let e in _groups[t].json) {
                             if (_groups[t].json.hasOwnProperty(e)) {
                                 const o = _groups[t].json[e];
@@ -888,14 +900,14 @@ var Constants;
                     }
                 }
             }
-            if (isDefinedString(e)) {
+            if (Is.definedString(e)) {
                 if (_groups.hasOwnProperty(e)) {
                     delete _groups[e];
                 }
             } else {
                 _groups = {};
             }
-            if (!isDefinedString(e) || e === _groups_Default) {
+            if (!Is.definedString(e) || e === _groups_Default) {
                 setupDefaultGroup(_groups);
             }
             return _public;
@@ -910,7 +922,7 @@ var Constants;
             return _public;
         },
         setConfiguration: function(e) {
-            if (isDefinedObject(e)) {
+            if (Is.definedObject(e)) {
                 let t = false;
                 for (let o in e) {
                     if (e.hasOwnProperty(o) && _configuration.hasOwnProperty(o) && _configuration[o] !== e[o]) {
@@ -941,7 +953,7 @@ var Constants;
                 _public.show();
             }
         }));
-        if (!isDefined(window.$journey)) {
+        if (!Is.defined(window.$journey)) {
             window.$journey = _public;
         }
     })();
