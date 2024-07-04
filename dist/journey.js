@@ -3,14 +3,47 @@
     const _groups_Default = "default";
     let _groups_Current = _groups_Default;
     const _groups = {};
+    function buildAttributeOptions(e) {
+        let t = !isDefinedObject(e) ? {} : e;
+        t.order = getDefaultNumber(t.order, 0);
+        t.attach = getDefaultBoolean(t.attach, true);
+        t.sendClick = getDefaultBoolean(t.sendClick, false);
+        t.alignTop = getDefaultBoolean(t.alignTop, false);
+        t.alignRight = getDefaultBoolean(t.alignRight, false);
+        t.isHint = getDefaultBoolean(t.isHint, false);
+        t.alignHintToClickPosition = getDefaultBoolean(t.alignHintToClickPosition, false);
+        t.showDisabledBackground = getDefaultBoolean(t.showDisabledBackground, true);
+        t.removeHintWhenViewed = getDefaultBoolean(t.removeHintWhenViewed, false);
+        t.group = getDefaultString(t.group, _groups_Default);
+        t = buildAttributeOptionStrings(t);
+        return buildAttributeOptionCustomTriggers(t);
+    }
+    function buildAttributeOptionStrings(e) {
+        e.title = getDefaultString(e.title, null);
+        e.description = getDefaultString(e.description, null);
+        e.tooltip = getDefaultString(e.tooltip, null);
+        return e;
+    }
+    function buildAttributeOptionCustomTriggers(e) {
+        e.events = getDefaultObject(e.events, {});
+        e.events.onEnter = getDefaultFunction(e.events.onEnter, null);
+        e.events.onLeave = getDefaultFunction(e.events.onLeave, null);
+        e.events.onClose = getDefaultFunction(e.events.onClose, null);
+        e.events.onFinish = getDefaultFunction(e.events.onFinish, null);
+        e.events.onOpen = getDefaultFunction(e.events.onOpen, null);
+        e.events.onStart = getDefaultFunction(e.events.onStart, null);
+        e.events.onAddStep = getDefaultFunction(e.events.onAddStep, null);
+        e.events.onRemoveStep = getDefaultFunction(e.events.onRemoveStep, null);
+        return e;
+    }
     function createElement(e, t = "") {
         const n = e.toLowerCase();
-        const i = n === "text";
-        let r = i ? document.createTextNode("") : document.createElement(n);
+        const o = n === "text";
+        let i = o ? document.createTextNode("") : document.createElement(n);
         if (isDefined(t)) {
-            r.className = t;
+            i.className = t;
         }
-        return r;
+        return i;
     }
     function getOffset(e) {
         let t = 0;
@@ -66,26 +99,26 @@
         e.cancelBubble = true;
     }
     function showElementAtMousePosition(e, t) {
-        var n = e.pageX, i = e.pageY, r = getScrollPosition();
+        var n = e.pageX, o = e.pageY, i = getScrollPosition();
         t.style.display = "block";
         if (n + t.offsetWidth > window.innerWidth) {
             n -= t.offsetWidth;
         } else {
             n++;
         }
-        if (i + t.offsetHeight > window.innerHeight) {
-            i -= t.offsetHeight;
+        if (o + t.offsetHeight > window.innerHeight) {
+            o -= t.offsetHeight;
         } else {
-            i++;
+            o++;
         }
-        if (n < r.left) {
+        if (n < i.left) {
             n = e.pageX + 1;
         }
-        if (i < r.top) {
-            i = e.pageY + 1;
+        if (o < i.top) {
+            o = e.pageY + 1;
         }
         t.style.left = n + "px";
-        t.style.top = i + "px";
+        t.style.top = o + "px";
     }
     function showElementBasedOnCondition(e, t) {
         if (t) {
@@ -100,19 +133,19 @@
     }
     function buildCheckBox(e, t) {
         const n = createElement("div");
-        const i = createElement("label", "checkbox");
-        const r = createElement("input");
+        const o = createElement("label", "checkbox");
+        const i = createElement("input");
         e.appendChild(n);
-        n.appendChild(i);
-        i.appendChild(r);
-        r.type = "checkbox";
-        var o = createElement("span", "check-mark"), s = createElement("span", "text");
-        s.innerHTML = t;
-        i.appendChild(o);
-        i.appendChild(s);
+        n.appendChild(o);
+        o.appendChild(i);
+        i.type = "checkbox";
+        var l = createElement("span", "check-mark"), r = createElement("span", "text");
+        r.innerHTML = t;
+        o.appendChild(l);
+        o.appendChild(r);
         return {
-            input: r,
-            label: i
+            input: i,
+            label: o
         };
     }
     function clearElementsByClassName(e, t) {
@@ -148,9 +181,9 @@
         const n = e.split("?");
         if (n.length > 1) {
             const e = n[1].split("&");
-            const r = e.length;
-            for (var i = 0; i < r; i++) {
-                const n = e[i].split("=");
+            const i = e.length;
+            for (var o = 0; o < i; o++) {
+                const n = e[o].split("=");
                 t[n[0]] = n[1];
             }
         }
@@ -201,11 +234,11 @@
     function getDefaultStringOrArray(e, t) {
         let n = t;
         if (isDefinedString(e)) {
-            const i = e.toString().split(" ");
-            if (i.length === 0) {
+            const o = e.toString().split(" ");
+            if (o.length === 0) {
                 e = t;
             } else {
-                n = i;
+                n = o;
             }
         } else {
             n = getDefaultArray(e, t);

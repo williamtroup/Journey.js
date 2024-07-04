@@ -37,6 +37,53 @@ type StringToJson = {
 
     /*
      * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+     * Options
+     * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+     */
+
+    function buildAttributeOptions( newOptions: any ) {
+        let options: BindingOptions = !isDefinedObject( newOptions ) ? {} as BindingOptions : newOptions;
+        options.order = getDefaultNumber( options.order, 0 );
+        options.attach = getDefaultBoolean( options.attach, true );
+        options.sendClick = getDefaultBoolean( options.sendClick, false );
+        options.alignTop = getDefaultBoolean( options.alignTop, false );
+        options.alignRight = getDefaultBoolean( options.alignRight, false );
+        options.isHint = getDefaultBoolean( options.isHint, false );
+        options.alignHintToClickPosition = getDefaultBoolean( options.alignHintToClickPosition, false );
+        options.showDisabledBackground = getDefaultBoolean( options.showDisabledBackground, true );
+        options.removeHintWhenViewed = getDefaultBoolean( options.removeHintWhenViewed, false );
+        options.group = getDefaultString( options.group, _groups_Default );
+
+        options = buildAttributeOptionStrings( options );
+
+        return buildAttributeOptionCustomTriggers( options );
+    }
+
+    function buildAttributeOptionStrings( options: BindingOptions ) : BindingOptions {
+        options.title = getDefaultString( options.title, null );
+        options.description = getDefaultString( options.description, null );
+        options.tooltip = getDefaultString( options.tooltip, null );
+
+        return options;
+    }
+
+    function buildAttributeOptionCustomTriggers( options: BindingOptions ) : BindingOptions {
+        options.events = getDefaultObject( options.events, {} as Events );
+        options.events.onEnter = getDefaultFunction( options.events.onEnter, null );
+        options.events.onLeave = getDefaultFunction( options.events.onLeave, null );
+        options.events.onClose = getDefaultFunction( options.events.onClose, null );
+        options.events.onFinish = getDefaultFunction( options.events.onFinish, null );
+        options.events.onOpen = getDefaultFunction( options.events.onOpen, null );
+        options.events.onStart = getDefaultFunction( options.events.onStart, null );
+        options.events.onAddStep = getDefaultFunction( options.events.onAddStep, null );
+        options.events.onRemoveStep = getDefaultFunction( options.events.onRemoveStep, null );
+
+        return options;
+    }
+
+
+    /*
+     * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
      * Element Handling
      * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
      */

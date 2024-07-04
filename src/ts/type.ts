@@ -37,6 +37,7 @@ export type BindingOptions = {
     showDisabledBackground: boolean;
     removeHintWhenViewed: boolean;
     group?: string;
+    title?: string;
     description?: string;
     tooltip?: string;
     events?: Events;

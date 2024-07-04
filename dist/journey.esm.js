@@ -22,14 +22,47 @@ var require_journey = __commonJS({
             const _groups_Default = "default";
             let _groups_Current = _groups_Default;
             const _groups = {};
+            function buildAttributeOptions(e) {
+                let t = !isDefinedObject(e) ? {} : e;
+                t.order = getDefaultNumber(t.order, 0);
+                t.attach = getDefaultBoolean(t.attach, true);
+                t.sendClick = getDefaultBoolean(t.sendClick, false);
+                t.alignTop = getDefaultBoolean(t.alignTop, false);
+                t.alignRight = getDefaultBoolean(t.alignRight, false);
+                t.isHint = getDefaultBoolean(t.isHint, false);
+                t.alignHintToClickPosition = getDefaultBoolean(t.alignHintToClickPosition, false);
+                t.showDisabledBackground = getDefaultBoolean(t.showDisabledBackground, true);
+                t.removeHintWhenViewed = getDefaultBoolean(t.removeHintWhenViewed, false);
+                t.group = getDefaultString(t.group, _groups_Default);
+                t = buildAttributeOptionStrings(t);
+                return buildAttributeOptionCustomTriggers(t);
+            }
+            function buildAttributeOptionStrings(e) {
+                e.title = getDefaultString(e.title, null);
+                e.description = getDefaultString(e.description, null);
+                e.tooltip = getDefaultString(e.tooltip, null);
+                return e;
+            }
+            function buildAttributeOptionCustomTriggers(e) {
+                e.events = getDefaultObject(e.events, {});
+                e.events.onEnter = getDefaultFunction(e.events.onEnter, null);
+                e.events.onLeave = getDefaultFunction(e.events.onLeave, null);
+                e.events.onClose = getDefaultFunction(e.events.onClose, null);
+                e.events.onFinish = getDefaultFunction(e.events.onFinish, null);
+                e.events.onOpen = getDefaultFunction(e.events.onOpen, null);
+                e.events.onStart = getDefaultFunction(e.events.onStart, null);
+                e.events.onAddStep = getDefaultFunction(e.events.onAddStep, null);
+                e.events.onRemoveStep = getDefaultFunction(e.events.onRemoveStep, null);
+                return e;
+            }
             function createElement(e, t = "") {
                 const n = e.toLowerCase();
-                const r = n === "text";
-                let o = r ? document.createTextNode("") : document.createElement(n);
+                const o = n === "text";
+                let i = o ? document.createTextNode("") : document.createElement(n);
                 if (isDefined(t)) {
-                    o.className = t;
+                    i.className = t;
                 }
-                return o;
+                return i;
             }
             function getOffset(e) {
                 let t = 0;
@@ -85,26 +118,26 @@ var require_journey = __commonJS({
                 e.cancelBubble = true;
             }
             function showElementAtMousePosition(e, t) {
-                var n = e.pageX, r = e.pageY, o = getScrollPosition();
+                var n = e.pageX, o = e.pageY, i = getScrollPosition();
                 t.style.display = "block";
                 if (n + t.offsetWidth > window.innerWidth) {
                     n -= t.offsetWidth;
                 } else {
                     n++;
                 }
-                if (r + t.offsetHeight > window.innerHeight) {
-                    r -= t.offsetHeight;
+                if (o + t.offsetHeight > window.innerHeight) {
+                    o -= t.offsetHeight;
                 } else {
-                    r++;
+                    o++;
                 }
-                if (n < o.left) {
+                if (n < i.left) {
                     n = e.pageX + 1;
                 }
-                if (r < o.top) {
-                    r = e.pageY + 1;
+                if (o < i.top) {
+                    o = e.pageY + 1;
                 }
                 t.style.left = n + "px";
-                t.style.top = r + "px";
+                t.style.top = o + "px";
             }
             function showElementBasedOnCondition(e, t) {
                 if (t) {
@@ -119,19 +152,19 @@ var require_journey = __commonJS({
             }
             function buildCheckBox(e, t) {
                 const n = createElement("div");
-                const r = createElement("label", "checkbox");
-                const o = createElement("input");
+                const o = createElement("label", "checkbox");
+                const i = createElement("input");
                 e.appendChild(n);
-                n.appendChild(r);
-                r.appendChild(o);
-                o.type = "checkbox";
-                var i = createElement("span", "check-mark"), s = createElement("span", "text");
-                s.innerHTML = t;
-                r.appendChild(i);
-                r.appendChild(s);
+                n.appendChild(o);
+                o.appendChild(i);
+                i.type = "checkbox";
+                var r = createElement("span", "check-mark"), l = createElement("span", "text");
+                l.innerHTML = t;
+                o.appendChild(r);
+                o.appendChild(l);
                 return {
-                    input: o,
-                    label: r
+                    input: i,
+                    label: o
                 };
             }
             function clearElementsByClassName(e, t) {
@@ -167,9 +200,9 @@ var require_journey = __commonJS({
                 const n = e.split("?");
                 if (n.length > 1) {
                     const e = n[1].split("&");
-                    const o = e.length;
-                    for (var r = 0; r < o; r++) {
-                        const n = e[r].split("=");
+                    const i = e.length;
+                    for (var o = 0; o < i; o++) {
+                        const n = e[o].split("=");
                         t[n[0]] = n[1];
                     }
                 }
@@ -220,11 +253,11 @@ var require_journey = __commonJS({
             function getDefaultStringOrArray(e, t) {
                 let n = t;
                 if (isDefinedString(e)) {
-                    const r = e.toString().split(" ");
-                    if (r.length === 0) {
+                    const o = e.toString().split(" ");
+                    if (o.length === 0) {
                         e = t;
                     } else {
-                        n = r;
+                        n = o;
                     }
                 } else {
                     n = getDefaultArray(e, t);
