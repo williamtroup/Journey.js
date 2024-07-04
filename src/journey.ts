@@ -11,7 +11,10 @@
  */
 
 
-import { type Configuration } from "./ts/type";
+import {
+    type Configuration,
+    type BindingOptions,
+    type Events } from "./ts/type";
 
 
 ( () => {

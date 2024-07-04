@@ -25,3 +25,30 @@ export type Configuration = {
     attributeNotSetErrorText?: string;
     closeDialogConfirmationText?: string;
 };
+
+export type BindingOptions = {
+    order?: number;
+    attach?: boolean;
+    sendClick: boolean;
+    alignTop: boolean;
+    alignRight: boolean;
+    isHint: boolean;
+    alignHintToClickPosition: boolean;
+    showDisabledBackground: boolean;
+    removeHintWhenViewed: boolean;
+    group?: string;
+    description?: string;
+    tooltip?: string;
+    events?: Events;
+};
+
+export type Events = {
+    onEnter?: ( element: HTMLElement ) => void;
+    onLeave?: ( element: HTMLElement ) => void;
+    onClose?: ( element: HTMLElement ) => void;
+    onFinish?: ( element: HTMLElement ) => void;
+    onOpen?: ( element: HTMLElement ) => void;
+    onStart?: ( element: HTMLElement ) => void;
+    onAddStep?: ( element: HTMLElement ) => void;
+    onRemoveStep?: ( element: HTMLElement ) => void;
+};
