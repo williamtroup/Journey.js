@@ -80,7 +80,7 @@ type StringToJson = {
      * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
      */
 
-    function setupDefaultGroup( groups: any ) : void {
+    function setupDefaultGroup( groups: any = null ) : void {
         _groups = getDefaultObject( groups, {} );
 
         _groups[ _groups_Default ] = {
@@ -1115,6 +1115,67 @@ type StringToJson = {
 
 	/*
 	 * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+	 * Public API Functions:  Helpers:  Managing Steps
+	 * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+	 */
+
+    function resetDialogPosition() : void {
+        if ( _public.isOpen() ) {
+            onDialogClose( false );
+
+            _groups[ _groups_Current ].position = 0;
+        }
+    }
+
+
+	/*
+	 * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+	 * Public API Functions:  Helpers:  Configuration
+	 * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+	 */
+
+    function buildDefaultConfiguration( newConfiguration: Configuration = null ) : void {
+        _configuration = getDefaultObject( newConfiguration, {} as Configuration );
+        _configuration.safeMode = getDefaultBoolean( _configuration.safeMode, true );
+        _configuration.domElementTypes = getDefaultStringOrArray( _configuration.domElementTypes, [ "*" ] );
+        _configuration.showCloseButton = getDefaultBoolean( _configuration.showCloseButton, true );
+        _configuration.shortcutKeysEnabled = getDefaultBoolean( _configuration.shortcutKeysEnabled, true );
+        _configuration.showProgressDots = getDefaultBoolean( _configuration.showProgressDots, true );
+        _configuration.browserUrlParametersEnabled = getDefaultBoolean( _configuration.browserUrlParametersEnabled, true );
+        _configuration.showProgressDotNumbers = getDefaultBoolean( _configuration.showProgressDotNumbers, false );
+        _configuration.showButtons = getDefaultBoolean( _configuration.showButtons, true );
+        _configuration.showDoNotShowAgain = getDefaultBoolean( _configuration.showDoNotShowAgain, false );
+        _configuration.tooltipDelay = getDefaultNumber( _configuration.tooltipDelay, 750 );
+        _configuration.showProgressDotToolTips = getDefaultBoolean( _configuration.showProgressDotToolTips, true );
+        _configuration.closeDialogOnDisabledBackgroundClick = getDefaultBoolean( _configuration.closeDialogOnDisabledBackgroundClick, false );
+        _configuration.showProgressBar = getDefaultBoolean( _configuration.showProgressBar, false );
+        _configuration.scrollToElements = getDefaultBoolean( _configuration.scrollToElements, false );
+        _configuration.dialogMovingEnabled = getDefaultBoolean( _configuration.dialogMovingEnabled, false );
+        _configuration.showProgressBarText = getDefaultBoolean( _configuration.showProgressBarText, false );
+
+        buildDefaultConfigurationStrings();
+        buildDefaultConfigurationCustomTriggers();
+    }
+
+    function buildDefaultConfigurationStrings() : void {
+        _configuration.backButtonText = getDefaultAnyString( _configuration.backButtonText, "Back" );
+        _configuration.nextButtonText = getDefaultAnyString( _configuration.nextButtonText, "Next" );
+        _configuration.finishButtonText = getDefaultAnyString( _configuration.finishButtonText, "Finish" );
+        _configuration.closeButtonToolTipText = getDefaultAnyString( _configuration.closeButtonToolTipText, "Close" );
+        _configuration.doNotShowAgainText = getDefaultAnyString( _configuration.doNotShowAgainText, "Do not show again" );
+        _configuration.objectErrorText = getDefaultAnyString( _configuration.objectErrorText, "Errors in object: {{error_1}}, {{error_2}}" );
+        _configuration.attributeNotValidErrorText = getDefaultAnyString( _configuration.attributeNotValidErrorText, "The attribute '{{attribute_name}}' is not a valid object." );
+        _configuration.attributeNotSetErrorText = getDefaultAnyString( _configuration.attributeNotSetErrorText, "The attribute '{{attribute_name}}' has not been set correctly." );
+        _configuration.closeDialogConfirmationText = getDefaultAnyString( _configuration.closeDialogConfirmationText, null );
+    }
+
+    function buildDefaultConfigurationCustomTriggers() : void {
+        _configuration.onDoNotShowAgainChange = getDefaultFunction( _configuration.onDoNotShowAgainChange, null );
+    }
+
+
+	/*
+	 * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 	 * Public API Functions:
 	 * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 	 */
@@ -1126,23 +1187,23 @@ type StringToJson = {
          * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
          */
 
-        start: function (group: string): PublicApi {
+        start: function ( group: string = null ) : PublicApi {
             throw new Error("Function not implemented.");
         },
 
-        show: function (group: string): PublicApi {
+        show: function ( group: string = null ) : PublicApi {
             throw new Error("Function not implemented.");
         },
 
-        hide: function (): PublicApi {
+        hide: function () : PublicApi {
             throw new Error("Function not implemented.");
         },
 
-        isOpen: function (): boolean {
+        isOpen: function () : boolean {
             throw new Error("Function not implemented.");
         },
-        
-        isComplete: function (): boolean {
+
+        isComplete: function () : boolean {
             throw new Error("Function not implemented.");
         },
 
@@ -1153,28 +1214,106 @@ type StringToJson = {
          * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
          */
 
-        addDocumentSteps: function (): PublicApi {
-            throw new Error("Function not implemented.");
+        addDocumentSteps: function () : PublicApi {
+            getElements();
+
+            return _public;
         },
 
-        addStep: function (element: HTMLElement, options: BindingOptions): PublicApi {
-            throw new Error("Function not implemented.");
+        addStep: function ( element: HTMLElement, options: BindingOptions ) : PublicApi {
+            if ( isDefinedObject( element ) && isDefinedObject( options ) ) {
+                setupElement( element, buildAttributeOptions( options ) );
+    
+                _groups[ _groups_Current ].keys.sort();
+        
+                resetDialogPosition();
+            }
+    
+            return _public;
         },
 
-        removeStep: function (element: HTMLElement): PublicApi {
-            throw new Error("Function not implemented.");
+        removeStep: function ( element: HTMLElement ) : PublicApi {
+            if ( isDefinedObject( element ) ) {
+                let removed: boolean = false;
+    
+                for ( let group in _groups ) {
+                    if ( _groups.hasOwnProperty( group ) ) {
+                        for ( let order in _groups[ group ].json ) {
+                            if ( _groups[ group ].json.hasOwnProperty( order ) ) {
+                                const bindingOptions: BindingOptions = _groups[ group ].json[ order ];
+            
+                                if ( bindingOptions._currentView.element === element ) {
+                                    fireCustomTriggerEvent( bindingOptions.events.onRemoveStep, bindingOptions._currentView.element );
+            
+                                    _groups[ group ].keys.splice( _groups[ group ].keys.indexOf( bindingOptions.order ), 1 );
+            
+                                    delete _groups[ group ].json[ bindingOptions.order ];
+            
+                                    _groups[ group ].keys.sort();
+                
+                                    removed = true;
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                }
+    
+                if ( !removed ) {
+                    clearElementsByClassName( element, "journey-js-hint" );
+                } else {
+                    resetDialogPosition();
+                }
+            }
+    
+            return _public;
         },
 
-        clearSteps: function (group: string): PublicApi {
-            throw new Error("Function not implemented.");
+        clearSteps: function ( group: string = null ) : PublicApi {
+            resetDialogPosition();
+
+            for ( let groupName in _groups ) {
+                if ( _groups.hasOwnProperty( groupName ) ) {
+                    if ( !isDefinedString( group ) || group === groupName ) {
+                        for ( let order in _groups[ groupName ].json ) {
+                            if ( _groups[ groupName ].json.hasOwnProperty( order ) ) {
+                                const bindingOptions: BindingOptions = _groups[ groupName ].json[ order ];
+            
+                                fireCustomTriggerEvent( bindingOptions.events.onRemoveStep, bindingOptions._currentView.element );
+                            }
+                        }
+                    }
+                }
+            }
+    
+            if ( isDefinedString( group ) ) {
+                if ( _groups.hasOwnProperty( group ) ) {
+                    delete _groups[ group ];
+                }
+    
+            } else {
+                _groups = {};
+            }
+    
+            if ( !isDefinedString( group ) || group === _groups_Default ) {
+                setupDefaultGroup( _groups );
+            }
+    
+            return _public;
         },
 
-        clearHints: function (): PublicApi {
-            throw new Error("Function not implemented.");
+        clearHints: function () : PublicApi {
+            clearElementsByClassName( document.body, "journey-js-hint" );
+
+            return _public;
         },
 
-        reverseStepOrder: function (): PublicApi {
-            throw new Error("Function not implemented.");
+        reverseStepOrder: function () : PublicApi {
+            _groups[ _groups_Current ].keys.reverse();
+
+            resetDialogPosition();
+    
+            return _public;
         },
 
 
@@ -1184,8 +1323,23 @@ type StringToJson = {
          * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
          */
 
-        setConfiguration: function (newConfiguration: Configuration): PublicApi {
-            throw new Error("Function not implemented.");
+        setConfiguration: function ( newConfiguration: Configuration ) : PublicApi {
+            if ( isDefinedObject( newConfiguration ) ) {
+                let configurationHasChanged: boolean = false;
+            
+                for ( let propertyName in newConfiguration ) {
+                    if ( newConfiguration.hasOwnProperty( propertyName ) && _configuration.hasOwnProperty( propertyName ) && _configuration[ propertyName ] !== newConfiguration[ propertyName ] ) {
+                        _configuration[ propertyName ] = newConfiguration[ propertyName ];
+                        configurationHasChanged = true;
+                    }
+                }
+        
+                if ( configurationHasChanged ) {
+                    buildDefaultConfiguration( _configuration );
+                }
+            }
+    
+            return _public;
         },
 
 
@@ -1196,7 +1350,7 @@ type StringToJson = {
          */
 
         getVersion: function (): string {
-            throw new Error("Function not implemented.");
+            return "2.0.0";
         }
     };
 
@@ -1208,5 +1362,23 @@ type StringToJson = {
      */
 
     ( () => {
+        buildDefaultConfiguration();
+
+        document.addEventListener( "DOMContentLoaded", function() {
+            setupDefaultGroup();
+            renderDisabledBackground();
+            renderDialog();
+            renderToolTip();
+            getElements();
+            buildDocumentEvents();
+
+            if ( getBrowserUrlParameters() ) {
+                _public.show();
+            }
+        } );
+
+        if ( !isDefined( window.$journey ) ) {
+            window.$journey = _public;
+        }
     } ) ();
 } );

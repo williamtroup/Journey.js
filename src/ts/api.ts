@@ -20,7 +20,7 @@ export type PublicApi = {
      * 
      * @returns     {PublicApi}                                             The Journey.js class instance.
      */
-    start: ( group: string ) => PublicApi;
+    start: ( group?: string ) => PublicApi;
 
     /**
      * show().
@@ -34,7 +34,7 @@ export type PublicApi = {
      * 
      * @returns     {PublicApi}                                             The Journey.js class instance.
      */
-    show: ( group: string ) => PublicApi;
+    show: ( group?: string ) => PublicApi;
 
     /**
      * hide().
@@ -130,7 +130,7 @@ export type PublicApi = {
      * 
      * @returns     {PublicApi}                                             The Journey.js class instance.
      */
-    clearSteps: ( group: string ) => PublicApi;
+    clearSteps: ( group?: string ) => PublicApi;
 
     /**
      * clearHints().
