@@ -51,7 +51,7 @@ type Groups = Record<string, {
     let _groups: Groups = {} as Groups;
 
     // Variables: Focus Element
-    let _element_Focus_Element_PositionStyle: string = null;
+    let _element_Focus_Element_PositionStyle: string = Char.empty;
 
     // Variables: Disabled Background
     let _element_Disabled_Background: HTMLElement = null;
@@ -80,7 +80,7 @@ type Groups = Record<string, {
     let _element_Dialog_Move_Y: number = 0;
 
     // Variables: Dialog
-    let _element_ToolTip = null;
+    let _element_ToolTip: HTMLElement = null;
     let _element_ToolTip_Timer: number = 0;
 
 
@@ -953,7 +953,7 @@ type Groups = Record<string, {
          * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
          */
 
-        start: function ( group: string = null ) : PublicApi {
+        start: function ( group: string = Char.empty ) : PublicApi {
             if ( !_public.isOpen() ) {
                 _groups_Current = Data.getDefaultString( group, _groups_Default );
     
@@ -967,7 +967,7 @@ type Groups = Record<string, {
             return _public;
         },
 
-        show: function ( group: string = null ) : PublicApi {
+        show: function ( group: string = Char.empty ) : PublicApi {
             if ( !_public.isOpen() ) {
                 _groups_Current = Data.getDefaultString( group, _groups_Current );
     
@@ -1061,7 +1061,7 @@ type Groups = Record<string, {
             return _public;
         },
 
-        clearSteps: function ( group: string = null ) : PublicApi {
+        clearSteps: function ( group: string = Char.empty ) : PublicApi {
             resetDialogPosition();
 
             for ( let groupName in _groups ) {

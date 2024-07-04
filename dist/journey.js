@@ -223,7 +223,7 @@ var DomElement;
     const _groups_Default = "default";
     let _groups_Current = _groups_Default;
     let _groups = {};
-    let _element_Focus_Element_PositionStyle = null;
+    let _element_Focus_Element_PositionStyle = "";
     let _element_Disabled_Background = null;
     let _element_Dialog = null;
     let _element_Dialog_Close_Button = null;
@@ -841,7 +841,7 @@ var DomElement;
         _configuration.onDoNotShowAgainChange = Data.getDefaultFunction(_configuration.onDoNotShowAgainChange, null);
     }
     const _public = {
-        start: function(e = null) {
+        start: function(e = "") {
             if (!_public.isOpen()) {
                 _groups_Current = Data.getDefaultString(e, _groups_Default);
                 if (_groups.hasOwnProperty(_groups_Current)) {
@@ -851,7 +851,7 @@ var DomElement;
             }
             return _public;
         },
-        show: function(e = null) {
+        show: function(e = "") {
             if (!_public.isOpen()) {
                 _groups_Current = Data.getDefaultString(e, _groups_Current);
                 if (_groups.hasOwnProperty(_groups_Current)) {
@@ -915,7 +915,7 @@ var DomElement;
             }
             return _public;
         },
-        clearSteps: function(e = null) {
+        clearSteps: function(e = "") {
             resetDialogPosition();
             for (let t in _groups) {
                 if (_groups.hasOwnProperty(t)) {
