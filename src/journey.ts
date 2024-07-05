@@ -57,19 +57,19 @@ type Groups = Record<string, {
     let _element_Disabled_Background: HTMLElement;
 
     // Variables: Dialog
-    let _element_Dialog: HTMLElement;
-    let _element_Dialog_Close_Button: HTMLElement;
-    let _element_Dialog_Title: HTMLElement;
-    let _element_Dialog_Description: HTMLElement;
-    let _element_Dialog_CheckBox_Container: HTMLElement;
-    let _element_Dialog_CheckBox_Input: HTMLInputElement;
-    let _element_Dialog_ProgressDots: HTMLElement;
-    let _element_Dialog_ProgressBar: HTMLElement;
-    let _element_Dialog_ProgressBar_Percentage: HTMLElement;
-    let _element_Dialog_ProgressBar_Percentage_Text: HTMLElement;
-    let _element_Dialog_Buttons: HTMLElement;
-    let _element_Dialog_Buttons_Back_Button: HTMLInputElement;
-    let _element_Dialog_Buttons_Next_Button: HTMLInputElement;
+    let _element_Dialog: HTMLElement = null!;
+    let _element_Dialog_Close_Button: HTMLElement = null!;
+    let _element_Dialog_Title: HTMLElement = null!;
+    let _element_Dialog_Description: HTMLElement = null!;
+    let _element_Dialog_CheckBox_Container: HTMLElement = null!;
+    let _element_Dialog_CheckBox_Input: HTMLInputElement = null!;
+    let _element_Dialog_ProgressDots: HTMLElement = null!;
+    let _element_Dialog_ProgressBar: HTMLElement = null!;
+    let _element_Dialog_ProgressBar_Percentage: HTMLElement = null!;
+    let _element_Dialog_ProgressBar_Percentage_Text: HTMLElement = null!;
+    let _element_Dialog_Buttons: HTMLElement = null!;
+    let _element_Dialog_Buttons_Back_Button: HTMLInputElement = null!;
+    let _element_Dialog_Buttons_Next_Button: HTMLInputElement = null!;
     let _element_Dialog_IsHint: boolean = false;
 
     // Variables: Dialog - Move
@@ -80,7 +80,7 @@ type Groups = Record<string, {
     let _element_Dialog_Move_Y: number = 0;
 
     // Variables: Dialog
-    let _element_ToolTip: HTMLElement;
+    let _element_ToolTip: HTMLElement = null!;
     let _element_ToolTip_Timer: number = 0;
 
 
