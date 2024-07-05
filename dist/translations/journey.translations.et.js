@@ -1,4 +1,4 @@
-/*! Journey.js v2.0.0 - Estonian | (c) Bunoon 2024 | MIT License */
+/*! Journey.js v2.0.1 - Estonian | (c) Bunoon 2024 | MIT License */
 $journey.setConfiguration( {
         "backButtonText": "tagasi",
         "nextButtonText": "Edasi",
