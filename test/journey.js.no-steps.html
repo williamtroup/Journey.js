@@ -4,9 +4,9 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>Journey.js - No Steps</title>
-        <link rel="stylesheet" href="../css/styles.css">
-        <link rel="stylesheet" href="../../dist/journey.js.css">
-        <script src="../../dist/journey.js"></script>
+        <link rel="stylesheet" href="css/styles.css">
+        <link rel="stylesheet" href="../dist/journey.js.css">
+        <script src="../dist/journey.js"></script>
     </head>
 
     <body>
@@ -16,15 +16,15 @@
         </div>
 
         <div class="contents">
-            <button class="btn btn-primary" data-journey-js="{ 'isHint': true, 'title': 'Button 4', 'description': 'This is a hint.' }">Test Button 4</button>
-            <button class="btn btn-primary">Test Button 1</button>
-            <button class="btn btn-primary">Test Button 5</button>
-            <button class="btn btn-primary">Test Button 3</button>
-            <button class="btn btn-primary">Test Button 2</button>
+            <button data-journey-js="{ 'isHint': true, 'title': 'Button 4', 'description': 'This is a hint.' }">Test Button 4</button>
+            <button>Test Button 1</button>
+            <button>Test Button 5</button>
+            <button>Test Button 3</button>
+            <button>Test Button 2</button>
             <br>
             <br>
 
-            <h2>Show/Hide:</h2>
+            <h2>Show:</h2>
             <button onclick="$journey.start()">Start</button>
         </div>
     </body>

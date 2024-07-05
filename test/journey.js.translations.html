@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Journey.js - Translations</title>
+        <link rel="stylesheet" href="css/styles.css">
+        <link rel="stylesheet" href="../dist/journey.js.css">
+        <script src="../dist/journey.js"></script>
+        <script src="../dist/translations/journey.translations.de.js"></script>
+    </head>
+
+    <body>
+        <div class="header">
+            <h1 id="header">Journey.js - Translations</h1>
+            <p>This is a basic example of how to use Journey.js to guide you through a website using translations.</p>
+        </div>
+
+        <div class="contents">
+            <button data-journey-js="{ 'title': 'Button 4', 'description': 'This is a description for button 4.', 'order': 4, 'attach': false, 'showDisabledBackground': false }">Test Button 4</button>
+            <button data-journey-js="{ 'title': 'Button 1', 'description': 'This is a description for button 1.', 'order': 1 }">Test Button 1</button>
+            <button data-journey-js="{ 'title': 'Button 5', 'description': 'This is a description for button 5.', 'order': 5 }">Test Button 5</button>
+            <button data-journey-js="{ 'title': 'Button 3', 'description': 'This is a description for button 3.', 'order': 3 }">Test Button 3</button>
+            <button data-journey-js="{ 'title': 'Button 2', 'description': 'This is a description for button 2.', 'order': 2, 'alignRight': true }">Test Button 2</button>
+            <br>
+            <br>
+
+            <h2>Show:</h2>
+            <button onclick="$journey.start()">Start</button>
+        </div>
+    </body>
+
+    <script>
+        document.title += " v" + $journey.getVersion();
+        document.getElementById( "header" ).innerText += " - v" + $journey.getVersion();
+    </script>
+</html>

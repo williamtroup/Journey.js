@@ -2,24 +2,46 @@
   "name": "jjourney.js",
   "title": "Journey.js",
   "description": "A lightweight, easy-to-use JavaScript library to create interactive, customizable, accessible guided tours across your websites or web apps!",
-  "version": "1.7.2",
-  "main": "dist/journey.js",
+  "version": "2.0.0",
   "homepage": "https://www.william-troup.com/journey-js/",
   "author": {
     "name": "Bunoon"
   },
+  "license": "MIT",
   "repository": {
     "type": "git",
     "url": "https://github.com/williamtroup/Journey.js"
   },
   "keywords": [
+    "typescript",
     "javascript",
     "css",
     "html5",
-    "Journey.js"
+    "Journey.js",
+    "walk-through",
+    "guided-tour",
+    "tour",
+    "steps"
   ],
   "bugs": {
     "url": "https://github.com/williamtroup/Journey.js/issues"
   },
-  "license": "MIT"
+  "main": "dist/journey.js",
+  "types": "dist/journey.d.ts",
+  "scripts": {
+    "build": "tsup --config tsup.build.config.ts && tsup --config tsup.build.esm.config.ts && sass src/journey.js.scss dist/journey.js.css",
+    "build-minimized": "tsup --config tsup.build.min.config.ts && sass src/journey.js.scss dist/journey.js.min.css --style=compressed --no-source-map",
+    "build-typescript": "tsup --config tsup.build.config.ts",
+    "build-typescript-esm": "tsup --config tsup.build.esm.config.ts",
+    "build-typescript-minimized": "tsup --config tsup.build.min.config.ts",
+    "build-sass": "sass src/journey.js.scss dist/journey.js.css",
+    "build-sass-minimized": "sass src/journey.js.scss dist/journey.js.min.css --style=compressed --no-source-map"
+  },
+  "devDependencies": {
+    "@swc/core": "^1.6.6",
+    "sass": "^1.77.6",
+    "terser": "^5.31.1",
+    "tsup": "^8.1.0",
+    "typescript": "^5.5.3"
+  }
 }
