@@ -1,4 +1,4 @@
-# Building Journey.js v2.0.1
+# Building Journey.js
 
 Before getting started with Journey.js, please read through the following instructions:
 
