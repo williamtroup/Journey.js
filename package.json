@@ -38,7 +38,7 @@
     "build-sass-minimized": "sass src/journey.js.scss dist/journey.js.min.css --style=compressed --no-source-map"
   },
   "devDependencies": {
-    "@swc/core": "^1.6.6",
+    "@swc/core": "^1.6.7",
     "sass": "^1.77.6",
     "terser": "^5.31.1",
     "tsup": "^8.1.0",
