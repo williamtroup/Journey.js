@@ -47,8 +47,8 @@ export namespace DomElement {
     export function getStyleValueByName( element: any, stylePropertyName: string ) : any {
         let value: any = null;
         
-        if ( document.defaultView.getComputedStyle ) {
-            value = document.defaultView.getComputedStyle( element, null ).getPropertyValue( stylePropertyName ); 
+        if ( document.defaultView!.getComputedStyle! ) {
+            value = document.defaultView!.getComputedStyle( element, null ).getPropertyValue( stylePropertyName ); 
         } else if ( element.currentStyle ) {
             value = element.currentStyle[ stylePropertyName ];
         }   
@@ -61,7 +61,7 @@ export namespace DomElement {
             if ( !parent.contains( node ) ) {
                 parent.appendChild( node );
             }
-        } catch ( e ) {
+        } catch ( e: any ) {
             console.warn( e.message );
         }
     }
@@ -71,7 +71,7 @@ export namespace DomElement {
             if ( parent.contains( node ) ) {
                 parent.removeChild( node );
             }
-        } catch ( e ) {
+        } catch ( e: any ) {
             console.warn( e.message );
         }
     }
@@ -151,7 +151,7 @@ export namespace DomElement {
         let elements: HTMLCollectionOf<Element> = container.getElementsByClassName( className );
 
         while ( elements[ 0 ] ) {
-            elements[ 0 ].parentNode.removeChild( elements[ 0 ] );
+            elements[ 0 ].parentNode!.removeChild( elements[ 0 ] );
         }
     }
 }
