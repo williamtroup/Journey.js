@@ -116,8 +116,8 @@ var DomElement;
     function n() {
         const e = document.documentElement;
         const t = {
-            left: (window.pageXOffset || e.scrollLeft) - (e.clientLeft || 0),
-            top: (window.pageYOffset || e.scrollTop) - (e.clientTop || 0)
+            left: e.scrollLeft - (e.clientLeft || 0),
+            top: e.scrollTop - (e.clientTop || 0)
         };
         return t;
     }

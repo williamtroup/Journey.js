@@ -47,11 +47,11 @@ export namespace DomElement {
     }
 
     export function getScrollPosition() : Position {
-        const doc: HTMLElement = document.documentElement;
+        const documentElement: HTMLElement = document.documentElement;
 
         const result: Position = {
-            left: ( window.pageXOffset || doc.scrollLeft )  - ( doc.clientLeft || 0 ),
-            top: ( window.pageYOffset || doc.scrollTop ) - ( doc.clientTop || 0 )
+            left: documentElement.scrollLeft  - ( documentElement.clientLeft || 0 ),
+            top: documentElement.scrollTop - ( documentElement.clientTop || 0 )
         } as Position;
 
         return result;
