@@ -25,14 +25,14 @@ var Is;
         return t(e) && typeof e === "string";
     }
     e.definedString = i;
-    function r(e) {
+    function l(e) {
         return t(e) && typeof e === "function";
     }
-    e.definedFunction = r;
-    function l(e) {
+    e.definedFunction = l;
+    function r(e) {
         return t(e) && typeof e === "number";
     }
-    e.definedNumber = l;
+    e.definedNumber = r;
     function s(e) {
         return o(e) && e instanceof Array;
     }
@@ -58,14 +58,14 @@ var Data;
         return Is.definedNumber(e) ? e : t;
     }
     e.getDefaultNumber = i;
-    function r(e, t) {
+    function l(e, t) {
         return Is.definedFunction(e) ? e : t;
     }
-    e.getDefaultFunction = r;
-    function l(e, t) {
+    e.getDefaultFunction = l;
+    function r(e, t) {
         return Is.definedObject(e) ? e : t;
     }
-    e.getDefaultObject = l;
+    e.getDefaultObject = r;
     function s(e, t) {
         return Is.definedArray(e) ? e : t;
     }
@@ -132,7 +132,7 @@ var DomElement;
         return o;
     }
     e.getStyleValueByName = i;
-    function r(e, t) {
+    function l(e, t) {
         try {
             if (!e.contains(t)) {
                 e.appendChild(t);
@@ -141,8 +141,8 @@ var DomElement;
             console.warn(e.message);
         }
     }
-    e.addNode = r;
-    function l(e, t) {
+    e.addNode = l;
+    function r(e, t) {
         try {
             if (e.contains(t)) {
                 e.removeChild(t);
@@ -151,7 +151,7 @@ var DomElement;
             console.warn(e.message);
         }
     }
-    e.removeNode = l;
+    e.removeNode = r;
     function s(e) {
         e.preventDefault();
         e.cancelBubble = true;
@@ -160,7 +160,7 @@ var DomElement;
     function a(e, t) {
         let o = e.pageX;
         let i = e.pageY;
-        const r = n();
+        const l = n();
         t.style.display = "block";
         if (o + t.offsetWidth > window.innerWidth) {
             o -= t.offsetWidth;
@@ -172,17 +172,17 @@ var DomElement;
         } else {
             i++;
         }
-        if (o < r.left) {
+        if (o < l.left) {
             o = e.pageX + 1;
         }
-        if (i < r.top) {
+        if (i < l.top) {
             i = e.pageY + 1;
         }
         t.style.left = o + "px";
         t.style.top = i + "px";
     }
     e.showElementAtMousePosition = a;
-    function _(e, t) {
+    function u(e, t) {
         if (t) {
             if (e.style.display !== "block") {
                 e.style.display = "block";
@@ -193,23 +193,23 @@ var DomElement;
             }
         }
     }
-    e.showElementBasedOnCondition = _;
-    function u(e, o) {
+    e.showElementBasedOnCondition = u;
+    function _(e, o) {
         const n = t("div");
         const i = t("label", "checkbox");
-        const r = t("input");
+        const l = t("input");
         e.appendChild(n);
         n.appendChild(i);
-        i.appendChild(r);
-        r.type = "checkbox";
-        const l = t("span", "check-mark");
+        i.appendChild(l);
+        l.type = "checkbox";
+        const r = t("span", "check-mark");
         const s = t("span", "text");
         s.innerHTML = o;
-        i.appendChild(l);
+        i.appendChild(r);
         i.appendChild(s);
-        return r;
+        return l;
     }
-    e.createCheckBox = u;
+    e.createCheckBox = _;
     function g(e, t) {
         let o = e.getElementsByClassName(t);
         while (o[0]) {
@@ -227,26 +227,26 @@ var DomElement;
     let _groups = {};
     let _element_Focus_Element_PositionStyle = "";
     let _element_Disabled_Background;
-    let _element_Dialog;
-    let _element_Dialog_Close_Button;
-    let _element_Dialog_Title;
-    let _element_Dialog_Description;
-    let _element_Dialog_CheckBox_Container;
-    let _element_Dialog_CheckBox_Input;
-    let _element_Dialog_ProgressDots;
-    let _element_Dialog_ProgressBar;
-    let _element_Dialog_ProgressBar_Percentage;
-    let _element_Dialog_ProgressBar_Percentage_Text;
-    let _element_Dialog_Buttons;
-    let _element_Dialog_Buttons_Back_Button;
-    let _element_Dialog_Buttons_Next_Button;
+    let _element_Dialog = null;
+    let _element_Dialog_Close_Button = null;
+    let _element_Dialog_Title = null;
+    let _element_Dialog_Description = null;
+    let _element_Dialog_CheckBox_Container = null;
+    let _element_Dialog_CheckBox_Input = null;
+    let _element_Dialog_ProgressDots = null;
+    let _element_Dialog_ProgressBar = null;
+    let _element_Dialog_ProgressBar_Percentage = null;
+    let _element_Dialog_ProgressBar_Percentage_Text = null;
+    let _element_Dialog_Buttons = null;
+    let _element_Dialog_Buttons_Back_Button = null;
+    let _element_Dialog_Buttons_Next_Button = null;
     let _element_Dialog_IsHint = false;
     let _element_Dialog_Move_Original_X = 0;
     let _element_Dialog_Move_Original_Y = 0;
     let _element_Dialog_Move_IsMoving = false;
     let _element_Dialog_Move_X = 0;
     let _element_Dialog_Move_Y = 0;
-    let _element_ToolTip;
+    let _element_ToolTip = null;
     let _element_ToolTip_Timer = 0;
     function setupDefaultGroup(e = null) {
         _groups = Data.getDefaultObject(e, {});
@@ -969,7 +969,7 @@ var DomElement;
             return _public;
         },
         getVersion: function() {
-            return "2.0.0";
+            return "2.0.1";
         }
     };
     (() => {

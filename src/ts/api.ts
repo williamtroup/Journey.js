@@ -3,8 +3,8 @@
  * 
  * A lightweight, easy-to-use JavaScript library to create interactive, customizable, accessible guided tours across your websites or web apps!
  * 
- * @file        journey.js
- * @version     v2.0.0
+ * @file        api.ts
+ * @version     v2.0.1
  * @author      Bunoon
  * @license     MIT License
  * @copyright   Bunoon 2024

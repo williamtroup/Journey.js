@@ -275,26 +275,26 @@ var require_journey = __commonJS({
             let _groups = {};
             let _element_Focus_Element_PositionStyle = "";
             let _element_Disabled_Background;
-            let _element_Dialog;
-            let _element_Dialog_Close_Button;
-            let _element_Dialog_Title;
-            let _element_Dialog_Description;
-            let _element_Dialog_CheckBox_Container;
-            let _element_Dialog_CheckBox_Input;
-            let _element_Dialog_ProgressDots;
-            let _element_Dialog_ProgressBar;
-            let _element_Dialog_ProgressBar_Percentage;
-            let _element_Dialog_ProgressBar_Percentage_Text;
-            let _element_Dialog_Buttons;
-            let _element_Dialog_Buttons_Back_Button;
-            let _element_Dialog_Buttons_Next_Button;
+            let _element_Dialog = null;
+            let _element_Dialog_Close_Button = null;
+            let _element_Dialog_Title = null;
+            let _element_Dialog_Description = null;
+            let _element_Dialog_CheckBox_Container = null;
+            let _element_Dialog_CheckBox_Input = null;
+            let _element_Dialog_ProgressDots = null;
+            let _element_Dialog_ProgressBar = null;
+            let _element_Dialog_ProgressBar_Percentage = null;
+            let _element_Dialog_ProgressBar_Percentage_Text = null;
+            let _element_Dialog_Buttons = null;
+            let _element_Dialog_Buttons_Back_Button = null;
+            let _element_Dialog_Buttons_Next_Button = null;
             let _element_Dialog_IsHint = false;
             let _element_Dialog_Move_Original_X = 0;
             let _element_Dialog_Move_Original_Y = 0;
             let _element_Dialog_Move_IsMoving = false;
             let _element_Dialog_Move_X = 0;
             let _element_Dialog_Move_Y = 0;
-            let _element_ToolTip;
+            let _element_ToolTip = null;
             let _element_ToolTip_Timer = 0;
             function setupDefaultGroup(e = null) {
                 _groups = Data.getDefaultObject(e, {});
@@ -1017,7 +1017,7 @@ var require_journey = __commonJS({
                     return _public;
                 },
                 getVersion: function() {
-                    return "2.0.0";
+                    return "2.0.1";
                 }
             };
             (() => {
