@@ -185,7 +185,7 @@ export type PublicApi = {
      * 
      * @returns     {PublicApi}                                             The Journey.js class instance.
      */
-    setConfiguration: ( newConfiguration: Configuration ) => PublicApi;
+    setConfiguration: ( newConfiguration: any ) => PublicApi;
 
     
     /*
