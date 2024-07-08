@@ -4,7 +4,7 @@
  * A lightweight, easy-to-use JavaScript library to create interactive, customizable, accessible guided tours across your websites or web apps!
  * 
  * @file        api.ts
- * @version     v2.0.1
+ * @version     v2.0.2
  * @author      Bunoon
  * @license     MIT License
  * @copyright   Bunoon 2024
@@ -185,7 +185,7 @@ export type PublicApi = {
      * 
      * @returns     {PublicApi}                                             The Journey.js class instance.
      */
-    setConfiguration: ( newConfiguration: Configuration ) => PublicApi;
+    setConfiguration: ( newConfiguration: any ) => PublicApi;
 
     
     /*

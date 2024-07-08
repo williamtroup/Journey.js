@@ -162,13 +162,9 @@ var init_dom = __esm({
             }
             e.getScrollPosition = n;
             function i(e, t) {
-                let o = null;
-                if (document.defaultView.getComputedStyle) {
-                    o = document.defaultView.getComputedStyle(e, null).getPropertyValue(t);
-                } else if (e.currentStyle) {
-                    o = e.currentStyle[t];
-                }
-                return o;
+                const o = getComputedStyle(e);
+                let n = o.getPropertyValue(t);
+                return n;
             }
             e.getStyleValueByName = i;
             function r(e, t) {
@@ -193,7 +189,7 @@ var init_dom = __esm({
             e.removeNode = l;
             function s(e) {
                 e.preventDefault();
-                e.cancelBubble = true;
+                e.stopPropagation();
             }
             e.cancelBubble = s;
             function a(e, t) {
@@ -1017,7 +1013,7 @@ var require_journey = __commonJS({
                     return _public;
                 },
                 getVersion: function() {
-                    return "2.0.1";
+                    return "2.0.2";
                 }
             };
             (() => {

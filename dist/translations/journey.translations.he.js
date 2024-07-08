@@ -1,4 +1,4 @@
-/*! Journey.js v2.0.1 - Hebrew | (c) Bunoon 2024 | MIT License */
+/*! Journey.js v2.0.2 - Hebrew | (c) Bunoon 2024 | MIT License */
 $journey.setConfiguration( {
         "backButtonText": "חזור",
         "nextButtonText": "הַבָּא",

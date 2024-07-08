@@ -4,7 +4,7 @@
  * A lightweight, easy-to-use JavaScript library to create interactive, customizable, accessible guided tours across your websites or web apps!
  * 
  * @file        dom.ts
- * @version     v2.0.1
+ * @version     v2.0.2
  * @author      Bunoon
  * @license     MIT License
  * @copyright   Bunoon 2024
@@ -57,16 +57,11 @@ export namespace DomElement {
         return result;
     }
 
-    export function getStyleValueByName( element: any, stylePropertyName: string ) : any {
-        let value: any = null;
-        
-        if ( document.defaultView!.getComputedStyle! ) {
-            value = document.defaultView!.getComputedStyle( element, null ).getPropertyValue( stylePropertyName ); 
-        } else if ( element.currentStyle ) {
-            value = element.currentStyle[ stylePropertyName ];
-        }   
+    export function getStyleValueByName( element: any, stylePropertyName: string ) : string {
+        const styles: CSSStyleDeclaration = getComputedStyle( element );
+        let style: string = styles.getPropertyValue( stylePropertyName ); 
 
-        return value;
+        return style;
     }
 
     export function addNode( parent: HTMLElement, node: HTMLElement ) : void {
@@ -89,9 +84,9 @@ export namespace DomElement {
         }
     }
 
-    export function cancelBubble( e: any ) : void {
+    export function cancelBubble( e: Event ) : void {
         e.preventDefault();
-        e.cancelBubble = true;
+        e.stopPropagation();
     }
 
     export function showElementAtMousePosition( e: MouseEvent, element: HTMLElement ) : void {

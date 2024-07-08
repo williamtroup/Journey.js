@@ -2,7 +2,7 @@
   "name": "jjourney.js",
   "title": "Journey.js",
   "description": "A lightweight, easy-to-use JavaScript library to create interactive, customizable, accessible guided tours across your websites or web apps!",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "homepage": "https://www.william-troup.com/journey-js/",
   "author": {
     "name": "Bunoon"
@@ -29,6 +29,7 @@
   "main": "dist/journey.js",
   "types": "dist/journey.d.ts",
   "scripts": {
+    "build-all": "npm run build && npm run build-minimized",
     "build": "tsup --config tsup.build.config.ts && tsup --config tsup.build.esm.config.ts && sass src/journey.js.scss dist/journey.js.css",
     "build-minimized": "tsup --config tsup.build.min.config.ts && sass src/journey.js.scss dist/journey.js.min.css --style=compressed --no-source-map",
     "build-typescript": "tsup --config tsup.build.config.ts",
