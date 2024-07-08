@@ -89,9 +89,9 @@ export namespace DomElement {
         }
     }
 
-    export function cancelBubble( e: any ) : void {
+    export function cancelBubble( e: Event ) : void {
         e.preventDefault();
-        e.cancelBubble = true;
+        e.stopPropagation();
     }
 
     export function showElementAtMousePosition( e: MouseEvent, element: HTMLElement ) : void {

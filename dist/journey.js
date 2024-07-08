@@ -154,7 +154,7 @@ var DomElement;
     e.removeNode = r;
     function s(e) {
         e.preventDefault();
-        e.cancelBubble = true;
+        e.stopPropagation();
     }
     e.cancelBubble = s;
     function a(e, t) {
