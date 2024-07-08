@@ -10,7 +10,19 @@
 
 :root {
     // Fonts
-    --journey-js-default-font: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", "Noto Sans", "Liberation Sans", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    --journey-js-default-font: system-ui,
+                               -apple-system,
+                               "Segoe UI",
+                               Roboto,
+                               "Helvetica Neue",
+                               "Noto Sans",
+                               "Liberation Sans",
+                               Arial, sans-serif,
+                               "Apple Color Emoji",
+                               "Segoe UI Emoji",
+                               "Segoe UI Symbol",
+                               "Noto Color Emoji";
+                               
     --journey-js-text-bold-weight: 100;
     --journey-js-title-bold-weight: 700;
     --journey-js-tooltip-bold-weight: 300;
