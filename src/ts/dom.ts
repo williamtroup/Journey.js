@@ -57,16 +57,11 @@ export namespace DomElement {
         return result;
     }
 
-    export function getStyleValueByName( element: any, stylePropertyName: string ) : any {
-        let value: any = null;
-        
-        if ( document.defaultView!.getComputedStyle! ) {
-            value = document.defaultView!.getComputedStyle( element, null ).getPropertyValue( stylePropertyName ); 
-        } else if ( element.currentStyle ) {
-            value = element.currentStyle[ stylePropertyName ];
-        }   
+    export function getStyleValueByName( element: any, stylePropertyName: string ) : string {
+        const styles: CSSStyleDeclaration = getComputedStyle( element );
+        let style: string = styles.getPropertyValue( stylePropertyName ); 
 
-        return value;
+        return style;
     }
 
     export function addNode( parent: HTMLElement, node: HTMLElement ) : void {

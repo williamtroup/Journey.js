@@ -123,13 +123,9 @@ var DomElement;
     }
     e.getScrollPosition = n;
     function i(e, t) {
-        let o = null;
-        if (document.defaultView.getComputedStyle) {
-            o = document.defaultView.getComputedStyle(e, null).getPropertyValue(t);
-        } else if (e.currentStyle) {
-            o = e.currentStyle[t];
-        }
-        return o;
+        const o = getComputedStyle(e);
+        let n = o.getPropertyValue(t);
+        return n;
     }
     e.getStyleValueByName = i;
     function l(e, t) {
@@ -182,7 +178,7 @@ var DomElement;
         t.style.top = i + "px";
     }
     e.showElementAtMousePosition = a;
-    function u(e, t) {
+    function _(e, t) {
         if (t) {
             if (e.style.display !== "block") {
                 e.style.display = "block";
@@ -193,8 +189,8 @@ var DomElement;
             }
         }
     }
-    e.showElementBasedOnCondition = u;
-    function _(e, o) {
+    e.showElementBasedOnCondition = _;
+    function u(e, o) {
         const n = t("div");
         const i = t("label", "checkbox");
         const l = t("input");
@@ -209,7 +205,7 @@ var DomElement;
         i.appendChild(s);
         return l;
     }
-    e.createCheckBox = _;
+    e.createCheckBox = u;
     function g(e, t) {
         let o = e.getElementsByClassName(t);
         while (o[0]) {
