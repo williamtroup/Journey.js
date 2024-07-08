@@ -1,4 +1,4 @@
-/*! Journey.js v2.0.2 - Greek | (c) Bunoon 2024 | MIT License */
+/*! Journey.js v2.0.3 - Greek | (c) Bunoon 2024 | MIT License */
 $journey.setConfiguration( {
         "backButtonText": "Πίσω",
         "nextButtonText": "Επόμενο",

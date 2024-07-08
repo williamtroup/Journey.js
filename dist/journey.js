@@ -965,7 +965,7 @@ var DomElement;
             return _public;
         },
         getVersion: function() {
-            return "2.0.2";
+            return "2.0.3";
         }
     };
     (() => {

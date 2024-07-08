@@ -4,7 +4,7 @@
  * A lightweight, easy-to-use JavaScript library to create interactive, customizable, accessible guided tours across your websites or web apps!
  * 
  * @file        dom.ts
- * @version     v2.0.2
+ * @version     v2.0.3
  * @author      Bunoon
  * @license     MIT License
  * @copyright   Bunoon 2024

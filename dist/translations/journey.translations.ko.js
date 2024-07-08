@@ -1,4 +1,4 @@
-/*! Journey.js v2.0.2 - Korean | (c) Bunoon 2024 | MIT License */
+/*! Journey.js v2.0.3 - Korean | (c) Bunoon 2024 | MIT License */
 $journey.setConfiguration( {
         "backButtonText": "뒤쪽에",
         "nextButtonText": "다음",
