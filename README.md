@@ -129,8 +129,8 @@ Or, you can download the latest zipped up version [here](https://www.william-tro
 Or, you can also use the following CDN links:
 
 ```markdown
-https://cdn.jsdelivr.net/gh/williamtroup/Journey.js@main/dist/journey.min.js
-https://cdn.jsdelivr.net/gh/williamtroup/Journey.js@main/dist/journey.js.min.css
+https://cdn.jsdelivr.net/gh/williamtroup/Journey.js@2.0.2/dist/journey.min.js
+https://cdn.jsdelivr.net/gh/williamtroup/Journey.js@2.0.2/dist/journey.js.min.css
 ```
 <br>
 <br>
