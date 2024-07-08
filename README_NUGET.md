@@ -31,8 +31,6 @@
 ## Where can I find the documentation?
 
 All the documentation can be found [here](https://www.william-troup.com/journey-js/documentation/index.html):  
-<br>
-<br>
 
 
 ## What browsers are supported?
