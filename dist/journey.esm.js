@@ -1017,7 +1017,7 @@ var require_journey = __commonJS({
                     return _public;
                 },
                 getVersion: function() {
-                    return "2.0.1";
+                    return "2.0.2";
                 }
             };
             (() => {
