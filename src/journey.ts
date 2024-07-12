@@ -268,7 +268,7 @@ type Groups = Record<string, {
             _element_Dialog_Close_Button.style.display = _configuration.showCloseButton ? "block": "none";
             _configuration_ShortcutKeysEnabled = true;
             
-            bindingOptions._currentView.element.className += Char.space + "journey-js-element-focus";
+            bindingOptions._currentView.element.classList.add( "journey-js-element-focus" );
 
             if ( _configuration.scrollToElements ) {
                 bindingOptions._currentView.element.scrollIntoView();
@@ -353,8 +353,8 @@ type Groups = Record<string, {
                     top -= ( _element_Dialog.offsetHeight + bindingOptions._currentView.element.offsetHeight );
                 }
 
-                _element_Dialog.style.top = top + "px";
-                _element_Dialog.style.left = left + "px";
+                _element_Dialog.style.top = `${top}px`;
+                _element_Dialog.style.left = `${left}px`;
             }
 
         } else {
@@ -362,8 +362,8 @@ type Groups = Record<string, {
             const centerLeft: number = Math.max( 0, ( ( window.innerWidth - _element_Dialog.offsetWidth ) / 2 ) + scrollPosition.left );
             const centerTop: number = Math.max( 0, ( ( window.innerHeight - _element_Dialog.offsetHeight ) / 2 ) + scrollPosition.top );
 
-            _element_Dialog.style.left = centerLeft + "px";
-            _element_Dialog.style.top = centerTop + "px";
+            _element_Dialog.style.left = `${centerLeft}px`;
+            _element_Dialog.style.top = `${centerTop}px`;
         }
     }
 
@@ -371,7 +371,7 @@ type Groups = Record<string, {
         const bindingOptions: BindingOptions = getGroupBindingOptions();
 
         if ( Is.defined( bindingOptions ) && Is.defined( bindingOptions._currentView.element ) ) {
-            bindingOptions._currentView.element.className = bindingOptions._currentView.element.className.replace( Char.space + "journey-js-element-focus", Char.empty );
+            bindingOptions._currentView.element.classList.remove( "journey-js-element-focus" );
 
             if ( Is.defined( _element_Focus_Element_PositionStyle ) ) {
                 bindingOptions._currentView.element.style.position = _element_Focus_Element_PositionStyle;
@@ -425,7 +425,7 @@ type Groups = Record<string, {
         }
 
         if ( _configuration.showProgressDotNumbers ) {
-            dot.className += " dot-number";
+            dot.classList.add( "dot-number" );
             dot.innerHTML = ( keyIndex + 1 ).toString();
         }
     }
@@ -436,8 +436,8 @@ type Groups = Record<string, {
             const width: number = ( _groups[ _groups_Current ].position + 1 ) * pixelsPerStage;
             const percentageComplete: number = Math.ceil( ( ( _groups[ _groups_Current ].position + 1 ) / _groups[ _groups_Current ].keys.length ) * 100 );
 
-            _element_Dialog_ProgressBar_Percentage.style.width = width + "px";
-            _element_Dialog_ProgressBar_Percentage_Text.innerHTML = percentageComplete + "%";
+            _element_Dialog_ProgressBar_Percentage.style.width = `${width}px`;
+            _element_Dialog_ProgressBar_Percentage_Text.innerHTML = `${percentageComplete}%`;
         }
     }
 
@@ -459,7 +459,7 @@ type Groups = Record<string, {
 
     function onMoveTitleBarMouseDown( e: MouseEvent ) : void {
         if ( !_element_Dialog_Move_IsMoving && !_element_Dialog_IsHint && _configuration.dialogMovingEnabled ) {
-            _element_Dialog.className += " journey-js-dialog-moving";
+            _element_Dialog.classList.add( "journey-js-dialog-moving" );
             _element_Dialog_Move_IsMoving = true;
             _element_Dialog_Move_X = e.pageX - _element_Dialog.offsetLeft;
             _element_Dialog_Move_Y = e.pageY - _element_Dialog.offsetTop;
@@ -479,15 +479,15 @@ type Groups = Record<string, {
 
     function onMoveDocumentMouseMove( e: MouseEvent ) : void {
         if ( _element_Dialog_Move_IsMoving ) {
-            _element_Dialog.style.left = ( e.pageX - _element_Dialog_Move_X ) + "px";
-            _element_Dialog.style.top = ( e.pageY - _element_Dialog_Move_Y ) + "px";
+            _element_Dialog.style.left = `${e.pageX - _element_Dialog_Move_X}px`;
+            _element_Dialog.style.top = `${e.pageY - _element_Dialog_Move_Y}px`;
         }
     }
 
     function onMoveDocumentMouseLeave() : void {
         if ( _element_Dialog_Move_IsMoving ) {
-            _element_Dialog.style.left = _element_Dialog_Move_Original_X + "px";
-            _element_Dialog.style.top = _element_Dialog_Move_Original_Y + "px";
+            _element_Dialog.style.left = `${_element_Dialog_Move_Original_X}px`;
+            _element_Dialog.style.top = `${_element_Dialog_Move_Original_Y}px`;
 
             _element_Dialog_Move_IsMoving = false;
             _element_Dialog_Move_Original_X = 0;
@@ -859,7 +859,7 @@ type Groups = Record<string, {
 
         } catch ( e1: any ) {
             try {
-                result.object = eval( "(" + objectString + ")" );
+                result.object = eval( `(${objectString})` );
 
                 if ( Is.definedFunction( result.object ) ) {
                     result.object = result.object();
