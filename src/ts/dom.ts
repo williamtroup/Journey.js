@@ -69,6 +69,7 @@ export namespace DomElement {
             if ( !parent.contains( node ) ) {
                 parent.appendChild( node );
             }
+            
         } catch ( e: any ) {
             console.warn( e.message );
         }
@@ -79,6 +80,7 @@ export namespace DomElement {
             if ( parent.contains( node ) ) {
                 parent.removeChild( node );
             }
+
         } catch ( e: any ) {
             console.warn( e.message );
         }
