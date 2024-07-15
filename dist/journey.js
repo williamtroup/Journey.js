@@ -25,14 +25,14 @@ var Is;
         return t(e) && typeof e === "string";
     }
     e.definedString = i;
-    function l(e) {
+    function r(e) {
         return t(e) && typeof e === "function";
     }
-    e.definedFunction = l;
-    function r(e) {
+    e.definedFunction = r;
+    function l(e) {
         return t(e) && typeof e === "number";
     }
-    e.definedNumber = r;
+    e.definedNumber = l;
     function s(e) {
         return o(e) && e instanceof Array;
     }
@@ -58,14 +58,14 @@ var Data;
         return Is.definedNumber(e) ? e : t;
     }
     e.getDefaultNumber = i;
-    function l(e, t) {
+    function r(e, t) {
         return Is.definedFunction(e) ? e : t;
     }
-    e.getDefaultFunction = l;
-    function r(e, t) {
+    e.getDefaultFunction = r;
+    function l(e, t) {
         return Is.definedObject(e) ? e : t;
     }
-    e.getDefaultObject = r;
+    e.getDefaultObject = l;
     function s(e, t) {
         return Is.definedArray(e) ? e : t;
     }
@@ -128,7 +128,7 @@ var DomElement;
         return n;
     }
     e.getStyleValueByName = i;
-    function l(e, t) {
+    function r(e, t) {
         try {
             if (!e.contains(t)) {
                 e.appendChild(t);
@@ -137,8 +137,8 @@ var DomElement;
             console.warn(e.message);
         }
     }
-    e.addNode = l;
-    function r(e, t) {
+    e.addNode = r;
+    function l(e, t) {
         try {
             if (e.contains(t)) {
                 e.removeChild(t);
@@ -147,7 +147,7 @@ var DomElement;
             console.warn(e.message);
         }
     }
-    e.removeNode = r;
+    e.removeNode = l;
     function s(e) {
         e.preventDefault();
         e.stopPropagation();
@@ -156,7 +156,7 @@ var DomElement;
     function a(e, t) {
         let o = e.pageX;
         let i = e.pageY;
-        const l = n();
+        const r = n();
         t.style.display = "block";
         if (o + t.offsetWidth > window.innerWidth) {
             o -= t.offsetWidth;
@@ -168,14 +168,14 @@ var DomElement;
         } else {
             i++;
         }
-        if (o < l.left) {
+        if (o < r.left) {
             o = e.pageX + 1;
         }
-        if (i < l.top) {
+        if (i < r.top) {
             i = e.pageY + 1;
         }
-        t.style.left = o + "px";
-        t.style.top = i + "px";
+        t.style.left = `${o}px`;
+        t.style.top = `${i}px`;
     }
     e.showElementAtMousePosition = a;
     function _(e, t) {
@@ -193,17 +193,17 @@ var DomElement;
     function u(e, o) {
         const n = t("div");
         const i = t("label", "checkbox");
-        const l = t("input");
+        const r = t("input");
         e.appendChild(n);
         n.appendChild(i);
-        i.appendChild(l);
-        l.type = "checkbox";
-        const r = t("span", "check-mark");
+        i.appendChild(r);
+        r.type = "checkbox";
+        const l = t("span", "check-mark");
         const s = t("span", "text");
         s.innerHTML = o;
-        i.appendChild(r);
+        i.appendChild(l);
         i.appendChild(s);
-        return l;
+        return r;
     }
     e.createCheckBox = u;
     function g(e, t) {
@@ -365,7 +365,7 @@ var DomElement;
             hideToolTip();
             _element_Dialog_Close_Button.style.display = _configuration.showCloseButton ? "block" : "none";
             _configuration_ShortcutKeysEnabled = true;
-            e._currentView.element.className += " " + "journey-js-element-focus";
+            e._currentView.element.classList.add("journey-js-element-focus");
             if (_configuration.scrollToElements) {
                 e._currentView.element.scrollIntoView();
             }
@@ -431,21 +431,21 @@ var DomElement;
                 if (o + _element_Dialog.offsetHeight > window.innerHeight || t.alignTop) {
                     o -= _element_Dialog.offsetHeight + t._currentView.element.offsetHeight;
                 }
-                _element_Dialog.style.top = o + "px";
-                _element_Dialog.style.left = n + "px";
+                _element_Dialog.style.top = `${o}px`;
+                _element_Dialog.style.left = `${n}px`;
             }
         } else {
             const e = DomElement.getScrollPosition();
             const t = Math.max(0, (window.innerWidth - _element_Dialog.offsetWidth) / 2 + e.left);
             const o = Math.max(0, (window.innerHeight - _element_Dialog.offsetHeight) / 2 + e.top);
-            _element_Dialog.style.left = t + "px";
-            _element_Dialog.style.top = o + "px";
+            _element_Dialog.style.left = `${t}px`;
+            _element_Dialog.style.top = `${o}px`;
         }
     }
     function removeFocusClassFromLastElement(e = true) {
         const t = getGroupBindingOptions();
         if (Is.defined(t) && Is.defined(t._currentView.element)) {
-            t._currentView.element.className = t._currentView.element.className.replace(" " + "journey-js-element-focus", "");
+            t._currentView.element.classList.remove("journey-js-element-focus");
             if (Is.defined(_element_Focus_Element_PositionStyle)) {
                 t._currentView.element.style.position = _element_Focus_Element_PositionStyle;
             }
@@ -485,7 +485,7 @@ var DomElement;
             }
         }
         if (_configuration.showProgressDotNumbers) {
-            n.className += " dot-number";
+            n.classList.add("dot-number");
             n.innerHTML = (e + 1).toString();
         }
     }
@@ -494,8 +494,8 @@ var DomElement;
             const e = _element_Dialog_ProgressBar.offsetWidth / _groups[_groups_Current].keys.length;
             const t = (_groups[_groups_Current].position + 1) * e;
             const o = Math.ceil((_groups[_groups_Current].position + 1) / _groups[_groups_Current].keys.length * 100);
-            _element_Dialog_ProgressBar_Percentage.style.width = t + "px";
-            _element_Dialog_ProgressBar_Percentage_Text.innerHTML = o + "%";
+            _element_Dialog_ProgressBar_Percentage.style.width = `${t}px`;
+            _element_Dialog_ProgressBar_Percentage_Text.innerHTML = `${o}%`;
         }
     }
     function makeDialogMovable() {
@@ -507,7 +507,7 @@ var DomElement;
     }
     function onMoveTitleBarMouseDown(e) {
         if (!_element_Dialog_Move_IsMoving && !_element_Dialog_IsHint && _configuration.dialogMovingEnabled) {
-            _element_Dialog.className += " journey-js-dialog-moving";
+            _element_Dialog.classList.add("journey-js-dialog-moving");
             _element_Dialog_Move_IsMoving = true;
             _element_Dialog_Move_X = e.pageX - _element_Dialog.offsetLeft;
             _element_Dialog_Move_Y = e.pageY - _element_Dialog.offsetTop;
@@ -525,14 +525,14 @@ var DomElement;
     }
     function onMoveDocumentMouseMove(e) {
         if (_element_Dialog_Move_IsMoving) {
-            _element_Dialog.style.left = e.pageX - _element_Dialog_Move_X + "px";
-            _element_Dialog.style.top = e.pageY - _element_Dialog_Move_Y + "px";
+            _element_Dialog.style.left = `${e.pageX - _element_Dialog_Move_X}px`;
+            _element_Dialog.style.top = `${e.pageY - _element_Dialog_Move_Y}px`;
         }
     }
     function onMoveDocumentMouseLeave() {
         if (_element_Dialog_Move_IsMoving) {
-            _element_Dialog.style.left = _element_Dialog_Move_Original_X + "px";
-            _element_Dialog.style.top = _element_Dialog_Move_Original_Y + "px";
+            _element_Dialog.style.left = `${_element_Dialog_Move_Original_X}px`;
+            _element_Dialog.style.top = `${_element_Dialog_Move_Original_Y}px`;
             _element_Dialog_Move_IsMoving = false;
             _element_Dialog_Move_Original_X = 0;
             _element_Dialog_Move_Original_Y = 0;
@@ -783,7 +783,7 @@ var DomElement;
             }
         } catch (e1) {
             try {
-                result.object = eval("(" + objectString + ")");
+                result.object = eval(`(${objectString})`);
                 if (Is.definedFunction(result.object)) {
                     result.object = result.object();
                 }
@@ -965,7 +965,7 @@ var DomElement;
             return _public;
         },
         getVersion: function() {
-            return "2.0.2";
+            return "2.0.3";
         }
     };
     (() => {

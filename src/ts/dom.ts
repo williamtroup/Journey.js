@@ -4,7 +4,7 @@
  * A lightweight, easy-to-use JavaScript library to create interactive, customizable, accessible guided tours across your websites or web apps!
  * 
  * @file        dom.ts
- * @version     v2.0.2
+ * @version     v2.0.3
  * @author      Bunoon
  * @license     MIT License
  * @copyright   Bunoon 2024
@@ -69,6 +69,7 @@ export namespace DomElement {
             if ( !parent.contains( node ) ) {
                 parent.appendChild( node );
             }
+            
         } catch ( e: any ) {
             console.warn( e.message );
         }
@@ -79,6 +80,7 @@ export namespace DomElement {
             if ( parent.contains( node ) ) {
                 parent.removeChild( node );
             }
+
         } catch ( e: any ) {
             console.warn( e.message );
         }
@@ -116,8 +118,8 @@ export namespace DomElement {
             top = e.pageY + 1;
         }
         
-        element.style.left = left + "px";
-        element.style.top = top + "px";
+        element.style.left = `${left}px`;
+        element.style.top = `${top}px`;
     }
 
     export function showElementBasedOnCondition( element: HTMLElement, condition: boolean ) : void {

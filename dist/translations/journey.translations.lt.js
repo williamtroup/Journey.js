@@ -1,4 +1,4 @@
-/*! Journey.js v2.0.2 - Lithuanian | (c) Bunoon 2024 | MIT License */
+/*! Journey.js v2.0.3 - Lithuanian | (c) Bunoon 2024 | MIT License */
 $journey.setConfiguration( {
         "backButtonText": "Atgal",
         "nextButtonText": "Kitas",
