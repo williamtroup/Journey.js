@@ -1,4 +1,4 @@
-/*! Journey.js v2.0.3 - Nepali | (c) Bunoon 2024 | MIT License */
+/*! Journey.js v2.1.0 - Nepali | (c) Bunoon 2024 | MIT License */
 $journey.setConfiguration( {
         "backButtonText": "पछाडि",
         "nextButtonText": "अर्को",

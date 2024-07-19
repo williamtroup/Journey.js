@@ -4,7 +4,7 @@
  * A lightweight, easy-to-use JavaScript library to create interactive, customizable, accessible guided tours across your websites or web apps!
  * 
  * @file        constant.ts
- * @version     v2.0.3
+ * @version     v2.1.0
  * @author      Bunoon
  * @license     MIT License
  * @copyright   Bunoon 2024

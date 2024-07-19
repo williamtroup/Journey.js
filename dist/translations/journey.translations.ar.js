@@ -1,4 +1,4 @@
-/*! Journey.js v2.0.3 - Arabic | (c) Bunoon 2024 | MIT License */
+/*! Journey.js v2.1.0 - Arabic | (c) Bunoon 2024 | MIT License */
 $journey.setConfiguration( {
         "backButtonText": "خلف",
         "nextButtonText": "التالي",

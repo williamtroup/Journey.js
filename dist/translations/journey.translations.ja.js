@@ -1,4 +1,4 @@
-/*! Journey.js v2.0.3 - Japanese | (c) Bunoon 2024 | MIT License */
+/*! Journey.js v2.1.0 - Japanese | (c) Bunoon 2024 | MIT License */
 $journey.setConfiguration( {
         "backButtonText": "戻る",
         "nextButtonText": "次",
