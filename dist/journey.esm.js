@@ -438,6 +438,38 @@ var init_tooltip = __esm({
     }
 });
 
+var Disabled;
+
+var init_disabled = __esm({
+    "src/ts/area/disabled.ts"() {
+        "use strict";
+        init_dom();
+        (e => {
+            let t;
+            (e => {
+                let t;
+                function o(e, o) {
+                    t = DomElement.create("div", "journey-js-disabled-background");
+                    t.onclick = () => {
+                        if (e.closeDialogOnDisabledBackgroundClick) {
+                            o();
+                        }
+                    };
+                }
+                e.render = o;
+                function n() {
+                    DomElement.addNode(document.body, t);
+                }
+                e.show = n;
+                function i() {
+                    DomElement.removeNode(document.body, t);
+                }
+                e.hide = i;
+            })(t = e.Background || (e.Background = {}));
+        })(Disabled || (Disabled = {}));
+    }
+});
+
 var require_journey = __commonJS({
     "src/journey.ts"(exports, module) {
         init_enum();
@@ -449,13 +481,13 @@ var require_journey = __commonJS({
         init_config();
         init_trigger();
         init_tooltip();
+        init_disabled();
         (() => {
             let _configuration = {};
             let _configuration_ShortcutKeysEnabled = true;
             let _groups_Current = Constant.DEFAULT_GROUP;
             let _groups = {};
             let _element_Focus_Element_PositionStyle = "";
-            let _element_Disabled_Background;
             let _element_Dialog = null;
             let _element_Dialog_Close_Button = null;
             let _element_Dialog_Title = null;
@@ -494,20 +526,6 @@ var require_journey = __commonJS({
             }
             function getGroupBindingOptions() {
                 return _groups[_groups_Current].json[_groups[_groups_Current].keys[_groups[_groups_Current].position]];
-            }
-            function renderDisabledBackground() {
-                _element_Disabled_Background = DomElement.create("div", "journey-js-disabled-background");
-                _element_Disabled_Background.onclick = () => {
-                    if (_configuration.closeDialogOnDisabledBackgroundClick) {
-                        onDialogClose();
-                    }
-                };
-            }
-            function showDisabledBackground() {
-                DomElement.addNode(document.body, _element_Disabled_Background);
-            }
-            function hideDisabledBackground() {
-                DomElement.removeNode(document.body, _element_Disabled_Background);
             }
             function renderDialog() {
                 _element_Dialog = DomElement.create("div", "journey-js-dialog");
@@ -562,7 +580,7 @@ var require_journey = __commonJS({
                         Trigger.customEvent(e.events.onClose, e._currentView.element);
                     }
                     removeFocusClassFromLastElement(false);
-                    hideDisabledBackground();
+                    Disabled.Background.hide();
                     ToolTip.hide();
                     _element_Dialog.style.display = "none";
                 }
@@ -589,9 +607,9 @@ var require_journey = __commonJS({
                 const e = getGroupBindingOptions();
                 if (Is.defined(e) && Is.defined(e._currentView.element)) {
                     if (e.showDisabledBackground) {
-                        showDisabledBackground();
+                        Disabled.Background.show();
                     } else {
-                        hideDisabledBackground();
+                        Disabled.Background.hide();
                     }
                     ToolTip.hide();
                     _element_Dialog_Close_Button.style.display = _configuration.showCloseButton ? "block" : "none";
@@ -1090,7 +1108,7 @@ var require_journey = __commonJS({
                 _configuration = Config.Options.get();
                 document.addEventListener("DOMContentLoaded", (() => {
                     setupDefaultGroup();
-                    renderDisabledBackground();
+                    Disabled.Background.render(_configuration, onDialogClose);
                     renderDialog();
                     ToolTip.render();
                     getElements();

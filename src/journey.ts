@@ -27,6 +27,7 @@ import { Binding } from "./ts/options/binding";
 import { Config } from "./ts/options/config";
 import { Trigger } from "./ts/area/trigger";
 import { ToolTip } from "./ts/area/tooltip";
+import { Disabled } from "./ts/area/disabled";
 
 
 type StringToJson = {
@@ -54,9 +55,6 @@ type Groups = Record<string, {
 
     // Variables: Focus Element
     let _element_Focus_Element_PositionStyle: string = Char.empty;
-
-    // Variables: Disabled Background
-    let _element_Disabled_Background: HTMLElement;
 
     // Variables: Dialog
     let _element_Dialog: HTMLElement = null!;
@@ -110,31 +108,6 @@ type Groups = Record<string, {
 
     function getGroupBindingOptions() : BindingOptions {
         return _groups[ _groups_Current ].json[ _groups[ _groups_Current ].keys[ _groups[ _groups_Current ].position ] ];
-    }
-
-
-    /*
-     * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-     * Disabled Background
-     * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-     */
-
-    function renderDisabledBackground() : void {
-        _element_Disabled_Background = DomElement.create( "div", "journey-js-disabled-background" );
-
-        _element_Disabled_Background.onclick = () => {
-            if ( _configuration.closeDialogOnDisabledBackgroundClick ) {
-                onDialogClose();
-            }
-        };
-    }
-
-    function showDisabledBackground() : void {
-        DomElement.addNode( document.body, _element_Disabled_Background );
-    }
-
-    function hideDisabledBackground() : void {
-        DomElement.removeNode( document.body, _element_Disabled_Background );
     }
 
 
@@ -218,7 +191,7 @@ type Groups = Record<string, {
             }
     
             removeFocusClassFromLastElement( false );
-            hideDisabledBackground();
+            Disabled.Background.hide();
             ToolTip.hide();
     
             _element_Dialog.style.display = "none";
@@ -256,9 +229,9 @@ type Groups = Record<string, {
 
         if ( Is.defined( bindingOptions ) && Is.defined( bindingOptions._currentView.element ) ) {
             if ( bindingOptions.showDisabledBackground ) {
-                showDisabledBackground();
+                Disabled.Background.show();
             } else {
-                hideDisabledBackground();
+                Disabled.Background.hide();
             }
 
             ToolTip.hide();
@@ -994,7 +967,7 @@ type Groups = Record<string, {
 
         document.addEventListener( "DOMContentLoaded", () => {
             setupDefaultGroup();
-            renderDisabledBackground();
+            Disabled.Background.render( _configuration, onDialogClose );
             renderDialog();
             ToolTip.render();
             getElements();
