@@ -252,11 +252,11 @@ type Groups = Record<string, {
                 bindingOptions._currentView.element.style.position = "relative";
             }
 
-            DomElement.showElementBasedOnCondition( _element_Dialog_CheckBox_Container, _configuration.showDoNotShowAgain as boolean );
-            DomElement.showElementBasedOnCondition( _element_Dialog_ProgressDots, _configuration.showProgressDots as boolean && _groups[ _groups_Current ].keys.length > 1 );
-            DomElement.showElementBasedOnCondition( _element_Dialog_ProgressBar, _configuration.showProgressBar as boolean && _groups[ _groups_Current ].keys.length > 1 );
-            DomElement.showElementBasedOnCondition( _element_Dialog_ProgressBar_Percentage_Text, _configuration.showProgressBarText as boolean );
-            DomElement.showElementBasedOnCondition( _element_Dialog_Buttons, _configuration.showButtons as boolean );
+            DomElement.showElementBasedOnCondition( _element_Dialog_CheckBox_Container, _configuration.showDoNotShowAgain! );
+            DomElement.showElementBasedOnCondition( _element_Dialog_ProgressDots, _configuration.showProgressDots! && _groups[ _groups_Current ].keys.length > 1 );
+            DomElement.showElementBasedOnCondition( _element_Dialog_ProgressBar, _configuration.showProgressBar! && _groups[ _groups_Current ].keys.length > 1 );
+            DomElement.showElementBasedOnCondition( _element_Dialog_ProgressBar_Percentage_Text, _configuration.showProgressBarText! );
+            DomElement.showElementBasedOnCondition( _element_Dialog_Buttons, _configuration.showButtons! );
 
             _element_Dialog_Buttons_Back_Button.innerHTML = _configuration.text!.backButtonText!;
             _element_Dialog_Buttons_Back_Button.disabled = _groups[ _groups_Current ].position === 0;
