@@ -101,6 +101,9 @@ div.journey-js-dialog *::before, div.journey-js-dialog *::after {
   box-sizing: border-box;
   line-height: normal;
 }
+div.journey-js-dialog button {
+  font-family: var(--journey-js-default-font);
+}
 div.journey-js-dialog div:first-of-type {
   padding-right: calc(var(--journey-js-dialog-close-button-size) + var(--journey-js-spacing));
 }
