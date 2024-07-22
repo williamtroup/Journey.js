@@ -363,6 +363,23 @@ var init_config = __esm({
     }
 });
 
+var Trigger;
+
+var init_trigger = __esm({
+    "src/ts/area/trigger.ts"() {
+        "use strict";
+        init_is();
+        (e => {
+            function t(e, ...t) {
+                if (Is.definedFunction(e)) {
+                    e.apply(null, [].slice.call(t, 0));
+                }
+            }
+            e.customEvent = t;
+        })(Trigger || (Trigger = {}));
+    }
+});
+
 var require_journey = __commonJS({
     "src/journey.ts"(exports, module) {
         init_enum();
@@ -372,6 +389,7 @@ var require_journey = __commonJS({
         init_dom();
         init_binding();
         init_config();
+        init_trigger();
         (() => {
             let _configuration = {};
             let _configuration_ShortcutKeysEnabled = true;
@@ -453,7 +471,7 @@ var require_journey = __commonJS({
                 _element_Dialog_CheckBox_Input = DomElement.createCheckBox(_element_Dialog_CheckBox_Container, _configuration.text.doNotShowAgainText);
                 _element_Dialog_CheckBox_Input.onchange = () => {
                     if (_configuration.showDoNotShowAgain) {
-                        fireCustomTriggerEvent(_configuration.events.onDoNotShowAgainChange, _element_Dialog_CheckBox_Input.checked);
+                        Trigger.customEvent(_configuration.events.onDoNotShowAgainChange, _element_Dialog_CheckBox_Input.checked);
                     }
                 };
                 _element_Dialog_ProgressDots = DomElement.create("div", "progress-dots");
@@ -484,7 +502,7 @@ var require_journey = __commonJS({
                 if (t) {
                     const e = getGroupBindingOptions();
                     if (Is.defined(e) && Is.defined(e._currentView.element)) {
-                        fireCustomTriggerEvent(e.events.onClose, e._currentView.element);
+                        Trigger.customEvent(e.events.onClose, e._currentView.element);
                     }
                     removeFocusClassFromLastElement(false);
                     hideDisabledBackground();
@@ -503,7 +521,7 @@ var require_journey = __commonJS({
                 if (_groups[_groups_Current].position === _groups[_groups_Current].keys.length - 1) {
                     const e = getGroupBindingOptions();
                     onDialogClose(false);
-                    fireCustomTriggerEvent(e.events.onFinish, e._currentView.element);
+                    Trigger.customEvent(e.events.onFinish, e._currentView.element);
                 } else {
                     removeFocusClassFromLastElement();
                     _groups[_groups_Current].position++;
@@ -546,7 +564,7 @@ var require_journey = __commonJS({
                     setDialogPosition(null, e);
                     buildProcessDots();
                     setProgressBarPosition();
-                    fireCustomTriggerEvent(e.events.onEnter, e._currentView.element);
+                    Trigger.customEvent(e.events.onEnter, e._currentView.element);
                     if (e.sendClick) {
                         e._currentView.element.click();
                     }
@@ -567,10 +585,10 @@ var require_journey = __commonJS({
             function setDialogPosition(e, t) {
                 if (_element_Dialog.style.display !== "block") {
                     _element_Dialog.style.display = "block";
-                    fireCustomTriggerEvent(t.events.onOpen, t._currentView.element);
+                    Trigger.customEvent(t.events.onOpen, t._currentView.element);
                 }
                 if (_groups[_groups_Current].position === 0) {
-                    fireCustomTriggerEvent(t.events.onStart, t._currentView.element);
+                    Trigger.customEvent(t.events.onStart, t._currentView.element);
                 }
                 _element_Dialog_IsHint = t.isHint === true;
                 if (t.attach || t.isHint) {
@@ -606,7 +624,7 @@ var require_journey = __commonJS({
                         t._currentView.element.style.position = _element_Focus_Element_PositionStyle;
                     }
                     if (e) {
-                        fireCustomTriggerEvent(t.events.onLeave, t._currentView.element);
+                        Trigger.customEvent(t.events.onLeave, t._currentView.element);
                     }
                 }
             }
@@ -782,7 +800,7 @@ var require_journey = __commonJS({
                         setupNewGroup(t.group);
                         _groups[t.group].json[t.order] = t;
                         _groups[t.group].keys.push(t.order);
-                        fireCustomTriggerEvent(t.events.onAddStep, e);
+                        Trigger.customEvent(t.events.onAddStep, e);
                     } else {
                         renderHint(t);
                     }
@@ -858,11 +876,6 @@ var require_journey = __commonJS({
                     removeFocusClassFromLastElement();
                     _groups[_groups_Current].position = _groups[_groups_Current].keys.length - 1;
                     showDialogAndSetPosition();
-                }
-            }
-            function fireCustomTriggerEvent(e, ...t) {
-                if (Is.definedFunction(e)) {
-                    e.apply(null, [].slice.call(t, 0));
                 }
             }
             function getBrowserUrlParameters() {
@@ -982,7 +995,7 @@ var require_journey = __commonJS({
                                     if (_groups[o].json.hasOwnProperty(n)) {
                                         const i = _groups[o].json[n];
                                         if (i._currentView.element === e) {
-                                            fireCustomTriggerEvent(i.events.onRemoveStep, i._currentView.element);
+                                            Trigger.customEvent(i.events.onRemoveStep, i._currentView.element);
                                             _groups[o].keys.splice(_groups[o].keys.indexOf(i.order), 1);
                                             delete _groups[o].json[i.order];
                                             _groups[o].keys.sort();
@@ -1009,7 +1022,7 @@ var require_journey = __commonJS({
                                 for (let e in _groups[t].json) {
                                     if (_groups[t].json.hasOwnProperty(e)) {
                                         const o = _groups[t].json[e];
-                                        fireCustomTriggerEvent(o.events.onRemoveStep, o._currentView.element);
+                                        Trigger.customEvent(o.events.onRemoveStep, o._currentView.element);
                                     }
                                 }
                             }

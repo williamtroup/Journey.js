@@ -25,6 +25,7 @@ import { Default } from "./ts/data/default";
 import { DomElement } from "./ts/dom/dom";
 import { Binding } from "./ts/options/binding";
 import { Config } from "./ts/options/config";
+import { Trigger } from "./ts/area/trigger";
 
 
 type StringToJson = {
@@ -173,7 +174,7 @@ type Groups = Record<string, {
         
         _element_Dialog_CheckBox_Input.onchange = () => {
             if ( _configuration.showDoNotShowAgain ) {
-                fireCustomTriggerEvent( _configuration.events!.onDoNotShowAgainChange, _element_Dialog_CheckBox_Input.checked );
+                Trigger.customEvent( _configuration.events!.onDoNotShowAgainChange!, _element_Dialog_CheckBox_Input.checked );
             }
         };
 
@@ -216,7 +217,7 @@ type Groups = Record<string, {
             const bindingOptions: BindingOptions = getGroupBindingOptions();
 
             if ( Is.defined( bindingOptions ) && Is.defined( bindingOptions._currentView.element ) ) {
-                fireCustomTriggerEvent( bindingOptions.events!.onClose!, bindingOptions._currentView.element );
+                Trigger.customEvent( bindingOptions.events!.onClose!, bindingOptions._currentView.element );
             }
     
             removeFocusClassFromLastElement( false );
@@ -242,7 +243,7 @@ type Groups = Record<string, {
             const bindingOptions: BindingOptions = getGroupBindingOptions();
 
             onDialogClose( false );
-            fireCustomTriggerEvent( bindingOptions.events!.onFinish, bindingOptions._currentView.element );
+            Trigger.customEvent( bindingOptions.events!.onFinish!, bindingOptions._currentView.element );
 
         } else {
             removeFocusClassFromLastElement();
@@ -300,7 +301,7 @@ type Groups = Record<string, {
             setDialogPosition( null, bindingOptions );
             buildProcessDots();
             setProgressBarPosition();
-            fireCustomTriggerEvent( bindingOptions.events!.onEnter, bindingOptions._currentView.element );
+            Trigger.customEvent( bindingOptions.events!.onEnter!, bindingOptions._currentView.element );
 
             if ( bindingOptions.sendClick ) {
                 bindingOptions._currentView.element.click();
@@ -326,11 +327,11 @@ type Groups = Record<string, {
         if ( _element_Dialog.style.display !== "block" ) {
             _element_Dialog.style.display = "block";
 
-            fireCustomTriggerEvent( bindingOptions.events!.onOpen, bindingOptions._currentView.element );
+            Trigger.customEvent( bindingOptions.events!.onOpen!, bindingOptions._currentView.element );
         }
 
         if ( _groups[ _groups_Current ].position === 0 ) {
-            fireCustomTriggerEvent( bindingOptions.events!.onStart, bindingOptions._currentView.element );
+            Trigger.customEvent( bindingOptions.events!.onStart!, bindingOptions._currentView.element );
         }
 
         _element_Dialog_IsHint = bindingOptions.isHint === true;
@@ -378,7 +379,7 @@ type Groups = Record<string, {
             }
 
             if ( callCustomTrigger ) {
-                fireCustomTriggerEvent( bindingOptions.events!.onLeave, bindingOptions._currentView.element );
+                Trigger.customEvent( bindingOptions.events!.onLeave!, bindingOptions._currentView.element );
             }
         }
     }
@@ -622,7 +623,7 @@ type Groups = Record<string, {
                 _groups[ bindingOptions.group! ].json[ bindingOptions.order! ] = bindingOptions;
                 _groups[ bindingOptions.group! ].keys.push( bindingOptions.order! );
 
-                fireCustomTriggerEvent( bindingOptions.events!.onAddStep, element );
+                Trigger.customEvent( bindingOptions.events!.onAddStep!, element );
 
             } else {
                 renderHint( bindingOptions );
@@ -728,19 +729,6 @@ type Groups = Record<string, {
             _groups[ _groups_Current ].position = _groups[ _groups_Current ].keys.length - 1;
     
             showDialogAndSetPosition();
-        }
-    }
-
-
-    /*
-     * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-     * Triggering Custom Events
-     * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-     */
-
-    function fireCustomTriggerEvent( triggerFunction: any, ...args : any[] ) : void {
-        if ( Is.definedFunction( triggerFunction ) ) {
-            triggerFunction.apply( null, [].slice.call( args, 0 ) );
         }
     }
 
@@ -942,7 +930,7 @@ type Groups = Record<string, {
                                 const bindingOptions: BindingOptions = _groups[ group ].json[ order ];
             
                                 if ( bindingOptions._currentView.element === element ) {
-                                    fireCustomTriggerEvent( bindingOptions.events!.onRemoveStep, bindingOptions._currentView.element );
+                                    Trigger.customEvent( bindingOptions.events!.onRemoveStep!, bindingOptions._currentView.element );
             
                                     _groups[ group ].keys.splice( _groups[ group ].keys.indexOf( bindingOptions.order! ), 1 );
             
@@ -978,7 +966,7 @@ type Groups = Record<string, {
                             if ( _groups[ groupName ].json.hasOwnProperty( order ) ) {
                                 const bindingOptions: BindingOptions = _groups[ groupName ].json[ order ];
             
-                                fireCustomTriggerEvent( bindingOptions.events!.onRemoveStep, bindingOptions._currentView.element );
+                                Trigger.customEvent( bindingOptions.events!.onRemoveStep!, bindingOptions._currentView.element );
                             }
                         }
                     }
