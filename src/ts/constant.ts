@@ -11,6 +11,7 @@
  */
 
 
-export namespace Constants {
+export namespace Constant {
     export const JOURNEY_JS_ATTRIBUTE_NAME = "data-journey-js";
+    export const DEFAULT_GROUP: string = "default";
 }

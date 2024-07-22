@@ -33,6 +33,11 @@ export type Configuration = {
     scrollToElements?: boolean;
     dialogMovingEnabled?: boolean;
     showProgressBarText?: boolean;
+    text?: ConfigurationText;
+    events?: ConfigurationEvents;
+};
+
+export type ConfigurationText = {
     backButtonText?: string;
     nextButtonText?: string;
     finishButtonText?: string;
@@ -42,11 +47,14 @@ export type Configuration = {
     attributeNotValidErrorText?: string;
     attributeNotSetErrorText?: string;
     closeDialogConfirmationText?: string;
+};
+
+export type ConfigurationEvents = {
     onDoNotShowAgainChange?: ( flag: boolean ) => void;
 };
 
 export type BindingOptions = {
-    _currentView: CurrentView;
+    _currentView: BindingOptionsCurrentView;
     order?: number;
     attach?: boolean;
     sendClick: boolean;
@@ -60,14 +68,14 @@ export type BindingOptions = {
     title?: string;
     description?: string;
     tooltip?: string;
-    events?: Events;
+    events?: BindingOptionsEvents;
 };
 
-export type CurrentView = {
+export type BindingOptionsCurrentView = {
     element: HTMLElement;
 };
 
-export type Events = {
+export type BindingOptionsEvents = {
     onEnter?: ( element: HTMLElement ) => void;
     onLeave?: ( element: HTMLElement ) => void;
     onClose?: ( element: HTMLElement ) => void;

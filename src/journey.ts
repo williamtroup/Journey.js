@@ -14,16 +14,17 @@
 import {
     type Configuration,
     type BindingOptions,
-    type Events, 
-    type CurrentView, 
-    type Position} from "./ts/type";
+    type BindingOptionsCurrentView, 
+    type Position } from "./ts/type";
 
 import { type PublicApi } from "./ts/api";
 import { Char, KeyCode } from "./ts/data/enum";
-import { Constants } from "./ts/constant";
+import { Constant } from "./ts/constant";
 import { Is } from "./ts/data/is";
 import { Default } from "./ts/data/default";
 import { DomElement } from "./ts/dom/dom";
+import { Binding } from "./ts/options/binding";
+import { Config } from "./ts/options/config";
 
 
 type StringToJson = {
@@ -46,8 +47,7 @@ type Groups = Record<string, {
     let _configuration_ShortcutKeysEnabled: boolean = true;
 
     // Variables: Groups
-    const _groups_Default: string = "default";
-    let _groups_Current: string = _groups_Default;
+    let _groups_Current: string = Constant.DEFAULT_GROUP;
     let _groups: Groups = {} as Groups;
 
     // Variables: Focus Element
@@ -93,7 +93,7 @@ type Groups = Record<string, {
     function setupDefaultGroup( groups: any = null ) : void {
         _groups = Default.getObject( groups, {} as Groups );
 
-        _groups[ _groups_Default ] = {
+        _groups[ Constant.DEFAULT_GROUP ] = {
             json: {} as BindingOptions,
             keys: [],
             position: 0
@@ -158,7 +158,7 @@ type Groups = Record<string, {
             onDialogClose();
         };
 
-        addToolTip( _element_Dialog_Close_Button, _configuration.closeButtonToolTipText! );
+        addToolTip( _element_Dialog_Close_Button, _configuration.text!.closeButtonToolTipText! );
 
         _element_Dialog_Title = DomElement.create( "div", "title" );
         _element_Dialog.appendChild( _element_Dialog_Title );
@@ -169,11 +169,11 @@ type Groups = Record<string, {
         _element_Dialog_CheckBox_Container = DomElement.create( "div", "checkbox-container" );
         _element_Dialog.appendChild( _element_Dialog_CheckBox_Container );
 
-        _element_Dialog_CheckBox_Input = DomElement.createCheckBox( _element_Dialog_CheckBox_Container, _configuration.doNotShowAgainText! );
+        _element_Dialog_CheckBox_Input = DomElement.createCheckBox( _element_Dialog_CheckBox_Container, _configuration.text!.doNotShowAgainText! );
         
         _element_Dialog_CheckBox_Input.onchange = () => {
             if ( _configuration.showDoNotShowAgain ) {
-                fireCustomTriggerEvent( _configuration.onDoNotShowAgainChange, _element_Dialog_CheckBox_Input.checked );
+                fireCustomTriggerEvent( _configuration.events!.onDoNotShowAgainChange, _element_Dialog_CheckBox_Input.checked );
             }
         };
 
@@ -206,8 +206,8 @@ type Groups = Record<string, {
     function onDialogClose( showConfirmationBox: boolean = true ) : void {
         let confirmed: boolean = false;
 
-        if ( Is.definedString( _configuration.closeDialogConfirmationText ) && showConfirmationBox ) {
-            confirmed = confirm( _configuration.closeDialogConfirmationText );
+        if ( Is.definedString( _configuration.text!.closeDialogConfirmationText ) && showConfirmationBox ) {
+            confirmed = confirm( _configuration.text!.closeDialogConfirmationText );
         } else {
             confirmed = true;
         }
@@ -287,13 +287,13 @@ type Groups = Record<string, {
             DomElement.showElementBasedOnCondition( _element_Dialog_ProgressBar_Percentage_Text, _configuration.showProgressBarText as boolean );
             DomElement.showElementBasedOnCondition( _element_Dialog_Buttons, _configuration.showButtons as boolean );
 
-            _element_Dialog_Buttons_Back_Button.innerHTML = _configuration.backButtonText!;
+            _element_Dialog_Buttons_Back_Button.innerHTML = _configuration.text!.backButtonText!;
             _element_Dialog_Buttons_Back_Button.disabled = _groups[ _groups_Current ].position === 0;
             
             if ( _groups[ _groups_Current ].position >= _groups[ _groups_Current ].keys.length - 1 ) {
-                _element_Dialog_Buttons_Next_Button.innerHTML = _configuration.finishButtonText!;
+                _element_Dialog_Buttons_Next_Button.innerHTML = _configuration.text!.finishButtonText!;
             } else {
-                _element_Dialog_Buttons_Next_Button.innerHTML = _configuration.nextButtonText!;
+                _element_Dialog_Buttons_Next_Button.innerHTML = _configuration.text!.nextButtonText!;
             }
 
             setDialogText( bindingOptions );
@@ -582,25 +582,25 @@ type Groups = Record<string, {
     function getElement( element: HTMLElement ) : boolean {
         let result: boolean = true;
 
-        if ( Is.defined( element ) && element.hasAttribute( Constants.JOURNEY_JS_ATTRIBUTE_NAME ) ) {
-            const bindingOptionsData: string = element.getAttribute( Constants.JOURNEY_JS_ATTRIBUTE_NAME )!;
+        if ( Is.defined( element ) && element.hasAttribute( Constant.JOURNEY_JS_ATTRIBUTE_NAME ) ) {
+            const bindingOptionsData: string = element.getAttribute( Constant.JOURNEY_JS_ATTRIBUTE_NAME )!;
 
             if ( Is.definedString( bindingOptionsData ) ) {
                 const bindingOptions: StringToJson = getObjectFromString( bindingOptionsData );
 
                 if ( bindingOptions.parsed && Is.definedObject( bindingOptions.object ) ) {
-                    setupElement( element, buildAttributeOptions( bindingOptions.object ) );
+                    setupElement( element, Binding.Options.get( bindingOptions.object ) );
 
                 } else {
                     if ( !_configuration.safeMode ) {
-                        console.error( _configuration.attributeNotValidErrorText!.replace( "{{attribute_name}}", Constants.JOURNEY_JS_ATTRIBUTE_NAME ) );
+                        console.error( _configuration.text!.attributeNotValidErrorText!.replace( "{{attribute_name}}", Constant.JOURNEY_JS_ATTRIBUTE_NAME ) );
                         result = false;
                     }
                 }
 
             } else {
                 if ( !_configuration.safeMode ) {
-                    console.error( _configuration.attributeNotSetErrorText!.replace( "{{attribute_name}}", Constants.JOURNEY_JS_ATTRIBUTE_NAME ) );
+                    console.error( _configuration.text!.attributeNotSetErrorText!.replace( "{{attribute_name}}", Constant.JOURNEY_JS_ATTRIBUTE_NAME ) );
                     result = false;
                 }
             }
@@ -610,11 +610,11 @@ type Groups = Record<string, {
     }
 
     function setupElement( element: HTMLElement, bindingOptions: BindingOptions ) : void {
-        bindingOptions._currentView = {} as CurrentView;
+        bindingOptions._currentView = {} as BindingOptionsCurrentView;
         bindingOptions._currentView.element = element;
 
         if ( Is.definedNumber( bindingOptions.order ) && ( Is.definedString( bindingOptions.title ) || Is.definedString( bindingOptions.description ) ) ) {
-            element.removeAttribute( Constants.JOURNEY_JS_ATTRIBUTE_NAME );
+            element.removeAttribute( Constant.JOURNEY_JS_ATTRIBUTE_NAME );
             
             if ( !bindingOptions.isHint ) {
                 setupNewGroup( bindingOptions.group! );
@@ -734,53 +734,6 @@ type Groups = Record<string, {
 
     /*
      * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-     * Options
-     * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-     */
-
-    function buildAttributeOptions( newOptions: any ) {
-        let options: BindingOptions = Default.getObject( newOptions, {} as BindingOptions );
-        options.order = Default.getNumber( options.order, 0 );
-        options.attach = Default.getBoolean( options.attach, true );
-        options.sendClick = Default.getBoolean( options.sendClick, false );
-        options.alignTop = Default.getBoolean( options.alignTop, false );
-        options.alignRight = Default.getBoolean( options.alignRight, false );
-        options.isHint = Default.getBoolean( options.isHint, false );
-        options.alignHintToClickPosition = Default.getBoolean( options.alignHintToClickPosition, false );
-        options.showDisabledBackground = Default.getBoolean( options.showDisabledBackground, true );
-        options.removeHintWhenViewed = Default.getBoolean( options.removeHintWhenViewed, false );
-        options.group = Default.getString( options.group, _groups_Default );
-
-        options = buildAttributeOptionStrings( options );
-
-        return buildAttributeOptionCustomTriggers( options );
-    }
-
-    function buildAttributeOptionStrings( options: BindingOptions ) : BindingOptions {
-        options.title = Default.getString( options.title, Char.empty );
-        options.description = Default.getString( options.description, Char.empty );
-        options.tooltip = Default.getString( options.tooltip, Char.empty );
-
-        return options;
-    }
-
-    function buildAttributeOptionCustomTriggers( options: BindingOptions ) : BindingOptions {
-        options.events = Default.getObject( options.events, {} as Events );
-        options.events!.onEnter = Default.getFunction( options.events!.onEnter, null );
-        options.events!.onLeave = Default.getFunction( options.events!.onLeave, null );
-        options.events!.onClose = Default.getFunction( options.events!.onClose, null );
-        options.events!.onFinish = Default.getFunction( options.events!.onFinish, null );
-        options.events!.onOpen = Default.getFunction( options.events!.onOpen, null );
-        options.events!.onStart = Default.getFunction( options.events!.onStart, null );
-        options.events!.onAddStep = Default.getFunction( options.events!.onAddStep, null );
-        options.events!.onRemoveStep = Default.getFunction( options.events!.onRemoveStep, null );
-
-        return options;
-    }
-
-
-    /*
-     * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
      * Triggering Custom Events
      * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
      */
@@ -867,7 +820,7 @@ type Groups = Record<string, {
                 
             } catch ( e2: any ) {
                 if ( !_configuration.safeMode ) {
-                    console.error( _configuration.objectErrorText!.replace( "{{error_1}}",  e1.message ).replace( "{{error_2}}",  e2.message ) );
+                    console.error( _configuration.text!.objectErrorText!.replace( "{{error_1}}",  e1.message ).replace( "{{error_2}}",  e2.message ) );
                     result.parsed = false;
                 }
                 
@@ -896,52 +849,6 @@ type Groups = Record<string, {
 
 	/*
 	 * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-	 * Public API Functions:  Helpers:  Configuration
-	 * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-	 */
-
-    function buildDefaultConfiguration( newConfiguration: Configuration = {} ) : void {
-        _configuration = Default.getObject( newConfiguration, {} as Configuration );
-        _configuration.safeMode = Default.getBoolean( _configuration.safeMode, true );
-        _configuration.domElementTypes = Default.getStringOrArray( _configuration.domElementTypes, [ "*" ] );
-        _configuration.showCloseButton = Default.getBoolean( _configuration.showCloseButton, true );
-        _configuration.shortcutKeysEnabled = Default.getBoolean( _configuration.shortcutKeysEnabled, true );
-        _configuration.showProgressDots = Default.getBoolean( _configuration.showProgressDots, true );
-        _configuration.browserUrlParametersEnabled = Default.getBoolean( _configuration.browserUrlParametersEnabled, true );
-        _configuration.showProgressDotNumbers = Default.getBoolean( _configuration.showProgressDotNumbers, false );
-        _configuration.showButtons = Default.getBoolean( _configuration.showButtons, true );
-        _configuration.showDoNotShowAgain = Default.getBoolean( _configuration.showDoNotShowAgain, false );
-        _configuration.tooltipDelay = Default.getNumber( _configuration.tooltipDelay, 750 );
-        _configuration.showProgressDotToolTips = Default.getBoolean( _configuration.showProgressDotToolTips, true );
-        _configuration.closeDialogOnDisabledBackgroundClick = Default.getBoolean( _configuration.closeDialogOnDisabledBackgroundClick, false );
-        _configuration.showProgressBar = Default.getBoolean( _configuration.showProgressBar, false );
-        _configuration.scrollToElements = Default.getBoolean( _configuration.scrollToElements, false );
-        _configuration.dialogMovingEnabled = Default.getBoolean( _configuration.dialogMovingEnabled, false );
-        _configuration.showProgressBarText = Default.getBoolean( _configuration.showProgressBarText, false );
-
-        buildDefaultConfigurationStrings();
-        buildDefaultConfigurationCustomTriggers();
-    }
-
-    function buildDefaultConfigurationStrings() : void {
-        _configuration.backButtonText = Default.getAnyString( _configuration.backButtonText, "Back" );
-        _configuration.nextButtonText = Default.getAnyString( _configuration.nextButtonText, "Next" );
-        _configuration.finishButtonText = Default.getAnyString( _configuration.finishButtonText, "Finish" );
-        _configuration.closeButtonToolTipText = Default.getAnyString( _configuration.closeButtonToolTipText, "Close" );
-        _configuration.doNotShowAgainText = Default.getAnyString( _configuration.doNotShowAgainText, "Do not show again" );
-        _configuration.objectErrorText = Default.getAnyString( _configuration.objectErrorText, "Errors in object: {{error_1}}, {{error_2}}" );
-        _configuration.attributeNotValidErrorText = Default.getAnyString( _configuration.attributeNotValidErrorText, "The attribute '{{attribute_name}}' is not a valid object." );
-        _configuration.attributeNotSetErrorText = Default.getAnyString( _configuration.attributeNotSetErrorText, "The attribute '{{attribute_name}}' has not been set correctly." );
-        _configuration.closeDialogConfirmationText = Default.getAnyString( _configuration.closeDialogConfirmationText, Char.empty );
-    }
-
-    function buildDefaultConfigurationCustomTriggers() : void {
-        _configuration.onDoNotShowAgainChange = Default.getFunction( _configuration.onDoNotShowAgainChange, null );
-    }
-
-
-	/*
-	 * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 	 * Public API Functions:
 	 * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 	 */
@@ -955,7 +862,7 @@ type Groups = Record<string, {
 
         start: function ( group: string = Char.empty ) : PublicApi {
             if ( !_public.isOpen() ) {
-                _groups_Current = Default.getString( group, _groups_Default );
+                _groups_Current = Default.getString( group, Constant.DEFAULT_GROUP );
     
                 if ( _groups.hasOwnProperty( _groups_Current ) ) {
                     _groups[ _groups_Current ].position = 0;
@@ -1014,7 +921,7 @@ type Groups = Record<string, {
 
         addStep: function ( element: HTMLElement, options: BindingOptions ) : PublicApi {
             if ( Is.definedObject( element ) && Is.definedObject( options ) ) {
-                setupElement( element, buildAttributeOptions( options ) );
+                setupElement( element, Binding.Options.get( options ) );
     
                 _groups[ _groups_Current ].keys.sort();
         
@@ -1087,7 +994,7 @@ type Groups = Record<string, {
                 _groups = {} as Groups;
             }
     
-            if ( !Is.definedString( group ) || group === _groups_Default ) {
+            if ( !Is.definedString( group ) || group === Constant.DEFAULT_GROUP ) {
                 setupDefaultGroup( _groups );
             }
     
@@ -1128,7 +1035,7 @@ type Groups = Record<string, {
                 }
         
                 if ( configurationHasChanged ) {
-                    buildDefaultConfiguration( newInternalConfiguration );
+                    _configuration = Config.Options.get( newInternalConfiguration );
                 }
             }
     
@@ -1155,7 +1062,7 @@ type Groups = Record<string, {
      */
 
     ( () => {
-        buildDefaultConfiguration();
+        _configuration = Config.Options.get();
 
         document.addEventListener( "DOMContentLoaded", () => {
             setupDefaultGroup();

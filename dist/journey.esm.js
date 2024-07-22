@@ -16,14 +16,15 @@ var init_enum = __esm({
     }
 });
 
-var Constants;
+var Constant;
 
 var init_constant = __esm({
     "src/ts/constant.ts"() {
         "use strict";
         (e => {
             e.JOURNEY_JS_ATTRIBUTE_NAME = "data-journey-js";
-        })(Constants || (Constants = {}));
+            e.DEFAULT_GROUP = "default";
+        })(Constant || (Constant = {}));
     }
 });
 
@@ -50,14 +51,14 @@ var init_is = __esm({
                 return t(e) && typeof e === "string";
             }
             e.definedString = i;
-            function r(e) {
+            function l(e) {
                 return t(e) && typeof e === "function";
             }
-            e.definedFunction = r;
-            function l(e) {
+            e.definedFunction = l;
+            function r(e) {
                 return t(e) && typeof e === "number";
             }
-            e.definedNumber = l;
+            e.definedNumber = r;
             function s(e) {
                 return o(e) && e instanceof Array;
             }
@@ -90,14 +91,14 @@ var init_default = __esm({
                 return Is.definedNumber(e) ? e : t;
             }
             e.getNumber = i;
-            function r(e, t) {
+            function l(e, t) {
                 return Is.definedFunction(e) ? e : t;
             }
-            e.getFunction = r;
-            function l(e, t) {
+            e.getFunction = l;
+            function r(e, t) {
                 return Is.definedObject(e) ? e : t;
             }
-            e.getObject = l;
+            e.getObject = r;
             function s(e, t) {
                 return Is.definedArray(e) ? e : t;
             }
@@ -167,7 +168,7 @@ var init_dom = __esm({
                 return n;
             }
             e.getStyleValueByName = i;
-            function r(e, t) {
+            function l(e, t) {
                 try {
                     if (!e.contains(t)) {
                         e.appendChild(t);
@@ -176,8 +177,8 @@ var init_dom = __esm({
                     console.warn(e.message);
                 }
             }
-            e.addNode = r;
-            function l(e, t) {
+            e.addNode = l;
+            function r(e, t) {
                 try {
                     if (e.contains(t)) {
                         e.removeChild(t);
@@ -186,7 +187,7 @@ var init_dom = __esm({
                     console.warn(e.message);
                 }
             }
-            e.removeNode = l;
+            e.removeNode = r;
             function s(e) {
                 e.preventDefault();
                 e.stopPropagation();
@@ -195,7 +196,7 @@ var init_dom = __esm({
             function _(e, t) {
                 let o = e.pageX;
                 let i = e.pageY;
-                const r = n();
+                const l = n();
                 t.style.display = "block";
                 if (o + t.offsetWidth > window.innerWidth) {
                     o -= t.offsetWidth;
@@ -207,10 +208,10 @@ var init_dom = __esm({
                 } else {
                     i++;
                 }
-                if (o < r.left) {
+                if (o < l.left) {
                     o = e.pageX + 1;
                 }
-                if (i < r.top) {
+                if (i < l.top) {
                     i = e.pageY + 1;
                 }
                 t.style.left = `${o}px`;
@@ -232,17 +233,17 @@ var init_dom = __esm({
             function u(e, o) {
                 const n = t("div");
                 const i = t("label", "checkbox");
-                const r = t("input");
+                const l = t("input");
                 e.appendChild(n);
                 n.appendChild(i);
-                i.appendChild(r);
-                r.type = "checkbox";
-                const l = t("span", "check-mark");
+                i.appendChild(l);
+                l.type = "checkbox";
+                const r = t("span", "check-mark");
                 const s = t("span", "text");
                 s.innerHTML = o;
-                i.appendChild(l);
+                i.appendChild(r);
                 i.appendChild(s);
-                return r;
+                return l;
             }
             e.createCheckBox = u;
             function g(e, t) {
@@ -256,6 +257,112 @@ var init_dom = __esm({
     }
 });
 
+var Binding;
+
+var init_binding = __esm({
+    "src/ts/options/binding.ts"() {
+        "use strict";
+        init_constant();
+        init_default();
+        init_enum();
+        (e => {
+            let t;
+            (e => {
+                function t(e) {
+                    let t = Default.getObject(e, {});
+                    t.order = Default.getNumber(t.order, 0);
+                    t.attach = Default.getBoolean(t.attach, true);
+                    t.sendClick = Default.getBoolean(t.sendClick, false);
+                    t.alignTop = Default.getBoolean(t.alignTop, false);
+                    t.alignRight = Default.getBoolean(t.alignRight, false);
+                    t.isHint = Default.getBoolean(t.isHint, false);
+                    t.alignHintToClickPosition = Default.getBoolean(t.alignHintToClickPosition, false);
+                    t.showDisabledBackground = Default.getBoolean(t.showDisabledBackground, true);
+                    t.removeHintWhenViewed = Default.getBoolean(t.removeHintWhenViewed, false);
+                    t.group = Default.getString(t.group, Constant.DEFAULT_GROUP);
+                    t = o(t);
+                    return n(t);
+                }
+                e.get = t;
+                function o(e) {
+                    e.title = Default.getString(e.title, "");
+                    e.description = Default.getString(e.description, "");
+                    e.tooltip = Default.getString(e.tooltip, "");
+                    return e;
+                }
+                function n(e) {
+                    e.events = Default.getObject(e.events, {});
+                    e.events.onEnter = Default.getFunction(e.events.onEnter, null);
+                    e.events.onLeave = Default.getFunction(e.events.onLeave, null);
+                    e.events.onClose = Default.getFunction(e.events.onClose, null);
+                    e.events.onFinish = Default.getFunction(e.events.onFinish, null);
+                    e.events.onOpen = Default.getFunction(e.events.onOpen, null);
+                    e.events.onStart = Default.getFunction(e.events.onStart, null);
+                    e.events.onAddStep = Default.getFunction(e.events.onAddStep, null);
+                    e.events.onRemoveStep = Default.getFunction(e.events.onRemoveStep, null);
+                    return e;
+                }
+            })(t = e.Options || (e.Options = {}));
+        })(Binding || (Binding = {}));
+    }
+});
+
+var Config;
+
+var init_config = __esm({
+    "src/ts/options/config.ts"() {
+        "use strict";
+        init_default();
+        init_enum();
+        (e => {
+            let t;
+            (e => {
+                function t(e = {}) {
+                    let t = Default.getObject(e, {});
+                    t.safeMode = Default.getBoolean(t.safeMode, true);
+                    t.domElementTypes = Default.getStringOrArray(t.domElementTypes, [ "*" ]);
+                    t.showCloseButton = Default.getBoolean(t.showCloseButton, true);
+                    t.shortcutKeysEnabled = Default.getBoolean(t.shortcutKeysEnabled, true);
+                    t.showProgressDots = Default.getBoolean(t.showProgressDots, true);
+                    t.browserUrlParametersEnabled = Default.getBoolean(t.browserUrlParametersEnabled, true);
+                    t.showProgressDotNumbers = Default.getBoolean(t.showProgressDotNumbers, false);
+                    t.showButtons = Default.getBoolean(t.showButtons, true);
+                    t.showDoNotShowAgain = Default.getBoolean(t.showDoNotShowAgain, false);
+                    t.tooltipDelay = Default.getNumber(t.tooltipDelay, 750);
+                    t.showProgressDotToolTips = Default.getBoolean(t.showProgressDotToolTips, true);
+                    t.closeDialogOnDisabledBackgroundClick = Default.getBoolean(t.closeDialogOnDisabledBackgroundClick, false);
+                    t.showProgressBar = Default.getBoolean(t.showProgressBar, false);
+                    t.scrollToElements = Default.getBoolean(t.scrollToElements, false);
+                    t.dialogMovingEnabled = Default.getBoolean(t.dialogMovingEnabled, false);
+                    t.showProgressBarText = Default.getBoolean(t.showProgressBarText, false);
+                    t = o(t);
+                    t = n(t);
+                    return t;
+                }
+                e.get = t;
+                function o(e) {
+                    e.text = Default.getObject(e.text, {});
+                    e.text.backButtonText = Default.getAnyString(e.text.backButtonText, "Back");
+                    e.text.nextButtonText = Default.getAnyString(e.text.nextButtonText, "Next");
+                    e.text.finishButtonText = Default.getAnyString(e.text.finishButtonText, "Finish");
+                    e.text.closeButtonToolTipText = Default.getAnyString(e.text.closeButtonToolTipText, "Close");
+                    e.text.doNotShowAgainText = Default.getAnyString(e.text.doNotShowAgainText, "Do not show again");
+                    e.text.objectErrorText = Default.getAnyString(e.text.objectErrorText, "Errors in object: {{error_1}}, {{error_2}}");
+                    e.text.attributeNotValidErrorText = Default.getAnyString(e.text.attributeNotValidErrorText, "The attribute '{{attribute_name}}' is not a valid object.");
+                    e.text.attributeNotSetErrorText = Default.getAnyString(e.text.attributeNotSetErrorText, "The attribute '{{attribute_name}}' has not been set correctly.");
+                    e.text.closeDialogConfirmationText = Default.getAnyString(e.text.closeDialogConfirmationText, "");
+                    return e;
+                }
+                function n(e) {
+                    e.events = Default.getObject(e.events, {});
+                    e.events.onDoNotShowAgainChange = Default.getFunction(e.events.onDoNotShowAgainChange, null);
+                    return e;
+                }
+            })(t = e.Options || (e.Options = {}));
+        })(Config || (Config = {}));
+    }
+});
+
 var require_journey = __commonJS({
     "src/journey.ts"(exports, module) {
         init_enum();
@@ -263,11 +370,12 @@ var require_journey = __commonJS({
         init_is();
         init_default();
         init_dom();
+        init_binding();
+        init_config();
         (() => {
             let _configuration = {};
             let _configuration_ShortcutKeysEnabled = true;
-            const _groups_Default = "default";
-            let _groups_Current = _groups_Default;
+            let _groups_Current = Constant.DEFAULT_GROUP;
             let _groups = {};
             let _element_Focus_Element_PositionStyle = "";
             let _element_Disabled_Background;
@@ -294,7 +402,7 @@ var require_journey = __commonJS({
             let _element_ToolTip_Timer = 0;
             function setupDefaultGroup(e = null) {
                 _groups = Default.getObject(e, {});
-                _groups[_groups_Default] = {
+                _groups[Constant.DEFAULT_GROUP] = {
                     json: {},
                     keys: [],
                     position: 0
@@ -335,17 +443,17 @@ var require_journey = __commonJS({
                 _element_Dialog_Close_Button.onclick = () => {
                     onDialogClose();
                 };
-                addToolTip(_element_Dialog_Close_Button, _configuration.closeButtonToolTipText);
+                addToolTip(_element_Dialog_Close_Button, _configuration.text.closeButtonToolTipText);
                 _element_Dialog_Title = DomElement.create("div", "title");
                 _element_Dialog.appendChild(_element_Dialog_Title);
                 _element_Dialog_Description = DomElement.create("div", "description");
                 _element_Dialog.appendChild(_element_Dialog_Description);
                 _element_Dialog_CheckBox_Container = DomElement.create("div", "checkbox-container");
                 _element_Dialog.appendChild(_element_Dialog_CheckBox_Container);
-                _element_Dialog_CheckBox_Input = DomElement.createCheckBox(_element_Dialog_CheckBox_Container, _configuration.doNotShowAgainText);
+                _element_Dialog_CheckBox_Input = DomElement.createCheckBox(_element_Dialog_CheckBox_Container, _configuration.text.doNotShowAgainText);
                 _element_Dialog_CheckBox_Input.onchange = () => {
                     if (_configuration.showDoNotShowAgain) {
-                        fireCustomTriggerEvent(_configuration.onDoNotShowAgainChange, _element_Dialog_CheckBox_Input.checked);
+                        fireCustomTriggerEvent(_configuration.events.onDoNotShowAgainChange, _element_Dialog_CheckBox_Input.checked);
                     }
                 };
                 _element_Dialog_ProgressDots = DomElement.create("div", "progress-dots");
@@ -368,8 +476,8 @@ var require_journey = __commonJS({
             }
             function onDialogClose(e = true) {
                 let t = false;
-                if (Is.definedString(_configuration.closeDialogConfirmationText) && e) {
-                    t = confirm(_configuration.closeDialogConfirmationText);
+                if (Is.definedString(_configuration.text.closeDialogConfirmationText) && e) {
+                    t = confirm(_configuration.text.closeDialogConfirmationText);
                 } else {
                     t = true;
                 }
@@ -427,12 +535,12 @@ var require_journey = __commonJS({
                     DomElement.showElementBasedOnCondition(_element_Dialog_ProgressBar, _configuration.showProgressBar && _groups[_groups_Current].keys.length > 1);
                     DomElement.showElementBasedOnCondition(_element_Dialog_ProgressBar_Percentage_Text, _configuration.showProgressBarText);
                     DomElement.showElementBasedOnCondition(_element_Dialog_Buttons, _configuration.showButtons);
-                    _element_Dialog_Buttons_Back_Button.innerHTML = _configuration.backButtonText;
+                    _element_Dialog_Buttons_Back_Button.innerHTML = _configuration.text.backButtonText;
                     _element_Dialog_Buttons_Back_Button.disabled = _groups[_groups_Current].position === 0;
                     if (_groups[_groups_Current].position >= _groups[_groups_Current].keys.length - 1) {
-                        _element_Dialog_Buttons_Next_Button.innerHTML = _configuration.finishButtonText;
+                        _element_Dialog_Buttons_Next_Button.innerHTML = _configuration.text.finishButtonText;
                     } else {
-                        _element_Dialog_Buttons_Next_Button.innerHTML = _configuration.nextButtonText;
+                        _element_Dialog_Buttons_Next_Button.innerHTML = _configuration.text.nextButtonText;
                     }
                     setDialogText(e);
                     setDialogPosition(null, e);
@@ -644,21 +752,21 @@ var require_journey = __commonJS({
             }
             function getElement(e) {
                 let t = true;
-                if (Is.defined(e) && e.hasAttribute(Constants.JOURNEY_JS_ATTRIBUTE_NAME)) {
-                    const o = e.getAttribute(Constants.JOURNEY_JS_ATTRIBUTE_NAME);
+                if (Is.defined(e) && e.hasAttribute(Constant.JOURNEY_JS_ATTRIBUTE_NAME)) {
+                    const o = e.getAttribute(Constant.JOURNEY_JS_ATTRIBUTE_NAME);
                     if (Is.definedString(o)) {
                         const n = getObjectFromString(o);
                         if (n.parsed && Is.definedObject(n.object)) {
-                            setupElement(e, buildAttributeOptions(n.object));
+                            setupElement(e, Binding.Options.get(n.object));
                         } else {
                             if (!_configuration.safeMode) {
-                                console.error(_configuration.attributeNotValidErrorText.replace("{{attribute_name}}", Constants.JOURNEY_JS_ATTRIBUTE_NAME));
+                                console.error(_configuration.text.attributeNotValidErrorText.replace("{{attribute_name}}", Constant.JOURNEY_JS_ATTRIBUTE_NAME));
                                 t = false;
                             }
                         }
                     } else {
                         if (!_configuration.safeMode) {
-                            console.error(_configuration.attributeNotSetErrorText.replace("{{attribute_name}}", Constants.JOURNEY_JS_ATTRIBUTE_NAME));
+                            console.error(_configuration.text.attributeNotSetErrorText.replace("{{attribute_name}}", Constant.JOURNEY_JS_ATTRIBUTE_NAME));
                             t = false;
                         }
                     }
@@ -669,7 +777,7 @@ var require_journey = __commonJS({
                 t._currentView = {};
                 t._currentView.element = e;
                 if (Is.definedNumber(t.order) && (Is.definedString(t.title) || Is.definedString(t.description))) {
-                    e.removeAttribute(Constants.JOURNEY_JS_ATTRIBUTE_NAME);
+                    e.removeAttribute(Constant.JOURNEY_JS_ATTRIBUTE_NAME);
                     if (!t.isHint) {
                         setupNewGroup(t.group);
                         _groups[t.group].json[t.order] = t;
@@ -752,39 +860,6 @@ var require_journey = __commonJS({
                     showDialogAndSetPosition();
                 }
             }
-            function buildAttributeOptions(e) {
-                let t = Default.getObject(e, {});
-                t.order = Default.getNumber(t.order, 0);
-                t.attach = Default.getBoolean(t.attach, true);
-                t.sendClick = Default.getBoolean(t.sendClick, false);
-                t.alignTop = Default.getBoolean(t.alignTop, false);
-                t.alignRight = Default.getBoolean(t.alignRight, false);
-                t.isHint = Default.getBoolean(t.isHint, false);
-                t.alignHintToClickPosition = Default.getBoolean(t.alignHintToClickPosition, false);
-                t.showDisabledBackground = Default.getBoolean(t.showDisabledBackground, true);
-                t.removeHintWhenViewed = Default.getBoolean(t.removeHintWhenViewed, false);
-                t.group = Default.getString(t.group, _groups_Default);
-                t = buildAttributeOptionStrings(t);
-                return buildAttributeOptionCustomTriggers(t);
-            }
-            function buildAttributeOptionStrings(e) {
-                e.title = Default.getString(e.title, "");
-                e.description = Default.getString(e.description, "");
-                e.tooltip = Default.getString(e.tooltip, "");
-                return e;
-            }
-            function buildAttributeOptionCustomTriggers(e) {
-                e.events = Default.getObject(e.events, {});
-                e.events.onEnter = Default.getFunction(e.events.onEnter, null);
-                e.events.onLeave = Default.getFunction(e.events.onLeave, null);
-                e.events.onClose = Default.getFunction(e.events.onClose, null);
-                e.events.onFinish = Default.getFunction(e.events.onFinish, null);
-                e.events.onOpen = Default.getFunction(e.events.onOpen, null);
-                e.events.onStart = Default.getFunction(e.events.onStart, null);
-                e.events.onAddStep = Default.getFunction(e.events.onAddStep, null);
-                e.events.onRemoveStep = Default.getFunction(e.events.onRemoveStep, null);
-                return e;
-            }
             function fireCustomTriggerEvent(e, ...t) {
                 if (Is.definedFunction(e)) {
                     e.apply(null, [].slice.call(t, 0));
@@ -837,7 +912,7 @@ var require_journey = __commonJS({
                         }
                     } catch (e) {
                         if (!_configuration.safeMode) {
-                            console.error(_configuration.objectErrorText.replace("{{error_1}}", e1.message).replace("{{error_2}}", e.message));
+                            console.error(_configuration.text.objectErrorText.replace("{{error_1}}", e1.message).replace("{{error_2}}", e.message));
                             result.parsed = false;
                         }
                         result.object = null;
@@ -851,45 +926,10 @@ var require_journey = __commonJS({
                     _groups[_groups_Current].position = 0;
                 }
             }
-            function buildDefaultConfiguration(e = {}) {
-                _configuration = Default.getObject(e, {});
-                _configuration.safeMode = Default.getBoolean(_configuration.safeMode, true);
-                _configuration.domElementTypes = Default.getStringOrArray(_configuration.domElementTypes, [ "*" ]);
-                _configuration.showCloseButton = Default.getBoolean(_configuration.showCloseButton, true);
-                _configuration.shortcutKeysEnabled = Default.getBoolean(_configuration.shortcutKeysEnabled, true);
-                _configuration.showProgressDots = Default.getBoolean(_configuration.showProgressDots, true);
-                _configuration.browserUrlParametersEnabled = Default.getBoolean(_configuration.browserUrlParametersEnabled, true);
-                _configuration.showProgressDotNumbers = Default.getBoolean(_configuration.showProgressDotNumbers, false);
-                _configuration.showButtons = Default.getBoolean(_configuration.showButtons, true);
-                _configuration.showDoNotShowAgain = Default.getBoolean(_configuration.showDoNotShowAgain, false);
-                _configuration.tooltipDelay = Default.getNumber(_configuration.tooltipDelay, 750);
-                _configuration.showProgressDotToolTips = Default.getBoolean(_configuration.showProgressDotToolTips, true);
-                _configuration.closeDialogOnDisabledBackgroundClick = Default.getBoolean(_configuration.closeDialogOnDisabledBackgroundClick, false);
-                _configuration.showProgressBar = Default.getBoolean(_configuration.showProgressBar, false);
-                _configuration.scrollToElements = Default.getBoolean(_configuration.scrollToElements, false);
-                _configuration.dialogMovingEnabled = Default.getBoolean(_configuration.dialogMovingEnabled, false);
-                _configuration.showProgressBarText = Default.getBoolean(_configuration.showProgressBarText, false);
-                buildDefaultConfigurationStrings();
-                buildDefaultConfigurationCustomTriggers();
-            }
-            function buildDefaultConfigurationStrings() {
-                _configuration.backButtonText = Default.getAnyString(_configuration.backButtonText, "Back");
-                _configuration.nextButtonText = Default.getAnyString(_configuration.nextButtonText, "Next");
-                _configuration.finishButtonText = Default.getAnyString(_configuration.finishButtonText, "Finish");
-                _configuration.closeButtonToolTipText = Default.getAnyString(_configuration.closeButtonToolTipText, "Close");
-                _configuration.doNotShowAgainText = Default.getAnyString(_configuration.doNotShowAgainText, "Do not show again");
-                _configuration.objectErrorText = Default.getAnyString(_configuration.objectErrorText, "Errors in object: {{error_1}}, {{error_2}}");
-                _configuration.attributeNotValidErrorText = Default.getAnyString(_configuration.attributeNotValidErrorText, "The attribute '{{attribute_name}}' is not a valid object.");
-                _configuration.attributeNotSetErrorText = Default.getAnyString(_configuration.attributeNotSetErrorText, "The attribute '{{attribute_name}}' has not been set correctly.");
-                _configuration.closeDialogConfirmationText = Default.getAnyString(_configuration.closeDialogConfirmationText, "");
-            }
-            function buildDefaultConfigurationCustomTriggers() {
-                _configuration.onDoNotShowAgainChange = Default.getFunction(_configuration.onDoNotShowAgainChange, null);
-            }
             const _public = {
                 start: function(e = "") {
                     if (!_public.isOpen()) {
-                        _groups_Current = Default.getString(e, _groups_Default);
+                        _groups_Current = Default.getString(e, Constant.DEFAULT_GROUP);
                         if (_groups.hasOwnProperty(_groups_Current)) {
                             _groups[_groups_Current].position = 0;
                             showDialogAndSetPosition();
@@ -927,7 +967,7 @@ var require_journey = __commonJS({
                 },
                 addStep: function(e, t) {
                     if (Is.definedObject(e) && Is.definedObject(t)) {
-                        setupElement(e, buildAttributeOptions(t));
+                        setupElement(e, Binding.Options.get(t));
                         _groups[_groups_Current].keys.sort();
                         resetDialogPosition();
                     }
@@ -982,7 +1022,7 @@ var require_journey = __commonJS({
                     } else {
                         _groups = {};
                     }
-                    if (!Is.definedString(e) || e === _groups_Default) {
+                    if (!Is.definedString(e) || e === Constant.DEFAULT_GROUP) {
                         setupDefaultGroup(_groups);
                     }
                     return _public;
@@ -1007,7 +1047,7 @@ var require_journey = __commonJS({
                             }
                         }
                         if (t) {
-                            buildDefaultConfiguration(o);
+                            _configuration = Config.Options.get(o);
                         }
                     }
                     return _public;
@@ -1017,7 +1057,7 @@ var require_journey = __commonJS({
                 }
             };
             (() => {
-                buildDefaultConfiguration();
+                _configuration = Config.Options.get();
                 document.addEventListener("DOMContentLoaded", (() => {
                     setupDefaultGroup();
                     renderDisabledBackground();

@@ -34,8 +34,10 @@
         document.getElementById( "header" ).innerText += " - v" + $journey.getVersion();
 
         $journey.setConfiguration( {
-            closeDialogConfirmationText: "Are you sure you want to close the dialog?",
-            closeDialogOnDisabledBackgroundClick: false
+            closeDialogOnDisabledBackgroundClick: false,
+            text: {
+                closeDialogConfirmationText: "Are you sure you want to close the dialog?",
+            }
         } );
     </script>
 </html>
