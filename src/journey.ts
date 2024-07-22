@@ -19,11 +19,11 @@ import {
     type Position} from "./ts/type";
 
 import { type PublicApi } from "./ts/api";
-import { Char, KeyCode } from "./ts/enum";
+import { Char, KeyCode } from "./ts/data/enum";
 import { Constants } from "./ts/constant";
-import { Is } from "./ts/is";
-import { Data } from "./ts/data";
-import { DomElement } from "./ts/dom";
+import { Is } from "./ts/data/is";
+import { Default } from "./ts/data/default";
+import { DomElement } from "./ts/dom/dom";
 
 
 type StringToJson = {
@@ -91,7 +91,7 @@ type Groups = Record<string, {
      */
 
     function setupDefaultGroup( groups: any = null ) : void {
-        _groups = Data.getDefaultObject( groups, {} as Groups );
+        _groups = Default.getObject( groups, {} as Groups );
 
         _groups[ _groups_Default ] = {
             json: {} as BindingOptions,
@@ -739,17 +739,17 @@ type Groups = Record<string, {
      */
 
     function buildAttributeOptions( newOptions: any ) {
-        let options: BindingOptions = Data.getDefaultObject( newOptions, {} as BindingOptions );
-        options.order = Data.getDefaultNumber( options.order, 0 );
-        options.attach = Data.getDefaultBoolean( options.attach, true );
-        options.sendClick = Data.getDefaultBoolean( options.sendClick, false );
-        options.alignTop = Data.getDefaultBoolean( options.alignTop, false );
-        options.alignRight = Data.getDefaultBoolean( options.alignRight, false );
-        options.isHint = Data.getDefaultBoolean( options.isHint, false );
-        options.alignHintToClickPosition = Data.getDefaultBoolean( options.alignHintToClickPosition, false );
-        options.showDisabledBackground = Data.getDefaultBoolean( options.showDisabledBackground, true );
-        options.removeHintWhenViewed = Data.getDefaultBoolean( options.removeHintWhenViewed, false );
-        options.group = Data.getDefaultString( options.group, _groups_Default );
+        let options: BindingOptions = Default.getObject( newOptions, {} as BindingOptions );
+        options.order = Default.getNumber( options.order, 0 );
+        options.attach = Default.getBoolean( options.attach, true );
+        options.sendClick = Default.getBoolean( options.sendClick, false );
+        options.alignTop = Default.getBoolean( options.alignTop, false );
+        options.alignRight = Default.getBoolean( options.alignRight, false );
+        options.isHint = Default.getBoolean( options.isHint, false );
+        options.alignHintToClickPosition = Default.getBoolean( options.alignHintToClickPosition, false );
+        options.showDisabledBackground = Default.getBoolean( options.showDisabledBackground, true );
+        options.removeHintWhenViewed = Default.getBoolean( options.removeHintWhenViewed, false );
+        options.group = Default.getString( options.group, _groups_Default );
 
         options = buildAttributeOptionStrings( options );
 
@@ -757,23 +757,23 @@ type Groups = Record<string, {
     }
 
     function buildAttributeOptionStrings( options: BindingOptions ) : BindingOptions {
-        options.title = Data.getDefaultString( options.title, Char.empty );
-        options.description = Data.getDefaultString( options.description, Char.empty );
-        options.tooltip = Data.getDefaultString( options.tooltip, Char.empty );
+        options.title = Default.getString( options.title, Char.empty );
+        options.description = Default.getString( options.description, Char.empty );
+        options.tooltip = Default.getString( options.tooltip, Char.empty );
 
         return options;
     }
 
     function buildAttributeOptionCustomTriggers( options: BindingOptions ) : BindingOptions {
-        options.events = Data.getDefaultObject( options.events, {} as Events );
-        options.events!.onEnter = Data.getDefaultFunction( options.events!.onEnter, null );
-        options.events!.onLeave = Data.getDefaultFunction( options.events!.onLeave, null );
-        options.events!.onClose = Data.getDefaultFunction( options.events!.onClose, null );
-        options.events!.onFinish = Data.getDefaultFunction( options.events!.onFinish, null );
-        options.events!.onOpen = Data.getDefaultFunction( options.events!.onOpen, null );
-        options.events!.onStart = Data.getDefaultFunction( options.events!.onStart, null );
-        options.events!.onAddStep = Data.getDefaultFunction( options.events!.onAddStep, null );
-        options.events!.onRemoveStep = Data.getDefaultFunction( options.events!.onRemoveStep, null );
+        options.events = Default.getObject( options.events, {} as Events );
+        options.events!.onEnter = Default.getFunction( options.events!.onEnter, null );
+        options.events!.onLeave = Default.getFunction( options.events!.onLeave, null );
+        options.events!.onClose = Default.getFunction( options.events!.onClose, null );
+        options.events!.onFinish = Default.getFunction( options.events!.onFinish, null );
+        options.events!.onOpen = Default.getFunction( options.events!.onOpen, null );
+        options.events!.onStart = Default.getFunction( options.events!.onStart, null );
+        options.events!.onAddStep = Default.getFunction( options.events!.onAddStep, null );
+        options.events!.onRemoveStep = Default.getFunction( options.events!.onRemoveStep, null );
 
         return options;
     }
@@ -901,42 +901,42 @@ type Groups = Record<string, {
 	 */
 
     function buildDefaultConfiguration( newConfiguration: Configuration = {} ) : void {
-        _configuration = Data.getDefaultObject( newConfiguration, {} as Configuration );
-        _configuration.safeMode = Data.getDefaultBoolean( _configuration.safeMode, true );
-        _configuration.domElementTypes = Data.getDefaultStringOrArray( _configuration.domElementTypes, [ "*" ] );
-        _configuration.showCloseButton = Data.getDefaultBoolean( _configuration.showCloseButton, true );
-        _configuration.shortcutKeysEnabled = Data.getDefaultBoolean( _configuration.shortcutKeysEnabled, true );
-        _configuration.showProgressDots = Data.getDefaultBoolean( _configuration.showProgressDots, true );
-        _configuration.browserUrlParametersEnabled = Data.getDefaultBoolean( _configuration.browserUrlParametersEnabled, true );
-        _configuration.showProgressDotNumbers = Data.getDefaultBoolean( _configuration.showProgressDotNumbers, false );
-        _configuration.showButtons = Data.getDefaultBoolean( _configuration.showButtons, true );
-        _configuration.showDoNotShowAgain = Data.getDefaultBoolean( _configuration.showDoNotShowAgain, false );
-        _configuration.tooltipDelay = Data.getDefaultNumber( _configuration.tooltipDelay, 750 );
-        _configuration.showProgressDotToolTips = Data.getDefaultBoolean( _configuration.showProgressDotToolTips, true );
-        _configuration.closeDialogOnDisabledBackgroundClick = Data.getDefaultBoolean( _configuration.closeDialogOnDisabledBackgroundClick, false );
-        _configuration.showProgressBar = Data.getDefaultBoolean( _configuration.showProgressBar, false );
-        _configuration.scrollToElements = Data.getDefaultBoolean( _configuration.scrollToElements, false );
-        _configuration.dialogMovingEnabled = Data.getDefaultBoolean( _configuration.dialogMovingEnabled, false );
-        _configuration.showProgressBarText = Data.getDefaultBoolean( _configuration.showProgressBarText, false );
+        _configuration = Default.getObject( newConfiguration, {} as Configuration );
+        _configuration.safeMode = Default.getBoolean( _configuration.safeMode, true );
+        _configuration.domElementTypes = Default.getStringOrArray( _configuration.domElementTypes, [ "*" ] );
+        _configuration.showCloseButton = Default.getBoolean( _configuration.showCloseButton, true );
+        _configuration.shortcutKeysEnabled = Default.getBoolean( _configuration.shortcutKeysEnabled, true );
+        _configuration.showProgressDots = Default.getBoolean( _configuration.showProgressDots, true );
+        _configuration.browserUrlParametersEnabled = Default.getBoolean( _configuration.browserUrlParametersEnabled, true );
+        _configuration.showProgressDotNumbers = Default.getBoolean( _configuration.showProgressDotNumbers, false );
+        _configuration.showButtons = Default.getBoolean( _configuration.showButtons, true );
+        _configuration.showDoNotShowAgain = Default.getBoolean( _configuration.showDoNotShowAgain, false );
+        _configuration.tooltipDelay = Default.getNumber( _configuration.tooltipDelay, 750 );
+        _configuration.showProgressDotToolTips = Default.getBoolean( _configuration.showProgressDotToolTips, true );
+        _configuration.closeDialogOnDisabledBackgroundClick = Default.getBoolean( _configuration.closeDialogOnDisabledBackgroundClick, false );
+        _configuration.showProgressBar = Default.getBoolean( _configuration.showProgressBar, false );
+        _configuration.scrollToElements = Default.getBoolean( _configuration.scrollToElements, false );
+        _configuration.dialogMovingEnabled = Default.getBoolean( _configuration.dialogMovingEnabled, false );
+        _configuration.showProgressBarText = Default.getBoolean( _configuration.showProgressBarText, false );
 
         buildDefaultConfigurationStrings();
         buildDefaultConfigurationCustomTriggers();
     }
 
     function buildDefaultConfigurationStrings() : void {
-        _configuration.backButtonText = Data.getDefaultAnyString( _configuration.backButtonText, "Back" );
-        _configuration.nextButtonText = Data.getDefaultAnyString( _configuration.nextButtonText, "Next" );
-        _configuration.finishButtonText = Data.getDefaultAnyString( _configuration.finishButtonText, "Finish" );
-        _configuration.closeButtonToolTipText = Data.getDefaultAnyString( _configuration.closeButtonToolTipText, "Close" );
-        _configuration.doNotShowAgainText = Data.getDefaultAnyString( _configuration.doNotShowAgainText, "Do not show again" );
-        _configuration.objectErrorText = Data.getDefaultAnyString( _configuration.objectErrorText, "Errors in object: {{error_1}}, {{error_2}}" );
-        _configuration.attributeNotValidErrorText = Data.getDefaultAnyString( _configuration.attributeNotValidErrorText, "The attribute '{{attribute_name}}' is not a valid object." );
-        _configuration.attributeNotSetErrorText = Data.getDefaultAnyString( _configuration.attributeNotSetErrorText, "The attribute '{{attribute_name}}' has not been set correctly." );
-        _configuration.closeDialogConfirmationText = Data.getDefaultAnyString( _configuration.closeDialogConfirmationText, Char.empty );
+        _configuration.backButtonText = Default.getAnyString( _configuration.backButtonText, "Back" );
+        _configuration.nextButtonText = Default.getAnyString( _configuration.nextButtonText, "Next" );
+        _configuration.finishButtonText = Default.getAnyString( _configuration.finishButtonText, "Finish" );
+        _configuration.closeButtonToolTipText = Default.getAnyString( _configuration.closeButtonToolTipText, "Close" );
+        _configuration.doNotShowAgainText = Default.getAnyString( _configuration.doNotShowAgainText, "Do not show again" );
+        _configuration.objectErrorText = Default.getAnyString( _configuration.objectErrorText, "Errors in object: {{error_1}}, {{error_2}}" );
+        _configuration.attributeNotValidErrorText = Default.getAnyString( _configuration.attributeNotValidErrorText, "The attribute '{{attribute_name}}' is not a valid object." );
+        _configuration.attributeNotSetErrorText = Default.getAnyString( _configuration.attributeNotSetErrorText, "The attribute '{{attribute_name}}' has not been set correctly." );
+        _configuration.closeDialogConfirmationText = Default.getAnyString( _configuration.closeDialogConfirmationText, Char.empty );
     }
 
     function buildDefaultConfigurationCustomTriggers() : void {
-        _configuration.onDoNotShowAgainChange = Data.getDefaultFunction( _configuration.onDoNotShowAgainChange, null );
+        _configuration.onDoNotShowAgainChange = Default.getFunction( _configuration.onDoNotShowAgainChange, null );
     }
 
 
@@ -955,7 +955,7 @@ type Groups = Record<string, {
 
         start: function ( group: string = Char.empty ) : PublicApi {
             if ( !_public.isOpen() ) {
-                _groups_Current = Data.getDefaultString( group, _groups_Default );
+                _groups_Current = Default.getString( group, _groups_Default );
     
                 if ( _groups.hasOwnProperty( _groups_Current ) ) {
                     _groups[ _groups_Current ].position = 0;
@@ -969,7 +969,7 @@ type Groups = Record<string, {
 
         show: function ( group: string = Char.empty ) : PublicApi {
             if ( !_public.isOpen() ) {
-                _groups_Current = Data.getDefaultString( group, _groups_Current );
+                _groups_Current = Default.getString( group, _groups_Current );
     
                 if ( _groups.hasOwnProperty( _groups_Current ) ) {
                     if ( _groups[ _groups_Current ].position === _groups[ _groups_Current ].keys.length - 1 ) {
