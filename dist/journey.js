@@ -234,7 +234,8 @@ var Binding;
             t.removeHintWhenViewed = Default.getBoolean(t.removeHintWhenViewed, false);
             t.group = Default.getString(t.group, Constant.DEFAULT_GROUP);
             t = o(t);
-            return n(t);
+            t = n(t);
+            return t;
         }
         e.get = t;
         function o(e) {
@@ -263,7 +264,7 @@ var Config;
 (e => {
     let t;
     (e => {
-        function t(e = {}) {
+        function t(e = null) {
             let t = Default.getObject(e, {});
             t.safeMode = Default.getBoolean(t.safeMode, true);
             t.domElementTypes = Default.getStringOrArray(t.domElementTypes, [ "*" ]);

@@ -18,7 +18,7 @@ import { Char } from "../data/enum";
 
 export namespace Config {
     export namespace Options {
-        export function get( newConfiguration: Configuration = {} ) : Configuration {
+        export function get( newConfiguration: Configuration = null! ) : Configuration {
             let configuration: Configuration = Default.getObject( newConfiguration, {} as Configuration );
             configuration.safeMode = Default.getBoolean( configuration.safeMode, true );
             configuration.domElementTypes = Default.getStringOrArray( configuration.domElementTypes, [ "*" ] );

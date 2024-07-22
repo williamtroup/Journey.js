@@ -19,7 +19,7 @@ import { Char } from "../data/enum";
 
 export namespace Binding {
     export namespace Options {
-        export function get( newOptions: any ) {
+        export function get( newOptions: any ) : BindingOptions {
             let options: BindingOptions = Default.getObject( newOptions, {} as BindingOptions );
             options.order = Default.getNumber( options.order, 0 );
             options.attach = Default.getBoolean( options.attach, true );
@@ -33,8 +33,9 @@ export namespace Binding {
             options.group = Default.getString( options.group, Constant.DEFAULT_GROUP );
     
             options = getText( options );
+            options = getEvents( options );
     
-            return getEvents( options );
+            return options;
         }
     
         function getText( options: BindingOptions ) : BindingOptions {
