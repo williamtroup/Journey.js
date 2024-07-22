@@ -26,6 +26,7 @@ import { DomElement } from "./ts/dom/dom";
 import { Binding } from "./ts/options/binding";
 import { Config } from "./ts/options/config";
 import { Trigger } from "./ts/area/trigger";
+import { ToolTip } from "./ts/area/tooltip";
 
 
 type StringToJson = {
@@ -79,10 +80,6 @@ type Groups = Record<string, {
     let _element_Dialog_Move_IsMoving: boolean = false;
     let _element_Dialog_Move_X: number = 0;
     let _element_Dialog_Move_Y: number = 0;
-
-    // Variables: Dialog
-    let _element_ToolTip: HTMLElement = null!;
-    let _element_ToolTip_Timer: number = 0;
 
 
     /*
@@ -159,7 +156,7 @@ type Groups = Record<string, {
             onDialogClose();
         };
 
-        addToolTip( _element_Dialog_Close_Button, _configuration.text!.closeButtonToolTipText! );
+        ToolTip.add( _element_Dialog_Close_Button, _configuration.text!.closeButtonToolTipText!, _configuration );
 
         _element_Dialog_Title = DomElement.create( "div", "title" );
         _element_Dialog.appendChild( _element_Dialog_Title );
@@ -222,7 +219,7 @@ type Groups = Record<string, {
     
             removeFocusClassFromLastElement( false );
             hideDisabledBackground();
-            hideToolTip();
+            ToolTip.hide();
     
             _element_Dialog.style.display = "none";
         }
@@ -264,7 +261,7 @@ type Groups = Record<string, {
                 hideDisabledBackground();
             }
 
-            hideToolTip();
+            ToolTip.hide();
             
             _element_Dialog_Close_Button.style.display = _configuration.showCloseButton ? "block": "none";
             _configuration_ShortcutKeysEnabled = true;
@@ -419,9 +416,9 @@ type Groups = Record<string, {
 
         if ( _configuration.showProgressDotToolTips ) {
             if ( Is.definedString( bindingOptions.tooltip ) ) {
-                addToolTip( dot, bindingOptions.tooltip! );
+                ToolTip.add( dot, bindingOptions.tooltip!, _configuration );
             } else {
-                addToolTip( dot, bindingOptions.title! );
+                ToolTip.add( dot, bindingOptions.title!, _configuration );
             }
         }
 
@@ -494,63 +491,6 @@ type Groups = Record<string, {
             _element_Dialog_Move_Original_X = 0;
             _element_Dialog_Move_Original_Y = 0;
             _element_Dialog.className = "journey-js-dialog";
-        }
-    }
-
-
-    /*
-     * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-     * Render:  ToolTip
-     * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-     */
-
-    function renderToolTip() : void {
-        if ( !Is.defined( _element_ToolTip ) ) {
-            _element_ToolTip = DomElement.create( "div", "journey-js-tooltip" );
-            _element_ToolTip.style.display = "none";
-
-            document.body.appendChild( _element_ToolTip );
-    
-            document.body.addEventListener( "mousemove", () => {
-                hideToolTip();
-            } );
-    
-            document.addEventListener( "scroll", () => {
-                hideToolTip();
-            } );
-        }
-    }
-
-    function addToolTip( element: HTMLElement, text: string ) : void {
-        if ( element !== null ) {
-            element.onmousemove = ( e: MouseEvent ) => {
-                showToolTip( e, text );
-            };
-        }
-    }
-
-    function showToolTip( e: any, text: string ) : void {
-        DomElement.cancelBubble( e );
-        hideToolTip();
-
-        _element_ToolTip_Timer = setTimeout( () => {
-            _element_ToolTip.innerHTML = text;
-            _element_ToolTip.style.display = "block";
-
-            DomElement.showElementAtMousePosition( e, _element_ToolTip );
-        }, _configuration.tooltipDelay );
-    }
-
-    function hideToolTip() : void {
-        if ( Is.defined( _element_ToolTip ) ) {
-            if ( _element_ToolTip_Timer !== 0 ) {
-                clearTimeout( _element_ToolTip_Timer );
-                _element_ToolTip_Timer = 0;
-            }
-    
-            if ( _element_ToolTip.style.display === "block" ) {
-                _element_ToolTip.style.display = "none";
-            }
         }
     }
 
@@ -1056,7 +996,7 @@ type Groups = Record<string, {
             setupDefaultGroup();
             renderDisabledBackground();
             renderDialog();
-            renderToolTip();
+            ToolTip.render();
             getElements();
             buildDocumentEvents();
 

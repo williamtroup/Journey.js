@@ -51,18 +51,18 @@ var init_is = __esm({
                 return t(e) && typeof e === "string";
             }
             e.definedString = i;
-            function l(e) {
+            function r(e) {
                 return t(e) && typeof e === "function";
             }
-            e.definedFunction = l;
-            function r(e) {
+            e.definedFunction = r;
+            function s(e) {
                 return t(e) && typeof e === "number";
             }
-            e.definedNumber = r;
-            function s(e) {
+            e.definedNumber = s;
+            function l(e) {
                 return o(e) && e instanceof Array;
             }
-            e.definedArray = s;
+            e.definedArray = l;
         })(Is || (Is = {}));
     }
 });
@@ -91,19 +91,19 @@ var init_default = __esm({
                 return Is.definedNumber(e) ? e : t;
             }
             e.getNumber = i;
-            function l(e, t) {
+            function r(e, t) {
                 return Is.definedFunction(e) ? e : t;
             }
-            e.getFunction = l;
-            function r(e, t) {
+            e.getFunction = r;
+            function s(e, t) {
                 return Is.definedObject(e) ? e : t;
             }
-            e.getObject = r;
-            function s(e, t) {
+            e.getObject = s;
+            function l(e, t) {
                 return Is.definedArray(e) ? e : t;
             }
-            e.getArray = s;
-            function _(e, t) {
+            e.getArray = l;
+            function a(e, t) {
                 let o = t;
                 if (Is.definedString(e)) {
                     const n = e.toString().split(" ");
@@ -113,11 +113,11 @@ var init_default = __esm({
                         o = n;
                     }
                 } else {
-                    o = s(e, t);
+                    o = l(e, t);
                 }
                 return o;
             }
-            e.getStringOrArray = _;
+            e.getStringOrArray = a;
         })(Default || (Default = {}));
     }
 });
@@ -168,7 +168,7 @@ var init_dom = __esm({
                 return n;
             }
             e.getStyleValueByName = i;
-            function l(e, t) {
+            function r(e, t) {
                 try {
                     if (!e.contains(t)) {
                         e.appendChild(t);
@@ -177,8 +177,8 @@ var init_dom = __esm({
                     console.warn(e.message);
                 }
             }
-            e.addNode = l;
-            function r(e, t) {
+            e.addNode = r;
+            function s(e, t) {
                 try {
                     if (e.contains(t)) {
                         e.removeChild(t);
@@ -187,16 +187,16 @@ var init_dom = __esm({
                     console.warn(e.message);
                 }
             }
-            e.removeNode = r;
-            function s(e) {
+            e.removeNode = s;
+            function l(e) {
                 e.preventDefault();
                 e.stopPropagation();
             }
-            e.cancelBubble = s;
-            function _(e, t) {
+            e.cancelBubble = l;
+            function a(e, t) {
                 let o = e.pageX;
                 let i = e.pageY;
-                const l = n();
+                const r = n();
                 t.style.display = "block";
                 if (o + t.offsetWidth > window.innerWidth) {
                     o -= t.offsetWidth;
@@ -208,17 +208,17 @@ var init_dom = __esm({
                 } else {
                     i++;
                 }
-                if (o < l.left) {
+                if (o < r.left) {
                     o = e.pageX + 1;
                 }
-                if (i < l.top) {
+                if (i < r.top) {
                     i = e.pageY + 1;
                 }
                 t.style.left = `${o}px`;
                 t.style.top = `${i}px`;
             }
-            e.showElementAtMousePosition = _;
-            function a(e, t) {
+            e.showElementAtMousePosition = a;
+            function _(e, t) {
                 if (t) {
                     if (e.style.display !== "block") {
                         e.style.display = "block";
@@ -229,21 +229,21 @@ var init_dom = __esm({
                     }
                 }
             }
-            e.showElementBasedOnCondition = a;
+            e.showElementBasedOnCondition = _;
             function u(e, o) {
                 const n = t("div");
                 const i = t("label", "checkbox");
-                const l = t("input");
+                const r = t("input");
                 e.appendChild(n);
                 n.appendChild(i);
-                i.appendChild(l);
-                l.type = "checkbox";
-                const r = t("span", "check-mark");
-                const s = t("span", "text");
-                s.innerHTML = o;
                 i.appendChild(r);
+                r.type = "checkbox";
+                const s = t("span", "check-mark");
+                const l = t("span", "text");
+                l.innerHTML = o;
                 i.appendChild(s);
-                return l;
+                i.appendChild(l);
+                return r;
             }
             e.createCheckBox = u;
             function g(e, t) {
@@ -380,6 +380,64 @@ var init_trigger = __esm({
     }
 });
 
+var ToolTip;
+
+var init_tooltip = __esm({
+    "src/ts/area/tooltip.ts"() {
+        "use strict";
+        init_is();
+        init_dom();
+        (e => {
+            let t = null;
+            let o = 0;
+            function n() {
+                if (!Is.defined(t)) {
+                    t = DomElement.create("div", "journey-js-tooltip");
+                    t.style.display = "none";
+                    document.body.appendChild(t);
+                    document.body.addEventListener("mousemove", (() => {
+                        s();
+                    }));
+                    document.addEventListener("scroll", (() => {
+                        s();
+                    }));
+                }
+            }
+            e.render = n;
+            function i(e, t, o) {
+                if (e !== null) {
+                    e.onmousemove = e => {
+                        r(e, t, o);
+                    };
+                }
+            }
+            e.add = i;
+            function r(e, n, i) {
+                DomElement.cancelBubble(e);
+                s();
+                o = setTimeout((() => {
+                    t.innerHTML = n;
+                    t.style.display = "block";
+                    DomElement.showElementAtMousePosition(e, t);
+                }), i.tooltipDelay);
+            }
+            e.show = r;
+            function s() {
+                if (Is.defined(t)) {
+                    if (o !== 0) {
+                        clearTimeout(o);
+                        o = 0;
+                    }
+                    if (t.style.display === "block") {
+                        t.style.display = "none";
+                    }
+                }
+            }
+            e.hide = s;
+        })(ToolTip || (ToolTip = {}));
+    }
+});
+
 var require_journey = __commonJS({
     "src/journey.ts"(exports, module) {
         init_enum();
@@ -390,6 +448,7 @@ var require_journey = __commonJS({
         init_binding();
         init_config();
         init_trigger();
+        init_tooltip();
         (() => {
             let _configuration = {};
             let _configuration_ShortcutKeysEnabled = true;
@@ -416,8 +475,6 @@ var require_journey = __commonJS({
             let _element_Dialog_Move_IsMoving = false;
             let _element_Dialog_Move_X = 0;
             let _element_Dialog_Move_Y = 0;
-            let _element_ToolTip = null;
-            let _element_ToolTip_Timer = 0;
             function setupDefaultGroup(e = null) {
                 _groups = Default.getObject(e, {});
                 _groups[Constant.DEFAULT_GROUP] = {
@@ -461,7 +518,7 @@ var require_journey = __commonJS({
                 _element_Dialog_Close_Button.onclick = () => {
                     onDialogClose();
                 };
-                addToolTip(_element_Dialog_Close_Button, _configuration.text.closeButtonToolTipText);
+                ToolTip.add(_element_Dialog_Close_Button, _configuration.text.closeButtonToolTipText, _configuration);
                 _element_Dialog_Title = DomElement.create("div", "title");
                 _element_Dialog.appendChild(_element_Dialog_Title);
                 _element_Dialog_Description = DomElement.create("div", "description");
@@ -506,7 +563,7 @@ var require_journey = __commonJS({
                     }
                     removeFocusClassFromLastElement(false);
                     hideDisabledBackground();
-                    hideToolTip();
+                    ToolTip.hide();
                     _element_Dialog.style.display = "none";
                 }
             }
@@ -536,7 +593,7 @@ var require_journey = __commonJS({
                     } else {
                         hideDisabledBackground();
                     }
-                    hideToolTip();
+                    ToolTip.hide();
                     _element_Dialog_Close_Button.style.display = _configuration.showCloseButton ? "block" : "none";
                     _configuration_ShortcutKeysEnabled = true;
                     e._currentView.element.classList.add("journey-js-element-focus");
@@ -653,9 +710,9 @@ var require_journey = __commonJS({
                 _element_Dialog_ProgressDots.appendChild(n);
                 if (_configuration.showProgressDotToolTips) {
                     if (Is.definedString(o.tooltip)) {
-                        addToolTip(n, o.tooltip);
+                        ToolTip.add(n, o.tooltip, _configuration);
                     } else {
-                        addToolTip(n, o.title);
+                        ToolTip.add(n, o.title, _configuration);
                     }
                 }
                 if (_configuration.showProgressDotNumbers) {
@@ -711,46 +768,6 @@ var require_journey = __commonJS({
                     _element_Dialog_Move_Original_X = 0;
                     _element_Dialog_Move_Original_Y = 0;
                     _element_Dialog.className = "journey-js-dialog";
-                }
-            }
-            function renderToolTip() {
-                if (!Is.defined(_element_ToolTip)) {
-                    _element_ToolTip = DomElement.create("div", "journey-js-tooltip");
-                    _element_ToolTip.style.display = "none";
-                    document.body.appendChild(_element_ToolTip);
-                    document.body.addEventListener("mousemove", (() => {
-                        hideToolTip();
-                    }));
-                    document.addEventListener("scroll", (() => {
-                        hideToolTip();
-                    }));
-                }
-            }
-            function addToolTip(e, t) {
-                if (e !== null) {
-                    e.onmousemove = e => {
-                        showToolTip(e, t);
-                    };
-                }
-            }
-            function showToolTip(e, t) {
-                DomElement.cancelBubble(e);
-                hideToolTip();
-                _element_ToolTip_Timer = setTimeout((() => {
-                    _element_ToolTip.innerHTML = t;
-                    _element_ToolTip.style.display = "block";
-                    DomElement.showElementAtMousePosition(e, _element_ToolTip);
-                }), _configuration.tooltipDelay);
-            }
-            function hideToolTip() {
-                if (Is.defined(_element_ToolTip)) {
-                    if (_element_ToolTip_Timer !== 0) {
-                        clearTimeout(_element_ToolTip_Timer);
-                        _element_ToolTip_Timer = 0;
-                    }
-                    if (_element_ToolTip.style.display === "block") {
-                        _element_ToolTip.style.display = "none";
-                    }
                 }
             }
             function getElements() {
@@ -1075,7 +1092,7 @@ var require_journey = __commonJS({
                     setupDefaultGroup();
                     renderDisabledBackground();
                     renderDialog();
-                    renderToolTip();
+                    ToolTip.render();
                     getElements();
                     buildDocumentEvents();
                     if (getBrowserUrlParameters()) {

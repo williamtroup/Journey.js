@@ -71,7 +71,7 @@ var Default;
         return Is.definedArray(e) ? e : t;
     }
     e.getArray = s;
-    function _(e, t) {
+    function a(e, t) {
         let o = t;
         if (Is.definedString(e)) {
             const n = e.toString().split(" ");
@@ -85,7 +85,7 @@ var Default;
         }
         return o;
     }
-    e.getStringOrArray = _;
+    e.getStringOrArray = a;
 })(Default || (Default = {}));
 
 var DomElement;
@@ -154,7 +154,7 @@ var DomElement;
         e.stopPropagation();
     }
     e.cancelBubble = s;
-    function _(e, t) {
+    function a(e, t) {
         let o = e.pageX;
         let i = e.pageY;
         const l = n();
@@ -178,8 +178,8 @@ var DomElement;
         t.style.left = `${o}px`;
         t.style.top = `${i}px`;
     }
-    e.showElementAtMousePosition = _;
-    function a(e, t) {
+    e.showElementAtMousePosition = a;
+    function _(e, t) {
         if (t) {
             if (e.style.display !== "block") {
                 e.style.display = "block";
@@ -190,7 +190,7 @@ var DomElement;
             }
         }
     }
-    e.showElementBasedOnCondition = a;
+    e.showElementBasedOnCondition = _;
     function u(e, o) {
         const n = t("div");
         const i = t("label", "checkbox");
@@ -318,6 +318,57 @@ var Trigger;
     e.customEvent = t;
 })(Trigger || (Trigger = {}));
 
+var ToolTip;
+
+(e => {
+    let t = null;
+    let o = 0;
+    function n() {
+        if (!Is.defined(t)) {
+            t = DomElement.create("div", "journey-js-tooltip");
+            t.style.display = "none";
+            document.body.appendChild(t);
+            document.body.addEventListener("mousemove", (() => {
+                r();
+            }));
+            document.addEventListener("scroll", (() => {
+                r();
+            }));
+        }
+    }
+    e.render = n;
+    function i(e, t, o) {
+        if (e !== null) {
+            e.onmousemove = e => {
+                l(e, t, o);
+            };
+        }
+    }
+    e.add = i;
+    function l(e, n, i) {
+        DomElement.cancelBubble(e);
+        r();
+        o = setTimeout((() => {
+            t.innerHTML = n;
+            t.style.display = "block";
+            DomElement.showElementAtMousePosition(e, t);
+        }), i.tooltipDelay);
+    }
+    e.show = l;
+    function r() {
+        if (Is.defined(t)) {
+            if (o !== 0) {
+                clearTimeout(o);
+                o = 0;
+            }
+            if (t.style.display === "block") {
+                t.style.display = "none";
+            }
+        }
+    }
+    e.hide = r;
+})(ToolTip || (ToolTip = {}));
+
 (() => {
     let _configuration = {};
     let _configuration_ShortcutKeysEnabled = true;
@@ -344,8 +395,6 @@ var Trigger;
     let _element_Dialog_Move_IsMoving = false;
     let _element_Dialog_Move_X = 0;
     let _element_Dialog_Move_Y = 0;
-    let _element_ToolTip = null;
-    let _element_ToolTip_Timer = 0;
     function setupDefaultGroup(e = null) {
         _groups = Default.getObject(e, {});
         _groups[Constant.DEFAULT_GROUP] = {
@@ -389,7 +438,7 @@ var Trigger;
         _element_Dialog_Close_Button.onclick = () => {
             onDialogClose();
         };
-        addToolTip(_element_Dialog_Close_Button, _configuration.text.closeButtonToolTipText);
+        ToolTip.add(_element_Dialog_Close_Button, _configuration.text.closeButtonToolTipText, _configuration);
         _element_Dialog_Title = DomElement.create("div", "title");
         _element_Dialog.appendChild(_element_Dialog_Title);
         _element_Dialog_Description = DomElement.create("div", "description");
@@ -434,7 +483,7 @@ var Trigger;
             }
             removeFocusClassFromLastElement(false);
             hideDisabledBackground();
-            hideToolTip();
+            ToolTip.hide();
             _element_Dialog.style.display = "none";
         }
     }
@@ -464,7 +513,7 @@ var Trigger;
             } else {
                 hideDisabledBackground();
             }
-            hideToolTip();
+            ToolTip.hide();
             _element_Dialog_Close_Button.style.display = _configuration.showCloseButton ? "block" : "none";
             _configuration_ShortcutKeysEnabled = true;
             e._currentView.element.classList.add("journey-js-element-focus");
@@ -581,9 +630,9 @@ var Trigger;
         _element_Dialog_ProgressDots.appendChild(n);
         if (_configuration.showProgressDotToolTips) {
             if (Is.definedString(o.tooltip)) {
-                addToolTip(n, o.tooltip);
+                ToolTip.add(n, o.tooltip, _configuration);
             } else {
-                addToolTip(n, o.title);
+                ToolTip.add(n, o.title, _configuration);
             }
         }
         if (_configuration.showProgressDotNumbers) {
@@ -639,46 +688,6 @@ var Trigger;
             _element_Dialog_Move_Original_X = 0;
             _element_Dialog_Move_Original_Y = 0;
             _element_Dialog.className = "journey-js-dialog";
-        }
-    }
-    function renderToolTip() {
-        if (!Is.defined(_element_ToolTip)) {
-            _element_ToolTip = DomElement.create("div", "journey-js-tooltip");
-            _element_ToolTip.style.display = "none";
-            document.body.appendChild(_element_ToolTip);
-            document.body.addEventListener("mousemove", (() => {
-                hideToolTip();
-            }));
-            document.addEventListener("scroll", (() => {
-                hideToolTip();
-            }));
-        }
-    }
-    function addToolTip(e, t) {
-        if (e !== null) {
-            e.onmousemove = e => {
-                showToolTip(e, t);
-            };
-        }
-    }
-    function showToolTip(e, t) {
-        DomElement.cancelBubble(e);
-        hideToolTip();
-        _element_ToolTip_Timer = setTimeout((() => {
-            _element_ToolTip.innerHTML = t;
-            _element_ToolTip.style.display = "block";
-            DomElement.showElementAtMousePosition(e, _element_ToolTip);
-        }), _configuration.tooltipDelay);
-    }
-    function hideToolTip() {
-        if (Is.defined(_element_ToolTip)) {
-            if (_element_ToolTip_Timer !== 0) {
-                clearTimeout(_element_ToolTip_Timer);
-                _element_ToolTip_Timer = 0;
-            }
-            if (_element_ToolTip.style.display === "block") {
-                _element_ToolTip.style.display = "none";
-            }
         }
     }
     function getElements() {
@@ -1003,7 +1012,7 @@ var Trigger;
             setupDefaultGroup();
             renderDisabledBackground();
             renderDialog();
-            renderToolTip();
+            ToolTip.render();
             getElements();
             buildDocumentEvents();
             if (getBrowserUrlParameters()) {
