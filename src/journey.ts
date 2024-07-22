@@ -18,9 +18,9 @@ import {
     type CurrentView, 
     type Position} from "./ts/type";
 
+import { type PublicApi } from "./ts/api";
 import { Char, KeyCode } from "./ts/enum";
 import { Constants } from "./ts/constant";
-import { PublicApi } from "./ts/api";
 import { Is } from "./ts/is";
 import { Data } from "./ts/data";
 import { DomElement } from "./ts/dom";
