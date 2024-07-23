@@ -110,6 +110,10 @@ type Groups = Record<string, {
         return _groups[ _groups_Current ].json[ _groups[ _groups_Current ].keys[ _groups[ _groups_Current ].position ] ];
     }
 
+    function isGroupPositionAtEnd() {
+        return _groups[ _groups_Current ].position === _groups[ _groups_Current ].keys.length - 1;
+    }
+
 
     /*
      * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -209,7 +213,7 @@ type Groups = Record<string, {
     }
 
     function onDialogNext() : void {
-        if ( _groups[ _groups_Current ].position === _groups[ _groups_Current ].keys.length - 1 ) {
+        if ( isGroupPositionAtEnd() ) {
             const bindingOptions: BindingOptions = getGroupBindingOptions();
 
             onDialogClose( false );
@@ -780,7 +784,7 @@ type Groups = Record<string, {
                 _groups_Current = Default.getString( group, _groups_Current );
     
                 if ( _groups.hasOwnProperty( _groups_Current ) ) {
-                    if ( _groups[ _groups_Current ].position === _groups[ _groups_Current ].keys.length - 1 ) {
+                    if ( isGroupPositionAtEnd() ) {
                         _groups[ _groups_Current ].position = 0;
                     }
             

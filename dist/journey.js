@@ -179,7 +179,7 @@ var DomElement;
         t.style.top = `${i}px`;
     }
     e.showElementAtMousePosition = a;
-    function _(e, t) {
+    function u(e, t) {
         if (t) {
             if (e.style.display !== "block") {
                 e.style.display = "block";
@@ -190,8 +190,8 @@ var DomElement;
             }
         }
     }
-    e.showElementBasedOnCondition = _;
-    function u(e, o) {
+    e.showElementBasedOnCondition = u;
+    function _(e, o) {
         const n = t("div");
         const i = t("label", "checkbox");
         const l = t("input");
@@ -206,7 +206,7 @@ var DomElement;
         i.appendChild(s);
         return l;
     }
-    e.createCheckBox = u;
+    e.createCheckBox = _;
     function g(e, t) {
         let o = e.getElementsByClassName(t);
         while (o[0]) {
@@ -442,6 +442,9 @@ var Disabled;
     function getGroupBindingOptions() {
         return _groups[_groups_Current].json[_groups[_groups_Current].keys[_groups[_groups_Current].position]];
     }
+    function isGroupPositionAtEnd() {
+        return _groups[_groups_Current].position === _groups[_groups_Current].keys.length - 1;
+    }
     function renderDialog() {
         _element_Dialog = DomElement.create("div", "journey-js-dialog");
         _element_Dialog.style.display = "none";
@@ -508,7 +511,7 @@ var Disabled;
         }
     }
     function onDialogNext() {
-        if (_groups[_groups_Current].position === _groups[_groups_Current].keys.length - 1) {
+        if (isGroupPositionAtEnd()) {
             const e = getGroupBindingOptions();
             onDialogClose(false);
             Trigger.customEvent(e.events.onFinish, e._currentView.element);
@@ -904,7 +907,7 @@ var Disabled;
             if (!_public.isOpen()) {
                 _groups_Current = Default.getString(e, _groups_Current);
                 if (_groups.hasOwnProperty(_groups_Current)) {
-                    if (_groups[_groups_Current].position === _groups[_groups_Current].keys.length - 1) {
+                    if (isGroupPositionAtEnd()) {
                         _groups[_groups_Current].position = 0;
                     }
                     showDialogAndSetPosition();

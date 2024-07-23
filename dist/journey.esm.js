@@ -529,6 +529,9 @@ var require_journey = __commonJS({
             function getGroupBindingOptions() {
                 return _groups[_groups_Current].json[_groups[_groups_Current].keys[_groups[_groups_Current].position]];
             }
+            function isGroupPositionAtEnd() {
+                return _groups[_groups_Current].position === _groups[_groups_Current].keys.length - 1;
+            }
             function renderDialog() {
                 _element_Dialog = DomElement.create("div", "journey-js-dialog");
                 _element_Dialog.style.display = "none";
@@ -595,7 +598,7 @@ var require_journey = __commonJS({
                 }
             }
             function onDialogNext() {
-                if (_groups[_groups_Current].position === _groups[_groups_Current].keys.length - 1) {
+                if (isGroupPositionAtEnd()) {
                     const e = getGroupBindingOptions();
                     onDialogClose(false);
                     Trigger.customEvent(e.events.onFinish, e._currentView.element);
@@ -991,7 +994,7 @@ var require_journey = __commonJS({
                     if (!_public.isOpen()) {
                         _groups_Current = Default.getString(e, _groups_Current);
                         if (_groups.hasOwnProperty(_groups_Current)) {
-                            if (_groups[_groups_Current].position === _groups[_groups_Current].keys.length - 1) {
+                            if (isGroupPositionAtEnd()) {
                                 _groups[_groups_Current].position = 0;
                             }
                             showDialogAndSetPosition();
