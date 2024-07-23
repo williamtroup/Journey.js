@@ -109,8 +109,14 @@ div.journey-js-dialog div:first-of-type {
 }
 div.journey-js-dialog div.title {
   font-size: large;
-  font-weight: var(--journey-js-title-bold-weight);
   margin-bottom: var(--journey-js-spacing);
+}
+div.journey-js-dialog div.title span.step-number {
+  font-weight: var(--journey-js-text-bold-weight);
+  margin-right: calc(var(--journey-js-spacing) / 2);
+}
+div.journey-js-dialog div.title span.title {
+  font-weight: var(--journey-js-title-bold-weight);
 }
 div.journey-js-dialog div.description {
   font-weight: var(--journey-js-text-bold-weight);

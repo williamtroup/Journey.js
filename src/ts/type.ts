@@ -33,6 +33,7 @@ export type Configuration = {
     scrollToElements?: boolean;
     dialogMovingEnabled?: boolean;
     showProgressBarText?: boolean;
+    showStepNumbersInTitle?: boolean;
     text?: ConfigurationText;
     events?: ConfigurationEvents;
 };

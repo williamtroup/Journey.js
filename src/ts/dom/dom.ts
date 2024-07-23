@@ -30,6 +30,15 @@ export namespace DomElement {
         return result;
     }
 
+    export function createWithHTML( container: HTMLElement, type: string, className: string, html: string ) : HTMLElement {
+        const element: HTMLElement = create( type, className );
+        element.innerHTML = html;
+
+        container.appendChild( element );
+
+        return element;
+    }
+
     export function getOffset( element: HTMLElement ) : Position {
         const result: Position = {
             left: 0,

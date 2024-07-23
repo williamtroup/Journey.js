@@ -288,10 +288,16 @@ type Groups = Record<string, {
     }
 
     function setDialogText( bindingOptions: BindingOptions ) : void {
+        _element_Dialog_Title.innerHTML = Char.empty;
+
+        if ( _configuration.showStepNumbersInTitle ) {
+            DomElement.createWithHTML( _element_Dialog_Title, "span", "step-number", `${bindingOptions.order!.toString()}.` );
+        }
+
         if ( Is.definedString( bindingOptions.title ) ) {
-            _element_Dialog_Title.innerHTML = bindingOptions.title!;
+            DomElement.createWithHTML( _element_Dialog_Title, "span", "title", bindingOptions.title! );
         } else {
-            _element_Dialog_Title.innerHTML = Char.empty;
+            DomElement.createWithHTML( _element_Dialog_Title, "span", "title", Char.empty );
         }
 
         if ( Is.definedString( bindingOptions.description ) ) {

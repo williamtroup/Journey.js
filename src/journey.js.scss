@@ -144,8 +144,16 @@ div.journey-js-dialog {
 
     div.title {
         font-size: large;
-        font-weight: var(--journey-js-title-bold-weight);
         margin-bottom: var(--journey-js-spacing);
+
+        span.step-number {
+            font-weight: var(--journey-js-text-bold-weight);
+            margin-right: calc( var(--journey-js-spacing) / 2 );
+        }
+
+        span.title {
+            font-weight: var(--journey-js-title-bold-weight);
+        }
     }
 
     div.description {

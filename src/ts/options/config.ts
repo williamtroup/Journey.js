@@ -36,7 +36,8 @@ export namespace Config {
             configuration.scrollToElements = Default.getBoolean( configuration.scrollToElements, false );
             configuration.dialogMovingEnabled = Default.getBoolean( configuration.dialogMovingEnabled, false );
             configuration.showProgressBarText = Default.getBoolean( configuration.showProgressBarText, false );
-    
+            configuration.showStepNumbersInTitle = Default.getBoolean( configuration.showStepNumbersInTitle, false );
+
             configuration = getText( configuration );
             configuration = getEvents( configuration );
 

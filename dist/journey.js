@@ -101,7 +101,14 @@ var DomElement;
         return i;
     }
     e.create = t;
-    function o(e) {
+    function o(e, o, n, i) {
+        const l = t(o, n);
+        l.innerHTML = i;
+        e.appendChild(l);
+        return l;
+    }
+    e.createWithHTML = o;
+    function n(e) {
         const t = {
             left: 0,
             top: 0
@@ -113,8 +120,8 @@ var DomElement;
         }
         return t;
     }
-    e.getOffset = o;
-    function n() {
+    e.getOffset = n;
+    function i() {
         const e = document.documentElement;
         const t = {
             left: e.scrollLeft - (e.clientLeft || 0),
@@ -122,14 +129,14 @@ var DomElement;
         };
         return t;
     }
-    e.getScrollPosition = n;
-    function i(e, t) {
+    e.getScrollPosition = i;
+    function l(e, t) {
         const o = getComputedStyle(e);
         let n = o.getPropertyValue(t);
         return n;
     }
-    e.getStyleValueByName = i;
-    function l(e, t) {
+    e.getStyleValueByName = l;
+    function r(e, t) {
         try {
             if (!e.contains(t)) {
                 e.appendChild(t);
@@ -138,8 +145,8 @@ var DomElement;
             console.warn(e.message);
         }
     }
-    e.addNode = l;
-    function r(e, t) {
+    e.addNode = r;
+    function s(e, t) {
         try {
             if (e.contains(t)) {
                 e.removeChild(t);
@@ -148,38 +155,38 @@ var DomElement;
             console.warn(e.message);
         }
     }
-    e.removeNode = r;
-    function s(e) {
+    e.removeNode = s;
+    function a(e) {
         e.preventDefault();
         e.stopPropagation();
     }
-    e.cancelBubble = s;
-    function a(e, t) {
+    e.cancelBubble = a;
+    function u(e, t) {
         let o = e.pageX;
-        let i = e.pageY;
-        const l = n();
+        let n = e.pageY;
+        const l = i();
         t.style.display = "block";
         if (o + t.offsetWidth > window.innerWidth) {
             o -= t.offsetWidth;
         } else {
             o++;
         }
-        if (i + t.offsetHeight > window.innerHeight) {
-            i -= t.offsetHeight;
+        if (n + t.offsetHeight > window.innerHeight) {
+            n -= t.offsetHeight;
         } else {
-            i++;
+            n++;
         }
         if (o < l.left) {
             o = e.pageX + 1;
         }
-        if (i < l.top) {
-            i = e.pageY + 1;
+        if (n < l.top) {
+            n = e.pageY + 1;
         }
         t.style.left = `${o}px`;
-        t.style.top = `${i}px`;
+        t.style.top = `${n}px`;
     }
-    e.showElementAtMousePosition = a;
-    function u(e, t) {
+    e.showElementAtMousePosition = u;
+    function _(e, t) {
         if (t) {
             if (e.style.display !== "block") {
                 e.style.display = "block";
@@ -190,8 +197,8 @@ var DomElement;
             }
         }
     }
-    e.showElementBasedOnCondition = u;
-    function _(e, o) {
+    e.showElementBasedOnCondition = _;
+    function g(e, o) {
         const n = t("div");
         const i = t("label", "checkbox");
         const l = t("input");
@@ -206,14 +213,14 @@ var DomElement;
         i.appendChild(s);
         return l;
     }
-    e.createCheckBox = _;
-    function g(e, t) {
+    e.createCheckBox = g;
+    function c(e, t) {
         let o = e.getElementsByClassName(t);
         while (o[0]) {
             o[0].parentNode.removeChild(o[0]);
         }
     }
-    e.clearElementsByClassName = g;
+    e.clearElementsByClassName = c;
 })(DomElement || (DomElement = {}));
 
 var Binding;
@@ -284,6 +291,7 @@ var Config;
             t.scrollToElements = Default.getBoolean(t.scrollToElements, false);
             t.dialogMovingEnabled = Default.getBoolean(t.dialogMovingEnabled, false);
             t.showProgressBarText = Default.getBoolean(t.showProgressBarText, false);
+            t.showStepNumbersInTitle = Default.getBoolean(t.showStepNumbersInTitle, false);
             t = o(t);
             t = n(t);
             return t;
@@ -568,10 +576,14 @@ var Disabled;
         }
     }
     function setDialogText(e) {
+        _element_Dialog_Title.innerHTML = "";
+        if (_configuration.showStepNumbersInTitle) {
+            DomElement.createWithHTML(_element_Dialog_Title, "span", "step-number", `${e.order.toString()}.`);
+        }
         if (Is.definedString(e.title)) {
-            _element_Dialog_Title.innerHTML = e.title;
+            DomElement.createWithHTML(_element_Dialog_Title, "span", "title", e.title);
         } else {
-            _element_Dialog_Title.innerHTML = "";
+            DomElement.createWithHTML(_element_Dialog_Title, "span", "title", "");
         }
         if (Is.definedString(e.description)) {
             _element_Dialog_Description.innerHTML = e.description;
