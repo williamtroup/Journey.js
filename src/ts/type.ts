@@ -68,6 +68,7 @@ export type BindingOptions = {
     title?: string;
     description?: string;
     tooltip?: string;
+    ignore?: boolean;
     events?: BindingOptionsEvents;
 };
 

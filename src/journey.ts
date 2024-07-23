@@ -527,7 +527,7 @@ type Groups = Record<string, {
         bindingOptions._currentView = {} as BindingOptionsCurrentView;
         bindingOptions._currentView.element = element;
 
-        if ( Is.definedNumber( bindingOptions.order ) && ( Is.definedString( bindingOptions.title ) || Is.definedString( bindingOptions.description ) ) ) {
+        if ( !bindingOptions.ignore && Is.definedNumber( bindingOptions.order ) && ( Is.definedString( bindingOptions.title ) || Is.definedString( bindingOptions.description ) ) ) {
             element.removeAttribute( Constant.JOURNEY_JS_ATTRIBUTE_NAME );
             
             if ( !bindingOptions.isHint ) {

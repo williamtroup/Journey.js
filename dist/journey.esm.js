@@ -280,6 +280,7 @@ var init_binding = __esm({
                     t.showDisabledBackground = Default.getBoolean(t.showDisabledBackground, true);
                     t.removeHintWhenViewed = Default.getBoolean(t.removeHintWhenViewed, false);
                     t.group = Default.getString(t.group, Constant.DEFAULT_GROUP);
+                    t.ignore = Default.getBoolean(t.ignore, false);
                     t = o(t);
                     t = n(t);
                     return t;
@@ -830,7 +831,7 @@ var require_journey = __commonJS({
             function setupElement(e, t) {
                 t._currentView = {};
                 t._currentView.element = e;
-                if (Is.definedNumber(t.order) && (Is.definedString(t.title) || Is.definedString(t.description))) {
+                if (!t.ignore && Is.definedNumber(t.order) && (Is.definedString(t.title) || Is.definedString(t.description))) {
                     e.removeAttribute(Constant.JOURNEY_JS_ATTRIBUTE_NAME);
                     if (!t.isHint) {
                         setupNewGroup(t.group);

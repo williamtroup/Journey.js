@@ -31,7 +31,8 @@ export namespace Binding {
             options.showDisabledBackground = Default.getBoolean( options.showDisabledBackground, true );
             options.removeHintWhenViewed = Default.getBoolean( options.removeHintWhenViewed, false );
             options.group = Default.getString( options.group, Constant.DEFAULT_GROUP );
-    
+            options.ignore = Default.getBoolean( options.ignore, false );
+
             options = getText( options );
             options = getEvents( options );
     
