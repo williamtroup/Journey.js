@@ -32,6 +32,7 @@ export namespace Binding {
             options.removeHintWhenViewed = Default.getBoolean( options.removeHintWhenViewed, false );
             options.group = Default.getString( options.group, Constant.DEFAULT_GROUP );
             options.ignore = Default.getBoolean( options.ignore, false );
+            options.moveToNextOnClick = Default.getBoolean( options.moveToNextOnClick, false );
 
             options = getText( options );
             options = getEvents( options );

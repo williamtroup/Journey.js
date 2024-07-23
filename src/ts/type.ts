@@ -69,6 +69,7 @@ export type BindingOptions = {
     description?: string;
     tooltip?: string;
     ignore?: boolean;
+    moveToNextOnClick?: boolean;
     events?: BindingOptionsEvents;
 };
 

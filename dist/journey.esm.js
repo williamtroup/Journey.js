@@ -281,6 +281,7 @@ var init_binding = __esm({
                     t.removeHintWhenViewed = Default.getBoolean(t.removeHintWhenViewed, false);
                     t.group = Default.getString(t.group, Constant.DEFAULT_GROUP);
                     t.ignore = Default.getBoolean(t.ignore, false);
+                    t.moveToNextOnClick = Default.getBoolean(t.moveToNextOnClick, false);
                     t = o(t);
                     t = n(t);
                     return t;
@@ -648,6 +649,9 @@ var require_journey = __commonJS({
                     if (e.sendClick) {
                         e._currentView.element.click();
                     }
+                    if (e.moveToNextOnClick) {
+                        e._currentView.element.addEventListener("click", onDialogNext);
+                    }
                 }
             }
             function setDialogText(e) {
@@ -700,6 +704,9 @@ var require_journey = __commonJS({
                 const t = getGroupBindingOptions();
                 if (Is.defined(t) && Is.defined(t._currentView.element)) {
                     t._currentView.element.classList.remove("journey-js-element-focus");
+                    if (t.moveToNextOnClick) {
+                        t._currentView.element.removeEventListener("click", onDialogNext);
+                    }
                     if (Is.defined(_element_Focus_Element_PositionStyle)) {
                         t._currentView.element.style.position = _element_Focus_Element_PositionStyle;
                     }

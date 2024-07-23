@@ -280,6 +280,10 @@ type Groups = Record<string, {
             if ( bindingOptions.sendClick ) {
                 bindingOptions._currentView.element.click();
             }
+
+            if ( bindingOptions.moveToNextOnClick ) {
+                bindingOptions._currentView.element.addEventListener( "click", onDialogNext );
+            }
         }
     }
 
@@ -347,6 +351,10 @@ type Groups = Record<string, {
 
         if ( Is.defined( bindingOptions ) && Is.defined( bindingOptions._currentView.element ) ) {
             bindingOptions._currentView.element.classList.remove( "journey-js-element-focus" );
+
+            if ( bindingOptions.moveToNextOnClick ) {
+                bindingOptions._currentView.element.removeEventListener( "click", onDialogNext );
+            }
 
             if ( Is.defined( _element_Focus_Element_PositionStyle ) ) {
                 bindingOptions._currentView.element.style.position = _element_Focus_Element_PositionStyle;
