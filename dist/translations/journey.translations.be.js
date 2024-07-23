@@ -1,11 +1,13 @@
-/*! Journey.js v2.0.3 - Belarusian | (c) Bunoon 2024 | MIT License */
+/*! Journey.js v2.1.0 - Belarusian | (c) Bunoon 2024 | MIT License */
 $journey.setConfiguration( {
-        "backButtonText": "Назад",
-        "nextButtonText": "Далей",
-        "finishButtonText": "Скончыць",
-        "closeButtonToolTipText": "Блізка",
-        "doNotShowAgainText": "Больш не паказваць",
-        "objectErrorText": "Памылкі ў аб'екце: {{error_1}}, {{error_2}}",
-        "attributeNotValidErrorText": "Атрыбут '{{attribute_name}}' не з'яўляецца дапушчальным аб'ектам.",
-        "attributeNotSetErrorText": "Атрыбут '{{attribute_name}}' не быў усталяваны правільна."
+        "text": {
+                "backButtonText": "Назад",
+                "nextButtonText": "Далей",
+                "finishButtonText": "Скончыць",
+                "closeButtonToolTipText": "Блізка",
+                "doNotShowAgainText": "Больш не паказваць",
+                "objectErrorText": "Памылкі ў аб'екце: {{error_1}}, {{error_2}}",
+                "attributeNotValidErrorText": "Атрыбут '{{attribute_name}}' не з'яўляецца дапушчальным аб'ектам.",
+                "attributeNotSetErrorText": "Атрыбут '{{attribute_name}}' не быў усталяваны правільна."
+        }
 } );

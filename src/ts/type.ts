@@ -4,7 +4,7 @@
  * A lightweight, easy-to-use JavaScript library to create interactive, customizable, accessible guided tours across your websites or web apps!
  * 
  * @file        type.ts
- * @version     v2.0.3
+ * @version     v2.1.0
  * @author      Bunoon
  * @license     MIT License
  * @copyright   Bunoon 2024
@@ -33,6 +33,12 @@ export type Configuration = {
     scrollToElements?: boolean;
     dialogMovingEnabled?: boolean;
     showProgressBarText?: boolean;
+    showStepNumbersInTitle?: boolean;
+    text?: ConfigurationText;
+    events?: ConfigurationEvents;
+};
+
+export type ConfigurationText = {
     backButtonText?: string;
     nextButtonText?: string;
     finishButtonText?: string;
@@ -42,11 +48,14 @@ export type Configuration = {
     attributeNotValidErrorText?: string;
     attributeNotSetErrorText?: string;
     closeDialogConfirmationText?: string;
+};
+
+export type ConfigurationEvents = {
     onDoNotShowAgainChange?: ( flag: boolean ) => void;
 };
 
 export type BindingOptions = {
-    _currentView: CurrentView;
+    _currentView: BindingOptionsCurrentView;
     order?: number;
     attach?: boolean;
     sendClick: boolean;
@@ -60,14 +69,16 @@ export type BindingOptions = {
     title?: string;
     description?: string;
     tooltip?: string;
-    events?: Events;
+    ignore?: boolean;
+    moveToNextOnClick?: boolean;
+    events?: BindingOptionsEvents;
 };
 
-export type CurrentView = {
+export type BindingOptionsCurrentView = {
     element: HTMLElement;
 };
 
-export type Events = {
+export type BindingOptionsEvents = {
     onEnter?: ( element: HTMLElement ) => void;
     onLeave?: ( element: HTMLElement ) => void;
     onClose?: ( element: HTMLElement ) => void;

@@ -4,7 +4,7 @@
  * A lightweight, easy-to-use JavaScript library to create interactive, customizable, accessible guided tours across your websites or web apps!
  * 
  * @file        journey.ts
- * @version     v2.0.3
+ * @version     v2.1.0
  * @author      Bunoon
  * @license     MIT License
  * @copyright   Bunoon 2024
@@ -14,16 +14,20 @@
 import {
     type Configuration,
     type BindingOptions,
-    type Events, 
-    type CurrentView, 
-    type Position} from "./ts/type";
+    type BindingOptionsCurrentView, 
+    type Position } from "./ts/type";
 
-import { Char, KeyCode } from "./ts/enum";
-import { Constants } from "./ts/constant";
-import { PublicApi } from "./ts/api";
-import { Is } from "./ts/is";
-import { Data } from "./ts/data";
-import { DomElement } from "./ts/dom";
+import { type PublicApi } from "./ts/api";
+import { Char, KeyCode } from "./ts/data/enum";
+import { Constant } from "./ts/constant";
+import { Is } from "./ts/data/is";
+import { Default } from "./ts/data/default";
+import { DomElement } from "./ts/dom/dom";
+import { Binding } from "./ts/options/binding";
+import { Config } from "./ts/options/config";
+import { Trigger } from "./ts/area/trigger";
+import { ToolTip } from "./ts/area/tooltip";
+import { Disabled } from "./ts/area/disabled";
 
 
 type StringToJson = {
@@ -46,15 +50,11 @@ type Groups = Record<string, {
     let _configuration_ShortcutKeysEnabled: boolean = true;
 
     // Variables: Groups
-    const _groups_Default: string = "default";
-    let _groups_Current: string = _groups_Default;
+    let _groups_Current: string = Constant.DEFAULT_GROUP;
     let _groups: Groups = {} as Groups;
 
     // Variables: Focus Element
     let _element_Focus_Element_PositionStyle: string = Char.empty;
-
-    // Variables: Disabled Background
-    let _element_Disabled_Background: HTMLElement;
 
     // Variables: Dialog
     let _element_Dialog: HTMLElement = null!;
@@ -79,10 +79,6 @@ type Groups = Record<string, {
     let _element_Dialog_Move_X: number = 0;
     let _element_Dialog_Move_Y: number = 0;
 
-    // Variables: Dialog
-    let _element_ToolTip: HTMLElement = null!;
-    let _element_ToolTip_Timer: number = 0;
-
 
     /*
      * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -91,9 +87,9 @@ type Groups = Record<string, {
      */
 
     function setupDefaultGroup( groups: any = null ) : void {
-        _groups = Data.getDefaultObject( groups, {} as Groups );
+        _groups = Default.getObject( groups, {} as Groups );
 
-        _groups[ _groups_Default ] = {
+        _groups[ Constant.DEFAULT_GROUP ] = {
             json: {} as BindingOptions,
             keys: [],
             position: 0
@@ -114,29 +110,8 @@ type Groups = Record<string, {
         return _groups[ _groups_Current ].json[ _groups[ _groups_Current ].keys[ _groups[ _groups_Current ].position ] ];
     }
 
-
-    /*
-     * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-     * Disabled Background
-     * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-     */
-
-    function renderDisabledBackground() : void {
-        _element_Disabled_Background = DomElement.create( "div", "journey-js-disabled-background" );
-
-        _element_Disabled_Background.onclick = () => {
-            if ( _configuration.closeDialogOnDisabledBackgroundClick ) {
-                onDialogClose();
-            }
-        };
-    }
-
-    function showDisabledBackground() : void {
-        DomElement.addNode( document.body, _element_Disabled_Background );
-    }
-
-    function hideDisabledBackground() : void {
-        DomElement.removeNode( document.body, _element_Disabled_Background );
+    function isGroupPositionAtEnd() {
+        return _groups[ _groups_Current ].position === _groups[ _groups_Current ].keys.length - 1;
     }
 
 
@@ -158,7 +133,7 @@ type Groups = Record<string, {
             onDialogClose();
         };
 
-        addToolTip( _element_Dialog_Close_Button, _configuration.closeButtonToolTipText! );
+        ToolTip.add( _element_Dialog_Close_Button, _configuration.text!.closeButtonToolTipText!, _configuration );
 
         _element_Dialog_Title = DomElement.create( "div", "title" );
         _element_Dialog.appendChild( _element_Dialog_Title );
@@ -169,11 +144,11 @@ type Groups = Record<string, {
         _element_Dialog_CheckBox_Container = DomElement.create( "div", "checkbox-container" );
         _element_Dialog.appendChild( _element_Dialog_CheckBox_Container );
 
-        _element_Dialog_CheckBox_Input = DomElement.createCheckBox( _element_Dialog_CheckBox_Container, _configuration.doNotShowAgainText! );
+        _element_Dialog_CheckBox_Input = DomElement.createCheckBox( _element_Dialog_CheckBox_Container, _configuration.text!.doNotShowAgainText! );
         
         _element_Dialog_CheckBox_Input.onchange = () => {
             if ( _configuration.showDoNotShowAgain ) {
-                fireCustomTriggerEvent( _configuration.onDoNotShowAgainChange, _element_Dialog_CheckBox_Input.checked );
+                Trigger.customEvent( _configuration.events!.onDoNotShowAgainChange!, _element_Dialog_CheckBox_Input.checked );
             }
         };
 
@@ -206,8 +181,8 @@ type Groups = Record<string, {
     function onDialogClose( showConfirmationBox: boolean = true ) : void {
         let confirmed: boolean = false;
 
-        if ( Is.definedString( _configuration.closeDialogConfirmationText ) && showConfirmationBox ) {
-            confirmed = confirm( _configuration.closeDialogConfirmationText );
+        if ( Is.definedString( _configuration.text!.closeDialogConfirmationText ) && showConfirmationBox ) {
+            confirmed = confirm( _configuration.text!.closeDialogConfirmationText );
         } else {
             confirmed = true;
         }
@@ -216,12 +191,12 @@ type Groups = Record<string, {
             const bindingOptions: BindingOptions = getGroupBindingOptions();
 
             if ( Is.defined( bindingOptions ) && Is.defined( bindingOptions._currentView.element ) ) {
-                fireCustomTriggerEvent( bindingOptions.events!.onClose!, bindingOptions._currentView.element );
+                Trigger.customEvent( bindingOptions.events!.onClose!, bindingOptions._currentView.element );
             }
     
             removeFocusClassFromLastElement( false );
-            hideDisabledBackground();
-            hideToolTip();
+            Disabled.Background.hide();
+            ToolTip.hide();
     
             _element_Dialog.style.display = "none";
         }
@@ -238,11 +213,11 @@ type Groups = Record<string, {
     }
 
     function onDialogNext() : void {
-        if ( _groups[ _groups_Current ].position === _groups[ _groups_Current ].keys.length - 1 ) {
+        if ( isGroupPositionAtEnd() ) {
             const bindingOptions: BindingOptions = getGroupBindingOptions();
 
             onDialogClose( false );
-            fireCustomTriggerEvent( bindingOptions.events!.onFinish, bindingOptions._currentView.element );
+            Trigger.customEvent( bindingOptions.events!.onFinish!, bindingOptions._currentView.element );
 
         } else {
             removeFocusClassFromLastElement();
@@ -258,12 +233,12 @@ type Groups = Record<string, {
 
         if ( Is.defined( bindingOptions ) && Is.defined( bindingOptions._currentView.element ) ) {
             if ( bindingOptions.showDisabledBackground ) {
-                showDisabledBackground();
+                Disabled.Background.show();
             } else {
-                hideDisabledBackground();
+                Disabled.Background.hide();
             }
 
-            hideToolTip();
+            ToolTip.hide();
             
             _element_Dialog_Close_Button.style.display = _configuration.showCloseButton ? "block": "none";
             _configuration_ShortcutKeysEnabled = true;
@@ -281,38 +256,48 @@ type Groups = Record<string, {
                 bindingOptions._currentView.element.style.position = "relative";
             }
 
-            DomElement.showElementBasedOnCondition( _element_Dialog_CheckBox_Container, _configuration.showDoNotShowAgain as boolean );
-            DomElement.showElementBasedOnCondition( _element_Dialog_ProgressDots, _configuration.showProgressDots as boolean && _groups[ _groups_Current ].keys.length > 1 );
-            DomElement.showElementBasedOnCondition( _element_Dialog_ProgressBar, _configuration.showProgressBar as boolean && _groups[ _groups_Current ].keys.length > 1 );
-            DomElement.showElementBasedOnCondition( _element_Dialog_ProgressBar_Percentage_Text, _configuration.showProgressBarText as boolean );
-            DomElement.showElementBasedOnCondition( _element_Dialog_Buttons, _configuration.showButtons as boolean );
+            DomElement.showElementBasedOnCondition( _element_Dialog_CheckBox_Container, _configuration.showDoNotShowAgain! );
+            DomElement.showElementBasedOnCondition( _element_Dialog_ProgressDots, _configuration.showProgressDots! && _groups[ _groups_Current ].keys.length > 1 );
+            DomElement.showElementBasedOnCondition( _element_Dialog_ProgressBar, _configuration.showProgressBar! && _groups[ _groups_Current ].keys.length > 1 );
+            DomElement.showElementBasedOnCondition( _element_Dialog_ProgressBar_Percentage_Text, _configuration.showProgressBarText! );
+            DomElement.showElementBasedOnCondition( _element_Dialog_Buttons, _configuration.showButtons! );
 
-            _element_Dialog_Buttons_Back_Button.innerHTML = _configuration.backButtonText!;
+            _element_Dialog_Buttons_Back_Button.innerHTML = _configuration.text!.backButtonText!;
             _element_Dialog_Buttons_Back_Button.disabled = _groups[ _groups_Current ].position === 0;
             
             if ( _groups[ _groups_Current ].position >= _groups[ _groups_Current ].keys.length - 1 ) {
-                _element_Dialog_Buttons_Next_Button.innerHTML = _configuration.finishButtonText!;
+                _element_Dialog_Buttons_Next_Button.innerHTML = _configuration.text!.finishButtonText!;
             } else {
-                _element_Dialog_Buttons_Next_Button.innerHTML = _configuration.nextButtonText!;
+                _element_Dialog_Buttons_Next_Button.innerHTML = _configuration.text!.nextButtonText!;
             }
 
             setDialogText( bindingOptions );
             setDialogPosition( null, bindingOptions );
             buildProcessDots();
             setProgressBarPosition();
-            fireCustomTriggerEvent( bindingOptions.events!.onEnter, bindingOptions._currentView.element );
+            Trigger.customEvent( bindingOptions.events!.onEnter!, bindingOptions._currentView.element );
 
             if ( bindingOptions.sendClick ) {
                 bindingOptions._currentView.element.click();
+            }
+
+            if ( bindingOptions.moveToNextOnClick ) {
+                bindingOptions._currentView.element.addEventListener( "click", onDialogNext );
             }
         }
     }
 
     function setDialogText( bindingOptions: BindingOptions ) : void {
+        _element_Dialog_Title.innerHTML = Char.empty;
+
+        if ( _configuration.showStepNumbersInTitle ) {
+            DomElement.createWithHTML( _element_Dialog_Title, "span", "step-number", `${bindingOptions.order!.toString()}.` );
+        }
+
         if ( Is.definedString( bindingOptions.title ) ) {
-            _element_Dialog_Title.innerHTML = bindingOptions.title!;
+            DomElement.createWithHTML( _element_Dialog_Title, "span", "title", bindingOptions.title! );
         } else {
-            _element_Dialog_Title.innerHTML = Char.empty;
+            DomElement.createWithHTML( _element_Dialog_Title, "span", "title", Char.empty );
         }
 
         if ( Is.definedString( bindingOptions.description ) ) {
@@ -326,11 +311,11 @@ type Groups = Record<string, {
         if ( _element_Dialog.style.display !== "block" ) {
             _element_Dialog.style.display = "block";
 
-            fireCustomTriggerEvent( bindingOptions.events!.onOpen, bindingOptions._currentView.element );
+            Trigger.customEvent( bindingOptions.events!.onOpen!, bindingOptions._currentView.element );
         }
 
         if ( _groups[ _groups_Current ].position === 0 ) {
-            fireCustomTriggerEvent( bindingOptions.events!.onStart, bindingOptions._currentView.element );
+            Trigger.customEvent( bindingOptions.events!.onStart!, bindingOptions._currentView.element );
         }
 
         _element_Dialog_IsHint = bindingOptions.isHint === true;
@@ -373,12 +358,16 @@ type Groups = Record<string, {
         if ( Is.defined( bindingOptions ) && Is.defined( bindingOptions._currentView.element ) ) {
             bindingOptions._currentView.element.classList.remove( "journey-js-element-focus" );
 
+            if ( bindingOptions.moveToNextOnClick ) {
+                bindingOptions._currentView.element.removeEventListener( "click", onDialogNext );
+            }
+
             if ( Is.defined( _element_Focus_Element_PositionStyle ) ) {
                 bindingOptions._currentView.element.style.position = _element_Focus_Element_PositionStyle;
             }
 
             if ( callCustomTrigger ) {
-                fireCustomTriggerEvent( bindingOptions.events!.onLeave, bindingOptions._currentView.element );
+                Trigger.customEvent( bindingOptions.events!.onLeave!, bindingOptions._currentView.element );
             }
         }
     }
@@ -418,9 +407,9 @@ type Groups = Record<string, {
 
         if ( _configuration.showProgressDotToolTips ) {
             if ( Is.definedString( bindingOptions.tooltip ) ) {
-                addToolTip( dot, bindingOptions.tooltip! );
+                ToolTip.add( dot, bindingOptions.tooltip!, _configuration );
             } else {
-                addToolTip( dot, bindingOptions.title! );
+                ToolTip.add( dot, bindingOptions.title!, _configuration );
             }
         }
 
@@ -499,63 +488,6 @@ type Groups = Record<string, {
 
     /*
      * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-     * Render:  ToolTip
-     * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-     */
-
-    function renderToolTip() : void {
-        if ( !Is.defined( _element_ToolTip ) ) {
-            _element_ToolTip = DomElement.create( "div", "journey-js-tooltip" );
-            _element_ToolTip.style.display = "none";
-
-            document.body.appendChild( _element_ToolTip );
-    
-            document.body.addEventListener( "mousemove", () => {
-                hideToolTip();
-            } );
-    
-            document.addEventListener( "scroll", () => {
-                hideToolTip();
-            } );
-        }
-    }
-
-    function addToolTip( element: HTMLElement, text: string ) : void {
-        if ( element !== null ) {
-            element.onmousemove = ( e: MouseEvent ) => {
-                showToolTip( e, text );
-            };
-        }
-    }
-
-    function showToolTip( e: any, text: string ) : void {
-        DomElement.cancelBubble( e );
-        hideToolTip();
-
-        _element_ToolTip_Timer = setTimeout( () => {
-            _element_ToolTip.innerHTML = text;
-            _element_ToolTip.style.display = "block";
-
-            DomElement.showElementAtMousePosition( e, _element_ToolTip );
-        }, _configuration.tooltipDelay );
-    }
-
-    function hideToolTip() : void {
-        if ( Is.defined( _element_ToolTip ) ) {
-            if ( _element_ToolTip_Timer !== 0 ) {
-                clearTimeout( _element_ToolTip_Timer );
-                _element_ToolTip_Timer = 0;
-            }
-    
-            if ( _element_ToolTip.style.display === "block" ) {
-                _element_ToolTip.style.display = "none";
-            }
-        }
-    }
-
-
-    /*
-     * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
      * Rendering
      * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
      */
@@ -582,25 +514,25 @@ type Groups = Record<string, {
     function getElement( element: HTMLElement ) : boolean {
         let result: boolean = true;
 
-        if ( Is.defined( element ) && element.hasAttribute( Constants.JOURNEY_JS_ATTRIBUTE_NAME ) ) {
-            const bindingOptionsData: string = element.getAttribute( Constants.JOURNEY_JS_ATTRIBUTE_NAME )!;
+        if ( Is.defined( element ) && element.hasAttribute( Constant.JOURNEY_JS_ATTRIBUTE_NAME ) ) {
+            const bindingOptionsData: string = element.getAttribute( Constant.JOURNEY_JS_ATTRIBUTE_NAME )!;
 
             if ( Is.definedString( bindingOptionsData ) ) {
                 const bindingOptions: StringToJson = getObjectFromString( bindingOptionsData );
 
                 if ( bindingOptions.parsed && Is.definedObject( bindingOptions.object ) ) {
-                    setupElement( element, buildAttributeOptions( bindingOptions.object ) );
+                    setupElement( element, Binding.Options.get( bindingOptions.object ) );
 
                 } else {
                     if ( !_configuration.safeMode ) {
-                        console.error( _configuration.attributeNotValidErrorText!.replace( "{{attribute_name}}", Constants.JOURNEY_JS_ATTRIBUTE_NAME ) );
+                        console.error( _configuration.text!.attributeNotValidErrorText!.replace( "{{attribute_name}}", Constant.JOURNEY_JS_ATTRIBUTE_NAME ) );
                         result = false;
                     }
                 }
 
             } else {
                 if ( !_configuration.safeMode ) {
-                    console.error( _configuration.attributeNotSetErrorText!.replace( "{{attribute_name}}", Constants.JOURNEY_JS_ATTRIBUTE_NAME ) );
+                    console.error( _configuration.text!.attributeNotSetErrorText!.replace( "{{attribute_name}}", Constant.JOURNEY_JS_ATTRIBUTE_NAME ) );
                     result = false;
                 }
             }
@@ -610,11 +542,11 @@ type Groups = Record<string, {
     }
 
     function setupElement( element: HTMLElement, bindingOptions: BindingOptions ) : void {
-        bindingOptions._currentView = {} as CurrentView;
+        bindingOptions._currentView = {} as BindingOptionsCurrentView;
         bindingOptions._currentView.element = element;
 
-        if ( Is.definedNumber( bindingOptions.order ) && ( Is.definedString( bindingOptions.title ) || Is.definedString( bindingOptions.description ) ) ) {
-            element.removeAttribute( Constants.JOURNEY_JS_ATTRIBUTE_NAME );
+        if ( !bindingOptions.ignore && Is.definedNumber( bindingOptions.order ) && ( Is.definedString( bindingOptions.title ) || Is.definedString( bindingOptions.description ) ) ) {
+            element.removeAttribute( Constant.JOURNEY_JS_ATTRIBUTE_NAME );
             
             if ( !bindingOptions.isHint ) {
                 setupNewGroup( bindingOptions.group! );
@@ -622,7 +554,7 @@ type Groups = Record<string, {
                 _groups[ bindingOptions.group! ].json[ bindingOptions.order! ] = bindingOptions;
                 _groups[ bindingOptions.group! ].keys.push( bindingOptions.order! );
 
-                fireCustomTriggerEvent( bindingOptions.events!.onAddStep, element );
+                Trigger.customEvent( bindingOptions.events!.onAddStep!, element );
 
             } else {
                 renderHint( bindingOptions );
@@ -734,66 +666,6 @@ type Groups = Record<string, {
 
     /*
      * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-     * Options
-     * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-     */
-
-    function buildAttributeOptions( newOptions: any ) {
-        let options: BindingOptions = Data.getDefaultObject( newOptions, {} as BindingOptions );
-        options.order = Data.getDefaultNumber( options.order, 0 );
-        options.attach = Data.getDefaultBoolean( options.attach, true );
-        options.sendClick = Data.getDefaultBoolean( options.sendClick, false );
-        options.alignTop = Data.getDefaultBoolean( options.alignTop, false );
-        options.alignRight = Data.getDefaultBoolean( options.alignRight, false );
-        options.isHint = Data.getDefaultBoolean( options.isHint, false );
-        options.alignHintToClickPosition = Data.getDefaultBoolean( options.alignHintToClickPosition, false );
-        options.showDisabledBackground = Data.getDefaultBoolean( options.showDisabledBackground, true );
-        options.removeHintWhenViewed = Data.getDefaultBoolean( options.removeHintWhenViewed, false );
-        options.group = Data.getDefaultString( options.group, _groups_Default );
-
-        options = buildAttributeOptionStrings( options );
-
-        return buildAttributeOptionCustomTriggers( options );
-    }
-
-    function buildAttributeOptionStrings( options: BindingOptions ) : BindingOptions {
-        options.title = Data.getDefaultString( options.title, Char.empty );
-        options.description = Data.getDefaultString( options.description, Char.empty );
-        options.tooltip = Data.getDefaultString( options.tooltip, Char.empty );
-
-        return options;
-    }
-
-    function buildAttributeOptionCustomTriggers( options: BindingOptions ) : BindingOptions {
-        options.events = Data.getDefaultObject( options.events, {} as Events );
-        options.events!.onEnter = Data.getDefaultFunction( options.events!.onEnter, null );
-        options.events!.onLeave = Data.getDefaultFunction( options.events!.onLeave, null );
-        options.events!.onClose = Data.getDefaultFunction( options.events!.onClose, null );
-        options.events!.onFinish = Data.getDefaultFunction( options.events!.onFinish, null );
-        options.events!.onOpen = Data.getDefaultFunction( options.events!.onOpen, null );
-        options.events!.onStart = Data.getDefaultFunction( options.events!.onStart, null );
-        options.events!.onAddStep = Data.getDefaultFunction( options.events!.onAddStep, null );
-        options.events!.onRemoveStep = Data.getDefaultFunction( options.events!.onRemoveStep, null );
-
-        return options;
-    }
-
-
-    /*
-     * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-     * Triggering Custom Events
-     * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-     */
-
-    function fireCustomTriggerEvent( triggerFunction: any, ...args : any[] ) : void {
-        if ( Is.definedFunction( triggerFunction ) ) {
-            triggerFunction.apply( null, [].slice.call( args, 0 ) );
-        }
-    }
-
-
-    /*
-     * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
      * Browser URL Parameters
      * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
      */
@@ -867,7 +739,7 @@ type Groups = Record<string, {
                 
             } catch ( e2: any ) {
                 if ( !_configuration.safeMode ) {
-                    console.error( _configuration.objectErrorText!.replace( "{{error_1}}",  e1.message ).replace( "{{error_2}}",  e2.message ) );
+                    console.error( _configuration.text!.objectErrorText!.replace( "{{error_1}}",  e1.message ).replace( "{{error_2}}",  e2.message ) );
                     result.parsed = false;
                 }
                 
@@ -896,52 +768,6 @@ type Groups = Record<string, {
 
 	/*
 	 * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-	 * Public API Functions:  Helpers:  Configuration
-	 * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-	 */
-
-    function buildDefaultConfiguration( newConfiguration: Configuration = {} ) : void {
-        _configuration = Data.getDefaultObject( newConfiguration, {} as Configuration );
-        _configuration.safeMode = Data.getDefaultBoolean( _configuration.safeMode, true );
-        _configuration.domElementTypes = Data.getDefaultStringOrArray( _configuration.domElementTypes, [ "*" ] );
-        _configuration.showCloseButton = Data.getDefaultBoolean( _configuration.showCloseButton, true );
-        _configuration.shortcutKeysEnabled = Data.getDefaultBoolean( _configuration.shortcutKeysEnabled, true );
-        _configuration.showProgressDots = Data.getDefaultBoolean( _configuration.showProgressDots, true );
-        _configuration.browserUrlParametersEnabled = Data.getDefaultBoolean( _configuration.browserUrlParametersEnabled, true );
-        _configuration.showProgressDotNumbers = Data.getDefaultBoolean( _configuration.showProgressDotNumbers, false );
-        _configuration.showButtons = Data.getDefaultBoolean( _configuration.showButtons, true );
-        _configuration.showDoNotShowAgain = Data.getDefaultBoolean( _configuration.showDoNotShowAgain, false );
-        _configuration.tooltipDelay = Data.getDefaultNumber( _configuration.tooltipDelay, 750 );
-        _configuration.showProgressDotToolTips = Data.getDefaultBoolean( _configuration.showProgressDotToolTips, true );
-        _configuration.closeDialogOnDisabledBackgroundClick = Data.getDefaultBoolean( _configuration.closeDialogOnDisabledBackgroundClick, false );
-        _configuration.showProgressBar = Data.getDefaultBoolean( _configuration.showProgressBar, false );
-        _configuration.scrollToElements = Data.getDefaultBoolean( _configuration.scrollToElements, false );
-        _configuration.dialogMovingEnabled = Data.getDefaultBoolean( _configuration.dialogMovingEnabled, false );
-        _configuration.showProgressBarText = Data.getDefaultBoolean( _configuration.showProgressBarText, false );
-
-        buildDefaultConfigurationStrings();
-        buildDefaultConfigurationCustomTriggers();
-    }
-
-    function buildDefaultConfigurationStrings() : void {
-        _configuration.backButtonText = Data.getDefaultAnyString( _configuration.backButtonText, "Back" );
-        _configuration.nextButtonText = Data.getDefaultAnyString( _configuration.nextButtonText, "Next" );
-        _configuration.finishButtonText = Data.getDefaultAnyString( _configuration.finishButtonText, "Finish" );
-        _configuration.closeButtonToolTipText = Data.getDefaultAnyString( _configuration.closeButtonToolTipText, "Close" );
-        _configuration.doNotShowAgainText = Data.getDefaultAnyString( _configuration.doNotShowAgainText, "Do not show again" );
-        _configuration.objectErrorText = Data.getDefaultAnyString( _configuration.objectErrorText, "Errors in object: {{error_1}}, {{error_2}}" );
-        _configuration.attributeNotValidErrorText = Data.getDefaultAnyString( _configuration.attributeNotValidErrorText, "The attribute '{{attribute_name}}' is not a valid object." );
-        _configuration.attributeNotSetErrorText = Data.getDefaultAnyString( _configuration.attributeNotSetErrorText, "The attribute '{{attribute_name}}' has not been set correctly." );
-        _configuration.closeDialogConfirmationText = Data.getDefaultAnyString( _configuration.closeDialogConfirmationText, Char.empty );
-    }
-
-    function buildDefaultConfigurationCustomTriggers() : void {
-        _configuration.onDoNotShowAgainChange = Data.getDefaultFunction( _configuration.onDoNotShowAgainChange, null );
-    }
-
-
-	/*
-	 * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 	 * Public API Functions:
 	 * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 	 */
@@ -955,7 +781,7 @@ type Groups = Record<string, {
 
         start: function ( group: string = Char.empty ) : PublicApi {
             if ( !_public.isOpen() ) {
-                _groups_Current = Data.getDefaultString( group, _groups_Default );
+                _groups_Current = Default.getString( group, Constant.DEFAULT_GROUP );
     
                 if ( _groups.hasOwnProperty( _groups_Current ) ) {
                     _groups[ _groups_Current ].position = 0;
@@ -969,10 +795,10 @@ type Groups = Record<string, {
 
         show: function ( group: string = Char.empty ) : PublicApi {
             if ( !_public.isOpen() ) {
-                _groups_Current = Data.getDefaultString( group, _groups_Current );
+                _groups_Current = Default.getString( group, _groups_Current );
     
                 if ( _groups.hasOwnProperty( _groups_Current ) ) {
-                    if ( _groups[ _groups_Current ].position === _groups[ _groups_Current ].keys.length - 1 ) {
+                    if ( isGroupPositionAtEnd() ) {
                         _groups[ _groups_Current ].position = 0;
                     }
             
@@ -1014,7 +840,7 @@ type Groups = Record<string, {
 
         addStep: function ( element: HTMLElement, options: BindingOptions ) : PublicApi {
             if ( Is.definedObject( element ) && Is.definedObject( options ) ) {
-                setupElement( element, buildAttributeOptions( options ) );
+                setupElement( element, Binding.Options.get( options ) );
     
                 _groups[ _groups_Current ].keys.sort();
         
@@ -1035,7 +861,7 @@ type Groups = Record<string, {
                                 const bindingOptions: BindingOptions = _groups[ group ].json[ order ];
             
                                 if ( bindingOptions._currentView.element === element ) {
-                                    fireCustomTriggerEvent( bindingOptions.events!.onRemoveStep, bindingOptions._currentView.element );
+                                    Trigger.customEvent( bindingOptions.events!.onRemoveStep!, bindingOptions._currentView.element );
             
                                     _groups[ group ].keys.splice( _groups[ group ].keys.indexOf( bindingOptions.order! ), 1 );
             
@@ -1071,7 +897,7 @@ type Groups = Record<string, {
                             if ( _groups[ groupName ].json.hasOwnProperty( order ) ) {
                                 const bindingOptions: BindingOptions = _groups[ groupName ].json[ order ];
             
-                                fireCustomTriggerEvent( bindingOptions.events!.onRemoveStep, bindingOptions._currentView.element );
+                                Trigger.customEvent( bindingOptions.events!.onRemoveStep!, bindingOptions._currentView.element );
                             }
                         }
                     }
@@ -1087,7 +913,7 @@ type Groups = Record<string, {
                 _groups = {} as Groups;
             }
     
-            if ( !Is.definedString( group ) || group === _groups_Default ) {
+            if ( !Is.definedString( group ) || group === Constant.DEFAULT_GROUP ) {
                 setupDefaultGroup( _groups );
             }
     
@@ -1128,7 +954,7 @@ type Groups = Record<string, {
                 }
         
                 if ( configurationHasChanged ) {
-                    buildDefaultConfiguration( newInternalConfiguration );
+                    _configuration = Config.Options.get( newInternalConfiguration );
                 }
             }
     
@@ -1142,8 +968,8 @@ type Groups = Record<string, {
          * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
          */
 
-        getVersion: function (): string {
-            return "2.0.3";
+        getVersion: function () : string {
+            return "2.1.0";
         }
     };
 
@@ -1155,13 +981,13 @@ type Groups = Record<string, {
      */
 
     ( () => {
-        buildDefaultConfiguration();
+        _configuration = Config.Options.get();
 
         document.addEventListener( "DOMContentLoaded", () => {
             setupDefaultGroup();
-            renderDisabledBackground();
+            Disabled.Background.render( _configuration, onDialogClose );
             renderDialog();
-            renderToolTip();
+            ToolTip.render();
             getElements();
             buildDocumentEvents();
 

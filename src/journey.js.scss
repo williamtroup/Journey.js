@@ -1,5 +1,5 @@
 /*
- * Journey.js Library v2.0.3
+ * Journey.js Library v2.1.0
  *
  * Copyright 2024 Bunoon
  * Released under the MIT License
@@ -132,6 +132,10 @@ div.journey-js-dialog {
         }
     }
 
+    button {
+        font-family: var(--journey-js-default-font);
+    }
+
     div {
         &:first-of-type {
             padding-right: calc( var(--journey-js-dialog-close-button-size) + var(--journey-js-spacing) );
@@ -140,8 +144,16 @@ div.journey-js-dialog {
 
     div.title {
         font-size: large;
-        font-weight: var(--journey-js-title-bold-weight);
         margin-bottom: var(--journey-js-spacing);
+
+        span.step-number {
+            font-weight: var(--journey-js-text-bold-weight);
+            margin-right: calc( var(--journey-js-spacing) / 2 );
+        }
+
+        span.title {
+            font-weight: var(--journey-js-title-bold-weight);
+        }
     }
 
     div.description {

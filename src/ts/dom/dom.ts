@@ -4,16 +4,16 @@
  * A lightweight, easy-to-use JavaScript library to create interactive, customizable, accessible guided tours across your websites or web apps!
  * 
  * @file        dom.ts
- * @version     v2.0.3
+ * @version     v2.1.0
  * @author      Bunoon
  * @license     MIT License
  * @copyright   Bunoon 2024
  */
 
 
-import { Char } from "./enum";
-import { Is } from "./is";
-import { type Position } from "./type";
+import { type Position } from "../type";
+import { Char } from "../data/enum";
+import { Is } from "../data/is";
 
 
 export namespace DomElement {
@@ -28,6 +28,15 @@ export namespace DomElement {
         }
 
         return result;
+    }
+
+    export function createWithHTML( container: HTMLElement, type: string, className: string, html: string ) : HTMLElement {
+        const element: HTMLElement = create( type, className );
+        element.innerHTML = html;
+
+        container.appendChild( element );
+
+        return element;
     }
 
     export function getOffset( element: HTMLElement ) : Position {
