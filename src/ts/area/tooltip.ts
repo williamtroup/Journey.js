@@ -26,22 +26,14 @@ export namespace ToolTip {
             _element_ToolTip.style.display = "none";
 
             document.body.appendChild( _element_ToolTip );
-    
-            document.body.addEventListener( "mousemove", () => {
-                hide();
-            } );
-    
-            document.addEventListener( "scroll", () => {
-                hide();
-            } );
+            document.body.addEventListener( "mousemove", () => hide() );
+            document.addEventListener( "scroll", () => hide() );
         }
     }
 
     export function add( element: HTMLElement, text: string, configuration: Configuration ) : void {
         if ( element !== null ) {
-            element.onmousemove = ( e: MouseEvent ) => {
-                show( e, text, configuration );
-            };
+            element.onmousemove = ( e: MouseEvent ) => show( e, text, configuration );
         }
     }
 

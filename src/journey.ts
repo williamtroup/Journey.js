@@ -127,11 +127,8 @@ type Groups = Record<string, {
         document.body.appendChild( _element_Dialog );
 
         _element_Dialog_Close_Button = DomElement.create( "button", "close" );
+        _element_Dialog_Close_Button.onclick = () => onDialogClose();
         _element_Dialog.appendChild( _element_Dialog_Close_Button );
-
-        _element_Dialog_Close_Button.onclick = () => {
-            onDialogClose();
-        };
 
         ToolTip.add( _element_Dialog_Close_Button, _configuration.text!.closeButtonToolTipText!, _configuration );
 

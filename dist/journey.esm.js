@@ -412,20 +412,14 @@ var init_tooltip = __esm({
                     t = DomElement.create("div", "journey-js-tooltip");
                     t.style.display = "none";
                     document.body.appendChild(t);
-                    document.body.addEventListener("mousemove", (() => {
-                        l();
-                    }));
-                    document.addEventListener("scroll", (() => {
-                        l();
-                    }));
+                    document.body.addEventListener("mousemove", (() => l()));
+                    document.addEventListener("scroll", (() => l()));
                 }
             }
             e.render = n;
             function i(e, t, o) {
                 if (e !== null) {
-                    e.onmousemove = e => {
-                        s(e, t, o);
-                    };
+                    e.onmousemove = e => s(e, t, o);
                 }
             }
             e.add = i;
@@ -552,10 +546,8 @@ var require_journey = __commonJS({
                 _element_Dialog.style.display = "none";
                 document.body.appendChild(_element_Dialog);
                 _element_Dialog_Close_Button = DomElement.create("button", "close");
+                _element_Dialog_Close_Button.onclick = () => onDialogClose();
                 _element_Dialog.appendChild(_element_Dialog_Close_Button);
-                _element_Dialog_Close_Button.onclick = () => {
-                    onDialogClose();
-                };
                 ToolTip.add(_element_Dialog_Close_Button, _configuration.text.closeButtonToolTipText, _configuration);
                 _element_Dialog_Title = DomElement.create("div", "title");
                 _element_Dialog.appendChild(_element_Dialog_Title);
