@@ -51,14 +51,14 @@ var init_is = __esm({
                 return t(e) && typeof e === "string";
             }
             e.definedString = i;
-            function r(e) {
+            function s(e) {
                 return t(e) && typeof e === "function";
             }
-            e.definedFunction = r;
-            function s(e) {
+            e.definedFunction = s;
+            function r(e) {
                 return t(e) && typeof e === "number";
             }
-            e.definedNumber = s;
+            e.definedNumber = r;
             function l(e) {
                 return o(e) && e instanceof Array;
             }
@@ -91,14 +91,14 @@ var init_default = __esm({
                 return Is.definedNumber(e) ? e : t;
             }
             e.getNumber = i;
-            function r(e, t) {
+            function s(e, t) {
                 return Is.definedFunction(e) ? e : t;
             }
-            e.getFunction = r;
-            function s(e, t) {
+            e.getFunction = s;
+            function r(e, t) {
                 return Is.definedObject(e) ? e : t;
             }
-            e.getObject = s;
+            e.getObject = r;
             function l(e, t) {
                 return Is.definedArray(e) ? e : t;
             }
@@ -141,10 +141,10 @@ var init_dom = __esm({
             }
             e.create = t;
             function o(e, o, n, i) {
-                const r = t(o, n);
-                r.innerHTML = i;
-                e.appendChild(r);
-                return r;
+                const s = t(o, n);
+                s.innerHTML = i;
+                e.appendChild(s);
+                return s;
             }
             e.createWithHTML = o;
             function n(e) {
@@ -169,13 +169,13 @@ var init_dom = __esm({
                 return t;
             }
             e.getScrollPosition = i;
-            function r(e, t) {
+            function s(e, t) {
                 const o = getComputedStyle(e);
                 let n = o.getPropertyValue(t);
                 return n;
             }
-            e.getStyleValueByName = r;
-            function s(e, t) {
+            e.getStyleValueByName = s;
+            function r(e, t) {
                 try {
                     if (!e.contains(t)) {
                         e.appendChild(t);
@@ -184,7 +184,7 @@ var init_dom = __esm({
                     console.warn(e.message);
                 }
             }
-            e.addNode = s;
+            e.addNode = r;
             function l(e, t) {
                 try {
                     if (e.contains(t)) {
@@ -202,8 +202,8 @@ var init_dom = __esm({
             e.cancelBubble = a;
             function _(e, t, o) {
                 let n = e.pageX;
-                let r = e.pageY;
-                const s = i();
+                let s = e.pageY;
+                const r = i();
                 t.style.display = "block";
                 if (n + t.offsetWidth > window.innerWidth) {
                     n -= t.offsetWidth + o;
@@ -211,20 +211,20 @@ var init_dom = __esm({
                     n++;
                     n += o;
                 }
-                if (r + t.offsetHeight > window.innerHeight) {
-                    r -= t.offsetHeight + o;
+                if (s + t.offsetHeight > window.innerHeight) {
+                    s -= t.offsetHeight + o;
                 } else {
-                    r++;
-                    r += o;
+                    s++;
+                    s += o;
                 }
-                if (n < s.left) {
+                if (n < r.left) {
                     n = e.pageX + 1;
                 }
-                if (r < s.top) {
-                    r = e.pageY + 1;
+                if (s < r.top) {
+                    s = e.pageY + 1;
                 }
                 t.style.left = `${n}px`;
-                t.style.top = `${r}px`;
+                t.style.top = `${s}px`;
             }
             e.showElementAtMousePosition = _;
             function u(e, t) {
@@ -242,17 +242,17 @@ var init_dom = __esm({
             function g(e, o) {
                 const n = t("div");
                 const i = t("label", "checkbox");
-                const r = t("input");
+                const s = t("input");
                 e.appendChild(n);
                 n.appendChild(i);
-                i.appendChild(r);
-                r.type = "checkbox";
-                const s = t("span", "check-mark");
+                i.appendChild(s);
+                s.type = "checkbox";
+                const r = t("span", "check-mark");
                 const l = t("span", "text");
                 l.innerHTML = o;
-                i.appendChild(s);
+                i.appendChild(r);
                 i.appendChild(l);
-                return r;
+                return s;
             }
             e.createCheckBox = g;
             function c(e, t) {
@@ -291,6 +291,7 @@ var init_binding = __esm({
                     t.group = Default.getString(t.group, Constant.DEFAULT_GROUP);
                     t.ignore = Default.getBoolean(t.ignore, false);
                     t.moveToNextOnClick = Default.getBoolean(t.moveToNextOnClick, false);
+                    t.offset = Default.getNumber(t.offset, 0);
                     t = o(t);
                     t = n(t);
                     return t;
@@ -411,10 +412,10 @@ var init_tooltip = __esm({
                     t.style.display = "none";
                     document.body.appendChild(t);
                     document.body.addEventListener("mousemove", (() => {
-                        s();
+                        r();
                     }));
                     document.addEventListener("scroll", (() => {
-                        s();
+                        r();
                     }));
                 }
             }
@@ -422,22 +423,22 @@ var init_tooltip = __esm({
             function i(e, t, o) {
                 if (e !== null) {
                     e.onmousemove = e => {
-                        r(e, t, o);
+                        s(e, t, o);
                     };
                 }
             }
             e.add = i;
-            function r(e, n, i) {
+            function s(e, n, i) {
                 DomElement.cancelBubble(e);
-                s();
+                r();
                 o = setTimeout((() => {
                     t.innerHTML = n;
                     t.style.display = "block";
                     DomElement.showElementAtMousePosition(e, t, i.tooltipOffset);
                 }), i.tooltipDelay);
             }
-            e.show = r;
-            function s() {
+            e.show = s;
+            function r() {
                 if (Is.defined(t)) {
                     if (o !== 0) {
                         clearTimeout(o);
@@ -448,7 +449,7 @@ var init_tooltip = __esm({
                     }
                 }
             }
-            e.hide = s;
+            e.hide = r;
         })(ToolTip || (ToolTip = {}));
     }
 });
@@ -701,9 +702,15 @@ var require_journey = __commonJS({
                         if (n + _element_Dialog.offsetWidth > window.innerWidth || t.alignRight) {
                             n -= _element_Dialog.offsetWidth;
                             n += t._currentView.element.offsetWidth;
+                            n -= t.offset;
+                        } else {
+                            n += t.offset;
                         }
                         if (o + _element_Dialog.offsetHeight > window.innerHeight || t.alignTop) {
                             o -= _element_Dialog.offsetHeight + t._currentView.element.offsetHeight;
+                            o -= t.offset;
+                        } else {
+                            o += t.offset;
                         }
                         _element_Dialog.style.top = `${o}px`;
                         _element_Dialog.style.left = `${n}px`;

@@ -244,6 +244,7 @@ var Binding;
             t.group = Default.getString(t.group, Constant.DEFAULT_GROUP);
             t.ignore = Default.getBoolean(t.ignore, false);
             t.moveToNextOnClick = Default.getBoolean(t.moveToNextOnClick, false);
+            t.offset = Default.getNumber(t.offset, 0);
             t = o(t);
             t = n(t);
             return t;
@@ -614,9 +615,15 @@ var Disabled;
                 if (n + _element_Dialog.offsetWidth > window.innerWidth || t.alignRight) {
                     n -= _element_Dialog.offsetWidth;
                     n += t._currentView.element.offsetWidth;
+                    n -= t.offset;
+                } else {
+                    n += t.offset;
                 }
                 if (o + _element_Dialog.offsetHeight > window.innerHeight || t.alignTop) {
                     o -= _element_Dialog.offsetHeight + t._currentView.element.offsetHeight;
+                    o -= t.offset;
+                } else {
+                    o += t.offset;
                 }
                 _element_Dialog.style.top = `${o}px`;
                 _element_Dialog.style.left = `${n}px`;

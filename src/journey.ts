@@ -332,10 +332,18 @@ type Groups = Record<string, {
                 if ( left + _element_Dialog.offsetWidth > window.innerWidth || bindingOptions.alignRight ) {
                     left -=  _element_Dialog.offsetWidth;
                     left += bindingOptions._currentView.element.offsetWidth;
+                    left -= bindingOptions.offset!;
+
+                } else {
+                    left += bindingOptions.offset!;
                 }
         
                 if ( top + _element_Dialog.offsetHeight > window.innerHeight || bindingOptions.alignTop ) {
                     top -= ( _element_Dialog.offsetHeight + bindingOptions._currentView.element.offsetHeight );
+                    top -= bindingOptions.offset!;
+                    
+                } else {
+                    top += bindingOptions.offset!;
                 }
 
                 _element_Dialog.style.top = `${top}px`;
