@@ -1,4 +1,4 @@
-/*! Journey.js v2.1.0 - Farsi | (c) Bunoon 2024 | MIT License */
+/*! Journey.js v2.1.1 - Farsi | (c) Bunoon 2024 | MIT License */
 $journey.setConfiguration( {
         "text": {
                 "backButtonText": "بازگشت",
