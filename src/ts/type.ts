@@ -35,6 +35,7 @@ export type Configuration = {
     showProgressBarText?: boolean;
     showStepNumbersInTitle?: boolean;
     hintClickPositionOffset?: number;
+    tooltipOffset?: number;
     text?: ConfigurationText;
     events?: ConfigurationEvents;
 };

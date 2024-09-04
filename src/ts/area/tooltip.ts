@@ -53,7 +53,7 @@ export namespace ToolTip {
             _element_ToolTip.innerHTML = text;
             _element_ToolTip.style.display = "block";
 
-            DomElement.showElementAtMousePosition( e, _element_ToolTip );
+            DomElement.showElementAtMousePosition( e, _element_ToolTip, configuration.tooltipOffset! );
         }, configuration.tooltipDelay );
     }
 

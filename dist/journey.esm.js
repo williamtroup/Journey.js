@@ -349,6 +349,7 @@ var init_config = __esm({
                     t.showProgressBarText = Default.getBoolean(t.showProgressBarText, false);
                     t.showStepNumbersInTitle = Default.getBoolean(t.showStepNumbersInTitle, false);
                     t.hintClickPositionOffset = Default.getNumber(t.hintClickPositionOffset, 0);
+                    t.tooltipOffset = Default.getNumber(t.tooltipOffset, 0);
                     t = o(t);
                     t = n(t);
                     return t;
@@ -432,7 +433,7 @@ var init_tooltip = __esm({
                 o = setTimeout((() => {
                     t.innerHTML = n;
                     t.style.display = "block";
-                    DomElement.showElementAtMousePosition(e, t);
+                    DomElement.showElementAtMousePosition(e, t, i.tooltipOffset);
                 }), i.tooltipDelay);
             }
             e.show = r;
