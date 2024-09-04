@@ -37,6 +37,7 @@ export namespace Config {
             configuration.dialogMovingEnabled = Default.getBoolean( configuration.dialogMovingEnabled, false );
             configuration.showProgressBarText = Default.getBoolean( configuration.showProgressBarText, false );
             configuration.showStepNumbersInTitle = Default.getBoolean( configuration.showStepNumbersInTitle, false );
+            configuration.hintClickPositionOffset = Default.getNumber( configuration.hintClickPositionOffset, 0 );
 
             configuration = getText( configuration );
             configuration = getEvents( configuration );

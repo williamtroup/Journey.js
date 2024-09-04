@@ -244,7 +244,6 @@ var Binding;
             t.group = Default.getString(t.group, Constant.DEFAULT_GROUP);
             t.ignore = Default.getBoolean(t.ignore, false);
             t.moveToNextOnClick = Default.getBoolean(t.moveToNextOnClick, false);
-            t.hintClickPositionOffset = Default.getNumber(t.hintClickPositionOffset, 0);
             t = o(t);
             t = n(t);
             return t;
@@ -295,6 +294,7 @@ var Config;
             t.dialogMovingEnabled = Default.getBoolean(t.dialogMovingEnabled, false);
             t.showProgressBarText = Default.getBoolean(t.showProgressBarText, false);
             t.showStepNumbersInTitle = Default.getBoolean(t.showStepNumbersInTitle, false);
+            t.hintClickPositionOffset = Default.getNumber(t.hintClickPositionOffset, 0);
             t = o(t);
             t = n(t);
             return t;
@@ -605,7 +605,7 @@ var Disabled;
         _element_Dialog_IsHint = t.isHint === true;
         if (t.attach || t.isHint) {
             if (t.isHint && t.alignHintToClickPosition) {
-                DomElement.showElementAtMousePosition(e, _element_Dialog, t.hintClickPositionOffset);
+                DomElement.showElementAtMousePosition(e, _element_Dialog, _configuration.hintClickPositionOffset);
             } else {
                 const e = DomElement.getOffset(t._currentView.element);
                 let o = e.top + t._currentView.element.offsetHeight;

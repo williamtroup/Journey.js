@@ -33,7 +33,6 @@ export namespace Binding {
             options.group = Default.getString( options.group, Constant.DEFAULT_GROUP );
             options.ignore = Default.getBoolean( options.ignore, false );
             options.moveToNextOnClick = Default.getBoolean( options.moveToNextOnClick, false );
-            options.hintClickPositionOffset = Default.getNumber( options.hintClickPositionOffset, 0 );
 
             options = getText( options );
             options = getEvents( options );

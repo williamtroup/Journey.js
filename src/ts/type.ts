@@ -34,6 +34,7 @@ export type Configuration = {
     dialogMovingEnabled?: boolean;
     showProgressBarText?: boolean;
     showStepNumbersInTitle?: boolean;
+    hintClickPositionOffset?: number;
     text?: ConfigurationText;
     events?: ConfigurationEvents;
 };
@@ -71,7 +72,6 @@ export type BindingOptions = {
     tooltip?: string;
     ignore?: boolean;
     moveToNextOnClick?: boolean;
-    hintClickPositionOffset?: number;
     events?: BindingOptionsEvents;
 };
 
