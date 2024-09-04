@@ -74,6 +74,7 @@ export type BindingOptions = {
     ignore?: boolean;
     moveToNextOnClick?: boolean;
     offset?: number;
+    useLargerDisplay?: boolean;
     events?: BindingOptionsEvents;
 };
 

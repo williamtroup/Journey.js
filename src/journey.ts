@@ -308,6 +308,19 @@ type Groups = Record<string, {
     }
 
     function setDialogPosition( e: any, bindingOptions: BindingOptions ) : void {
+        _element_Dialog_IsHint = bindingOptions.isHint === true;
+
+        if ( _element_Dialog_IsHint ) {
+            _element_Dialog.className = "journey-js-dialog";
+
+        } else {
+            if ( bindingOptions.useLargerDisplay && _element_Dialog.className === "journey-js-dialog" ) {
+                _element_Dialog.className = "journey-js-dialog-lg";
+            } else if ( !bindingOptions.useLargerDisplay && _element_Dialog.className === "journey-js-dialog-lg" ) {
+                _element_Dialog.className = "journey-js-dialog";
+            }
+        }
+
         if ( _element_Dialog.style.display !== "block" ) {
             _element_Dialog.style.display = "block";
 
@@ -317,8 +330,6 @@ type Groups = Record<string, {
         if ( _groups[ _groups_Current ].position === 0 ) {
             Trigger.customEvent( bindingOptions.events!.onStart!, bindingOptions._currentView.element );
         }
-
-        _element_Dialog_IsHint = bindingOptions.isHint === true;
 
         if ( bindingOptions.attach || bindingOptions.isHint ) {
             if ( bindingOptions.isHint && bindingOptions.alignHintToClickPosition ) {

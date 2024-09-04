@@ -34,6 +34,7 @@ export namespace Binding {
             options.ignore = Default.getBoolean( options.ignore, false );
             options.moveToNextOnClick = Default.getBoolean( options.moveToNextOnClick, false );
             options.offset = Default.getNumber( options.offset, 0 );
+            options.useLargerDisplay = Default.getBoolean( options.useLargerDisplay, false );
 
             options = getText( options );
             options = getEvents( options );

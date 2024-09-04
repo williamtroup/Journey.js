@@ -55,14 +55,14 @@ var init_is = __esm({
                 return t(e) && typeof e === "function";
             }
             e.definedFunction = s;
-            function r(e) {
+            function l(e) {
                 return t(e) && typeof e === "number";
             }
-            e.definedNumber = r;
-            function l(e) {
+            e.definedNumber = l;
+            function r(e) {
                 return o(e) && e instanceof Array;
             }
-            e.definedArray = l;
+            e.definedArray = r;
         })(Is || (Is = {}));
     }
 });
@@ -95,14 +95,14 @@ var init_default = __esm({
                 return Is.definedFunction(e) ? e : t;
             }
             e.getFunction = s;
-            function r(e, t) {
+            function l(e, t) {
                 return Is.definedObject(e) ? e : t;
             }
-            e.getObject = r;
-            function l(e, t) {
+            e.getObject = l;
+            function r(e, t) {
                 return Is.definedArray(e) ? e : t;
             }
-            e.getArray = l;
+            e.getArray = r;
             function a(e, t) {
                 let o = t;
                 if (Is.definedString(e)) {
@@ -113,7 +113,7 @@ var init_default = __esm({
                         o = n;
                     }
                 } else {
-                    o = l(e, t);
+                    o = r(e, t);
                 }
                 return o;
             }
@@ -175,7 +175,7 @@ var init_dom = __esm({
                 return n;
             }
             e.getStyleValueByName = s;
-            function r(e, t) {
+            function l(e, t) {
                 try {
                     if (!e.contains(t)) {
                         e.appendChild(t);
@@ -184,8 +184,8 @@ var init_dom = __esm({
                     console.warn(e.message);
                 }
             }
-            e.addNode = r;
-            function l(e, t) {
+            e.addNode = l;
+            function r(e, t) {
                 try {
                     if (e.contains(t)) {
                         e.removeChild(t);
@@ -194,7 +194,7 @@ var init_dom = __esm({
                     console.warn(e.message);
                 }
             }
-            e.removeNode = l;
+            e.removeNode = r;
             function a(e) {
                 e.preventDefault();
                 e.stopPropagation();
@@ -203,7 +203,7 @@ var init_dom = __esm({
             function _(e, t, o) {
                 let n = e.pageX;
                 let s = e.pageY;
-                const r = i();
+                const l = i();
                 t.style.display = "block";
                 if (n + t.offsetWidth > window.innerWidth) {
                     n -= t.offsetWidth + o;
@@ -217,10 +217,10 @@ var init_dom = __esm({
                     s++;
                     s += o;
                 }
-                if (n < r.left) {
+                if (n < l.left) {
                     n = e.pageX + 1;
                 }
-                if (s < r.top) {
+                if (s < l.top) {
                     s = e.pageY + 1;
                 }
                 t.style.left = `${n}px`;
@@ -247,11 +247,11 @@ var init_dom = __esm({
                 n.appendChild(i);
                 i.appendChild(s);
                 s.type = "checkbox";
-                const r = t("span", "check-mark");
-                const l = t("span", "text");
-                l.innerHTML = o;
-                i.appendChild(r);
+                const l = t("span", "check-mark");
+                const r = t("span", "text");
+                r.innerHTML = o;
                 i.appendChild(l);
+                i.appendChild(r);
                 return s;
             }
             e.createCheckBox = g;
@@ -292,6 +292,7 @@ var init_binding = __esm({
                     t.ignore = Default.getBoolean(t.ignore, false);
                     t.moveToNextOnClick = Default.getBoolean(t.moveToNextOnClick, false);
                     t.offset = Default.getNumber(t.offset, 0);
+                    t.useLargerDisplay = Default.getBoolean(t.useLargerDisplay, false);
                     t = o(t);
                     t = n(t);
                     return t;
@@ -412,10 +413,10 @@ var init_tooltip = __esm({
                     t.style.display = "none";
                     document.body.appendChild(t);
                     document.body.addEventListener("mousemove", (() => {
-                        r();
+                        l();
                     }));
                     document.addEventListener("scroll", (() => {
-                        r();
+                        l();
                     }));
                 }
             }
@@ -430,7 +431,7 @@ var init_tooltip = __esm({
             e.add = i;
             function s(e, n, i) {
                 DomElement.cancelBubble(e);
-                r();
+                l();
                 o = setTimeout((() => {
                     t.innerHTML = n;
                     t.style.display = "block";
@@ -438,7 +439,7 @@ var init_tooltip = __esm({
                 }), i.tooltipDelay);
             }
             e.show = s;
-            function r() {
+            function l() {
                 if (Is.defined(t)) {
                     if (o !== 0) {
                         clearTimeout(o);
@@ -449,7 +450,7 @@ var init_tooltip = __esm({
                     }
                 }
             }
-            e.hide = r;
+            e.hide = l;
         })(ToolTip || (ToolTip = {}));
     }
 });
@@ -684,6 +685,16 @@ var require_journey = __commonJS({
                 }
             }
             function setDialogPosition(e, t) {
+                _element_Dialog_IsHint = t.isHint === true;
+                if (_element_Dialog_IsHint) {
+                    _element_Dialog.className = "journey-js-dialog";
+                } else {
+                    if (t.useLargerDisplay && _element_Dialog.className === "journey-js-dialog") {
+                        _element_Dialog.className = "journey-js-dialog-lg";
+                    } else if (!t.useLargerDisplay && _element_Dialog.className === "journey-js-dialog-lg") {
+                        _element_Dialog.className = "journey-js-dialog";
+                    }
+                }
                 if (_element_Dialog.style.display !== "block") {
                     _element_Dialog.style.display = "block";
                     Trigger.customEvent(t.events.onOpen, t._currentView.element);
@@ -691,7 +702,6 @@ var require_journey = __commonJS({
                 if (_groups[_groups_Current].position === 0) {
                     Trigger.customEvent(t.events.onStart, t._currentView.element);
                 }
-                _element_Dialog_IsHint = t.isHint === true;
                 if (t.attach || t.isHint) {
                     if (t.isHint && t.alignHintToClickPosition) {
                         DomElement.showElementAtMousePosition(e, _element_Dialog, _configuration.hintClickPositionOffset);

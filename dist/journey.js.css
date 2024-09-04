@@ -69,7 +69,8 @@
     Journey.js - Dialog
     -------------------------------------------------------------------------
 */
-div.journey-js-dialog {
+div.journey-js-dialog,
+div.journey-js-dialog-lg {
   -moz-user-select: none;
   -webkit-user-select: none;
   -ms-user-select: none;
@@ -88,38 +89,54 @@ div.journey-js-dialog {
   padding: var(--journey-js-spacing);
   font-size: var(--journey-js-spacing-font-size);
   z-index: 1001;
-  width: 300px;
   height: auto;
   transition: var(--journey-js-transition);
   transition-property: top, left;
 }
-div.journey-js-dialog * {
+div.journey-js-dialog *,
+div.journey-js-dialog-lg * {
   box-sizing: border-box;
   line-height: normal;
 }
-div.journey-js-dialog *::before, div.journey-js-dialog *::after {
+div.journey-js-dialog *::before, div.journey-js-dialog *::after,
+div.journey-js-dialog-lg *::before,
+div.journey-js-dialog-lg *::after {
   box-sizing: border-box;
   line-height: normal;
 }
-div.journey-js-dialog button {
+div.journey-js-dialog button,
+div.journey-js-dialog-lg button {
   font-family: var(--journey-js-default-font);
 }
-div.journey-js-dialog div:first-of-type {
+div.journey-js-dialog div:first-of-type,
+div.journey-js-dialog-lg div:first-of-type {
   padding-right: calc(var(--journey-js-dialog-close-button-size) + var(--journey-js-spacing));
 }
-div.journey-js-dialog div.title {
+div.journey-js-dialog div.title,
+div.journey-js-dialog-lg div.title {
   font-size: large;
   margin-bottom: var(--journey-js-spacing);
 }
-div.journey-js-dialog div.title span.step-number {
+div.journey-js-dialog div.title span.step-number,
+div.journey-js-dialog-lg div.title span.step-number {
   font-weight: var(--journey-js-text-bold-weight);
   margin-right: calc(var(--journey-js-spacing) / 2);
 }
-div.journey-js-dialog div.title span.title {
+div.journey-js-dialog div.title span.title,
+div.journey-js-dialog-lg div.title span.title {
   font-weight: var(--journey-js-title-bold-weight);
 }
-div.journey-js-dialog div.description {
+div.journey-js-dialog div.description,
+div.journey-js-dialog-lg div.description {
   font-weight: var(--journey-js-text-bold-weight);
+}
+
+div.journey-js-dialog {
+  width: 300px;
+}
+
+div.journey-js-dialog-lg {
+  width: 500px;
 }
 
 div.journey-js-dialog-moving {
@@ -132,7 +149,8 @@ div.journey-js-dialog-moving {
     Journey.js - Dialog - Close Button
     -------------------------------------------------------------------------
 */
-div.journey-js-dialog button.close {
+div.journey-js-dialog button.close,
+div.journey-js-dialog-lg button.close {
   position: absolute;
   top: var(--journey-js-spacing);
   right: var(--journey-js-spacing);
@@ -144,7 +162,9 @@ div.journey-js-dialog button.close {
   border: var(--journey-js-border-size) solid var(--journey-js-dialog-close-button-border-color);
   transition: var(--journey-js-transition);
 }
-div.journey-js-dialog button.close::before, div.journey-js-dialog button.close::after {
+div.journey-js-dialog button.close::before, div.journey-js-dialog button.close::after,
+div.journey-js-dialog-lg button.close::before,
+div.journey-js-dialog-lg button.close::after {
   content: "";
   width: 2px;
   height: 100%;
@@ -155,22 +175,29 @@ div.journey-js-dialog button.close::before, div.journey-js-dialog button.close::
   left: calc(50% - 0.5px);
   top: 0;
 }
-div.journey-js-dialog button.close::after {
+div.journey-js-dialog button.close::after,
+div.journey-js-dialog-lg button.close::after {
   transform: rotate(-45deg) translateX(0px);
 }
-div.journey-js-dialog button.close:active {
+div.journey-js-dialog button.close:active,
+div.journey-js-dialog-lg button.close:active {
   border: var(--journey-js-border-size) solid var(--journey-js-dialog-close-button-active-border-color) !important;
   background-color: var(--journey-js-dialog-close-button-active-background-color) !important;
 }
-div.journey-js-dialog button.close:active::before, div.journey-js-dialog button.close:active::after {
+div.journey-js-dialog button.close:active::before, div.journey-js-dialog button.close:active::after,
+div.journey-js-dialog-lg button.close:active::before,
+div.journey-js-dialog-lg button.close:active::after {
   background: var(--journey-js-dialog-close-button-active-x-color) !important;
 }
-div.journey-js-dialog button.close:hover {
+div.journey-js-dialog button.close:hover,
+div.journey-js-dialog-lg button.close:hover {
   cursor: pointer;
   border: var(--journey-js-border-size) solid var(--journey-js-dialog-close-button-hover-border-color);
   background-color: var(--journey-js-dialog-close-button-hover-background-color);
 }
-div.journey-js-dialog button.close:hover::before, div.journey-js-dialog button.close:hover::after {
+div.journey-js-dialog button.close:hover::before, div.journey-js-dialog button.close:hover::after,
+div.journey-js-dialog-lg button.close:hover::before,
+div.journey-js-dialog-lg button.close:hover::after {
   background: var(--journey-js-dialog-close-button-hover-x-color);
 }
 
@@ -179,18 +206,22 @@ div.journey-js-dialog button.close:hover::before, div.journey-js-dialog button.c
     Journey.js - Dialog - Progress Dots
     -------------------------------------------------------------------------
 */
-div.journey-js-dialog div.progress-dots {
+div.journey-js-dialog div.progress-dots,
+div.journey-js-dialog-lg div.progress-dots {
   margin-top: var(--journey-js-spacing);
   margin-bottom: var(--journey-js-spacing);
   text-align: center;
 }
 div.journey-js-dialog div.progress-dots div.dot,
-div.journey-js-dialog div.progress-dots div.dot-active {
+div.journey-js-dialog div.progress-dots div.dot-active,
+div.journey-js-dialog-lg div.progress-dots div.dot,
+div.journey-js-dialog-lg div.progress-dots div.dot-active {
   margin: 2.5px;
   display: inline-block;
   padding: 0 !important;
 }
-div.journey-js-dialog div.progress-dots div.dot {
+div.journey-js-dialog div.progress-dots div.dot,
+div.journey-js-dialog-lg div.progress-dots div.dot {
   border-radius: 50%;
   height: 10px;
   width: 10px;
@@ -198,18 +229,21 @@ div.journey-js-dialog div.progress-dots div.dot {
   border: var(--journey-js-border-size) solid var(--journey-js-dialog-button-border-color);
   transition: var(--journey-js-transition);
 }
-div.journey-js-dialog div.progress-dots div.dot:active {
+div.journey-js-dialog div.progress-dots div.dot:active,
+div.journey-js-dialog-lg div.progress-dots div.dot:active {
   background-color: var(--journey-js-dialog-button-active-background-color) !important;
   border: var(--journey-js-border-size) solid var(--journey-js-dialog-button-active-border-color) !important;
   color: var(--journey-js-color-white) !important;
 }
-div.journey-js-dialog div.progress-dots div.dot:hover {
+div.journey-js-dialog div.progress-dots div.dot:hover,
+div.journey-js-dialog-lg div.progress-dots div.dot:hover {
   cursor: pointer;
   background-color: var(--journey-js-dialog-button-hover-background-color);
   border: var(--journey-js-border-size) solid var(--journey-js-dialog-button-hover-border-color);
   color: var(--journey-js-color-white) !important;
 }
-div.journey-js-dialog div.progress-dots div.dot-number {
+div.journey-js-dialog div.progress-dots div.dot-number,
+div.journey-js-dialog-lg div.progress-dots div.dot-number {
   height: 25px !important;
   width: 25px !important;
   padding: 3px;
@@ -221,7 +255,8 @@ div.journey-js-dialog div.progress-dots div.dot-number {
   border-radius: 50% !important;
   color: var(--journey-js-color-gray) !important;
 }
-div.journey-js-dialog div.progress-dots div.dot-active {
+div.journey-js-dialog div.progress-dots div.dot-active,
+div.journey-js-dialog-lg div.progress-dots div.dot-active {
   position: relative;
   transition: var(--journey-js-transition);
   transition-property: width;
@@ -232,7 +267,8 @@ div.journey-js-dialog div.progress-dots div.dot-active {
   border: var(--journey-js-border-size) solid var(--journey-js-dialog-button-border-color);
   color: var(--journey-js-color-white) !important;
 }
-div.journey-js-dialog div.progress-dots div.dot-active::after {
+div.journey-js-dialog div.progress-dots div.dot-active::after,
+div.journey-js-dialog-lg div.progress-dots div.dot-active::after {
   content: "";
   position: absolute;
   width: 15px;
@@ -248,7 +284,8 @@ div.journey-js-dialog div.progress-dots div.dot-active::after {
     Journey.js - Dialog - Progress Bar
     -------------------------------------------------------------------------
 */
-div.journey-js-dialog div.progress-bar {
+div.journey-js-dialog div.progress-bar,
+div.journey-js-dialog-lg div.progress-bar {
   border-radius: var(--journey-js-border-radius);
   margin-top: var(--journey-js-spacing);
   margin-bottom: var(--journey-js-spacing);
@@ -257,7 +294,8 @@ div.journey-js-dialog div.progress-bar {
   text-wrap: nowrap;
   overflow: hidden;
 }
-div.journey-js-dialog div.progress-bar div.progress-bar-percentage {
+div.journey-js-dialog div.progress-bar div.progress-bar-percentage,
+div.journey-js-dialog-lg div.progress-bar div.progress-bar-percentage {
   min-height: 10px;
   background-color: var(--journey-js-dialog-button-border-color);
   transition: var(--journey-js-transition);
@@ -266,7 +304,8 @@ div.journey-js-dialog div.progress-bar div.progress-bar-percentage {
   padding: 0 !important;
   margin: 0 !important;
 }
-div.journey-js-dialog div.progress-bar div.progress-bar-percentage p.progress-bar-percentage-text {
+div.journey-js-dialog div.progress-bar div.progress-bar-percentage p.progress-bar-percentage-text,
+div.journey-js-dialog-lg div.progress-bar div.progress-bar-percentage p.progress-bar-percentage-text {
   padding: calc(var(--journey-js-spacing) / 2) !important;
   font-size: smaller;
   margin: 0 !important;
@@ -278,33 +317,42 @@ div.journey-js-dialog div.progress-bar div.progress-bar-percentage p.progress-ba
     Journey.js - Dialog - CheckBox
     -------------------------------------------------------------------------
 */
-div.journey-js-dialog div.checkbox-container {
+div.journey-js-dialog div.checkbox-container,
+div.journey-js-dialog-lg div.checkbox-container {
   margin-top: var(--journey-js-spacing);
   margin-bottom: var(--journey-js-spacing);
 }
-div.journey-js-dialog div.checkbox-container label.checkbox {
+div.journey-js-dialog div.checkbox-container label.checkbox,
+div.journey-js-dialog-lg div.checkbox-container label.checkbox {
   display: inline-block;
   position: relative;
   padding-left: 25px;
   color: var(--journey-js-color-white);
 }
-div.journey-js-dialog div.checkbox-container label.checkbox input {
+div.journey-js-dialog div.checkbox-container label.checkbox input,
+div.journey-js-dialog-lg div.checkbox-container label.checkbox input {
   display: none !important;
 }
-div.journey-js-dialog div.checkbox-container label.checkbox input:checked ~ span.check-mark {
+div.journey-js-dialog div.checkbox-container label.checkbox input:checked ~ span.check-mark,
+div.journey-js-dialog-lg div.checkbox-container label.checkbox input:checked ~ span.check-mark {
   background-color: var(--journey-js-checkbox-background-color-checked);
   border: var(--journey-js-border-size) solid var(--journey-js-checkbox-border-color-checked);
 }
-div.journey-js-dialog div.checkbox-container label.checkbox input:checked ~ span.check-mark::before {
+div.journey-js-dialog div.checkbox-container label.checkbox input:checked ~ span.check-mark::before,
+div.journey-js-dialog-lg div.checkbox-container label.checkbox input:checked ~ span.check-mark::before {
   display: block;
 }
-div.journey-js-dialog div.checkbox-container label.checkbox input:disabled ~ span.check-mark, div.journey-js-dialog div.checkbox-container label.checkbox input:disabled ~ span.text {
+div.journey-js-dialog div.checkbox-container label.checkbox input:disabled ~ span.check-mark, div.journey-js-dialog div.checkbox-container label.checkbox input:disabled ~ span.text,
+div.journey-js-dialog-lg div.checkbox-container label.checkbox input:disabled ~ span.check-mark,
+div.journey-js-dialog-lg div.checkbox-container label.checkbox input:disabled ~ span.text {
   opacity: 0.5;
 }
-div.journey-js-dialog div.checkbox-container label.checkbox input:disabled ~ span.check-mark {
+div.journey-js-dialog div.checkbox-container label.checkbox input:disabled ~ span.check-mark,
+div.journey-js-dialog-lg div.checkbox-container label.checkbox input:disabled ~ span.check-mark {
   border: var(--journey-js-border-size) solid var(--journey-js-color-black) !important;
 }
-div.journey-js-dialog div.checkbox-container label.checkbox span.check-mark {
+div.journey-js-dialog div.checkbox-container label.checkbox span.check-mark,
+div.journey-js-dialog-lg div.checkbox-container label.checkbox span.check-mark {
   position: absolute;
   top: 0.5px;
   left: 0;
@@ -315,7 +363,8 @@ div.journey-js-dialog div.checkbox-container label.checkbox span.check-mark {
   border: var(--journey-js-border-size) solid var(--journey-js-checkbox-border-color);
   transition: var(--journey-js-transition);
 }
-div.journey-js-dialog div.checkbox-container label.checkbox span.check-mark::before {
+div.journey-js-dialog div.checkbox-container label.checkbox span.check-mark::before,
+div.journey-js-dialog-lg div.checkbox-container label.checkbox span.check-mark::before {
   content: "";
   transform: rotate(45deg);
   position: absolute;
@@ -327,7 +376,8 @@ div.journey-js-dialog div.checkbox-container label.checkbox span.check-mark::bef
   border: solid var(--journey-js-color-white);
   border-width: 0 2.5px 2.5px 0;
 }
-div.journey-js-dialog div.checkbox-container label.checkbox:hover span.check-mark {
+div.journey-js-dialog div.checkbox-container label.checkbox:hover span.check-mark,
+div.journey-js-dialog-lg div.checkbox-container label.checkbox:hover span.check-mark {
   border: var(--journey-js-border-size) solid var(--journey-js-checkbox-border-hover-color);
 }
 
@@ -336,17 +386,21 @@ div.journey-js-dialog div.checkbox-container label.checkbox:hover span.check-mar
     Journey.js - Dialog - Buttons
     -------------------------------------------------------------------------
 */
-div.journey-js-dialog div.buttons {
+div.journey-js-dialog div.buttons,
+div.journey-js-dialog-lg div.buttons {
   margin-top: calc(var(--journey-js-spacing) * 2);
   text-align: right;
   border-top: var(--journey-js-border-size) dotted var(--journey-js-dialog-button-border-color);
   padding-top: var(--journey-js-spacing);
 }
-div.journey-js-dialog div.buttons button:first-child {
+div.journey-js-dialog div.buttons button:first-child,
+div.journey-js-dialog-lg div.buttons button:first-child {
   margin-left: 0 !important;
 }
 div.journey-js-dialog div.buttons button.back,
-div.journey-js-dialog div.buttons button.next {
+div.journey-js-dialog div.buttons button.next,
+div.journey-js-dialog-lg div.buttons button.back,
+div.journey-js-dialog-lg div.buttons button.next {
   border-radius: var(--journey-js-border-radius);
   background-color: var(--journey-js-dialog-button-background-color);
   color: var(--journey-js-dialog-button-text-color);
@@ -358,27 +412,35 @@ div.journey-js-dialog div.buttons button.next {
   margin-left: var(--journey-js-spacing);
 }
 div.journey-js-dialog div.buttons button.back:not([disabled]):active,
-div.journey-js-dialog div.buttons button.next:not([disabled]):active {
+div.journey-js-dialog div.buttons button.next:not([disabled]):active,
+div.journey-js-dialog-lg div.buttons button.back:not([disabled]):active,
+div.journey-js-dialog-lg div.buttons button.next:not([disabled]):active {
   background-color: var(--journey-js-dialog-button-active-background-color) !important;
   color: var(--journey-js-dialog-button-active-text-color) !important;
   border: var(--journey-js-border-size) solid var(--journey-js-dialog-button-active-border-color) !important;
 }
 div.journey-js-dialog div.buttons button.back:not([disabled]):hover,
-div.journey-js-dialog div.buttons button.next:not([disabled]):hover {
+div.journey-js-dialog div.buttons button.next:not([disabled]):hover,
+div.journey-js-dialog-lg div.buttons button.back:not([disabled]):hover,
+div.journey-js-dialog-lg div.buttons button.next:not([disabled]):hover {
   cursor: pointer;
   background-color: var(--journey-js-dialog-button-hover-background-color);
   color: var(--journey-js-dialog-button-hover-text-color);
   border: var(--journey-js-border-size) solid var(--journey-js-dialog-button-hover-border-color);
 }
 div.journey-js-dialog div.buttons button.back:disabled,
-div.journey-js-dialog div.buttons button.next:disabled {
+div.journey-js-dialog div.buttons button.next:disabled,
+div.journey-js-dialog-lg div.buttons button.back:disabled,
+div.journey-js-dialog-lg div.buttons button.next:disabled {
   background-color: var(--journey-js-dialog-button-disabled-background-color) !important;
   color: var(--journey-js-color-gray);
 }
-div.journey-js-dialog div.buttons button.back {
+div.journey-js-dialog div.buttons button.back,
+div.journey-js-dialog-lg div.buttons button.back {
   float: left;
 }
-div.journey-js-dialog div.buttons button.next {
+div.journey-js-dialog div.buttons button.next,
+div.journey-js-dialog-lg div.buttons button.next {
   font-weight: var(--journey-js-title-bold-weight);
   float: right;
 }

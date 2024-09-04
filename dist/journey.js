@@ -245,6 +245,7 @@ var Binding;
             t.ignore = Default.getBoolean(t.ignore, false);
             t.moveToNextOnClick = Default.getBoolean(t.moveToNextOnClick, false);
             t.offset = Default.getNumber(t.offset, 0);
+            t.useLargerDisplay = Default.getBoolean(t.useLargerDisplay, false);
             t = o(t);
             t = n(t);
             return t;
@@ -597,6 +598,16 @@ var Disabled;
         }
     }
     function setDialogPosition(e, t) {
+        _element_Dialog_IsHint = t.isHint === true;
+        if (_element_Dialog_IsHint) {
+            _element_Dialog.className = "journey-js-dialog";
+        } else {
+            if (t.useLargerDisplay && _element_Dialog.className === "journey-js-dialog") {
+                _element_Dialog.className = "journey-js-dialog-lg";
+            } else if (!t.useLargerDisplay && _element_Dialog.className === "journey-js-dialog-lg") {
+                _element_Dialog.className = "journey-js-dialog";
+            }
+        }
         if (_element_Dialog.style.display !== "block") {
             _element_Dialog.style.display = "block";
             Trigger.customEvent(t.events.onOpen, t._currentView.element);
@@ -604,7 +615,6 @@ var Disabled;
         if (_groups[_groups_Current].position === 0) {
             Trigger.customEvent(t.events.onStart, t._currentView.element);
         }
-        _element_Dialog_IsHint = t.isHint === true;
         if (t.attach || t.isHint) {
             if (t.isHint && t.alignHintToClickPosition) {
                 DomElement.showElementAtMousePosition(e, _element_Dialog, _configuration.hintClickPositionOffset);
