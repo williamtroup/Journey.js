@@ -1,5 +1,5 @@
 /*
- * Journey.js Library v2.1.0
+ * Journey.js Library v2.2.0
  *
  * Copyright 2024 Bunoon
  * Released under the MIT License
@@ -105,7 +105,8 @@
     -------------------------------------------------------------------------
 */
 
-div.journey-js-dialog {
+div.journey-js-dialog,
+div.journey-js-dialog-lg {
     @include no-selection-allowed;
     @include box-sizing;
     font-family: var(--journey-js-default-font);
@@ -118,7 +119,6 @@ div.journey-js-dialog {
     padding: var(--journey-js-spacing);
     font-size: var(--journey-js-spacing-font-size);
     z-index: 1001;
-    width: 300px;
     height: auto;
     transition: var(--journey-js-transition);
     transition-property: top, left;
@@ -161,6 +161,14 @@ div.journey-js-dialog {
     }
 }
 
+div.journey-js-dialog {
+    width: 300px;
+}
+
+div.journey-js-dialog-lg {
+    width: 500px;
+}
+
 div.journey-js-dialog-moving {
     transition: none !important;
     transition-property: none !important;
@@ -173,7 +181,8 @@ div.journey-js-dialog-moving {
     -------------------------------------------------------------------------
 */
 
-div.journey-js-dialog {
+div.journey-js-dialog,
+div.journey-js-dialog-lg {
     button.close {
         position: absolute;
         top: var(--journey-js-spacing);
@@ -233,7 +242,8 @@ div.journey-js-dialog {
     -------------------------------------------------------------------------
 */
 
-div.journey-js-dialog {
+div.journey-js-dialog,
+div.journey-js-dialog-lg {
     div.progress-dots {
         margin-top: var(--journey-js-spacing);
         margin-bottom: var(--journey-js-spacing);
@@ -313,7 +323,8 @@ div.journey-js-dialog {
     -------------------------------------------------------------------------
 */
 
-div.journey-js-dialog {
+div.journey-js-dialog,
+div.journey-js-dialog-lg {
     div.progress-bar {
         border-radius: var(--journey-js-border-radius);
         margin-top: var(--journey-js-spacing);
@@ -349,7 +360,8 @@ div.journey-js-dialog {
     -------------------------------------------------------------------------
 */
 
-div.journey-js-dialog {
+div.journey-js-dialog,
+div.journey-js-dialog-lg {
     div.checkbox-container {
         margin-top: var(--journey-js-spacing);
         margin-bottom: var(--journey-js-spacing);
@@ -421,7 +433,8 @@ div.journey-js-dialog {
     -------------------------------------------------------------------------
 */
 
-div.journey-js-dialog {
+div.journey-js-dialog,
+div.journey-js-dialog-lg {
     div.buttons {
         margin-top: calc( var(--journey-js-spacing) * 2 );
         text-align: right;

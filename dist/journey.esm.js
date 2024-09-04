@@ -51,18 +51,18 @@ var init_is = __esm({
                 return t(e) && typeof e === "string";
             }
             e.definedString = i;
-            function r(e) {
+            function s(e) {
                 return t(e) && typeof e === "function";
             }
-            e.definedFunction = r;
-            function s(e) {
+            e.definedFunction = s;
+            function l(e) {
                 return t(e) && typeof e === "number";
             }
-            e.definedNumber = s;
-            function l(e) {
+            e.definedNumber = l;
+            function r(e) {
                 return o(e) && e instanceof Array;
             }
-            e.definedArray = l;
+            e.definedArray = r;
         })(Is || (Is = {}));
     }
 });
@@ -91,18 +91,18 @@ var init_default = __esm({
                 return Is.definedNumber(e) ? e : t;
             }
             e.getNumber = i;
-            function r(e, t) {
+            function s(e, t) {
                 return Is.definedFunction(e) ? e : t;
             }
-            e.getFunction = r;
-            function s(e, t) {
+            e.getFunction = s;
+            function l(e, t) {
                 return Is.definedObject(e) ? e : t;
             }
-            e.getObject = s;
-            function l(e, t) {
+            e.getObject = l;
+            function r(e, t) {
                 return Is.definedArray(e) ? e : t;
             }
-            e.getArray = l;
+            e.getArray = r;
             function a(e, t) {
                 let o = t;
                 if (Is.definedString(e)) {
@@ -113,7 +113,7 @@ var init_default = __esm({
                         o = n;
                     }
                 } else {
-                    o = l(e, t);
+                    o = r(e, t);
                 }
                 return o;
             }
@@ -141,10 +141,10 @@ var init_dom = __esm({
             }
             e.create = t;
             function o(e, o, n, i) {
-                const r = t(o, n);
-                r.innerHTML = i;
-                e.appendChild(r);
-                return r;
+                const s = t(o, n);
+                s.innerHTML = i;
+                e.appendChild(s);
+                return s;
             }
             e.createWithHTML = o;
             function n(e) {
@@ -169,13 +169,13 @@ var init_dom = __esm({
                 return t;
             }
             e.getScrollPosition = i;
-            function r(e, t) {
+            function s(e, t) {
                 const o = getComputedStyle(e);
                 let n = o.getPropertyValue(t);
                 return n;
             }
-            e.getStyleValueByName = r;
-            function s(e, t) {
+            e.getStyleValueByName = s;
+            function l(e, t) {
                 try {
                     if (!e.contains(t)) {
                         e.appendChild(t);
@@ -184,8 +184,8 @@ var init_dom = __esm({
                     console.warn(e.message);
                 }
             }
-            e.addNode = s;
-            function l(e, t) {
+            e.addNode = l;
+            function r(e, t) {
                 try {
                     if (e.contains(t)) {
                         e.removeChild(t);
@@ -194,35 +194,37 @@ var init_dom = __esm({
                     console.warn(e.message);
                 }
             }
-            e.removeNode = l;
+            e.removeNode = r;
             function a(e) {
                 e.preventDefault();
                 e.stopPropagation();
             }
             e.cancelBubble = a;
-            function _(e, t) {
-                let o = e.pageX;
-                let n = e.pageY;
-                const r = i();
+            function _(e, t, o) {
+                let n = e.pageX;
+                let s = e.pageY;
+                const l = i();
                 t.style.display = "block";
-                if (o + t.offsetWidth > window.innerWidth) {
-                    o -= t.offsetWidth;
-                } else {
-                    o++;
-                }
-                if (n + t.offsetHeight > window.innerHeight) {
-                    n -= t.offsetHeight;
+                if (n + t.offsetWidth > window.innerWidth) {
+                    n -= t.offsetWidth + o;
                 } else {
                     n++;
+                    n += o;
                 }
-                if (o < r.left) {
-                    o = e.pageX + 1;
+                if (s + t.offsetHeight > window.innerHeight) {
+                    s -= t.offsetHeight + o;
+                } else {
+                    s++;
+                    s += o;
                 }
-                if (n < r.top) {
-                    n = e.pageY + 1;
+                if (n < l.left) {
+                    n = e.pageX + 1;
                 }
-                t.style.left = `${o}px`;
-                t.style.top = `${n}px`;
+                if (s < l.top) {
+                    s = e.pageY + 1;
+                }
+                t.style.left = `${n}px`;
+                t.style.top = `${s}px`;
             }
             e.showElementAtMousePosition = _;
             function u(e, t) {
@@ -240,17 +242,17 @@ var init_dom = __esm({
             function g(e, o) {
                 const n = t("div");
                 const i = t("label", "checkbox");
-                const r = t("input");
+                const s = t("input");
                 e.appendChild(n);
                 n.appendChild(i);
-                i.appendChild(r);
-                r.type = "checkbox";
-                const s = t("span", "check-mark");
-                const l = t("span", "text");
-                l.innerHTML = o;
                 i.appendChild(s);
+                s.type = "checkbox";
+                const l = t("span", "check-mark");
+                const r = t("span", "text");
+                r.innerHTML = o;
                 i.appendChild(l);
-                return r;
+                i.appendChild(r);
+                return s;
             }
             e.createCheckBox = g;
             function c(e, t) {
@@ -289,6 +291,8 @@ var init_binding = __esm({
                     t.group = Default.getString(t.group, Constant.DEFAULT_GROUP);
                     t.ignore = Default.getBoolean(t.ignore, false);
                     t.moveToNextOnClick = Default.getBoolean(t.moveToNextOnClick, false);
+                    t.offset = Default.getNumber(t.offset, 0);
+                    t.useLargerDisplay = Default.getBoolean(t.useLargerDisplay, false);
                     t = o(t);
                     t = n(t);
                     return t;
@@ -346,6 +350,8 @@ var init_config = __esm({
                     t.dialogMovingEnabled = Default.getBoolean(t.dialogMovingEnabled, false);
                     t.showProgressBarText = Default.getBoolean(t.showProgressBarText, false);
                     t.showStepNumbersInTitle = Default.getBoolean(t.showStepNumbersInTitle, false);
+                    t.hintClickPositionOffset = Default.getNumber(t.hintClickPositionOffset, 0);
+                    t.tooltipOffset = Default.getNumber(t.tooltipOffset, 0);
                     t = o(t);
                     t = n(t);
                     return t;
@@ -406,34 +412,28 @@ var init_tooltip = __esm({
                     t = DomElement.create("div", "journey-js-tooltip");
                     t.style.display = "none";
                     document.body.appendChild(t);
-                    document.body.addEventListener("mousemove", (() => {
-                        s();
-                    }));
-                    document.addEventListener("scroll", (() => {
-                        s();
-                    }));
+                    document.body.addEventListener("mousemove", (() => l()));
+                    document.addEventListener("scroll", (() => l()));
                 }
             }
             e.render = n;
             function i(e, t, o) {
                 if (e !== null) {
-                    e.onmousemove = e => {
-                        r(e, t, o);
-                    };
+                    e.onmousemove = e => s(e, t, o);
                 }
             }
             e.add = i;
-            function r(e, n, i) {
+            function s(e, n, i) {
                 DomElement.cancelBubble(e);
-                s();
+                l();
                 o = setTimeout((() => {
                     t.innerHTML = n;
                     t.style.display = "block";
-                    DomElement.showElementAtMousePosition(e, t);
+                    DomElement.showElementAtMousePosition(e, t, i.tooltipOffset);
                 }), i.tooltipDelay);
             }
-            e.show = r;
-            function s() {
+            e.show = s;
+            function l() {
                 if (Is.defined(t)) {
                     if (o !== 0) {
                         clearTimeout(o);
@@ -444,7 +444,7 @@ var init_tooltip = __esm({
                     }
                 }
             }
-            e.hide = s;
+            e.hide = l;
         })(ToolTip || (ToolTip = {}));
     }
 });
@@ -546,10 +546,8 @@ var require_journey = __commonJS({
                 _element_Dialog.style.display = "none";
                 document.body.appendChild(_element_Dialog);
                 _element_Dialog_Close_Button = DomElement.create("button", "close");
+                _element_Dialog_Close_Button.onclick = () => onDialogClose();
                 _element_Dialog.appendChild(_element_Dialog_Close_Button);
-                _element_Dialog_Close_Button.onclick = () => {
-                    onDialogClose();
-                };
                 ToolTip.add(_element_Dialog_Close_Button, _configuration.text.closeButtonToolTipText, _configuration);
                 _element_Dialog_Title = DomElement.create("div", "title");
                 _element_Dialog.appendChild(_element_Dialog_Title);
@@ -679,6 +677,16 @@ var require_journey = __commonJS({
                 }
             }
             function setDialogPosition(e, t) {
+                _element_Dialog_IsHint = t.isHint === true;
+                if (_element_Dialog_IsHint) {
+                    _element_Dialog.className = "journey-js-dialog";
+                } else {
+                    if (t.useLargerDisplay && _element_Dialog.className === "journey-js-dialog") {
+                        _element_Dialog.className = "journey-js-dialog-lg";
+                    } else if (!t.useLargerDisplay && _element_Dialog.className === "journey-js-dialog-lg") {
+                        _element_Dialog.className = "journey-js-dialog";
+                    }
+                }
                 if (_element_Dialog.style.display !== "block") {
                     _element_Dialog.style.display = "block";
                     Trigger.customEvent(t.events.onOpen, t._currentView.element);
@@ -686,10 +694,9 @@ var require_journey = __commonJS({
                 if (_groups[_groups_Current].position === 0) {
                     Trigger.customEvent(t.events.onStart, t._currentView.element);
                 }
-                _element_Dialog_IsHint = t.isHint === true;
                 if (t.attach || t.isHint) {
                     if (t.isHint && t.alignHintToClickPosition) {
-                        DomElement.showElementAtMousePosition(e, _element_Dialog);
+                        DomElement.showElementAtMousePosition(e, _element_Dialog, _configuration.hintClickPositionOffset);
                     } else {
                         const e = DomElement.getOffset(t._currentView.element);
                         let o = e.top + t._currentView.element.offsetHeight;
@@ -697,9 +704,15 @@ var require_journey = __commonJS({
                         if (n + _element_Dialog.offsetWidth > window.innerWidth || t.alignRight) {
                             n -= _element_Dialog.offsetWidth;
                             n += t._currentView.element.offsetWidth;
+                            n -= t.offset;
+                        } else {
+                            n += t.offset;
                         }
                         if (o + _element_Dialog.offsetHeight > window.innerHeight || t.alignTop) {
                             o -= _element_Dialog.offsetHeight + t._currentView.element.offsetHeight;
+                            o -= t.offset;
+                        } else {
+                            o += t.offset;
                         }
                         _element_Dialog.style.top = `${o}px`;
                         _element_Dialog.style.left = `${n}px`;
@@ -1125,7 +1138,7 @@ var require_journey = __commonJS({
                     return _public;
                 },
                 getVersion: function() {
-                    return "2.1.0";
+                    return "2.2.0";
                 }
             };
             (() => {

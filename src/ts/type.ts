@@ -4,7 +4,7 @@
  * A lightweight, easy-to-use JavaScript library to create interactive, customizable, accessible guided tours across your websites or web apps!
  * 
  * @file        type.ts
- * @version     v2.1.0
+ * @version     v2.2.0
  * @author      Bunoon
  * @license     MIT License
  * @copyright   Bunoon 2024
@@ -34,6 +34,8 @@ export type Configuration = {
     dialogMovingEnabled?: boolean;
     showProgressBarText?: boolean;
     showStepNumbersInTitle?: boolean;
+    hintClickPositionOffset?: number;
+    tooltipOffset?: number;
     text?: ConfigurationText;
     events?: ConfigurationEvents;
 };
@@ -71,6 +73,8 @@ export type BindingOptions = {
     tooltip?: string;
     ignore?: boolean;
     moveToNextOnClick?: boolean;
+    offset?: number;
+    useLargerDisplay?: boolean;
     events?: BindingOptionsEvents;
 };
 

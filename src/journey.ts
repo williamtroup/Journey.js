@@ -4,7 +4,7 @@
  * A lightweight, easy-to-use JavaScript library to create interactive, customizable, accessible guided tours across your websites or web apps!
  * 
  * @file        journey.ts
- * @version     v2.1.0
+ * @version     v2.2.0
  * @author      Bunoon
  * @license     MIT License
  * @copyright   Bunoon 2024
@@ -127,11 +127,8 @@ type Groups = Record<string, {
         document.body.appendChild( _element_Dialog );
 
         _element_Dialog_Close_Button = DomElement.create( "button", "close" );
+        _element_Dialog_Close_Button.onclick = () => onDialogClose();
         _element_Dialog.appendChild( _element_Dialog_Close_Button );
-
-        _element_Dialog_Close_Button.onclick = () => {
-            onDialogClose();
-        };
 
         ToolTip.add( _element_Dialog_Close_Button, _configuration.text!.closeButtonToolTipText!, _configuration );
 
@@ -308,6 +305,19 @@ type Groups = Record<string, {
     }
 
     function setDialogPosition( e: any, bindingOptions: BindingOptions ) : void {
+        _element_Dialog_IsHint = bindingOptions.isHint === true;
+
+        if ( _element_Dialog_IsHint ) {
+            _element_Dialog.className = "journey-js-dialog";
+
+        } else {
+            if ( bindingOptions.useLargerDisplay && _element_Dialog.className === "journey-js-dialog" ) {
+                _element_Dialog.className = "journey-js-dialog-lg";
+            } else if ( !bindingOptions.useLargerDisplay && _element_Dialog.className === "journey-js-dialog-lg" ) {
+                _element_Dialog.className = "journey-js-dialog";
+            }
+        }
+
         if ( _element_Dialog.style.display !== "block" ) {
             _element_Dialog.style.display = "block";
 
@@ -318,11 +328,9 @@ type Groups = Record<string, {
             Trigger.customEvent( bindingOptions.events!.onStart!, bindingOptions._currentView.element );
         }
 
-        _element_Dialog_IsHint = bindingOptions.isHint === true;
-
         if ( bindingOptions.attach || bindingOptions.isHint ) {
             if ( bindingOptions.isHint && bindingOptions.alignHintToClickPosition ) {
-                DomElement.showElementAtMousePosition( e, _element_Dialog );
+                DomElement.showElementAtMousePosition( e, _element_Dialog, _configuration.hintClickPositionOffset! );
 
             } else {
                 const offset: Position = DomElement.getOffset( bindingOptions._currentView.element );
@@ -332,10 +340,18 @@ type Groups = Record<string, {
                 if ( left + _element_Dialog.offsetWidth > window.innerWidth || bindingOptions.alignRight ) {
                     left -=  _element_Dialog.offsetWidth;
                     left += bindingOptions._currentView.element.offsetWidth;
+                    left -= bindingOptions.offset!;
+
+                } else {
+                    left += bindingOptions.offset!;
                 }
         
                 if ( top + _element_Dialog.offsetHeight > window.innerHeight || bindingOptions.alignTop ) {
                     top -= ( _element_Dialog.offsetHeight + bindingOptions._currentView.element.offsetHeight );
+                    top -= bindingOptions.offset!;
+                    
+                } else {
+                    top += bindingOptions.offset!;
                 }
 
                 _element_Dialog.style.top = `${top}px`;
@@ -969,7 +985,7 @@ type Groups = Record<string, {
          */
 
         getVersion: function () : string {
-            return "2.1.0";
+            return "2.2.0";
         }
     };
 

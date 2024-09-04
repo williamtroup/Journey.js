@@ -161,29 +161,31 @@ var DomElement;
         e.stopPropagation();
     }
     e.cancelBubble = a;
-    function u(e, t) {
-        let o = e.pageX;
-        let n = e.pageY;
-        const l = i();
+    function u(e, t, o) {
+        let n = e.pageX;
+        let l = e.pageY;
+        const r = i();
         t.style.display = "block";
-        if (o + t.offsetWidth > window.innerWidth) {
-            o -= t.offsetWidth;
-        } else {
-            o++;
-        }
-        if (n + t.offsetHeight > window.innerHeight) {
-            n -= t.offsetHeight;
+        if (n + t.offsetWidth > window.innerWidth) {
+            n -= t.offsetWidth + o;
         } else {
             n++;
+            n += o;
         }
-        if (o < l.left) {
-            o = e.pageX + 1;
+        if (l + t.offsetHeight > window.innerHeight) {
+            l -= t.offsetHeight + o;
+        } else {
+            l++;
+            l += o;
         }
-        if (n < l.top) {
-            n = e.pageY + 1;
+        if (n < r.left) {
+            n = e.pageX + 1;
         }
-        t.style.left = `${o}px`;
-        t.style.top = `${n}px`;
+        if (l < r.top) {
+            l = e.pageY + 1;
+        }
+        t.style.left = `${n}px`;
+        t.style.top = `${l}px`;
     }
     e.showElementAtMousePosition = u;
     function _(e, t) {
@@ -242,6 +244,8 @@ var Binding;
             t.group = Default.getString(t.group, Constant.DEFAULT_GROUP);
             t.ignore = Default.getBoolean(t.ignore, false);
             t.moveToNextOnClick = Default.getBoolean(t.moveToNextOnClick, false);
+            t.offset = Default.getNumber(t.offset, 0);
+            t.useLargerDisplay = Default.getBoolean(t.useLargerDisplay, false);
             t = o(t);
             t = n(t);
             return t;
@@ -292,6 +296,8 @@ var Config;
             t.dialogMovingEnabled = Default.getBoolean(t.dialogMovingEnabled, false);
             t.showProgressBarText = Default.getBoolean(t.showProgressBarText, false);
             t.showStepNumbersInTitle = Default.getBoolean(t.showStepNumbersInTitle, false);
+            t.hintClickPositionOffset = Default.getNumber(t.hintClickPositionOffset, 0);
+            t.tooltipOffset = Default.getNumber(t.tooltipOffset, 0);
             t = o(t);
             t = n(t);
             return t;
@@ -339,20 +345,14 @@ var ToolTip;
             t = DomElement.create("div", "journey-js-tooltip");
             t.style.display = "none";
             document.body.appendChild(t);
-            document.body.addEventListener("mousemove", (() => {
-                r();
-            }));
-            document.addEventListener("scroll", (() => {
-                r();
-            }));
+            document.body.addEventListener("mousemove", (() => r()));
+            document.addEventListener("scroll", (() => r()));
         }
     }
     e.render = n;
     function i(e, t, o) {
         if (e !== null) {
-            e.onmousemove = e => {
-                l(e, t, o);
-            };
+            e.onmousemove = e => l(e, t, o);
         }
     }
     e.add = i;
@@ -362,7 +362,7 @@ var ToolTip;
         o = setTimeout((() => {
             t.innerHTML = n;
             t.style.display = "block";
-            DomElement.showElementAtMousePosition(e, t);
+            DomElement.showElementAtMousePosition(e, t, i.tooltipOffset);
         }), i.tooltipDelay);
     }
     e.show = l;
@@ -459,10 +459,8 @@ var Disabled;
         _element_Dialog.style.display = "none";
         document.body.appendChild(_element_Dialog);
         _element_Dialog_Close_Button = DomElement.create("button", "close");
+        _element_Dialog_Close_Button.onclick = () => onDialogClose();
         _element_Dialog.appendChild(_element_Dialog_Close_Button);
-        _element_Dialog_Close_Button.onclick = () => {
-            onDialogClose();
-        };
         ToolTip.add(_element_Dialog_Close_Button, _configuration.text.closeButtonToolTipText, _configuration);
         _element_Dialog_Title = DomElement.create("div", "title");
         _element_Dialog.appendChild(_element_Dialog_Title);
@@ -592,6 +590,16 @@ var Disabled;
         }
     }
     function setDialogPosition(e, t) {
+        _element_Dialog_IsHint = t.isHint === true;
+        if (_element_Dialog_IsHint) {
+            _element_Dialog.className = "journey-js-dialog";
+        } else {
+            if (t.useLargerDisplay && _element_Dialog.className === "journey-js-dialog") {
+                _element_Dialog.className = "journey-js-dialog-lg";
+            } else if (!t.useLargerDisplay && _element_Dialog.className === "journey-js-dialog-lg") {
+                _element_Dialog.className = "journey-js-dialog";
+            }
+        }
         if (_element_Dialog.style.display !== "block") {
             _element_Dialog.style.display = "block";
             Trigger.customEvent(t.events.onOpen, t._currentView.element);
@@ -599,10 +607,9 @@ var Disabled;
         if (_groups[_groups_Current].position === 0) {
             Trigger.customEvent(t.events.onStart, t._currentView.element);
         }
-        _element_Dialog_IsHint = t.isHint === true;
         if (t.attach || t.isHint) {
             if (t.isHint && t.alignHintToClickPosition) {
-                DomElement.showElementAtMousePosition(e, _element_Dialog);
+                DomElement.showElementAtMousePosition(e, _element_Dialog, _configuration.hintClickPositionOffset);
             } else {
                 const e = DomElement.getOffset(t._currentView.element);
                 let o = e.top + t._currentView.element.offsetHeight;
@@ -610,9 +617,15 @@ var Disabled;
                 if (n + _element_Dialog.offsetWidth > window.innerWidth || t.alignRight) {
                     n -= _element_Dialog.offsetWidth;
                     n += t._currentView.element.offsetWidth;
+                    n -= t.offset;
+                } else {
+                    n += t.offset;
                 }
                 if (o + _element_Dialog.offsetHeight > window.innerHeight || t.alignTop) {
                     o -= _element_Dialog.offsetHeight + t._currentView.element.offsetHeight;
+                    o -= t.offset;
+                } else {
+                    o += t.offset;
                 }
                 _element_Dialog.style.top = `${o}px`;
                 _element_Dialog.style.left = `${n}px`;
@@ -1038,7 +1051,7 @@ var Disabled;
             return _public;
         },
         getVersion: function() {
-            return "2.1.0";
+            return "2.2.0";
         }
     };
     (() => {

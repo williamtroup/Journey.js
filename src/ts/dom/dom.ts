@@ -4,7 +4,7 @@
  * A lightweight, easy-to-use JavaScript library to create interactive, customizable, accessible guided tours across your websites or web apps!
  * 
  * @file        dom.ts
- * @version     v2.1.0
+ * @version     v2.2.0
  * @author      Bunoon
  * @license     MIT License
  * @copyright   Bunoon 2024
@@ -100,7 +100,7 @@ export namespace DomElement {
         e.stopPropagation();
     }
 
-    export function showElementAtMousePosition( e: MouseEvent, element: HTMLElement ) : void {
+    export function showElementAtMousePosition( e: any, element: HTMLElement, offset: number ) : void {
         let left: number = e.pageX;
         let top: number = e.pageY;
         const scrollPosition: Position = getScrollPosition();
@@ -108,15 +108,17 @@ export namespace DomElement {
         element.style.display = "block";
 
         if ( left + element.offsetWidth > window.innerWidth ) {
-            left -= element.offsetWidth;
+            left -= ( element.offsetWidth + offset );
         } else {
             left++;
+            left += offset;
         }
 
         if ( top + element.offsetHeight > window.innerHeight ) {
-            top -= element.offsetHeight;
+            top -= ( element.offsetHeight + offset );
         } else {
             top++;
+            top += offset;
         }
 
         if ( left < scrollPosition.left ) {

@@ -4,7 +4,7 @@
  * A lightweight, easy-to-use JavaScript library to create interactive, customizable, accessible guided tours across your websites or web apps!
  * 
  * @file        config.ts
- * @version     v2.1.0
+ * @version     v2.2.0
  * @author      Bunoon
  * @license     MIT License
  * @copyright   Bunoon 2024
@@ -37,6 +37,8 @@ export namespace Config {
             configuration.dialogMovingEnabled = Default.getBoolean( configuration.dialogMovingEnabled, false );
             configuration.showProgressBarText = Default.getBoolean( configuration.showProgressBarText, false );
             configuration.showStepNumbersInTitle = Default.getBoolean( configuration.showStepNumbersInTitle, false );
+            configuration.hintClickPositionOffset = Default.getNumber( configuration.hintClickPositionOffset, 0 );
+            configuration.tooltipOffset = Default.getNumber( configuration.tooltipOffset, 0 );
 
             configuration = getText( configuration );
             configuration = getEvents( configuration );

@@ -4,7 +4,7 @@
  * A lightweight, easy-to-use JavaScript library to create interactive, customizable, accessible guided tours across your websites or web apps!
  * 
  * @file        tooltip.ts
- * @version     v2.1.0
+ * @version     v2.2.0
  * @author      Bunoon
  * @license     MIT License
  * @copyright   Bunoon 2024
@@ -26,22 +26,14 @@ export namespace ToolTip {
             _element_ToolTip.style.display = "none";
 
             document.body.appendChild( _element_ToolTip );
-    
-            document.body.addEventListener( "mousemove", () => {
-                hide();
-            } );
-    
-            document.addEventListener( "scroll", () => {
-                hide();
-            } );
+            document.body.addEventListener( "mousemove", () => hide() );
+            document.addEventListener( "scroll", () => hide() );
         }
     }
 
     export function add( element: HTMLElement, text: string, configuration: Configuration ) : void {
         if ( element !== null ) {
-            element.onmousemove = ( e: MouseEvent ) => {
-                show( e, text, configuration );
-            };
+            element.onmousemove = ( e: MouseEvent ) => show( e, text, configuration );
         }
     }
 
@@ -53,7 +45,7 @@ export namespace ToolTip {
             _element_ToolTip.innerHTML = text;
             _element_ToolTip.style.display = "block";
 
-            DomElement.showElementAtMousePosition( e, _element_ToolTip );
+            DomElement.showElementAtMousePosition( e, _element_ToolTip, configuration.tooltipOffset! );
         }, configuration.tooltipDelay );
     }
 
