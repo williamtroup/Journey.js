@@ -200,29 +200,31 @@ var init_dom = __esm({
                 e.stopPropagation();
             }
             e.cancelBubble = a;
-            function _(e, t) {
-                let o = e.pageX;
-                let n = e.pageY;
-                const r = i();
+            function _(e, t, o) {
+                let n = e.pageX;
+                let r = e.pageY;
+                const s = i();
                 t.style.display = "block";
-                if (o + t.offsetWidth > window.innerWidth) {
-                    o -= t.offsetWidth;
-                } else {
-                    o++;
-                }
-                if (n + t.offsetHeight > window.innerHeight) {
-                    n -= t.offsetHeight;
+                if (n + t.offsetWidth > window.innerWidth) {
+                    n -= t.offsetWidth + o;
                 } else {
                     n++;
+                    n += o;
                 }
-                if (o < r.left) {
-                    o = e.pageX + 1;
+                if (r + t.offsetHeight > window.innerHeight) {
+                    r -= t.offsetHeight + o;
+                } else {
+                    r++;
+                    r += o;
                 }
-                if (n < r.top) {
-                    n = e.pageY + 1;
+                if (n < s.left) {
+                    n = e.pageX + 1;
                 }
-                t.style.left = `${o}px`;
-                t.style.top = `${n}px`;
+                if (r < s.top) {
+                    r = e.pageY + 1;
+                }
+                t.style.left = `${n}px`;
+                t.style.top = `${r}px`;
             }
             e.showElementAtMousePosition = _;
             function u(e, t) {
@@ -289,6 +291,7 @@ var init_binding = __esm({
                     t.group = Default.getString(t.group, Constant.DEFAULT_GROUP);
                     t.ignore = Default.getBoolean(t.ignore, false);
                     t.moveToNextOnClick = Default.getBoolean(t.moveToNextOnClick, false);
+                    t.hintClickPositionOffset = Default.getNumber(t.hintClickPositionOffset, 0);
                     t = o(t);
                     t = n(t);
                     return t;
@@ -689,7 +692,7 @@ var require_journey = __commonJS({
                 _element_Dialog_IsHint = t.isHint === true;
                 if (t.attach || t.isHint) {
                     if (t.isHint && t.alignHintToClickPosition) {
-                        DomElement.showElementAtMousePosition(e, _element_Dialog);
+                        DomElement.showElementAtMousePosition(e, _element_Dialog, t.hintClickPositionOffset);
                     } else {
                         const e = DomElement.getOffset(t._currentView.element);
                         let o = e.top + t._currentView.element.offsetHeight;

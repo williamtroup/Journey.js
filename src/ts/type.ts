@@ -71,6 +71,7 @@ export type BindingOptions = {
     tooltip?: string;
     ignore?: boolean;
     moveToNextOnClick?: boolean;
+    hintClickPositionOffset?: number;
     events?: BindingOptionsEvents;
 };
 

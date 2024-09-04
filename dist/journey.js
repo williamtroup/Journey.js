@@ -161,29 +161,31 @@ var DomElement;
         e.stopPropagation();
     }
     e.cancelBubble = a;
-    function u(e, t) {
-        let o = e.pageX;
-        let n = e.pageY;
-        const l = i();
+    function u(e, t, o) {
+        let n = e.pageX;
+        let l = e.pageY;
+        const r = i();
         t.style.display = "block";
-        if (o + t.offsetWidth > window.innerWidth) {
-            o -= t.offsetWidth;
-        } else {
-            o++;
-        }
-        if (n + t.offsetHeight > window.innerHeight) {
-            n -= t.offsetHeight;
+        if (n + t.offsetWidth > window.innerWidth) {
+            n -= t.offsetWidth + o;
         } else {
             n++;
+            n += o;
         }
-        if (o < l.left) {
-            o = e.pageX + 1;
+        if (l + t.offsetHeight > window.innerHeight) {
+            l -= t.offsetHeight + o;
+        } else {
+            l++;
+            l += o;
         }
-        if (n < l.top) {
-            n = e.pageY + 1;
+        if (n < r.left) {
+            n = e.pageX + 1;
         }
-        t.style.left = `${o}px`;
-        t.style.top = `${n}px`;
+        if (l < r.top) {
+            l = e.pageY + 1;
+        }
+        t.style.left = `${n}px`;
+        t.style.top = `${l}px`;
     }
     e.showElementAtMousePosition = u;
     function _(e, t) {
@@ -242,6 +244,7 @@ var Binding;
             t.group = Default.getString(t.group, Constant.DEFAULT_GROUP);
             t.ignore = Default.getBoolean(t.ignore, false);
             t.moveToNextOnClick = Default.getBoolean(t.moveToNextOnClick, false);
+            t.hintClickPositionOffset = Default.getNumber(t.hintClickPositionOffset, 0);
             t = o(t);
             t = n(t);
             return t;
@@ -602,7 +605,7 @@ var Disabled;
         _element_Dialog_IsHint = t.isHint === true;
         if (t.attach || t.isHint) {
             if (t.isHint && t.alignHintToClickPosition) {
-                DomElement.showElementAtMousePosition(e, _element_Dialog);
+                DomElement.showElementAtMousePosition(e, _element_Dialog, t.hintClickPositionOffset);
             } else {
                 const e = DomElement.getOffset(t._currentView.element);
                 let o = e.top + t._currentView.element.offsetHeight;

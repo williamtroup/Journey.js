@@ -322,7 +322,7 @@ type Groups = Record<string, {
 
         if ( bindingOptions.attach || bindingOptions.isHint ) {
             if ( bindingOptions.isHint && bindingOptions.alignHintToClickPosition ) {
-                DomElement.showElementAtMousePosition( e, _element_Dialog );
+                DomElement.showElementAtMousePosition( e, _element_Dialog, bindingOptions.hintClickPositionOffset! );
 
             } else {
                 const offset: Position = DomElement.getOffset( bindingOptions._currentView.element );
