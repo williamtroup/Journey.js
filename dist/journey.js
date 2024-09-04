@@ -1049,7 +1049,7 @@ var Disabled;
             return _public;
         },
         getVersion: function() {
-            return "2.1.1";
+            return "2.2.0";
         }
     };
     (() => {
